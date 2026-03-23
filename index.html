@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/main.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
-<text-body>
+<body>
 <nav id="nav">
 <span id="nav-logo">Génome Réunion</span>
 <div id="nav-center">
@@ -19,17 +19,27 @@
 <button class="sec-pill" onclick="go(22)">05 · WGS</button>
 </div>
 <div id="nav-right">
-<button class="nbtn" id="bp" onclick="go(c-1)">← Préc.</button>
+<button class="nbtn" id="bp" onclick="go(currentSlide-1)">← Préc.</button>
 <span id="ctr">1 / 25</span>
-<button class="nbtn" id="bn" onclick="go(c+1)">Suiv. →</button>
+<button class="nbtn" id="bn" onclick="go(currentSlide+1)">Suiv. →</button>
 </div>
 </nav>
 <div id="prog"><div id="pf" style="width:4%"></div></div>
 <div id="deck">
-<!-- 01 TITRE -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 01 — TITRE HERO
+     Fond navy + barre accent teal + animation admixture à droite.
+     L'animation (#admix-bg) est injectée dynamiquement par
+     data/admixture.js au chargement (DOMContentLoaded).
+     Les barres reflètent la composition démographique réelle :
+     ~45% Afrique/Malgache · ~25% Inde du Sud · ~15% Européen
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--navy);overflow:hidden;justify-content:flex-start">
 <div class="accent-bar"></div>
-<!-- Admixture background : zone droite, subtile, scroll vertical lent -->
+<!-- Zone droite : animation admixture en arrière-plan
+         aria-hidden=true car purement décoratif — ne pas lire par les lecteurs d'écran
+         Les barres sont injectées par data/admixture.js, ce bloc HTML sert de conteneur.
+         Les deux dégradés (gauche et haut/bas) fondent l'animation dans le fond navy. -->
 <div aria-hidden="true" style="position:absolute;right:0;top:0;bottom:0;width:50%;overflow:hidden;opacity:.32;pointer-events:none;display:flex;flex-direction:column">
 <div id="admix-bg" style="display:flex;flex-direction:column;gap:5px;padding:0;animation:admix-scroll-v 24s linear infinite">
 <div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:22%;background:#E05A4B"></div></div>
@@ -153,12 +163,13 @@
 <div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#7C3AED"></div><div style="width:74%;background:#E05A4B"></div></div>
 <div style="height:18px;display:flex;width:100%"><div style="width:20%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:14%;background:#7C3AED"></div></div>
 </div>
-<!-- Dégradé de masque gauche pour fondu -->
+<!-- Dégradé gauche : fondu de navy vers transparent pour intégrer l'animation au fond -->
 <div style="position:absolute;inset:0;background:linear-gradient(to right,var(--navy) 0%,transparent 35%)"></div>
-<!-- Dégradé de masque haut/bas -->
+<!-- Dégradés haut et bas : masquent les bords de l'animation pour un rendu propre -->
 <div style="position:absolute;inset:0;background:linear-gradient(to bottom,var(--navy) 0%,transparent 8%,transparent 92%,var(--navy) 100%)"></div>
 </div>
-<!-- Légende composantes ancestrales : petite, discrète, coin bas droit -->
+<!-- Légende des composantes ancestrales — coin bas droit, discret (opacity .65)
+         Correspond aux couleurs des variables CSS --adm-* dans variables.css -->
 <div aria-hidden="true" style="position:absolute;bottom:20px;right:20px;display:flex;gap:clamp(10px,1.6vh,20px);opacity:.65;z-index:2">
 <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:12px;height:12px;background:#0D9488;border-radius:2px"></div>Afrique/Malgache</div>
 <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#E05A4B;border-radius:2px"></div>Inde du Sud</div>
@@ -166,41 +177,55 @@
 <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#D97706;border-radius:2px"></div>Zarabe/Gujarati</div>
 <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#7C3AED;border-radius:2px"></div>Chinois</div>
 </div>
-<!-- Contenu principal -->
+<!-- Contenu principal hero — z-index:2 pour rester au-dessus de l'animation admixture -->
 <div class="hero-content" style="position:relative;z-index:2">
 <div>
-<h1 class="hero-title">Génome<progress-bar/>Réunion</h1>
+<h1 class="hero-title">Génome<br>Réunion</h1>
 <p class="hero-subtitle">Transformer la Diversité en Donnée de Référence</p>
-<p style="font-size:clamp(16px,1.8vw,26px);color:#94A3B8;line-height:1.7">De la puce SNP au séquençage complet (WGS) :<progress-bar/>une sélection mathématique pour l'équité en santé.</p>
+<p style="font-size:clamp(16px,1.8vw,26px);color:#94A3B8;line-height:1.7">De la puce SNP au séquençage complet (WGS) :<br>une sélection mathématique pour l'équité en santé.</p>
 <p style="font-size:clamp(15px,1.7vw,24px);color:#4A6080;margin-top:clamp(10px,1.8vh,20px);font-style:italic">Pour un public mixte : cliniciens · scientifiques · décideurs</p>
 </div>
 </div>
 </div>
-<!-- 02 SOMMAIRE -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 02 — SOMMAIRE
+     Table des matières cliquable. Chaque .toc-row appelle go(n)
+     pour naviguer directement à la slide d'intro de section.
+     ATTENTION : sections 02 et 03 pointent toutes deux go(10)
+     — à corriger quand les indices de slides seront stabilisés.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Plan de la présentation</h2>
 <div class="slide-rule" style="background:var(--teal)"></div>
-<div class="toc-row" onclick="go(2)"><div class="toc-number" style="background:var(--s01)">01</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Angle Mort de la Médecine de Précision</strong><progress-bar/><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Pourquoi La Réunion est absente des bases génomiques mondiales</span></div></div>
-<div class="toc-row" onclick="go(10)"><div class="toc-number" style="background:var(--s02)">02</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">La Singularité Génétique Réunionnaise</strong><progress-bar/><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Admixture, effet fondateur et enjeux cliniques</span></div></div>
-<div class="toc-row" onclick="go(10)"><div class="toc-number" style="background:var(--s03)">03</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Le Design en Deux Temps</strong><progress-bar/><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">De la puce SNP au séquençage ciblé (WGS)</span></div></div>
-<div class="toc-row" onclick="go(13)"><div class="toc-number" style="background:var(--s04)">04</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Algorithme de Sélection</strong><progress-bar/><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span></div></div>
-<div class="toc-row" onclick="go(22)"><div class="toc-number" style="background:var(--s05)">05</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Ce que le WGS va Produire</strong><progress-bar/><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Le référentiel réunionnais au service des patients</span></div></div>
+<div class="toc-row" onclick="go(2)"><div class="toc-number" style="background:var(--s01)">01</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Angle Mort de la Médecine de Précision</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Pourquoi La Réunion est absente des bases génomiques mondiales</span></div></div>
+<div class="toc-row" onclick="go(10)"><div class="toc-number" style="background:var(--s02)">02</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">La Singularité Génétique Réunionnaise</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Admixture, effet fondateur et enjeux cliniques</span></div></div>
+<div class="toc-row" onclick="go(10)"><div class="toc-number" style="background:var(--s03)">03</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Le Design en Deux Temps</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">De la puce SNP au séquençage ciblé (WGS)</span></div></div>
+<div class="toc-row" onclick="go(13)"><div class="toc-number" style="background:var(--s04)">04</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Algorithme de Sélection</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span></div></div>
+<div class="toc-row" onclick="go(22)"><div class="toc-number" style="background:var(--s05)">05</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Ce que le WGS va Produire</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Le référentiel réunionnais au service des patients</span></div></div>
 <div class="slide-footer"><span class="caption">Génome Réunion</span></div>
 </div>
 </div>
-<!-- 03 SEC 01 -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 03 — INTRO SECTION 01 : L'ANGLE MORT
+     Slide d'intro pleine couleur var(--s01) = coral.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--s01)">
 <div class="section-slide">
 <div class="section-slide-left"><div class="section-number">01</div></div>
 <div class="section-slide-right">
 <div class="section-tag">Section 01 · Angle mort</div>
-<h2 class="section-title">L'Angle Mort de la<progress-bar/>Médecine de Précision</h2>
+<h2 class="section-title">L'Angle Mort de la<br>Médecine de Précision</h2>
 <p class="section-subtitle">Pourquoi la population réunionnaise est absente des bases génomiques mondiales — et les conséquences cliniques concrètes.</p>
 </div>
 </div>
 </div>
-<!-- 04 BIAIS -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 04 — BIAIS STRUCTUREL MONDIAL
+     Graphique donut Chart.js (#donutChart) initialisé par
+     initDonutChart() dans app.js à l'arrivée sur cette slide.
+     Données : 81% européen · 19% autres · ≈0% Réunion.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" data-slide="4" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Un biais structurel mondial</h2>
@@ -240,7 +265,11 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">4</span></div>
 </div>
 </div>
-<!-- 05 MUR CLINIQUE -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 05 — LE MUR CLINIQUE
+     Contraste visuel patient européen (diagnostic clair) vs
+     patient réunionnais (VUS — Variant d'Incertitude Significative).
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Le Mur Clinique : Incertitudes et Pertes de Chance</h2>
@@ -252,7 +281,7 @@
 </div>
 <div style="background:var(--orange);border-radius:8px;padding:clamp(18px,2.8vh,44px);text-align:center;min-height:clamp(120px,18vh,220px);display:flex;flex-direction:column;justify-content:center">
 <h3 style="color:var(--white);margin-bottom:clamp(8px,1.5vh,18px);font-size:clamp(16px,1.8vw,26px)">Patient Réunionnais</h3>
-<div style="font-size:clamp(15px,1.7vw,24px);font-weight:700;color:var(--white);padding:8px 0">⚠ Résultat : VUS<progress-bar/><span style="font-size:clamp(14px,1.6vw,22px);font-weight:400;opacity:.85">(Variant d'Incertitude Significative)</span></div>
+<div style="font-size:clamp(15px,1.7vw,24px);font-weight:700;color:var(--white);padding:8px 0">⚠ Résultat : VUS<br><span style="font-size:clamp(14px,1.6vw,22px);font-weight:400;opacity:.85">(Variant d'Incertitude Significative)</span></div>
 </div>
 </div>
 <p class="text-body" style="font-size:clamp(16px,1.8vw,26px);margin-bottom:4px">— <strong>Faux positifs :</strong> diagnostics erronés (ex : cardiomyopathie hypertrophique à tort)</p>
@@ -261,7 +290,11 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">5</span></div>
 </div>
 </div>
-<!-- 06 PHARMACO -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 06 — PHARMACOGÉNÉTIQUE
+     Tableau comparatif des risques médicamenteux spécifiques
+     à la population réunionnaise (warfarine, clopidogrel).
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Pharmacogénétique : Quand le Standard Devient Dangereux</h2>
@@ -273,37 +306,41 @@
 </table>
 <div style="background:var(--navy);border-radius:8px;padding:13px 18px;display:flex;align-items:center;gap:clamp(12px,1.8vh,22px)">
 <div style="font-size:clamp(36px,4.2vw,62px);font-weight:700;color:var(--coral);font-family:Georgia,serif;line-height:1;flex-shrink:0">90%</div>
-<p style="font-size:clamp(16px,1.8vw,26px);color:var(--white);line-height:1.6">des individus d'une cohorte admixée portent au moins un variant pharmacogénétique actionnable.<progress-bar/><em style="color:var(--tealL)">L'extrapolation européenne est une mise en danger.</em></p>
+<p style="font-size:clamp(16px,1.8vw,26px);color:var(--white);line-height:1.6">des individus d'une cohorte admixée portent au moins un variant pharmacogénétique actionnable.<br><em style="color:var(--tealL)">L'extrapolation européenne est une mise en danger.</em></p>
 </div>
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">6</span></div>
 </div>
 </div>
-<!-- 07 IA CHOC -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 07 — IA : GARBAGE IN, GARBAGE OUT
+     Slide d'impact : les deux chiffres clés (81% / ≈0%)
+     avec la conséquence directe pour les patients réunionnais.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="accent-bar" style="background:var(--coral)"></div>
 <div class="inner">
 <h2 class="slide-title">Garbage In, Garbage Out.</h2>
 <div class="slide-rule" style="background:var(--coral)"></div>
 <div class="grid-2" style="align-items:center;gap:clamp(20px,3vw,48px)">
-<!-- Gauche : texte accroche + chiffres conclusion-itemés -->
+<!-- Colonne gauche : accroche + deux stats clés 81% et ≈0% -->
 <div style="display:flex;flex-direction:column;gap:clamp(14px,2vh,28px)">
 <p class="text-body" style="font-size:clamp(17px,1.9vw,28px);font-style:italic;line-height:1.65;color:var(--muted)">
-          Les IA entraînées sur des données euro-centrées<progress-bar/>perpétuent structurellement l'inégalité en santé.
+          Les IA entraînées sur des données euro-centrées<br>perpétuent structurellement l'inégalité en santé.
         </p>
-<!-- Stat 81% -->
+<!-- Badge statistique : 81% des données génomiques mondiales sont européennes -->
 <div style="display:flex;align-items:center;gap:clamp(12px,1.8vw,24px);padding:clamp(14px,2.2vh,32px) clamp(16px,2vw,28px);background:white;border-radius:10px;border:2px solid var(--border)">
 <div style="width:18px;height:18px;background:var(--navy);border-radius:3px;flex-shrink:0"></div>
 <span style="font-family:Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--navy);min-width:72px;line-height:1">81%</span>
 <span class="text-body">des données génomiques mondiales sont d'origine européenne</span>
 </div>
-<!-- Stat ≈0% -->
+<!-- Badge statistique : ≈0% de représentation pour La Réunion -->
 <div style="display:flex;align-items:center;gap:clamp(12px,1.8vw,24px);padding:clamp(14px,2.2vh,32px) clamp(16px,2vw,28px);background:#FEF2F0;border-radius:10px;border:2px solid var(--coral)">
 <div style="width:18px;height:18px;background:var(--coral);border-radius:3px;flex-shrink:0"></div>
 <span style="font-family:Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--coral);min-width:72px;line-height:1">≈ 0%</span>
 <span style="font-size:clamp(15px,1.7vw,24px);font-weight:700;color:var(--coral)">de représentation pour La Réunion</span>
 </div>
 </div>
-<!-- Droite : encadré conséquence -->
+<!-- Colonne droite : explication du problème + conséquence directe pour les patients -->
 <div style="display:flex;flex-direction:column;gap:clamp(12px,1.8vh,24px)">
 <div style="background:white;border-radius:10px;border:2px solid var(--border);padding:clamp(16px,2.5vh,36px) clamp(16px,2vw,28px)">
 <h3 style="font-family:Georgia,serif;font-size:clamp(16px,1.8vw,26px);color:var(--navy);margin-bottom:clamp(8px,1.4vh,18px)">Pourquoi c'est un problème</h3>
@@ -318,7 +355,10 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">7</span></div>
 </div>
 </div>
-<!-- 08 IA DÉTAILLÉE -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 08 — IA EN MÉDECINE DE PRÉCISION (DÉTAIL)
+     3 étapes du piège IA + callout solution Génome Réunion.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Le Piège de l'IA en Médecine de Précision</h2>
@@ -335,18 +375,26 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">8</span></div>
 </div>
 </div>
-<!-- 09 SEC 02 -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 09 — INTRO SECTION 02 : SINGULARITÉ RÉUNIONNAISE
+     Slide d'intro pleine couleur var(--s02) = teal.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--s02)">
 <div class="section-slide">
 <div class="section-slide-left"><div class="section-number">02</div></div>
 <div class="section-slide-right">
 <div class="section-tag">Section 02 · Singularité</div>
-<h2 class="section-title">La Singularité<progress-bar/>Génétique Réunionnaise</h2>
+<h2 class="section-title">La Singularité<br>Génétique Réunionnaise</h2>
 <p class="section-subtitle">Un peuplement sans autochtones, à l'intersection de trois continents : une opportunité scientifique unique.</p>
 </div>
 </div>
 </div>
-<!-- 10 HISTOIRE -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 10 — HISTOIRE DU PEUPLEMENT
+     Frise chronologique : 1663 colonisation → 1848 engagisme
+     → XXe migrations → aujourd'hui. Résume les 5 sources
+     ancestrales qui rendent La Réunion génomiquement unique.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">La Réunion : Un Laboratoire d'Histoire Humaine</h2>
@@ -356,22 +404,22 @@
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1">
 <div style="width:clamp(56px,7vh,80px);height:clamp(56px,7vh,80px);border-radius:50%;background:var(--blue);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(11px,1.2vw,15px);line-height:1;text-align:center">1663</div>
 <p style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--blue);text-align:center">Colonisation</p>
-<p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Europe · Afrique<progress-bar/>Madagascar</p>
+<p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Europe · Afrique<br>Madagascar</p>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1">
 <div style="width:clamp(56px,7vh,80px);height:clamp(56px,7vh,80px);border-radius:50%;background:var(--teal);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(11px,1.2vw,15px);line-height:1;text-align:center">1848</div>
 <p style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--teal);text-align:center">Engagisme</p>
-<p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Inde du Sud · Chine<progress-bar/>Afrique</p>
+<p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Inde du Sud · Chine<br>Afrique</p>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1">
 <div style="width:clamp(56px,7vh,80px);height:clamp(56px,7vh,80px);border-radius:50%;background:var(--purple);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(11px,1.2vw,15px);line-height:1;text-align:center">XXe s.</div>
 <p style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--purple);text-align:center">Migrations</p>
-<p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Mayotte · Comores<progress-bar/>Madagascar</p>
+<p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Mayotte · Comores<br>Madagascar</p>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1">
 <div style="width:clamp(56px,7vh,80px);height:clamp(56px,7vh,80px);border-radius:50%;background:var(--orange);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(11px,1.2vw,15px);line-height:1;text-align:center">Auj.</div>
 <p style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--orange);text-align:center">Population</p>
-<p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Admixture<progress-bar/>unique</p>
+<p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Admixture<br>unique</p>
 </div>
 </div>
 <div class="grid-2">
@@ -381,18 +429,27 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">10</span></div>
 </div>
 </div>
-<!-- 11 SEC 03 -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 11 — INTRO SECTION 03 : DESIGN
+     Slide d'intro pleine couleur var(--s03) = violet.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--s03)">
 <div class="section-slide">
 <div class="section-slide-left"><div class="section-number">03</div></div>
 <div class="section-slide-right">
 <div class="section-tag">Section 03 · Design</div>
-<h2 class="section-title">Le Design<progress-bar/>en Deux Temps</h2>
+<h2 class="section-title">Le Design<br>en Deux Temps</h2>
 <p class="section-subtitle">Le WGS n'est pas un tirage au sort : c'est une optimisation mathématique à partir des données puce SNP.</p>
 </div>
 </div>
 </div>
-<!-- 12 PIPELINE -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 12 — LE PIPELINE D'OPTIMISATION
+     Animation séquentielle déclenchée par animatePipeline()
+     dans app.js (réinitialisée à chaque retour sur cette slide).
+     Chaque .pipeline-box a un attribut data-delay (index)
+     qui contrôle son délai d'apparition (index × 130ms).
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" data-slide="10" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Le Pipeline d'Optimisation</h2>
@@ -401,28 +458,28 @@
 <div class="pipeline-box" data-delay="0" style="background:var(--navy)">
 <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.18);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">1</div>
 <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0"/>
-<p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Échantillonnage<progress-bar/>(EFS)</p>
+<p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Échantillonnage<br>(EFS)</p>
 <p style="font-size:clamp(15px,1.7vw,24px);opacity:.8;line-height:1.5">Donneurs volontaires reflétant la diversité de l'île.</p>
 </div>
 <div class="pipeline-arrow" data-delay="1"><svg fill="none" viewbox="0 0 28 28"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg></div>
 <div class="pipeline-box" data-delay="2" style="background:var(--teal)">
 <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">2</div>
 <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0"/>
-<p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Génotypage<progress-bar/>(Puce SNP)</p>
+<p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Génotypage<br>(Puce SNP)</p>
 <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">PCA · admixture · parenté · ROH</p>
 </div>
 <div class="pipeline-arrow" data-delay="3"><svg fill="none" viewbox="0 0 28 28"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg></div>
 <div class="pipeline-box" data-delay="4" style="background:var(--purple)">
 <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">3</div>
 <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0"/>
-<p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Sélection WGS<progress-bar/>(Optimisation)</p>
+<p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Sélection WGS<br>(Optimisation)</p>
 <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">Score multicritère → max information</p>
 </div>
 <div class="pipeline-arrow" data-delay="5"><svg fill="none" viewbox="0 0 28 28"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg></div>
 <div class="pipeline-box" data-delay="6" style="background:var(--coral)">
 <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">4</div>
 <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0"/>
-<p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Base de Données<progress-bar/>Locale</p>
+<p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Base de Données<br>Locale</p>
 <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">Référentiel pour recalibrer les outils cliniques</p>
 </div>
 </div>
@@ -430,7 +487,12 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">12</span></div>
 </div>
 </div>
-<!-- 13 TROIS NIVEAUX -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 13 — TROIS NIVEAUX DE SINGULARITÉ
+     Présente les 3 caractéristiques génomiques uniques
+     de La Réunion : admixture 5 sources, effet fondateur,
+     et absence totale des bases mondiales.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" data-slide="13" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Trois niveaux d'analyse à ne pas confondre</h2>
@@ -488,7 +550,7 @@
 <div class="level-card">
 <div class="level-header" style="background:var(--purple)">2. Modélisation — ADMIXTURE</div>
 <div class="level-body">
-<div class="formula">q_i = (q_{i1},…,q_{iK})<progress-bar/>Σ q_{ik} = 1</div>
+<div class="formula">q_i = (q_{i1},…,q_{iK})<br>Σ q_{ik} = 1</div>
 <p class="text-body" style="font-size:15px;margin-bottom:10px">Proportions d'ascendance globale pour l'ensemble du jeu de données.</p>
 <!-- Mini ADMIXTURE stacked bars -->
 <div style="background:#FAF5FF;border-radius:6px;padding:8px 10px;margin-bottom:10px">
@@ -582,18 +644,25 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">13</span></div>
 </div>
 </div>
-<!-- 14 SEC 04 -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 14 — INTRO SECTION 04 : ALGORITHME
+     Slide d'intro pleine couleur var(--s04) = bleu.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--s04)">
 <div class="section-slide">
 <div class="section-slide-left"><div class="section-number">04</div></div>
 <div class="section-slide-right">
 <div class="section-tag">Section 04 · Algorithme</div>
-<h2 class="section-title">L'Algorithme<progress-bar/>de Sélection</h2>
+<h2 class="section-title">L'Algorithme<br>de Sélection</h2>
 <p class="section-subtitle">Comment choisir — sous contrainte budgétaire — les individus qui maximisent l'information utile du futur panel réunionnais.</p>
 </div>
 </div>
 </div>
-<!-- 15 OPTIM -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 15 — LE PROBLÈME D'OPTIMISATION
+     Formalisation : max I(S) avec Coût(S) ≤ B.
+     3 raisons pour lesquelles un seul critère ne suffit pas.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Le problème d'optimisation</h2>
@@ -611,20 +680,29 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">15</span></div>
 </div>
 </div>
-<!-- 16 PCA ADM ENT -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 16 — TROIS VARIABLES GÉNOMIQUES
+     Level-cards : PCA (position), ADMIXTURE (composition),
+     Entropie H_i (mélange). Formules mathématiques incluses.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Trois variables pour cartographier l'espace génétique</h2>
 <div class="slide-rule" style="background:var(--blue)"></div>
 <div class="grid-3">
 <div class="level-card"><div class="level-header" style="background:var(--teal)">1 · PCA — Position</div><div class="level-body"><div class="formula">z_i = (PC₁, PC₂, …, PCₚ)</div><p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p><p style="font-size:clamp(16px,1.8vw,26px);color:var(--teal);font-style:italic">Géométrie globale de la variation.</p></div></div>
-<div class="level-card"><div class="level-header" style="background:var(--purple)">2 · ADMIXTURE — Composition</div><div class="level-body"><div class="formula">q_i = (q_{i1},…,q_{iK})<progress-bar/>Σ q_{ik} = 1</div><p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">Proportions d'ascendance : 40% africain, 35% européen…</p><p style="font-size:clamp(16px,1.8vw,26px);color:var(--purple);font-style:italic">Deux proches en PCA peuvent avoir des compositions toc-rowès différentes.</p></div></div>
+<div class="level-card"><div class="level-header" style="background:var(--purple)">2 · ADMIXTURE — Composition</div><div class="level-body"><div class="formula">q_i = (q_{i1},…,q_{iK})<br>Σ q_{ik} = 1</div><p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">Proportions d'ascendance : 40% africain, 35% européen…</p><p style="font-size:clamp(16px,1.8vw,26px);color:var(--purple);font-style:italic">Deux proches en PCA peuvent avoir des compositions toc-rowès différentes.</p></div></div>
 <div class="level-card"><div class="level-header" style="background:var(--amber)">3 · Entropie H_i — Mélange</div><div class="level-body"><div class="formula">H_i = [−Σ q·ln(q)] / ln(K)</div><p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">H≈0 concentré · H≈1 fortement admixé.</p><p style="font-size:clamp(16px,1.8vw,26px);color:var(--amber);font-style:italic">Identifie les profils les plus informatifs pour La Réunion.</p></div></div>
 </div>
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">16</span></div>
 </div>
 </div>
-<!-- 17 SCORE -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 17 — LE SCORE DE DIVERSITÉ S_div
+     Graphique barres horizontales Chart.js (#scoreBarChart)
+     initialisé par initScoreChart() dans app.js.
+     Poids : D_PCA 45% · D_ADM 25% · (1-φ) 15% · U 10% · DNAQ 5%
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" data-slide="15" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Le Score de Diversité : tableau de bord paramétrable</h2>
@@ -637,7 +715,12 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">17</span></div>
 </div>
 </div>
-<!-- 18 PARENTÉ DNAQ -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 18 — PARENTÉ ET QUALITÉ ADN
+     Détail des deux critères de filtrage : pénalité de
+     parenté (1-φmax calculé par KING/PLINK) et score
+     qualité ADN (call rate, contamination, consentement).
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Filtrer la redondance : parenté et qualité ADN</h2>
@@ -659,13 +742,20 @@
 <div style="font-family:'Courier New',monospace;color:var(--amber);font-size:clamp(14px,1.6vw,22px);margin-bottom:clamp(5px,1vh,14px)">DNAQ_i</div>
 <p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">Un échantillon de mauvaise qualité peut échouer au séquençage WGS. Le sélectionner gaspille le budget.</p>
 <p style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Critères évalués</p>
-<p class="text-body" style="font-size:clamp(14px,1.6vw,22px)">· Concentration et intégrité ADN<progress-bar/>· Call rate puce SNP &gt; 95%<progress-bar/>· Absence de contamination<progress-bar/>· Consentement et traçabilité</p>
+<p class="text-body" style="font-size:clamp(14px,1.6vw,22px)">· Concentration et intégrité ADN<br>· Call rate puce SNP &gt; 95%<br>· Absence de contamination<br>· Consentement et traçabilité</p>
 </div>
 </div>
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">18</span></div>
 </div>
 </div>
-<!-- 19 4 BRAS -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 19 — LES 4 BRAS DE SÉLECTION
+     Composant .arm-card × 4 :
+       60% Diversité-Référence (cœur du panel)
+       20% Central-Représentatif (profils médians)
+       15% Fondateur/ROH/IBD (effet fondateur réunionnais)
+        5% Contrôle Technique (duplicats, concordance)
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Quatre bras pour quatre objectifs distincts</h2>
@@ -677,7 +767,14 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">19</span></div>
 </div>
 </div>
-<!-- 20 FONDATEUR ROH -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 20 — ZOOM : EFFET FONDATEUR / ROH / IBD
+     Diagramme chromosomes animé (#rohDiagram) déclenché par
+     animateROH() dans app.js. Les .chromosome-segment
+     apparaissent progressivement (index × 90ms + 200ms).
+     Contexte : goulots 1663 et 1848 → Syndrome Larsen-Bourbon
+     (B4GALT7) et Syndrome de Ravine, invisibles mondialement.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Zoom : le bras Fondateur / ROH / IBD</h2>
@@ -738,7 +835,14 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">20</span></div>
 </div>
 </div>
-<!-- 21 EXEMPLE -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 21 — EXEMPLE CONCRET : CALCUL DU SCORE
+     Graphique radar Chart.js (#radarChart) initialisé par
+     initRadarChart() dans app.js.
+     3 patients comparés : A (profil moyen, rejeté),
+     B (extrême mais apparenté, score moyen),
+     C (extrême ET non apparenté, sélectionné ✓).
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Exemple concret : calcul pas-à-pas du score</h2>
@@ -766,7 +870,11 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">21</span></div>
 </div>
 </div>
-<!-- 22 VALIDATION -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 22 — CE QUI REND LA MÉTHODE DÉFENDABLE
+     4 critères de validation : variables définies,
+     poids annoncés, algorithme reproductible, validation finale.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Ce qui rend la méthode défendable</h2>
@@ -780,18 +888,25 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">22</span></div>
 </div>
 </div>
-<!-- 23 SEC 05 -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 23 — INTRO SECTION 05 : WGS
+     Slide d'intro pleine couleur var(--s05) = vert.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--s05)">
 <div class="section-slide">
 <div class="section-slide-left"><div class="section-number">05</div></div>
 <div class="section-slide-right">
 <div class="section-tag">Section 05 · WGS</div>
-<h2 class="section-title">Ce que le WGS<progress-bar/>va Produire</h2>
+<h2 class="section-title">Ce que le WGS<br>va Produire</h2>
 <p class="section-subtitle">Du séquençage au bénéfice clinique concret pour les patients réunionnais.</p>
 </div>
 </div>
 </div>
-<!-- 24 IMPACTS -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 24 — IMPACTS ATTENDUS DU RÉFÉRENTIEL
+     6 impacts : VUS, pharmacogénomique, imputation,
+     effet fondateur, biais IA, équité en santé.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Les impacts attendus du référentiel réunionnais</h2>
@@ -807,12 +922,16 @@
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">24</span></div>
 </div>
 </div>
-<!-- 25 CONCLUSION -->
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 25 — CONCLUSION
+     Fond navy comme la slide titre, .accent-bar teal.
+     4 points de conclusion + encadré récapitulatif.
+     ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--navy)">
 <div class="accent-bar"></div>
 <div class="inner">
 <p style="font-size:clamp(16px,1.8vw,26px);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--tealL);margin-bottom:clamp(6px,1.2vh,16px)">En résumé</p>
-<h1 style="font-family:Georgia,serif;font-size:clamp(22px,3.2vw,38px);color:var(--white);line-height:1.15;margin-bottom:clamp(14px,2.4vh,28px)">Un design rigoureux au service<progress-bar/>de l'équité en santé</h1>
+<h1 style="font-family:Georgia,serif;font-size:clamp(22px,3.2vw,38px);color:var(--white);line-height:1.15;margin-bottom:clamp(14px,2.4vh,28px)">Un design rigoureux au service<br>de l'équité en santé</h1>
 <div class="conclusion-item"><div class="conclusion-dot"></div><p style="color:#CBD5E1;font-size:clamp(14px,1.6vw,22px)">La Réunion est absente des bases génomiques mondiales — avec des conséquences cliniques réelles et mesurables.</p></div>
 <div class="conclusion-item"><div class="conclusion-dot"></div><p style="color:#CBD5E1;font-size:clamp(14px,1.6vw,22px)">Sa double singularité (admixture + effet fondateur) en fait une opportunité scientifique unique au monde.</p></div>
 <div class="conclusion-item"><div class="conclusion-dot"></div><p style="color:#CBD5E1;font-size:clamp(14px,1.6vw,22px)">Le design puce SNP → score multicritère → WGS ciblé maximise l'information utile sous contrainte budgétaire.</p></div>
@@ -826,5 +945,5 @@
 <div id="hint">← → clavier · swipe mobile</div>
 <script src="data/admixture.js"></script>
 <script src="js/app.js"></script>
-</text-body>
+</body>
 </html>

@@ -1,192 +1,801 @@
-:root{
-  --navy:#0B1F3A;--teal:#0D7377;--tealL:#14B8A6;--cream:#F4F1EC;
-  --white:#FFFFFF;--text:#1A2B3C;--muted:#4A5568;--light:#8896A5;
-  --border:#D1C9BC;--coral:#E05A4B;--amber:#D97706;--purple:#7C3AED;
-  --blue:#0369A1;--green:#059669;--orange:#EA580C;--gray:#6B7280;
-  --s01:#E05A4B;--s02:#0D7377;--s03:#7C3AED;--s04:#0369A1;--s05:#059669;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
- 
-#nav{position:fixed;top:0;left:0;right:0;height:46px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:300;gap:10px}
-#nav-logo{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--navy);white-space:nowrap;flex-shrink:0}
-#nav-center{display:flex;align-items:center;gap:6px;flex:1;justify-content:center;overflow:hidden}
-.sec-pill{font-size:10px;font-weight:600;letter-spacing:.8px;padding:4px 10px;border-radius:20px;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:.2s;white-space:nowrap;font-family:inherit}
-.sec-pill:hover,.sec-pill.on{background:var(--navy);color:var(--white)}
-#nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.nbtn{background:transparent;border:1px solid var(--border);color:var(--text);padding:5px 12px;border-radius:20px;cursor:pointer;font-size:12px;font-family:inherit;transition:.2s}
-.nbtn:hover{background:var(--navy);color:var(--white);border-color:var(--navy)}
-.nbtn:disabled{opacity:.3;cursor:default}
-#ctr{font-size:12px;color:var(--muted);min-width:44px;text-align:center}
- 
-#prog{position:fixed;top:46px;left:0;right:0;height:3px;background:#E8E4DC;z-index:300}
-#pf{height:100%;background:var(--teal);transition:width .4s ease}
- 
-#deck{position:fixed;inset:49px 0 0 0;display:flex;transition:transform .46s cubic-bezier(.4,0,.2,1)}
-.slide{min-width:100vw;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.inner{
-  width:min(1280px,92vw);
-  height:calc(100vh - 68px);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:clamp(16px,3vh,48px) clamp(24px,3.5vw,56px);
-  overflow-y:auto;
-}
-.inner::-webkit-scrollbar{width:3px}
-.inner::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
- 
-.inner>*{opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .4s ease}
-.slide.on .inner>*{opacity:1;transform:none}
-.slide.on .inner>*:nth-child(1){transition-delay:.04s}
-.slide.on .inner>*:nth-child(2){transition-delay:.1s}
-.slide.on .inner>*:nth-child(3){transition-delay:.16s}
-.slide.on .inner>*:nth-child(4){transition-delay:.22s}
-.slide.on .inner>*:nth-child(5){transition-delay:.28s}
-.slide.on .inner>*:nth-child(6){transition-delay:.34s}
-.slide.on .inner>*:nth-child(7){transition-delay:.4s}
- 
-.slide-title{font-family:Georgia,serif;font-size:clamp(22px,2.8vw,40px);font-weight:700;color:var(--navy);margin-bottom:clamp(4px,0.8vh,12px);line-height:1.12}
-.slide-rule{height:4px;width:110px;border-radius:2px;margin-bottom:clamp(10px,2vh,28px)}
-.text-body{font-size:clamp(14px,1.5vw,17px);line-height:1.75;color:var(--muted)}
-.caption{font-size:clamp(10px,1.1vw,13px);color:var(--light);letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
- 
-/* section slides */
-.section-slide{width:100%;height:100%;display:grid;grid-template-columns:1fr 1.6fr;}
-.section-slide-left{display:flex;align-items:center;justify-content:center;border-right:1px solid rgba(255,255,255,.15);padding:40px}
-.section-slide-right{display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,5vw,72px) clamp(28px,5vw,64px)}
-.section-number{font-family:Georgia,serif;font-size:clamp(120px,18vw,240px);font-weight:700;color:rgba(255,255,255,.2);line-height:.9;letter-spacing:-4px}
-.section-tag{font-size:clamp(11px,1.1vw,13px);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
-.section-title{font-family:Georgia,serif;font-size:clamp(24px,3.8vw,52px);font-weight:700;color:var(--white);line-height:1.08;margin-bottom:18px}
-.section-subtitle{font-size:clamp(14px,1.4vw,18px);color:rgba(255,255,255,.72);line-height:1.65;font-style:italic}
- 
-/* titre */
-.accent-bar{position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--teal)}
-.hero-content{display:flex;flex-direction:column;justify-content:center;width:min(680px,50vw);padding:20px 40px 20px 48px}
-.hero-title{font-family:Georgia,serif;font-size:clamp(30px,5vw,58px);font-weight:700;color:var(--white);line-height:1.05;margin-bottom:16px}
-.hero-subtitle{font-size:clamp(16px,1.9vw,24px);color:var(--tealL);font-style:italic;margin-bottom:20px}
-.hero-pill{background:rgba(255,255,255,.07);border:1px solid rgba(20,184,166,.3);border-radius:8px;padding:16px 18px;display:flex;align-items:center;gap:12px;color:var(--white);font-size:16px;margin-bottom:10px}
- 
-/* cards */
-.card{background:var(--white);border:2px solid var(--border);border-radius:10px;padding:clamp(10px,1.8vh,24px) clamp(14px,1.8vw,24px)}
-.card-colored{border-radius:8px;padding:16px 18px;color:var(--white)}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,2vh,24px)}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(8px,1.6vh,20px)}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(6px,1.4vh,16px)}
- 
-/* footer */
-.slide-footer{display:flex;justify-content:space-between;align-items:center;margin-top:clamp(6px,1.2vh,16px);padding-top:clamp(4px,.8vh,10px);border-top:1px solid var(--border)}
- 
-/* toc */
-.toc-row{display:flex;align-items:center;gap:14px;padding:clamp(8px,1.5vh,18px) 0;border-bottom:1px solid var(--border);cursor:pointer;transition:padding-left .2s}
-.toc-row:hover{padding-left:8px}
-.toc-row:last-child{border:none}
-.toc-number{min-width:clamp(36px,4.5vh,52px);height:clamp(36px,4.5vh,52px);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(14px,1.8vh,20px);color:var(--white);flex-shrink:0}
- 
-/* formula */
-.formula{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px;padding:clamp(8px,1.2vh,14px) 16px;font-family:'Courier New',monospace;font-size:clamp(11px,1.2vw,14px);color:var(--navy);margin:clamp(6px,1vh,12px) 0;line-height:1.7}
- 
-/* bars */
-.progress-bar{display:flex;align-items:center;gap:11px;margin-bottom:clamp(7px,1.2vh,14px)}
-.progress-label{font-family:'Courier New',monospace;font-size:14px;font-weight:700;min-width:96px;color:var(--navy)}
-.progress-track{flex:1;height:clamp(10px,1.4vh,16px);background:#E8E4DC;border-radius:7px;overflow:hidden}
-.progress-fill{height:100%;border-radius:7px;width:0;transition:width 1s ease}
-.progress-value{font-weight:700;font-size:15px;min-width:36px;text-align:right}
-.progress-desc{font-size:13px;color:var(--muted);min-width:180px}
- 
-/* table */
-table{width:100%;border-collapse:collapse;font-size:15px}
-th{background:var(--navy);color:var(--white);padding:clamp(7px,1.2vh,14px) 14px;font-weight:600;text-align:left}
-td{padding:clamp(7px,1.2vh,14px) 14px;border-bottom:1px solid var(--border);color:var(--text)}
-tr:last-child td{border:none}
-.hi td{background:#F0FDF4;font-weight:600}
- 
-/* arm-card */
-.arm-card{display:flex;align-items:stretch;background:var(--white);border:2px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:clamp(6px,1.2vh,14px)}
-.arm-percent{min-width:84px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:var(--white);flex-shrink:0}
-.arm-body{padding:clamp(8px,1.4vh,18px) clamp(12px,1.5vw,20px);flex:1;border-left:1px solid var(--border)}
-.arm-title{font-size:clamp(13px,1.4vw,17px);font-weight:700;color:var(--navy);margin-bottom:clamp(2px,.5vh,6px)}
-.arm-desc{font-size:clamp(12px,1.2vw,15px);color:var(--muted);line-height:1.5}
- 
-/* callout */
-.callout{background:#F8F5F0;border-left:4px solid var(--teal);padding:clamp(8px,1.2vh,14px) 16px;margin-top:clamp(8px,1.4vh,18px);border-radius:0 5px 5px 0;font-size:clamp(13px,1.3vw,15px);color:var(--muted)}
- 
-/* level */
-.level-card{background:var(--white);border:2px solid var(--border);border-radius:8px;overflow:hidden}
-.level-header{padding:clamp(8px,1.2vh,14px) clamp(10px,1.2vw,16px);color:var(--white);font-weight:700;font-size:clamp(12px,1.3vw,15px)}
-.level-body{padding:clamp(8px,1.4vh,18px)}
- 
-/* concl */
-.conclusion-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:clamp(8px,1.5vh,18px)}
-.conclusion-dot{min-width:11px;height:11px;border-radius:50%;background:var(--tealL);margin-top:6px;flex-shrink:0}
- 
-#hint{position:fixed;bottom:10px;right:14px;font-size:10px;color:var(--light)}
-@keyframes admix-scroll-v{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
-#admix-bg{will-change:transform;}
- 
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  #nav-center{display:none}
-  .section-slide{grid-template-columns:1fr !important}
-  .section-slide-left{display:none}
-  .section-slide-right{padding:clamp(28px,5vw,48px)}
-  .grid-4{grid-template-columns:1fr 1fr}
-  .grid-3{grid-template-columns:1fr 1fr}
-  .grid-3>*:last-child:nth-child(odd){grid-column:span 2}
-  .hero-content{grid-template-columns:1fr}
-  .hero-content>div:last-child{display:none}
-  .inner{padding:20px 22px}
-  .section-slide{padding:24px 26px 36px}
-  .progress-desc{display:none}
-}
-@media(max-width:600px){
-  #nav-logo{font-size:9px;letter-spacing:1px}
-  .nbtn{padding:4px 9px;font-size:11px}
-  #ctr{min-width:36px;font-size:11px}
-  .grid-2,.grid-3{grid-template-columns:1fr}
-  .grid-3>*:last-child:nth-child(odd){grid-column:auto}
-  .grid-4{grid-template-columns:1fr 1fr}
-  .slide-title{font-size:clamp(20px,4vw,28px)}
-  .inner{padding:12px 14px;max-height:calc(100vh - 70px)}
-  .arm-card{flex-direction:column}
-  .arm-percent{min-width:auto;padding:7px;font-size:16px}
-  .arm-body{border-left:none;border-top:1px solid var(--border)}
-  table{font-size:11px}
-  th,td{padding:6px 7px}
-  .progress-label{min-width:58px;font-size:10px}
-  .progress-value{min-width:24px;font-size:10px}
-  .toc-number{min-width:34px;height:34px;font-size:12px}
-  #hint{display:none}
-}
-@media(max-width:380px){
-  .grid-4{grid-template-columns:1fr}
+/* ============================================================
+   MAIN.CSS — Génome Réunion
+   Feuille de style principale : variables, layout, composants,
+   graphiques et responsive design.
+
+   Structure :
+     1. Variables de design (tokens)
+     2. Reset & base
+     3. Navigation fixe
+     4. Barre de progression
+     5. Deck de slides
+     6. Typographie de slide
+     7. Slide hero (slide 1 — titre)
+     8. Slides d'intro de section
+     9. Composants de contenu
+        — Grilles
+        — Cards
+        — Table des matières
+        — Formule mathématique
+        — Barres de progression (composant)
+        — Tableau HTML
+        — Arm-card (composant 4 bras)
+        — Callout (encadré note)
+        — Level-card (carte à entête coloré)
+        — Conclusion (liste à puces)
+     10. Animation admixture (slide 1)
+     11. Graphiques et animations SVG
+     12. Responsive (breakpoints 900px / 600px / 380px)
+     13. Hauteurs minimales fluides
+   ============================================================ */
+
+
+/* ============================================================
+   1. VARIABLES DE DESIGN
+   Modifier ici pour changer l'ensemble du thème visuel.
+   Toutes les couleurs et valeurs partagées sont centralisées
+   dans ce bloc :root pour éviter la duplication.
+   ============================================================ */
+:root {
+  /* Palette principale */
+  --navy:   #0B1F3A;   /* Fond sombre, textes importants, nav */
+  --teal:   #0D7377;   /* Couleur d'accent principale */
+  --tealL:  #14B8A6;   /* Teal clair — sous-titres hero, highlights */
+  --cream:  #F4F1EC;   /* Fond des slides de contenu */
+  --white:  #FFFFFF;
+
+  /* Couleurs de texte — du plus sombre au plus discret */
+  --text:   #1A2B3C;   /* Texte principal (titres, td) */
+  --muted:  #4A5568;   /* Corps de texte */
+  --light:  #8896A5;   /* Légendes, hints, textes secondaires */
+  --border: #D1C9BC;   /* Bordures et séparateurs */
+
+  /* Couleurs d'accent sémantiques */
+  --coral:  #E05A4B;   /* Danger, absence, alerte */
+  --amber:  #D97706;   /* Avertissement, fondateur */
+  --purple: #7C3AED;   /* Section 03 Design, ADMIXTURE */
+  --blue:   #0369A1;   /* Section 04 Algorithme, PCA */
+  --green:  #059669;   /* Section 05 WGS, succès, sélection */
+  --orange: #EA580C;   /* Effet fondateur, parenté */
+  --gray:   #6B7280;   /* DNAQ, éléments neutres */
+
+  /* Couleurs des 5 sections — utilisées sur les slides d'intro
+     et les pills de navigation actives */
+  --s01: #E05A4B;   /* Section 01 — Angle mort */
+  --s02: #0D7377;   /* Section 02 — Singularité */
+  --s03: #7C3AED;   /* Section 03 — Design */
+  --s04: #0369A1;   /* Section 04 — Algorithme */
+  --s05: #059669;   /* Section 05 — WGS */
 }
 
-/* ── Hauteurs minimales fluides pour remplir l'écran ── */
-.grid-2 > *, .grid-3 > * { min-height: clamp(120px, 16vh, 240px); }
-.grid-4 > * { min-height: clamp(140px, 18vh, 260px); }
-.card { min-height: clamp(100px, 12vh, 180px); }
-.level-card { min-height: clamp(180px, 22vh, 320px); }
-.arm-card { min-height: clamp(60px, 8vh, 110px); }
 
-/* ── GRAPHIQUES ── */
-/* ── GRAPHIQUES ── */
-.chart-wrapper{position:relative;width:100%;height:100%}
-/* Pipeline SVG */
-.pipeline-flow{display:flex;align-items:stretch;gap:0;margin-bottom:clamp(10px,1.8vh,22px)}
-.pipeline-box{flex:1;border-radius:10px;padding:clamp(16px,2.5vh,36px) clamp(10px,1.5vw,18px);text-align:center;color:white;position:relative;opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;display:flex;flex-direction:column;justify-content:flex-start}
-.pipeline-box.shown{opacity:1;transform:none}
-.pipeline-arrow.shown{opacity:1}
-.pipeline-arrow{width:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .4s ease;align-self:center}
-.pipeline-arrow.shown{opacity:1}
-.pipeline-arrow svg{width:28px;height:28px}
-/* ROH chromosome */
-.chromosome-wrap{font-family:'Segoe UI',sans-serif}
-.chromosome-row{display:flex;align-items:center;gap:clamp(12px,1.8vh,24px);margin-bottom:clamp(6px,1.2vh,16px)}
-.chromosome-label{font-size:clamp(14px,1.6vw,22px);font-weight:600;color:var(--navy);min-width:130px}
-.chromosome-bar{flex:1;height:26px;background:#E8E4DC;border-radius:4px;position:relative;overflow:hidden}
-.chromosome-segment{position:absolute;top:0;height:100%;border-radius:2px;transition:width .8s ease,left .8s ease}
-.chromosome-legend{display:flex;gap:clamp(14px,2.2vh,26px);margin-top:clamp(6px,1.2vh,16px);font-size:clamp(14px,1.6vw,22px)}
-.legend-item{display:flex;align-items:center;gap:6px}
-/* Radar chart */
-#radarChart{max-height:320px}
+/* ============================================================
+   2. RESET & BASE
+   Supprime les marges/paddings par défaut du navigateur.
+   overflow:hidden sur html/body est intentionnel : c'est le
+   deck (#deck) qui gère le défilement via transform translateX.
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* Le scroll est géré par le deck, pas le navigateur */
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+
+/* ============================================================
+   3. NAVIGATION FIXE
+   Barre fixe en haut, z-index 300 pour rester au-dessus du deck.
+   Trois zones : logo | pills de section | boutons précédent/suivant
+   ============================================================ */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 46px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 300;
+  gap: 10px;
+}
+
+#nav-logo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--navy);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Zone centrale : pills de navigation par section.
+   Masquée sous 900px (trop étroite pour afficher toutes les pills). */
+#nav-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Pill de section — état inactif par défaut, actif via .on
+   ajouté dynamiquement par SECTION_MAP dans app.js */
+.sec-pill {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  transition: .2s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.sec-pill:hover,
+.sec-pill.on { background: var(--navy); color: var(--white); }
+
+#nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Boutons Préc./Suiv. et compteur de slide */
+.nbtn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  transition: .2s;
+}
+.nbtn:hover    { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.nbtn:disabled { opacity: .3; cursor: default; }
+
+#ctr {
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 44px;
+  text-align: center;
+}
+
+
+/* ============================================================
+   4. BARRE DE PROGRESSION
+   Fine ligne de 3px sous la nav, mise à jour en temps réel
+   par app.js (progressBar.style.width) à chaque changement de slide.
+   ============================================================ */
+#prog {
+  position: fixed;
+  top: 46px; left: 0; right: 0; /* Collée sous la nav */
+  height: 3px;
+  background: #E8E4DC;
+  z-index: 300;
+}
+
+#pf {
+  height: 100%;
+  background: var(--teal);
+  transition: width .4s ease; /* Transition fluide entre slides */
+}
+
+
+/* ============================================================
+   5. DECK DE SLIDES
+   Le deck est un flex horizontal contenant toutes les slides
+   côte à côte. La navigation déplace le deck via translateX.
+   inset: 49px 0 0 0  = commence juste sous nav (46px) + barre (3px).
+   ============================================================ */
+#deck {
+  position: fixed;
+  inset: 49px 0 0 0;
+  display: flex;
+  transition: transform .46s cubic-bezier(.4, 0, .2, 1); /* Easing naturel */
+}
+
+/* Chaque slide occupe exactement 100vw — garantit l'alignement
+   même si le contenu déborde verticalement. */
+.slide {
+  min-width: 100vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Conteneur de contenu centré, scrollable si nécessaire.
+   clamp() adapte le padding selon la hauteur/largeur disponible
+   sans media queries supplémentaires. */
+.inner {
+  width: min(1280px, 92vw);
+  height: calc(100vh - 68px); /* 68px = nav 46px + barre 3px + marge 19px */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(16px, 3vh, 48px) clamp(24px, 3.5vw, 56px);
+  overflow-y: auto;
+}
+
+/* Scrollbar discrète pour les slides dont le contenu dépasse */
+.inner::-webkit-scrollbar       { width: 3px; }
+.inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* Animation d'entrée des enfants directs de .inner.
+   Chaque élément entre en fondu + translateY quand la slide
+   reçoit la classe .on (ajoutée par goToSlide() dans app.js).
+   Les delays échelonnés créent un effet de cascade visuelle. */
+.inner > * {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.slide.on .inner > *                { opacity: 1; transform: none; }
+.slide.on .inner > *:nth-child(1)   { transition-delay: .04s; }
+.slide.on .inner > *:nth-child(2)   { transition-delay: .10s; }
+.slide.on .inner > *:nth-child(3)   { transition-delay: .16s; }
+.slide.on .inner > *:nth-child(4)   { transition-delay: .22s; }
+.slide.on .inner > *:nth-child(5)   { transition-delay: .28s; }
+.slide.on .inner > *:nth-child(6)   { transition-delay: .34s; }
+.slide.on .inner > *:nth-child(7)   { transition-delay: .40s; }
+
+
+/* ============================================================
+   6. TYPOGRAPHIE DE SLIDE
+   Classes partagées par toutes les slides de contenu.
+   ============================================================ */
+
+/* Titre principal de chaque slide */
+.slide-title {
+  font-family: Georgia, serif;
+  font-size: clamp(22px, 2.8vw, 40px);
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: clamp(4px, 0.8vh, 12px);
+  line-height: 1.12;
+}
+
+/* Règle colorée sous le titre — la couleur est définie
+   en inline style sur chaque slide selon sa section */
+.slide-rule {
+  height: 4px;
+  width: 110px;
+  border-radius: 2px;
+  margin-bottom: clamp(10px, 2vh, 28px);
+}
+
+/* Corps de texte standard */
+.text-body {
+  font-size: clamp(14px, 1.5vw, 17px);
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+/* Légende — texte discret en majuscules espacées,
+   utilisé dans les footers de slide et les sous-titres */
+.caption {
+  font-size: clamp(10px, 1.1vw, 13px);
+  color: var(--light);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   7. SLIDE HERO (slide 1 — titre)
+   La slide titre utilise une mise en page spéciale :
+   fond --navy, barre d'accent teal à gauche, contenu calé
+   à gauche pour laisser l'animation admixture à droite.
+   ============================================================ */
+
+/* Barre verticale colorée collée au bord gauche de la slide */
+.accent-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 7px;
+  background: var(--teal);
+}
+
+/* Bloc de contenu principal — limité à 50vw pour laisser
+   la moitié droite à l'animation admixture */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(680px, 50vw);
+  padding: 20px 40px 20px 48px; /* 48px à gauche = décalé de .accent-bar */
+}
+
+.hero-title {
+  font-family: Georgia, serif;
+  font-size: clamp(30px, 5vw, 58px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+
+.hero-subtitle {
+  font-size: clamp(16px, 1.9vw, 24px);
+  color: var(--tealL);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* Encadré semi-transparent pour les badges/pills du hero */
+.hero-pill {
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(20, 184, 166, .3);
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--white);
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+
+/* ============================================================
+   8. SLIDES D'INTRO DE SECTION
+   Chaque grande section commence par une slide pleine couleur
+   avec un grand numéro à gauche et le titre à droite.
+   La couleur de fond est définie en inline style (var(--s01)
+   à var(--s05)) directement sur la div.slide.
+   ============================================================ */
+.section-slide {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr; /* Numéro = plus étroit que le texte */
+}
+
+.section-slide-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgba(255, 255, 255, .15);
+  padding: 40px;
+}
+
+.section-slide-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 72px) clamp(28px, 5vw, 64px);
+}
+
+/* Grand numéro décoratif semi-transparent */
+.section-number {
+  font-family: Georgia, serif;
+  font-size: clamp(120px, 18vw, 240px);
+  font-weight: 700;
+  color: rgba(255, 255, 255, .2);
+  line-height: .9;
+  letter-spacing: -4px;
+}
+
+.section-tag {
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .5);
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 3.8vw, 52px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.08;
+  margin-bottom: 18px;
+}
+
+.section-subtitle {
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: rgba(255, 255, 255, .72);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+
+/* ============================================================
+   9. COMPOSANTS DE CONTENU
+   ============================================================ */
+
+/* ── Grilles ────────────────────────────────────────────────
+   Grilles CSS à 2, 3 ou 4 colonnes égales.
+   Les gaps et hauteurs minimales s'adaptent à la hauteur
+   d'écran via clamp() pour rester dans les limites du .inner. */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr;          gap: clamp(10px, 2vh, 24px); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr);   gap: clamp(8px, 1.6vh, 20px); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr);   gap: clamp(6px, 1.4vh, 16px); }
+
+/* ── Card générique ─────────────────────────────────────────
+   Fond blanc, bordure crème, coins arrondis.
+   Utilisée sur toutes les slides de contenu pour regrouper
+   visuellement des informations. La couleur de bordure et
+   d'accent est souvent surchargée en inline style. */
+.card {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: clamp(10px, 1.8vh, 24px) clamp(14px, 1.8vw, 24px);
+}
+
+/* Variante fond coloré — utilisée pour les badges de statut */
+.card-colored {
+  border-radius: 8px;
+  padding: 16px 18px;
+  color: var(--white);
+}
+
+/* ── Footer de slide ────────────────────────────────────────
+   Ligne séparatrice en bas de chaque slide de contenu,
+   affichant le nom du projet à gauche et le numéro à droite. */
+.slide-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: clamp(6px, 1.2vh, 16px);
+  padding-top: clamp(4px, .8vh, 10px);
+  border-top: 1px solid var(--border);
+}
+
+/* ── Table des matières (slide 2) ───────────────────────────
+   Chaque entrée du sommaire est cliquable (onclick="go(n)").
+   L'indentation au hover donne un retour visuel d'interactivité. */
+.toc-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: clamp(8px, 1.5vh, 18px) 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: padding-left .2s;
+}
+.toc-row:hover      { padding-left: 8px; }
+.toc-row:last-child { border: none; }
+
+/* Badge numéroté coloré à gauche de chaque entrée du sommaire.
+   La couleur de fond est définie en inline style (var(--s01) etc.) */
+.toc-number {
+  min-width: clamp(36px, 4.5vh, 52px);
+  height: clamp(36px, 4.5vh, 52px);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: clamp(14px, 1.8vh, 20px);
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+/* ── Formule mathématique ───────────────────────────────────
+   Bloc monospace sur fond bleu très clair, utilisé pour
+   afficher les équations du score S_div, F_ROH, H_i, etc. */
+.formula {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 5px;
+  padding: clamp(8px, 1.2vh, 14px) 16px;
+  font-family: 'Courier New', monospace;
+  font-size: clamp(11px, 1.2vw, 14px);
+  color: var(--navy);
+  margin: clamp(6px, 1vh, 12px) 0;
+  line-height: 1.7;
+}
+
+/* ── Barres de progression (composant) ──────────────────────
+   Composant pour afficher des métriques sous forme de barres
+   horizontales animées. Utilisé sur les slides de statistiques.
+   Structure : .progress-bar > .progress-label + .progress-track
+               > .progress-fill  +  .progress-value  +  .progress-desc */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: clamp(7px, 1.2vh, 14px);
+}
+.progress-label {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 96px;
+  color: var(--navy);
+}
+.progress-track {
+  flex: 1;
+  height: clamp(10px, 1.4vh, 16px);
+  background: #E8E4DC;
+  border-radius: 7px;
+  overflow: hidden;
+}
+/* La largeur de .progress-fill est animée via JS (width 0 → valeur cible) */
+.progress-fill {
+  height: 100%;
+  border-radius: 7px;
+  width: 0;
+  transition: width 1s ease;
+}
+.progress-value {
+  font-weight: 700;
+  font-size: 15px;
+  min-width: 36px;
+  text-align: right;
+}
+/* Description textuelle — masquée sous 900px (trop étroite) */
+.progress-desc {
+  font-size: 13px;
+  color: var(--muted);
+  min-width: 180px;
+}
+
+/* ── Tableau HTML ────────────────────────────────────────────
+   Style appliqué à tous les <table> du document.
+   .hi marque une ligne mise en évidence (résultat sélectionné). */
+table            { width: 100%; border-collapse: collapse; font-size: 15px; }
+th               { background: var(--navy); color: var(--white); padding: clamp(7px, 1.2vh, 14px) 14px; font-weight: 600; text-align: left; }
+td               { padding: clamp(7px, 1.2vh, 14px) 14px; border-bottom: 1px solid var(--border); color: var(--text); }
+tr:last-child td { border: none; }
+.hi td           { background: #F0FDF4; font-weight: 600; } /* Ligne "Patient C sélectionné" */
+
+/* ── Arm-card : composant "4 bras" (slide 19) ───────────────
+   Représente les 4 bras de la stratégie de sélection WGS.
+   Structure : .arm-card > .arm-percent (%) | .arm-body > .arm-title + .arm-desc
+   La couleur du .arm-percent est définie en inline style. */
+.arm-card {
+  display: flex;
+  align-items: stretch;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: clamp(6px, 1.2vh, 14px);
+}
+.arm-percent {
+  min-width: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.arm-body {
+  padding: clamp(8px, 1.4vh, 18px) clamp(12px, 1.5vw, 20px);
+  flex: 1;
+  border-left: 1px solid var(--border);
+}
+.arm-title { font-size: clamp(13px, 1.4vw, 17px); font-weight: 700; color: var(--navy); margin-bottom: clamp(2px, .5vh, 6px); }
+.arm-desc  { font-size: clamp(12px, 1.2vw, 15px); color: var(--muted); line-height: 1.5; }
+
+/* ── Callout : encadré note / citation ──────────────────────
+   Barre colorée à gauche sur fond crème clair.
+   Utilisé pour les notes de bas de slide et les résumés clés. */
+.callout {
+  background: #F8F5F0;
+  border-left: 4px solid var(--teal);
+  padding: clamp(8px, 1.2vh, 14px) 16px;
+  margin-top: clamp(8px, 1.4vh, 18px);
+  border-radius: 0 5px 5px 0;
+  font-size: clamp(13px, 1.3vw, 15px);
+  color: var(--muted);
+}
+
+/* ── Level-card : carte à en-tête coloré (slide 16) ─────────
+   Utilisée pour les trois variables génomiques (PCA, ADMIXTURE,
+   Entropie). Structure : .level-card > .level-header + .level-body
+   La couleur du .level-header est définie en inline style. */
+.level-card   { background: var(--white); border: 2px solid var(--border); border-radius: 8px; overflow: hidden; }
+.level-header { padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px); color: var(--white); font-weight: 700; font-size: clamp(12px, 1.3vw, 15px); }
+.level-body   { padding: clamp(8px, 1.4vh, 18px); }
+
+/* ── Points de conclusion (slide 25) ────────────────────────
+   Liste de points résumant la présentation, avec un bullet
+   teal animé en décalage par rapport au texte. */
+.conclusion-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: clamp(8px, 1.5vh, 18px);
+}
+.conclusion-dot {
+  min-width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--tealL);
+  margin-top: 6px; /* Aligne visuellement avec la première ligne du texte */
+  flex-shrink: 0;
+}
+
+/* Hint de navigation — visible uniquement sur desktop */
+#hint {
+  position: fixed;
+  bottom: 10px; right: 14px;
+  font-size: 10px;
+  color: var(--light);
+}
+
+
+/* ============================================================
+   10. ANIMATION ADMIXTURE (slide 1)
+   Le bloc #admix-bg contient 120 lignes de barres colorées
+   (60 lignes uniques + copie exacte pour le loop seamless).
+   L'animation translateY(-50%) fait défiler vers le haut
+   jusqu'à la moitié exacte du bloc, puis recommence
+   instantanément depuis le début — invisible car le contenu
+   est identique. Voir data/admixture.js pour la génération.
+   will-change: transform active l'accélération GPU.
+   ============================================================ */
+#admix-bg {
+  will-change: transform; /* Délègue l'animation au GPU */
+}
+
+@keyframes admix-scroll-v {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); } /* -50% = exactement 60 lignes */
+}
+
+
+/* ============================================================
+   11. GRAPHIQUES ET ANIMATIONS SVG
+   ============================================================ */
+
+/* Conteneur générique pour les canvas Chart.js —
+   prend tout l'espace disponible dans son parent */
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Pipeline SNP → WGS (slide 12) ─────────────────────────
+   Séquence d'étapes horizontales animées.
+   Chaque .pipeline-box et .pipeline-arrow commence invisible
+   (opacity: 0) et apparaît via la classe .shown ajoutée
+   séquentiellement par animatePipeline() dans app.js.
+   L'attribut data-delay sur chaque élément contrôle le délai
+   (multiplié par 130ms dans animatePipeline). */
+.pipeline-flow  { display: flex; align-items: stretch; gap: 0; margin-bottom: clamp(10px, 1.8vh, 22px); }
+.pipeline-box {
+  flex: 1;
+  border-radius: 10px;
+  padding: clamp(16px, 2.5vh, 36px) clamp(10px, 1.5vw, 18px);
+  text-align: center;
+  color: white;
+  position: relative;
+  opacity: 0;                                        /* Invisible par défaut */
+  transform: translateY(20px);                       /* Léger décalage vers le bas */
+  transition: opacity .5s ease, transform .5s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.pipeline-box.shown { opacity: 1; transform: none; } /* État visible */
+
+.pipeline-arrow {
+  width: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .4s ease;
+  align-self: center;
+}
+.pipeline-arrow.shown { opacity: 1; }
+.pipeline-arrow svg   { width: 28px; height: 28px; }
+
+/* ── Diagramme chromosomes ROH (slide 20) ───────────────────
+   Représentation visuelle des segments ROH (Run of Homozygosity).
+   Les .chromosome-segment commencent à opacity:0 et apparaissent
+   progressivement via animateROH() dans app.js. */
+.chromosome-wrap   { font-family: 'Segoe UI', sans-serif; }
+.chromosome-row    { display: flex; align-items: center; gap: clamp(12px, 1.8vh, 24px); margin-bottom: clamp(6px, 1.2vh, 16px); }
+.chromosome-label  { font-size: clamp(14px, 1.6vw, 22px); font-weight: 600; color: var(--navy); min-width: 130px; }
+.chromosome-bar    { flex: 1; height: 26px; background: #E8E4DC; border-radius: 4px; position: relative; overflow: hidden; }
+.chromosome-segment {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 2px;
+  transition: width .8s ease, left .8s ease;
+}
+.chromosome-legend { display: flex; gap: clamp(14px, 2.2vh, 26px); margin-top: clamp(6px, 1.2vh, 16px); font-size: clamp(14px, 1.6vw, 22px); }
+.legend-item       { display: flex; align-items: center; gap: 6px; }
+
+/* Limite la hauteur max du radar pour éviter qu'il déborde
+   sur les petits écrans (slide 21) */
+#radarChart { max-height: 320px; }
+
+
+/* ============================================================
+   12. RESPONSIVE
+   Trois breakpoints :
+   — 900px : tablette paysage / laptop étroit
+             → masque les pills de nav, simplifie les grilles
+   — 600px : tablette portrait / mobile large
+             → passe tout en colonne unique
+   — 380px : mobile étroit
+             → grid-4 passe en colonne unique
+   ============================================================ */
+@media (max-width: 900px) {
+  #nav-center                       { display: none; }             /* Pills masquées */
+  .section-slide                    { grid-template-columns: 1fr !important; }
+  .section-slide-left               { display: none; }             /* Grand numéro masqué */
+  .section-slide-right              { padding: clamp(28px, 5vw, 48px); }
+  .grid-4                           { grid-template-columns: 1fr 1fr; }
+  .grid-3                           { grid-template-columns: 1fr 1fr; }
+  .grid-3 > *:last-child:nth-child(odd) { grid-column: span 2; }  /* Dernier élément impair = pleine largeur */
+  .hero-content                     { grid-template-columns: 1fr; }
+  .hero-content > div:last-child    { display: none; }
+  .inner                            { padding: 20px 22px; }
+  .section-slide                    { padding: 24px 26px 36px; }
+  .progress-desc                    { display: none; }             /* Description trop large */
+}
+
+@media (max-width: 600px) {
+  #nav-logo    { font-size: 9px; letter-spacing: 1px; }
+  .nbtn        { padding: 4px 9px; font-size: 11px; }
+  #ctr         { min-width: 36px; font-size: 11px; }
+  .grid-2,
+  .grid-3      { grid-template-columns: 1fr; }
+  .grid-3 > *:last-child:nth-child(odd) { grid-column: auto; }
+  .grid-4      { grid-template-columns: 1fr 1fr; }
+  .slide-title { font-size: clamp(20px, 4vw, 28px); }
+  .inner       { padding: 12px 14px; max-height: calc(100vh - 70px); }
+  /* Arm-card passe en colonne sur mobile */
+  .arm-card    { flex-direction: column; }
+  .arm-percent { min-width: auto; padding: 7px; font-size: 16px; }
+  .arm-body    { border-left: none; border-top: 1px solid var(--border); }
+  table        { font-size: 11px; }
+  th, td       { padding: 6px 7px; }
+  .progress-label { min-width: 58px; font-size: 10px; }
+  .progress-value { min-width: 24px; font-size: 10px; }
+  .toc-number  { min-width: 34px; height: 34px; font-size: 12px; }
+  #hint        { display: none; }
+}
+
+@media (max-width: 380px) {
+  .grid-4 { grid-template-columns: 1fr; } /* Mobile très étroit : tout en colonne */
+}
+
+
+/* ============================================================
+   13. HAUTEURS MINIMALES FLUIDES
+   Garantit que les cellules de grille et les composants
+   ont une hauteur décente sur tous les écrans, même quand
+   le contenu est court. Les valeurs clamp() sont calibrées
+   pour couvrir du mobile (120px) au grand écran (240px).
+   ============================================================ */
+.grid-2 > *,
+.grid-3 > *  { min-height: clamp(120px, 16vh, 240px); }
+.grid-4 > *  { min-height: clamp(140px, 18vh, 260px); }
+.card        { min-height: clamp(100px, 12vh, 180px); }
+.level-card  { min-height: clamp(180px, 22vh, 320px); }
+.arm-card    { min-height: clamp(60px, 8vh, 110px); }
