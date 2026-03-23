@@ -456,6 +456,7 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
   padding: clamp(28px, 5vw, 72px) clamp(28px, 5vw, 64px);
 }
 
@@ -500,12 +501,15 @@ html, body {
 
 /* Motif expérimental pour la section 01 :
    une cartographie de points lacunaire qui suggère un espace
-   de données incomplet sans recourir à une image bitmap. */
+   de données incomplet sans recourir à une image bitmap.
+   Le motif est accroché à la colonne texte pour éviter qu'il
+   soit traité comme un item de grille selon les navigateurs. */
 .section-graphic {
   position: absolute;
-  inset: 0 0 0 50%;
+  inset: 4% -8% 4% 30%;
   pointer-events: none;
   opacity: .72;
+  z-index: 0;
 }
 
 .section-graphic svg {
