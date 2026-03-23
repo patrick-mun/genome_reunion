@@ -24,11 +24,6 @@ genome-reunion/
                         # 60 lignes × composition démographique réunionnaise réelle
 ```
 
-> **Note — fichiers obsolètes** : le dossier `css/` contient aussi `variables.css`,
-> `layout.css`, `components.css` et `charts.css`, et `js/` contient `navigation.js`
-> et `charts.js`. Ces fichiers sont issus d'une version antérieure et ne sont plus
-> référencés par `index.html`. Ils peuvent être supprimés sans impact.
-
 ## 🚀 Déploiement GitHub Pages
 
 ```bash
@@ -63,12 +58,13 @@ git push -u origin main
 - **Clavier** : `←` `→` ou `↑` `↓`
 - **Mobile** : swipe gauche / droite
 - **Boutons** : Préc. / Suiv. en haut à droite
-- **Sections** : pills de navigation en haut au centre
+- **Sections** : boutons de section et sommaire via attributs `data-target-slide`
 
 ## 🔬 Composition démographique réunionnaise
 
 L'animation admixture de la slide 1 reflète la réalité historique et génétique.
-Les proportions sont encodées dans les poids de génération de `data/admixture.js`.
+Le conteneur HTML de la slide 1 reste vide par design ; les lignes sont injectées
+dynamiquement depuis `data/admixture.js` pour garder une seule source de vérité.
 
 | Composante | % estimé | Couleur CSS |
 |---|---|---|

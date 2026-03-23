@@ -20,6 +20,7 @@ const buttonPrevious = document.getElementById('bp');
 const buttonNext     = document.getElementById('bn');
 const allSlides      = document.querySelectorAll('.slide');
 const navPills       = document.querySelectorAll('.sec-pill');
+const slideJumpTargets = document.querySelectorAll('.js-slide-jump');
 
 // ── État ──────────────────────────────────────────────────────
 
@@ -67,8 +68,27 @@ function goToSlide(targetIndex) {
   if (currentSlide === 20) { setTimeout(initRadarChart,  200); }
 }
 
-// Exposé globalement pour les onclick inline du HTML
+// Exposé globalement pour compatibilité avec d'éventuels appels externes.
 window.go = goToSlide;
+
+// ── Navigation par boutons et cibles data-target-slide ───────
+
+buttonPrevious.addEventListener('click', function() {
+  goToSlide(currentSlide - 1);
+});
+
+buttonNext.addEventListener('click', function() {
+  goToSlide(currentSlide + 1);
+});
+
+slideJumpTargets.forEach(function(target) {
+  target.addEventListener('click', function() {
+    const targetIndex = Number.parseInt(target.dataset.targetSlide, 10);
+    if (!Number.isNaN(targetIndex)) {
+      goToSlide(targetIndex);
+    }
+  });
+});
 
 // ── Navigation clavier ────────────────────────────────────────
 

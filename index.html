@@ -11,17 +11,18 @@
 <nav id="nav">
 <span id="nav-logo">Génome Réunion</span>
 <div id="nav-center">
-<button class="sec-pill on" onclick="go(0)">Accueil</button>
-<button class="sec-pill" onclick="go(2)">01 · Angle mort</button>
-<button class="sec-pill" onclick="go(10)">02 · Singularité</button>
-<button class="sec-pill" onclick="go(10)">03 · Design</button>
-<button class="sec-pill" onclick="go(13)">04 · Algorithme</button>
-<button class="sec-pill" onclick="go(22)">05 · WGS</button>
+<!-- Navigation de section : data-target-slide = index 0-based de la slide d'entrée de section -->
+<button class="sec-pill js-slide-jump on" data-target-slide="0">Accueil</button>
+<button class="sec-pill js-slide-jump" data-target-slide="2">01 · Angle mort</button>
+<button class="sec-pill js-slide-jump" data-target-slide="8">02 · Singularité</button>
+<button class="sec-pill js-slide-jump" data-target-slide="10">03 · Design</button>
+<button class="sec-pill js-slide-jump" data-target-slide="13">04 · Algorithme</button>
+<button class="sec-pill js-slide-jump" data-target-slide="22">05 · WGS</button>
 </div>
 <div id="nav-right">
-<button class="nbtn" id="bp" onclick="go(currentSlide-1)">← Préc.</button>
+<button class="nbtn" id="bp">← Préc.</button>
 <span id="ctr">1 / 25</span>
-<button class="nbtn" id="bn" onclick="go(currentSlide+1)">Suiv. →</button>
+<button class="nbtn" id="bn">Suiv. →</button>
 </div>
 </nav>
 <div id="prog"><div id="pf" style="width:4%"></div></div>
@@ -38,131 +39,11 @@
 <div class="accent-bar"></div>
 <!-- Zone droite : animation admixture en arrière-plan
          aria-hidden=true car purement décoratif — ne pas lire par les lecteurs d'écran
-         Les barres sont injectées par data/admixture.js, ce bloc HTML sert de conteneur.
+         Les barres sont injectées par data/admixture.js ; ce bloc HTML reste volontairement vide
+         pour éviter une duplication des données entre index.html et data/admixture.js.
          Les deux dégradés (gauche et haut/bas) fondent l'animation dans le fond navy. -->
 <div aria-hidden="true" style="position:absolute;right:0;top:0;bottom:0;width:50%;overflow:hidden;opacity:.32;pointer-events:none;display:flex;flex-direction:column">
-<div id="admix-bg" style="display:flex;flex-direction:column;gap:5px;padding:0;animation:admix-scroll-v 24s linear infinite">
-<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:22%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div><div style="width:8%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#0D9488"></div><div style="width:25%;background:#0B1F3A"></div><div style="width:5%;background:#7C3AED"></div><div style="width:33%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:15%;background:#0B1F3A"></div><div style="width:12%;background:#7C3AED"></div><div style="width:31%;background:#E05A4B"></div><div style="width:42%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:63%;background:#0D9488"></div><div style="width:37%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:50%;background:#0D9488"></div><div style="width:9%;background:#7C3AED"></div><div style="width:17%;background:#D97706"></div><div style="width:24%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#E05A4B"></div><div style="width:44%;background:#0D9488"></div><div style="width:27%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:14%;background:#0B1F3A"></div><div style="width:73%;background:#0D9488"></div><div style="width:13%;background:#D97706"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:58%;background:#0D9488"></div><div style="width:23%;background:#0B1F3A"></div><div style="width:19%;background:#D97706"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:8%;background:#0B1F3A"></div><div style="width:39%;background:#E05A4B"></div><div style="width:53%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:33%;background:#0B1F3A"></div><div style="width:67%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:16%;background:#D97706"></div><div style="width:26%;background:#E05A4B"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:37%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:21%;background:#D97706"></div><div style="width:79%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:34%;background:#0B1F3A"></div><div style="width:19%;background:#7C3AED"></div><div style="width:47%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#E05A4B"></div><div style="width:18%;background:#7C3AED"></div><div style="width:41%;background:#0D9488"></div><div style="width:5%;background:#D97706"></div><div style="width:7%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:74%;background:#0D9488"></div><div style="width:26%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:39%;background:#0D9488"></div><div style="width:15%;background:#0B1F3A"></div><div style="width:30%;background:#E05A4B"></div><div style="width:16%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:70%;background:#0D9488"></div><div style="width:30%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:15%;background:#D97706"></div><div style="width:41%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:4%;background:#7C3AED"></div><div style="width:23%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:34%;background:#E05A4B"></div><div style="width:53%;background:#0D9488"></div><div style="width:13%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:71%;background:#0D9488"></div><div style="width:29%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:56%;background:#0D9488"></div><div style="width:31%;background:#E05A4B"></div><div style="width:13%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:61%;background:#0D9488"></div><div style="width:5%;background:#7C3AED"></div><div style="width:34%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:62%;background:#0D9488"></div><div style="width:38%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:63%;background:#E05A4B"></div><div style="width:37%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:17%;background:#D97706"></div><div style="width:38%;background:#0D9488"></div><div style="width:20%;background:#0B1F3A"></div><div style="width:25%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:43%;background:#E05A4B"></div><div style="width:57%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:24%;background:#E05A4B"></div><div style="width:9%;background:#D97706"></div><div style="width:67%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:30%;background:#E05A4B"></div><div style="width:13%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:68%;background:#0D9488"></div><div style="width:32%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:9%;background:#7C3AED"></div><div style="width:13%;background:#D97706"></div><div style="width:47%;background:#0D9488"></div><div style="width:25%;background:#E05A4B"></div><div style="width:6%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:17%;background:#0B1F3A"></div><div style="width:49%;background:#0D9488"></div><div style="width:5%;background:#7C3AED"></div><div style="width:29%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:12%;background:#0B1F3A"></div><div style="width:39%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:62%;background:#0D9488"></div><div style="width:26%;background:#0B1F3A"></div><div style="width:12%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:82%;background:#0D9488"></div><div style="width:18%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:24%;background:#0B1F3A"></div><div style="width:59%;background:#0D9488"></div><div style="width:12%;background:#D97706"></div><div style="width:5%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#E05A4B"></div><div style="width:56%;background:#0D9488"></div><div style="width:7%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:52%;background:#0D9488"></div><div style="width:18%;background:#D97706"></div><div style="width:25%;background:#E05A4B"></div><div style="width:5%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:56%;background:#0D9488"></div><div style="width:15%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#0B1F3A"></div><div style="width:71%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:43%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:36%;background:#E05A4B"></div><div style="width:64%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#E05A4B"></div><div style="width:65%;background:#0D9488"></div><div style="width:9%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:32%;background:#E05A4B"></div><div style="width:18%;background:#0B1F3A"></div><div style="width:50%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:51%;background:#0D9488"></div><div style="width:11%;background:#D97706"></div><div style="width:38%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:11%;background:#D97706"></div><div style="width:24%;background:#E05A4B"></div><div style="width:7%;background:#0B1F3A"></div><div style="width:51%;background:#0D9488"></div><div style="width:7%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:54%;background:#0D9488"></div><div style="width:19%;background:#E05A4B"></div><div style="width:27%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:42%;background:#0D9488"></div><div style="width:12%;background:#0B1F3A"></div><div style="width:30%;background:#E05A4B"></div><div style="width:16%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:19%;background:#0B1F3A"></div><div style="width:62%;background:#0D9488"></div><div style="width:19%;background:#D97706"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:60%;background:#0D9488"></div><div style="width:11%;background:#7C3AED"></div><div style="width:29%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:18%;background:#D97706"></div><div style="width:16%;background:#7C3AED"></div><div style="width:66%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:43%;background:#0D9488"></div><div style="width:39%;background:#E05A4B"></div><div style="width:18%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:11%;background:#0B1F3A"></div><div style="width:13%;background:#7C3AED"></div><div style="width:30%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:54%;background:#0D9488"></div><div style="width:40%;background:#E05A4B"></div><div style="width:6%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:19%;background:#E05A4B"></div><div style="width:55%;background:#0D9488"></div><div style="width:6%;background:#D97706"></div><div style="width:14%;background:#0B1F3A"></div><div style="width:6%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:16%;background:#0B1F3A"></div><div style="width:52%;background:#0D9488"></div><div style="width:18%;background:#E05A4B"></div><div style="width:14%;background:#D97706"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:45%;background:#E05A4B"></div><div style="width:5%;background:#D97706"></div><div style="width:50%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:41%;background:#E05A4B"></div><div style="width:59%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#7C3AED"></div><div style="width:74%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:20%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:14%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:22%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div><div style="width:8%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#0D9488"></div><div style="width:25%;background:#0B1F3A"></div><div style="width:5%;background:#7C3AED"></div><div style="width:33%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:15%;background:#0B1F3A"></div><div style="width:12%;background:#7C3AED"></div><div style="width:31%;background:#E05A4B"></div><div style="width:42%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:63%;background:#0D9488"></div><div style="width:37%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:50%;background:#0D9488"></div><div style="width:9%;background:#7C3AED"></div><div style="width:17%;background:#D97706"></div><div style="width:24%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#E05A4B"></div><div style="width:44%;background:#0D9488"></div><div style="width:27%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:14%;background:#0B1F3A"></div><div style="width:73%;background:#0D9488"></div><div style="width:13%;background:#D97706"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:58%;background:#0D9488"></div><div style="width:23%;background:#0B1F3A"></div><div style="width:19%;background:#D97706"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:8%;background:#0B1F3A"></div><div style="width:39%;background:#E05A4B"></div><div style="width:53%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:33%;background:#0B1F3A"></div><div style="width:67%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:16%;background:#D97706"></div><div style="width:26%;background:#E05A4B"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:37%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:21%;background:#D97706"></div><div style="width:79%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:34%;background:#0B1F3A"></div><div style="width:19%;background:#7C3AED"></div><div style="width:47%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#E05A4B"></div><div style="width:18%;background:#7C3AED"></div><div style="width:41%;background:#0D9488"></div><div style="width:5%;background:#D97706"></div><div style="width:7%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:74%;background:#0D9488"></div><div style="width:26%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:39%;background:#0D9488"></div><div style="width:15%;background:#0B1F3A"></div><div style="width:30%;background:#E05A4B"></div><div style="width:16%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:70%;background:#0D9488"></div><div style="width:30%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:15%;background:#D97706"></div><div style="width:41%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:4%;background:#7C3AED"></div><div style="width:23%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:34%;background:#E05A4B"></div><div style="width:53%;background:#0D9488"></div><div style="width:13%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:71%;background:#0D9488"></div><div style="width:29%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:56%;background:#0D9488"></div><div style="width:31%;background:#E05A4B"></div><div style="width:13%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:61%;background:#0D9488"></div><div style="width:5%;background:#7C3AED"></div><div style="width:34%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:62%;background:#0D9488"></div><div style="width:38%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:63%;background:#E05A4B"></div><div style="width:37%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:17%;background:#D97706"></div><div style="width:38%;background:#0D9488"></div><div style="width:20%;background:#0B1F3A"></div><div style="width:25%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:43%;background:#E05A4B"></div><div style="width:57%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:24%;background:#E05A4B"></div><div style="width:9%;background:#D97706"></div><div style="width:67%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:30%;background:#E05A4B"></div><div style="width:13%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:68%;background:#0D9488"></div><div style="width:32%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:9%;background:#7C3AED"></div><div style="width:13%;background:#D97706"></div><div style="width:47%;background:#0D9488"></div><div style="width:25%;background:#E05A4B"></div><div style="width:6%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:17%;background:#0B1F3A"></div><div style="width:49%;background:#0D9488"></div><div style="width:5%;background:#7C3AED"></div><div style="width:29%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:12%;background:#0B1F3A"></div><div style="width:39%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:62%;background:#0D9488"></div><div style="width:26%;background:#0B1F3A"></div><div style="width:12%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:82%;background:#0D9488"></div><div style="width:18%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:24%;background:#0B1F3A"></div><div style="width:59%;background:#0D9488"></div><div style="width:12%;background:#D97706"></div><div style="width:5%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#E05A4B"></div><div style="width:56%;background:#0D9488"></div><div style="width:7%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:52%;background:#0D9488"></div><div style="width:18%;background:#D97706"></div><div style="width:25%;background:#E05A4B"></div><div style="width:5%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:56%;background:#0D9488"></div><div style="width:15%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#0B1F3A"></div><div style="width:71%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:43%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:36%;background:#E05A4B"></div><div style="width:64%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#E05A4B"></div><div style="width:65%;background:#0D9488"></div><div style="width:9%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:32%;background:#E05A4B"></div><div style="width:18%;background:#0B1F3A"></div><div style="width:50%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:51%;background:#0D9488"></div><div style="width:11%;background:#D97706"></div><div style="width:38%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:11%;background:#D97706"></div><div style="width:24%;background:#E05A4B"></div><div style="width:7%;background:#0B1F3A"></div><div style="width:51%;background:#0D9488"></div><div style="width:7%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:54%;background:#0D9488"></div><div style="width:19%;background:#E05A4B"></div><div style="width:27%;background:#0B1F3A"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:42%;background:#0D9488"></div><div style="width:12%;background:#0B1F3A"></div><div style="width:30%;background:#E05A4B"></div><div style="width:16%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:19%;background:#0B1F3A"></div><div style="width:62%;background:#0D9488"></div><div style="width:19%;background:#D97706"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:60%;background:#0D9488"></div><div style="width:11%;background:#7C3AED"></div><div style="width:29%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:18%;background:#D97706"></div><div style="width:16%;background:#7C3AED"></div><div style="width:66%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:43%;background:#0D9488"></div><div style="width:39%;background:#E05A4B"></div><div style="width:18%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:11%;background:#0B1F3A"></div><div style="width:13%;background:#7C3AED"></div><div style="width:30%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:54%;background:#0D9488"></div><div style="width:40%;background:#E05A4B"></div><div style="width:6%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:19%;background:#E05A4B"></div><div style="width:55%;background:#0D9488"></div><div style="width:6%;background:#D97706"></div><div style="width:14%;background:#0B1F3A"></div><div style="width:6%;background:#7C3AED"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:16%;background:#0B1F3A"></div><div style="width:52%;background:#0D9488"></div><div style="width:18%;background:#E05A4B"></div><div style="width:14%;background:#D97706"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:45%;background:#E05A4B"></div><div style="width:5%;background:#D97706"></div><div style="width:50%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:41%;background:#E05A4B"></div><div style="width:59%;background:#0D9488"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#7C3AED"></div><div style="width:74%;background:#E05A4B"></div></div>
-<div style="height:18px;display:flex;width:100%"><div style="width:20%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:14%;background:#7C3AED"></div></div>
-</div>
+<div id="admix-bg" style="display:flex;flex-direction:column;gap:5px;padding:0;animation:admix-scroll-v 24s linear infinite"></div>
 <!-- Dégradé gauche : fondu de navy vers transparent pour intégrer l'animation au fond -->
 <div style="position:absolute;inset:0;background:linear-gradient(to right,var(--navy) 0%,transparent 35%)"></div>
 <!-- Dégradés haut et bas : masquent les bords de l'animation pour un rendu propre -->
@@ -188,20 +69,20 @@
 </div>
 <!-- ═══════════════════════════════════════════════════════
      SLIDE 02 — SOMMAIRE
-     Table des matières cliquable. Chaque .toc-row appelle go(n)
-     pour naviguer directement à la slide d'intro de section.
-     ATTENTION : sections 02 et 03 pointent toutes deux go(10)
-     — à corriger quand les indices de slides seront stabilisés.
+     Table des matières cliquable. Chaque .toc-row porte un
+     attribut data-target-slide lu par app.js.
+     Les data-target-slide ci-dessous sont alignés sur les vraies
+     slides d'introduction de section (index 0-based).
      ═══════════════════════════════════════════════════════ -->
 <div class="slide" style="background:var(--cream)">
 <div class="inner">
 <h2 class="slide-title">Plan de la présentation</h2>
 <div class="slide-rule" style="background:var(--teal)"></div>
-<div class="toc-row" onclick="go(2)"><div class="toc-number" style="background:var(--s01)">01</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Angle Mort de la Médecine de Précision</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Pourquoi La Réunion est absente des bases génomiques mondiales</span></div></div>
-<div class="toc-row" onclick="go(10)"><div class="toc-number" style="background:var(--s02)">02</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">La Singularité Génétique Réunionnaise</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Admixture, effet fondateur et enjeux cliniques</span></div></div>
-<div class="toc-row" onclick="go(10)"><div class="toc-number" style="background:var(--s03)">03</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Le Design en Deux Temps</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">De la puce SNP au séquençage ciblé (WGS)</span></div></div>
-<div class="toc-row" onclick="go(13)"><div class="toc-number" style="background:var(--s04)">04</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Algorithme de Sélection</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span></div></div>
-<div class="toc-row" onclick="go(22)"><div class="toc-number" style="background:var(--s05)">05</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Ce que le WGS va Produire</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Le référentiel réunionnais au service des patients</span></div></div>
+<div class="toc-row js-slide-jump" data-target-slide="2"><div class="toc-number" style="background:var(--s01)">01</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Angle Mort de la Médecine de Précision</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Pourquoi La Réunion est absente des bases génomiques mondiales</span></div></div>
+<div class="toc-row js-slide-jump" data-target-slide="8"><div class="toc-number" style="background:var(--s02)">02</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">La Singularité Génétique Réunionnaise</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Admixture, effet fondateur et enjeux cliniques</span></div></div>
+<div class="toc-row js-slide-jump" data-target-slide="10"><div class="toc-number" style="background:var(--s03)">03</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Le Design en Deux Temps</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">De la puce SNP au séquençage ciblé (WGS)</span></div></div>
+<div class="toc-row js-slide-jump" data-target-slide="13"><div class="toc-number" style="background:var(--s04)">04</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Algorithme de Sélection</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span></div></div>
+<div class="toc-row js-slide-jump" data-target-slide="22"><div class="toc-number" style="background:var(--s05)">05</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Ce que le WGS va Produire</strong><br><span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Le référentiel réunionnais au service des patients</span></div></div>
 <div class="slide-footer"><span class="caption">Génome Réunion</span></div>
 </div>
 </div>
