@@ -460,6 +460,13 @@ html, body {
   padding: clamp(28px, 5vw, 72px) clamp(28px, 5vw, 64px);
 }
 
+/* Le texte des slides de section doit toujours rester au-dessus
+   des motifs décoratifs SVG placés en absolu dans la colonne droite. */
+.section-copy {
+  position: relative;
+  z-index: 1;
+}
+
 /* Grand numéro décoratif semi-transparent */
 .section-number {
   font-family: Georgia, serif;
