@@ -96,24 +96,24 @@ function initRadar(){
 }
 
 function animPipeline(){
-  document.querySelectorAll('#pipeFlow .pipe-box, #pipeFlow .pipe-arrow-el').forEach(el=>{
+  document.querySelectorAll('#pipeFlow .pipeline-box, #pipeFlow .pipeline-arrow').forEach(el=>{
     const delay=parseInt(el.dataset.delay||0)*130;
     setTimeout(()=>el.classList.add('shown'),delay);
   });
 }
 
 function animROH(){
-  const segs=document.querySelectorAll('#rohDiagram .chrom-seg');
+  const segs=document.querySelectorAll('#rohDiagram .chromosome-segment');
   segs.forEach((seg,i)=>{
     setTimeout(()=>{ seg.style.opacity='1'; seg.style.transition='opacity .5s ease'; },i*90+200);
   });
 }
 
 function resetPipeline(){
-  document.querySelectorAll('#pipeFlow .pipe-box, #pipeFlow .pipe-arrow-el').forEach(el=>el.classList.remove('shown'));
+  document.querySelectorAll('#pipeFlow .pipeline-box, #pipeFlow .pipeline-arrow').forEach(el=>el.classList.remove('shown'));
 }
 function resetROH(){
-  document.querySelectorAll('#rohDiagram .chrom-seg').forEach(seg=>{ seg.style.opacity='0'; seg.style.transition='none'; });
+  document.querySelectorAll('#rohDiagram .chromosome-segment').forEach(seg=>{ seg.style.opacity='0'; seg.style.transition='none'; });
 }
 
 function go(n){
