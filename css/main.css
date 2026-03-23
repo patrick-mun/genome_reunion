@@ -410,21 +410,49 @@ html, body {
    à var(--s05)) directement sur la div.slide.
    ============================================================ */
 .section-slide {
+  position: relative;
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 1.6fr; /* Numéro = plus étroit que le texte */
+  grid-template-columns: .92fr 1.48fr; /* Réduit le vide à droite, laisse plus de place au texte */
+  overflow: hidden;
+}
+
+/* Voiles décoratifs discrets pour casser l'aplat plein :
+   halo radial en haut à gauche + assombrissement diagonal léger. */
+.section-slide::before,
+.section-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.section-slide::before {
+  background:
+    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, .14) 0%, rgba(255, 255, 255, 0) 28%),
+    radial-gradient(circle at 78% 70%, rgba(11, 31, 58, .14) 0%, rgba(11, 31, 58, 0) 34%);
+  opacity: .9;
+}
+
+.section-slide::after {
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, .06) 0%, rgba(255, 255, 255, 0) 24%, rgba(11, 31, 58, .10) 100%);
 }
 
 .section-slide-left {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid rgba(255, 255, 255, .15);
+  border-right: 1px solid rgba(255, 255, 255, .12);
   padding: 40px;
 }
 
 .section-slide-right {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -434,36 +462,56 @@ html, body {
 /* Grand numéro décoratif semi-transparent */
 .section-number {
   font-family: Georgia, serif;
-  font-size: clamp(120px, 18vw, 240px);
+  font-size: clamp(180px, 26vw, 380px);
   font-weight: 700;
-  color: rgba(255, 255, 255, .2);
-  line-height: .9;
-  letter-spacing: -4px;
+  color: rgba(255, 255, 255, .19);
+  line-height: .85;
+  letter-spacing: -10px;
+  text-shadow: 0 12px 30px rgba(255, 255, 255, .05);
 }
 
 .section-tag {
   font-size: clamp(11px, 1.1vw, 13px);
   font-weight: 700;
-  letter-spacing: 2.5px;
+  letter-spacing: 3.2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .5);
-  margin-bottom: 16px;
+  color: rgba(255, 255, 255, .58);
+  margin-bottom: 18px;
 }
 
 .section-title {
   font-family: Georgia, serif;
-  font-size: clamp(24px, 3.8vw, 52px);
+  font-size: clamp(30px, 4.6vw, 64px);
   font-weight: 700;
   color: var(--white);
-  line-height: 1.08;
-  margin-bottom: 18px;
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  margin-bottom: 20px;
+  max-width: 13ch;
 }
 
 .section-subtitle {
-  font-size: clamp(14px, 1.4vw, 18px);
-  color: rgba(255, 255, 255, .72);
-  line-height: 1.65;
+  font-size: clamp(14px, 1.45vw, 19px);
+  color: rgba(255, 255, 255, .82);
+  line-height: 1.62;
   font-style: italic;
+  max-width: 50ch;
+}
+
+/* Motif expérimental pour la section 01 :
+   une cartographie de points lacunaire qui suggère un espace
+   de données incomplet sans recourir à une image bitmap. */
+.section-graphic {
+  position: absolute;
+  inset: 0 0 0 50%;
+  pointer-events: none;
+  opacity: .72;
+}
+
+.section-graphic svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 
