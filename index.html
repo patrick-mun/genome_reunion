@@ -102,47 +102,58 @@
 </div>
 <!-- ═══════════════════════════════════════════════════════
      SLIDE 04 — BIAIS STRUCTUREL MONDIAL
-     Graphique donut Chart.js (#donutChart) initialisé par
-     initDonutChart() dans app.js à l'arrivée sur cette slide.
-     Données : 81% européen · 19% autres · ≈0% Réunion.
+     Tableau comparatif de trois ressources souvent confondues :
+     GWAS (biais de recrutement), gnomAD/ExAC (fréquences de variants)
+     et panels de diversité (1000 Genomes / H3Africa).
+     Objectif : montrer qu'aucune ne constitue une référence dédiée
+     pour la population réunionnaise.
      ═══════════════════════════════════════════════════════ -->
 <div class="slide" data-slide="4" style="background:var(--cream)">
 <div class="inner">
-<h2 class="slide-title">Un biais structurel mondial</h2>
+<h2 class="slide-title">Un biais structurel documenté</h2>
 <div class="slide-rule" style="background:var(--coral)"></div>
-<div class="grid-2" style="align-items:center;gap:28px">
-<div style="display:flex;flex-direction:column;align-items:center">
-<div style="position:relative;width:min(260px,38vw);height:min(260px,38vw)">
-<canvas id="donutChart"></canvas>
-<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none">
-<span id="donut-center-val" style="font-family:Georgia,serif;font-size:clamp(24px,3.5vw,40px);font-weight:700;color:var(--navy)">81%</span>
-<span style="font-size:clamp(14px,1.6vw,22px);color:var(--muted)">Européenne</span>
-</div>
-</div>
-</div>
-<div style="display:flex;flex-direction:column;gap:clamp(10px,1.6vh,20px)">
-<div style="display:flex;align-items:center;gap:clamp(12px,1.8vh,24px);padding:clamp(12px,1.8vh,28px) 16px;background:white;border-radius:8px;border:2px solid var(--border)">
-<div style="width:20px;height:20px;background:var(--navy);border-radius:4px;flex-shrink:0"></div>
-<span style="font-size:clamp(26px,2.8vw,40px);font-weight:700;color:var(--navy);min-width:52px">81%</span>
-<span class="text-body">Ascendance Européenne</span>
-</div>
-<div style="display:flex;align-items:center;gap:clamp(12px,1.8vh,24px);padding:clamp(12px,1.8vh,28px) 16px;background:white;border-radius:8px;border:2px solid var(--border)">
-<div style="width:20px;height:20px;background:#9CA3AF;border-radius:4px;flex-shrink:0"></div>
-<span style="font-size:clamp(26px,2.8vw,40px);font-weight:700;color:var(--gray);min-width:52px">19%</span>
-<span class="text-body">Données insuffisantes / Autres</span>
-</div>
-<div style="display:flex;align-items:center;gap:clamp(12px,1.8vh,24px);padding:clamp(14px,2.2vh,34px) 16px;background:#FEF2F0;border-radius:8px;border:2px solid var(--coral)">
-<div style="width:20px;height:20px;background:var(--coral);border-radius:4px;flex-shrink:0"></div>
-<span style="font-size:clamp(24px,2.6vw,38px);font-weight:700;color:var(--coral);min-width:52px">≈0%</span>
-<span style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--coral)">Population Réunionnaise : ABSENTE</span>
-</div>
-</div>
-</div>
+<p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(10px,1.8vh,20px)">Le problème n'est pas une seule base, mais l'addition de plusieurs ressources incomplètes. Elles documentent mieux certaines populations que d'autres, sans jamais isoler un profil réunionnais propre.</p>
+<table style="margin-bottom:clamp(10px,1.8vh,20px)">
+<tr>
+<th style="width:24%">Ressource</th>
+<th style="width:22%">Constat clé</th>
+<th style="width:22%">Ce que cela couvre</th>
+<th>Limite pour La Réunion</th>
+</tr>
+<tr>
+<td><strong>1. GWAS</strong><br><span style="font-size:clamp(12px,1.2vw,14px);color:var(--light)">Cohortes d'association</span></td>
+<td style="font-weight:700;color:var(--coral)">Participants majoritairement européens</td>
+<td>Découverte de variants associés et scores polygéniques</td>
+<td>Les performances chutent dans les populations sous-représentées et admixées ; un signal réunionnais peut rester invisible ou mal calibré.</td>
+</tr>
+<tr>
+<td><strong>2. gnomAD / ExAC</strong><br><span style="font-size:clamp(12px,1.2vw,14px);color:var(--light)">Fréquences de variants</span></td>
+<td style="font-weight:700;color:var(--amber)">Diversification en progrès, mais couverture incomplète</td>
+<td>Fréquence populationnelle, filtrage de variants, aide à l'interprétation</td>
+<td>Une fréquence "rare" au niveau global peut être fréquente localement ; les profils réunionnais restent dilués dans des catégories trop larges.</td>
+</tr>
+<tr>
+<td><strong>3. 1000 Genomes / H3Africa</strong><br><span style="font-size:clamp(12px,1.2vw,14px);color:var(--light)">Panels de diversité</span></td>
+<td style="font-weight:700;color:var(--teal)">Diversité mieux représentée que dans les GWAS historiques</td>
+<td>Structure génétique, haplotypes, comparaison entre populations</td>
+<td>Aucun sous-groupe ne reproduit l'admixture et la structuration locale réunionnaises ; ce ne sont pas des panels de référence réunionnais.</td>
+</tr>
+</table>
 <div style="background:#FEF2F0;border:1px solid #FECACA;border-radius:6px;padding:clamp(12px,1.8vh,28px) 16px;margin-top:clamp(10px,1.8vh,20px)">
-<span style="font-weight:700;color:var(--coral)">Conséquences : </span>
-<span class="text-body">Les outils d'imputation et les scores PRS perdent leur fiabilité sur les populations métissées. Les variants réunionnais sont classés par défaut comme VUS.</span>
+<span style="font-weight:700;color:var(--coral)">Conclusion : </span>
+<span class="text-body">La population réunionnaise n'est pas absente de toute littérature, mais absente comme <strong>référence dédiée</strong>. C'est cette absence qui fragilise l'imputation, l'interprétation des variants et les scores de risque.</span>
 </div>
-<div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">4</span></div>
+<div class="slide-footer slide-footer-citations">
+<div class="slide-footer-meta">
+<span class="caption">Génome Réunion</span>
+<div class="slide-footer-sources">
+<span class="slide-footer-source">1. Martin et al., 2017; Peterson et al., 2019; Fatumo et al., 2022</span>
+<span class="slide-footer-source">2. Lek et al., 2016; Karczewski et al., 2020; Gudmundsson et al., 2022</span>
+<span class="slide-footer-source">3. 1000 Genomes Project Consortium, 2010; H3Africa Consortium, 2014</span>
+</div>
+</div>
+<span class="caption">4</span>
+</div>
 </div>
 </div>
 <!-- ═══════════════════════════════════════════════════════

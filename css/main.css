@@ -464,8 +464,53 @@ html, body {
   border-top: 1px solid var(--border);
 }
 
+/* Bloc gauche du footer quand une slide affiche des citations courtes.
+   Les références restent volontairement compactes pour ne pas surcharger
+   la slide, mais chaque ligne peut être reliée à une ligne de tableau. */
+.slide-footer-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: min(80%, 980px);
+}
+
+.slide-footer-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.slide-footer-source {
+  font-size: clamp(9px, 1vw, 11px);
+  line-height: 1.45;
+  color: var(--light);
+}
+
+/* Variante plus aérée pour les slides qui portent plusieurs citations
+   en pied de page. On augmente l'espace avant le footer et on sépare
+   nettement le libellé du projet de la liste des sources. */
+.slide-footer-citations {
+  margin-top: clamp(16px, 2.8vh, 30px);
+  padding-top: clamp(10px, 1.6vh, 18px);
+  align-items: flex-end;
+}
+
+.slide-footer-citations .slide-footer-meta {
+  gap: 8px;
+}
+
+.slide-footer-citations .slide-footer-sources {
+  gap: 4px;
+}
+
+.slide-footer-citations .slide-footer-source {
+  font-size: clamp(9.5px, 1.02vw, 11.5px);
+  line-height: 1.55;
+}
+
 /* ── Table des matières (slide 2) ───────────────────────────
-   Chaque entrée du sommaire est cliquable (onclick="go(n)").
+   Chaque entrée du sommaire est cliquable via .js-slide-jump
+   et un attribut data-target-slide lu par app.js.
    L'indentation au hover donne un retour visuel d'interactivité. */
 .toc-row {
   display: flex;

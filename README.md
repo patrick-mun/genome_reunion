@@ -17,7 +17,7 @@ genome-reunion/
 │                       # (13 sections commentées — voir entête du fichier)
 ├── js/
 │   └── app.js          # Navigation, graphiques Chart.js, animations SVG
-│                       # (goToSlide, initDonutChart, initScoreChart, initRadarChart,
+│                       # (goToSlide, initScoreChart, initRadarChart,
 │                       #  animatePipeline, animateROH et gestion clavier/swipe)
 └── data/
     └── admixture.js    # Données de l'animation admixture (slide 1)

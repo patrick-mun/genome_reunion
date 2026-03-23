@@ -28,7 +28,6 @@ let currentSlide = 0;
 
 // ── Instances Chart.js (null = pas encore initialisé) ─────────
 
-let donutChartInstance = null;
 let scoreChartInstance = null;
 let radarChartInstance = null;
 
@@ -61,7 +60,6 @@ function goToSlide(targetIndex) {
   });
 
   // Animations déclenchées à l'arrivée sur certaines slides
-  if (currentSlide === 3)  { setTimeout(initDonutChart,  200); }
   if (currentSlide === 11) { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
   if (currentSlide === 16) { setTimeout(initScoreChart,  200); }
   if (currentSlide === 19) { resetROHAnimation(); setTimeout(animateROH, 300); }
@@ -115,44 +113,6 @@ document.addEventListener('touchend', function(event) {
 // ══════════════════════════════════════════════════════════════
 //   GRAPHIQUES CHART.JS
 // ══════════════════════════════════════════════════════════════
-
-/**
- * Slide 4 — Donut : biais structurel mondial des données génomiques
- */
-function initDonutChart() {
-  const canvas = document.getElementById('donutChart');
-  if (!canvas || donutChartInstance) return;
-
-  donutChartInstance = new Chart(canvas, {
-    type: 'doughnut',
-    data: {
-      labels: ['Ascendance Européenne', 'Données insuffisantes', 'Réunion (absente)'],
-      datasets: [{
-        data: [81, 19, 0.4],
-        backgroundColor: ['#0B1F3A', '#9CA3AF', '#E05A4B'],
-        borderWidth: 0,
-        hoverOffset: 8
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      cutout: '62%',
-      animation: { animateRotate: true, duration: 900, easing: 'easeInOutQuart' },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              const value = context.parsed;
-              return ` ${context.label} : ${value === 0.4 ? '≈0' : value}%`;
-            }
-          }
-        }
-      }
-    }
-  });
-}
 
 /**
  * Slide 17 — Barres horizontales : poids de chaque composante du score S_div
