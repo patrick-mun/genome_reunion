@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Génome Réunion</title>
-
+ 
   <!-- ── Styles ── -->
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/charts.css">
-
+ 
   <!-- ── Dépendance externe : Chart.js ── -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
 <body>
-
+ 
 <!-- ════════════════════════════════════════════
      NAVIGATION
      ════════════════════════════════════════════ -->
@@ -30,24 +30,24 @@
     <button class="sec-pill"     onclick="go(22)">05 · WGS</button>
   </div>
   <div id="nav-right">
-    <button class="nbtn" id="bp" onclick="go(current-1)">← Préc.</button>
+    <button class="nbtn" id="bp" onclick="go(current-1)" disabled>← Préc.</button>
     <span id="ctr">1 / 25</span>
     <button class="nbtn" id="bn" onclick="go(current+1)">Suiv. →</button>
   </div>
 </nav>
-
+ 
 <!-- ── Barre de progression ── -->
 <div id="prog"><div id="pf" style="width:4%"></div></div>
-
+ 
 <!-- ════════════════════════════════════════════
      DECK DE SLIDES
      ════════════════════════════════════════════ -->
 <div id="deck">
-
+ 
 <!-- 01 TITRE -->
 <div class="slide" style="background:var(--navy);overflow:hidden;justify-content:flex-start">
   <div class="tabar"></div>
-
+ 
   <!-- Admixture background : zone droite, subtile, scroll vertical lent -->
   <div style="position:absolute;right:0;top:0;bottom:0;width:50%;overflow:hidden;opacity:.32;pointer-events:none;display:flex;flex-direction:column" aria-hidden="true">
     <div id="admix-bg" style="display:flex;flex-direction:column;gap:5px;padding:0;animation:admix-scroll-v 24s linear infinite">
@@ -178,7 +178,7 @@
     <!-- Dégradé de masque haut/bas -->
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom,var(--navy) 0%,transparent 8%,transparent 92%,var(--navy) 100%)"></div>
   </div>
-
+ 
   <!-- Légende composantes ancestrales : petite, discrète, coin bas droit -->
   <div style="position:absolute;bottom:20px;right:20px;display:flex;gap:clamp(10px,1.6vh,20px);opacity:.65;z-index:2" aria-hidden="true">
     <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:12px;height:12px;background:#0D9488;border-radius:2px"></div>Afrique/Malgache</div>
@@ -187,7 +187,7 @@
     <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#D97706;border-radius:2px"></div>Zarabe/Gujarati</div>
     <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#7C3AED;border-radius:2px"></div>Chinois</div>
   </div>
-
+ 
   <!-- Contenu principal -->
   <div class="t1" style="position:relative;z-index:2">
     <div>
@@ -196,7 +196,7 @@
       <p style="font-size:clamp(16px,1.8vw,26px);color:#94A3B8;line-height:1.7">De la puce SNP au séquençage complet (WGS) :<br>une sélection mathématique pour l'équité en santé.</p>
       <p style="font-size:clamp(15px,1.7vw,24px);color:#4A6080;margin-top:clamp(10px,1.8vh,20px);font-style:italic">Pour un public mixte : cliniciens · scientifiques · décideurs</p>
     </div>
-
+ 
   </div>
 </div>
  
@@ -314,7 +314,7 @@
     <h2 class="stitle">Garbage In, Garbage Out.</h2>
     <div class="srule" style="background:var(--coral)"></div>
     <div class="g2" style="align-items:center;gap:clamp(20px,3vw,48px)">
-
+ 
       <!-- Gauche : texte accroche + chiffres clés -->
       <div style="display:flex;flex-direction:column;gap:clamp(14px,2vh,28px)">
         <p class="body" style="font-size:clamp(17px,1.9vw,28px);font-style:italic;line-height:1.65;color:var(--muted)">
@@ -333,7 +333,7 @@
           <span style="font-size:clamp(15px,1.7vw,24px);font-weight:700;color:var(--coral)">de représentation pour La Réunion</span>
         </div>
       </div>
-
+ 
       <!-- Droite : encadré conséquence -->
       <div style="display:flex;flex-direction:column;gap:clamp(12px,1.8vh,24px)">
         <div style="background:white;border-radius:10px;border:2px solid var(--border);padding:clamp(16px,2.5vh,36px) clamp(16px,2vw,28px)">
@@ -345,7 +345,7 @@
           <span class="body">les médicaments et biomarqueurs de demain seront structurellement moins efficaces pour les patients réunionnais.</span>
         </div>
       </div>
-
+ 
     </div>
     <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">7</span></div>
   </div>
@@ -474,7 +474,7 @@
     <h2 class="stitle">Trois niveaux d'analyse à ne pas confondre</h2>
     <div class="srule" style="background:var(--purple)"></div>
     <div class="g3">
-
+ 
       <!-- CARD 1 : PCA -->
       <div class="lvc">
         <div class="lvh" style="background:var(--teal)">1. Exploration — PCA</div>
@@ -523,7 +523,7 @@
           <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ Ne fixe pas K — elle cadre les sources.</p>
         </div>
       </div>
-
+ 
       <!-- CARD 2 : ADMIXTURE -->
       <div class="lvc">
         <div class="lvh" style="background:var(--purple)">2. Modélisation — ADMIXTURE</div>
@@ -576,7 +576,7 @@
           <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ K est global, pas individuel.</p>
         </div>
       </div>
-
+ 
       <!-- CARD 3 : LOCAL ANCESTRY -->
       <div class="lvc">
         <div class="lvh" style="background:var(--coral)">3. Résolution — Local ancestry</div>
@@ -619,12 +619,12 @@
           <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ Segment ambigu ≠ nouvelle ascendance.</p>
         </div>
       </div>
-
+ 
     </div>
     <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">13</span></div>
   </div>
 </div>
-
+ 
 <!-- 14 SEC 04 -->
 <div class="slide" style="background:var(--s04)">
   <div class="secslide">
@@ -878,15 +878,13 @@
 </div>
  
 </div><!-- end deck -->
-
-</div><!-- end deck -->
-
+ 
 <div id="hint">← → clavier · swipe mobile</div>
-
+ 
 <!-- ── Scripts ── -->
 <script src="data/admixture.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/navigation.js"></script>
-
+ 
 </body>
 </html>
