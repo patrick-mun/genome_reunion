@@ -1,17 +1,19 @@
 /* ============================================================
-   ADMIXTURE.JS — Données de l'animation admixture (slide 1)
-   Composition démographique réunionnaise réelle :
-     ~45% Afrique/Malgache  → var(--adm-afro-malg) #0D9488
-     ~25% Inde du Sud       → var(--adm-inde)       #E05A4B
-     ~15% Européen          → var(--adm-euro)        #0B1F3A
-     ~8%  Zarabe/Gujarati   → var(--adm-zarabe)      #D97706
-     ~7%  Chinois           → var(--adm-chinois)     #7C3AED
-
-   Structure : 60 lignes uniques + copie exacte = loop seamless
-   L'animation CSS translateY(-50%) reboucle sans saut visible.
+   ADMIXTURE.JS — Animation slide 1
+   Composition démographique réunionnaise :
+     ~45% Afrique/Malgache  #0D9488
+     ~25% Inde du Sud       #E05A4B
+     ~15% Européen          #0B1F3A
+     ~8%  Zarabe/Gujarati   #D97706
+     ~7%  Chinois           #7C3AED
+   60 lignes uniques dupliquées → loop seamless translateY(-50%)
    ============================================================ */
 
-const ADMIX_ROWS = `
+(function() {
+  function init() {
+    var container = document.getElementById('admix-bg');
+    if (!container) return;
+    var rows = `
 <div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:22%;background:#E05A4B"></div></div>
 <div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div><div style="width:8%;background:#7C3AED"></div></div>
 <div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#0D9488"></div><div style="width:25%;background:#0B1F3A"></div><div style="width:5%;background:#7C3AED"></div><div style="width:33%;background:#E05A4B"></div></div>
@@ -73,17 +75,11 @@ const ADMIX_ROWS = `
 <div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#7C3AED"></div><div style="width:74%;background:#E05A4B"></div></div>
 <div style="height:18px;display:flex;width:100%"><div style="width:20%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:14%;background:#7C3AED"></div></div>
 `.trim();
-
-/**
- * Injecte les lignes admixture dans le conteneur #admix-bg.
- * Le contenu est doublé pour assurer un loop CSS seamless.
- */
-function initAdmixture() {
-  const container = document.getElementById('admix-bg');
-  if (!container) return;
-  // Double le contenu : 60 lignes + copie exacte = translateY(-50%) seamless
-  container.innerHTML = ADMIX_ROWS + '\n' + ADMIX_ROWS;
-}
-
-// Exécution immédiate au chargement
-document.addEventListener('DOMContentLoaded', initAdmixture);
+    container.innerHTML = rows + '\n' + rows;
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
