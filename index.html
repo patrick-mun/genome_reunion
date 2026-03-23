@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Génome Réunion</title>
+
+  <!-- ── Styles ── -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/charts.css">
+
+  <!-- ── Dépendance externe : Chart.js ── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     NAVIGATION
+     ════════════════════════════════════════════ -->
+<nav id="nav">
+  <span id="nav-logo">Génome Réunion</span>
+  <div id="nav-center">
+    <button class="sec-pill on"  onclick="go(0)">Accueil</button>
+    <button class="sec-pill"     onclick="go(2)">01 · Angle mort</button>
+    <button class="sec-pill"     onclick="go(8)">02 · Singularité</button>
+    <button class="sec-pill"     onclick="go(11)">03 · Design</button>
+    <button class="sec-pill"     onclick="go(13)">04 · Algorithme</button>
+    <button class="sec-pill"     onclick="go(22)">05 · WGS</button>
+  </div>
+  <div id="nav-right">
+    <button class="nbtn" id="bp" onclick="go(current-1)">← Préc.</button>
+    <span id="ctr">1 / 25</span>
+    <button class="nbtn" id="bn" onclick="go(current+1)">Suiv. →</button>
+  </div>
+</nav>
+
+<!-- ── Barre de progression ── -->
+<div id="prog"><div id="pf" style="width:4%"></div></div>
+
+<!-- ════════════════════════════════════════════
+     DECK DE SLIDES
+     ════════════════════════════════════════════ -->
+<div id="deck">
+
+<!-- 01 TITRE -->
+<div class="slide" style="background:var(--navy);overflow:hidden;justify-content:flex-start">
+  <div class="tabar"></div>
+
+  <!-- Admixture background : zone droite, subtile, scroll vertical lent -->
+  <div style="position:absolute;right:0;top:0;bottom:0;width:50%;overflow:hidden;opacity:.32;pointer-events:none;display:flex;flex-direction:column" aria-hidden="true">
+    <div id="admix-bg" style="display:flex;flex-direction:column;gap:5px;padding:0;animation:admix-scroll-v 24s linear infinite">
+    <!-- Lignes injectées dynamiquement par data/admixture.js -->
+    </div><div style="width:21%;background:#0B1F3A"></div><div style="width:22%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div><div style="width:8%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#0D9488"></div><div style="width:25%;background:#0B1F3A"></div><div style="width:5%;background:#7C3AED"></div><div style="width:33%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:15%;background:#0B1F3A"></div><div style="width:12%;background:#7C3AED"></div><div style="width:31%;background:#E05A4B"></div><div style="width:42%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:63%;background:#0D9488"></div><div style="width:37%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:50%;background:#0D9488"></div><div style="width:9%;background:#7C3AED"></div><div style="width:17%;background:#D97706"></div><div style="width:24%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#E05A4B"></div><div style="width:44%;background:#0D9488"></div><div style="width:27%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:14%;background:#0B1F3A"></div><div style="width:73%;background:#0D9488"></div><div style="width:13%;background:#D97706"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:58%;background:#0D9488"></div><div style="width:23%;background:#0B1F3A"></div><div style="width:19%;background:#D97706"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:8%;background:#0B1F3A"></div><div style="width:39%;background:#E05A4B"></div><div style="width:53%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:33%;background:#0B1F3A"></div><div style="width:67%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:16%;background:#D97706"></div><div style="width:26%;background:#E05A4B"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:37%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:21%;background:#D97706"></div><div style="width:79%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:34%;background:#0B1F3A"></div><div style="width:19%;background:#7C3AED"></div><div style="width:47%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#E05A4B"></div><div style="width:18%;background:#7C3AED"></div><div style="width:41%;background:#0D9488"></div><div style="width:5%;background:#D97706"></div><div style="width:7%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:74%;background:#0D9488"></div><div style="width:26%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:39%;background:#0D9488"></div><div style="width:15%;background:#0B1F3A"></div><div style="width:30%;background:#E05A4B"></div><div style="width:16%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:70%;background:#0D9488"></div><div style="width:30%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:15%;background:#D97706"></div><div style="width:41%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:4%;background:#7C3AED"></div><div style="width:23%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:34%;background:#E05A4B"></div><div style="width:53%;background:#0D9488"></div><div style="width:13%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:71%;background:#0D9488"></div><div style="width:29%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:56%;background:#0D9488"></div><div style="width:31%;background:#E05A4B"></div><div style="width:13%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:61%;background:#0D9488"></div><div style="width:5%;background:#7C3AED"></div><div style="width:34%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:62%;background:#0D9488"></div><div style="width:38%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:63%;background:#E05A4B"></div><div style="width:37%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:17%;background:#D97706"></div><div style="width:38%;background:#0D9488"></div><div style="width:20%;background:#0B1F3A"></div><div style="width:25%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:43%;background:#E05A4B"></div><div style="width:57%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:24%;background:#E05A4B"></div><div style="width:9%;background:#D97706"></div><div style="width:67%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:30%;background:#E05A4B"></div><div style="width:13%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:68%;background:#0D9488"></div><div style="width:32%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:9%;background:#7C3AED"></div><div style="width:13%;background:#D97706"></div><div style="width:47%;background:#0D9488"></div><div style="width:25%;background:#E05A4B"></div><div style="width:6%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:17%;background:#0B1F3A"></div><div style="width:49%;background:#0D9488"></div><div style="width:5%;background:#7C3AED"></div><div style="width:29%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:12%;background:#0B1F3A"></div><div style="width:39%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:62%;background:#0D9488"></div><div style="width:26%;background:#0B1F3A"></div><div style="width:12%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:82%;background:#0D9488"></div><div style="width:18%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:24%;background:#0B1F3A"></div><div style="width:59%;background:#0D9488"></div><div style="width:12%;background:#D97706"></div><div style="width:5%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#E05A4B"></div><div style="width:56%;background:#0D9488"></div><div style="width:7%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:52%;background:#0D9488"></div><div style="width:18%;background:#D97706"></div><div style="width:25%;background:#E05A4B"></div><div style="width:5%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:56%;background:#0D9488"></div><div style="width:15%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#0B1F3A"></div><div style="width:71%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:43%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:36%;background:#E05A4B"></div><div style="width:64%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#E05A4B"></div><div style="width:65%;background:#0D9488"></div><div style="width:9%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:32%;background:#E05A4B"></div><div style="width:18%;background:#0B1F3A"></div><div style="width:50%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:51%;background:#0D9488"></div><div style="width:11%;background:#D97706"></div><div style="width:38%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:11%;background:#D97706"></div><div style="width:24%;background:#E05A4B"></div><div style="width:7%;background:#0B1F3A"></div><div style="width:51%;background:#0D9488"></div><div style="width:7%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:54%;background:#0D9488"></div><div style="width:19%;background:#E05A4B"></div><div style="width:27%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:42%;background:#0D9488"></div><div style="width:12%;background:#0B1F3A"></div><div style="width:30%;background:#E05A4B"></div><div style="width:16%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:19%;background:#0B1F3A"></div><div style="width:62%;background:#0D9488"></div><div style="width:19%;background:#D97706"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:60%;background:#0D9488"></div><div style="width:11%;background:#7C3AED"></div><div style="width:29%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:18%;background:#D97706"></div><div style="width:16%;background:#7C3AED"></div><div style="width:66%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:43%;background:#0D9488"></div><div style="width:39%;background:#E05A4B"></div><div style="width:18%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:11%;background:#0B1F3A"></div><div style="width:13%;background:#7C3AED"></div><div style="width:30%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:54%;background:#0D9488"></div><div style="width:40%;background:#E05A4B"></div><div style="width:6%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:19%;background:#E05A4B"></div><div style="width:55%;background:#0D9488"></div><div style="width:6%;background:#D97706"></div><div style="width:14%;background:#0B1F3A"></div><div style="width:6%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:16%;background:#0B1F3A"></div><div style="width:52%;background:#0D9488"></div><div style="width:18%;background:#E05A4B"></div><div style="width:14%;background:#D97706"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:45%;background:#E05A4B"></div><div style="width:5%;background:#D97706"></div><div style="width:50%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:41%;background:#E05A4B"></div><div style="width:59%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#7C3AED"></div><div style="width:74%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:20%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:14%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:22%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div><div style="width:8%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#0D9488"></div><div style="width:25%;background:#0B1F3A"></div><div style="width:5%;background:#7C3AED"></div><div style="width:33%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:15%;background:#0B1F3A"></div><div style="width:12%;background:#7C3AED"></div><div style="width:31%;background:#E05A4B"></div><div style="width:42%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:63%;background:#0D9488"></div><div style="width:37%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:50%;background:#0D9488"></div><div style="width:9%;background:#7C3AED"></div><div style="width:17%;background:#D97706"></div><div style="width:24%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#E05A4B"></div><div style="width:44%;background:#0D9488"></div><div style="width:27%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:14%;background:#0B1F3A"></div><div style="width:73%;background:#0D9488"></div><div style="width:13%;background:#D97706"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:58%;background:#0D9488"></div><div style="width:23%;background:#0B1F3A"></div><div style="width:19%;background:#D97706"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:8%;background:#0B1F3A"></div><div style="width:39%;background:#E05A4B"></div><div style="width:53%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:33%;background:#0B1F3A"></div><div style="width:67%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:16%;background:#D97706"></div><div style="width:26%;background:#E05A4B"></div><div style="width:21%;background:#0B1F3A"></div><div style="width:37%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:21%;background:#D97706"></div><div style="width:79%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:34%;background:#0B1F3A"></div><div style="width:19%;background:#7C3AED"></div><div style="width:47%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#E05A4B"></div><div style="width:18%;background:#7C3AED"></div><div style="width:41%;background:#0D9488"></div><div style="width:5%;background:#D97706"></div><div style="width:7%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:74%;background:#0D9488"></div><div style="width:26%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:39%;background:#0D9488"></div><div style="width:15%;background:#0B1F3A"></div><div style="width:30%;background:#E05A4B"></div><div style="width:16%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:70%;background:#0D9488"></div><div style="width:30%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:15%;background:#D97706"></div><div style="width:41%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:4%;background:#7C3AED"></div><div style="width:23%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:34%;background:#E05A4B"></div><div style="width:53%;background:#0D9488"></div><div style="width:13%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:71%;background:#0D9488"></div><div style="width:29%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:56%;background:#0D9488"></div><div style="width:31%;background:#E05A4B"></div><div style="width:13%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:61%;background:#0D9488"></div><div style="width:5%;background:#7C3AED"></div><div style="width:34%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:62%;background:#0D9488"></div><div style="width:38%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:63%;background:#E05A4B"></div><div style="width:37%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:17%;background:#D97706"></div><div style="width:38%;background:#0D9488"></div><div style="width:20%;background:#0B1F3A"></div><div style="width:25%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:43%;background:#E05A4B"></div><div style="width:57%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:24%;background:#E05A4B"></div><div style="width:9%;background:#D97706"></div><div style="width:67%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:30%;background:#E05A4B"></div><div style="width:13%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:68%;background:#0D9488"></div><div style="width:32%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:9%;background:#7C3AED"></div><div style="width:13%;background:#D97706"></div><div style="width:47%;background:#0D9488"></div><div style="width:25%;background:#E05A4B"></div><div style="width:6%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:17%;background:#0B1F3A"></div><div style="width:49%;background:#0D9488"></div><div style="width:5%;background:#7C3AED"></div><div style="width:29%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:12%;background:#0B1F3A"></div><div style="width:39%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:62%;background:#0D9488"></div><div style="width:26%;background:#0B1F3A"></div><div style="width:12%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:82%;background:#0D9488"></div><div style="width:18%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:24%;background:#0B1F3A"></div><div style="width:59%;background:#0D9488"></div><div style="width:12%;background:#D97706"></div><div style="width:5%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:37%;background:#E05A4B"></div><div style="width:56%;background:#0D9488"></div><div style="width:7%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:52%;background:#0D9488"></div><div style="width:18%;background:#D97706"></div><div style="width:25%;background:#E05A4B"></div><div style="width:5%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:56%;background:#0D9488"></div><div style="width:15%;background:#0B1F3A"></div><div style="width:29%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:29%;background:#0B1F3A"></div><div style="width:71%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:57%;background:#0D9488"></div><div style="width:43%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:36%;background:#E05A4B"></div><div style="width:64%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#E05A4B"></div><div style="width:65%;background:#0D9488"></div><div style="width:9%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:32%;background:#E05A4B"></div><div style="width:18%;background:#0B1F3A"></div><div style="width:50%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:51%;background:#0D9488"></div><div style="width:11%;background:#D97706"></div><div style="width:38%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:11%;background:#D97706"></div><div style="width:24%;background:#E05A4B"></div><div style="width:7%;background:#0B1F3A"></div><div style="width:51%;background:#0D9488"></div><div style="width:7%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:54%;background:#0D9488"></div><div style="width:19%;background:#E05A4B"></div><div style="width:27%;background:#0B1F3A"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:42%;background:#0D9488"></div><div style="width:12%;background:#0B1F3A"></div><div style="width:30%;background:#E05A4B"></div><div style="width:16%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:19%;background:#0B1F3A"></div><div style="width:62%;background:#0D9488"></div><div style="width:19%;background:#D97706"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:60%;background:#0D9488"></div><div style="width:11%;background:#7C3AED"></div><div style="width:29%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:18%;background:#D97706"></div><div style="width:16%;background:#7C3AED"></div><div style="width:66%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:43%;background:#0D9488"></div><div style="width:39%;background:#E05A4B"></div><div style="width:18%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:46%;background:#0D9488"></div><div style="width:11%;background:#0B1F3A"></div><div style="width:13%;background:#7C3AED"></div><div style="width:30%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:54%;background:#0D9488"></div><div style="width:40%;background:#E05A4B"></div><div style="width:6%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:19%;background:#E05A4B"></div><div style="width:55%;background:#0D9488"></div><div style="width:6%;background:#D97706"></div><div style="width:14%;background:#0B1F3A"></div><div style="width:6%;background:#7C3AED"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:16%;background:#0B1F3A"></div><div style="width:52%;background:#0D9488"></div><div style="width:18%;background:#E05A4B"></div><div style="width:14%;background:#D97706"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:45%;background:#E05A4B"></div><div style="width:5%;background:#D97706"></div><div style="width:50%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:41%;background:#E05A4B"></div><div style="width:59%;background:#0D9488"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:26%;background:#7C3AED"></div><div style="width:74%;background:#E05A4B"></div></div>
+<div style="height:18px;display:flex;width:100%"><div style="width:20%;background:#E05A4B"></div><div style="width:49%;background:#0D9488"></div><div style="width:17%;background:#0B1F3A"></div><div style="width:14%;background:#7C3AED"></div></div>
+    </div>
+    <!-- Dégradé de masque gauche pour fondu -->
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,var(--navy) 0%,transparent 35%)"></div>
+    <!-- Dégradé de masque haut/bas -->
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,var(--navy) 0%,transparent 8%,transparent 92%,var(--navy) 100%)"></div>
+  </div>
+
+  <!-- Légende composantes ancestrales : petite, discrète, coin bas droit -->
+  <div style="position:absolute;bottom:20px;right:20px;display:flex;gap:clamp(10px,1.6vh,20px);opacity:.65;z-index:2" aria-hidden="true">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:12px;height:12px;background:#0D9488;border-radius:2px"></div>Afrique/Malgache</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#E05A4B;border-radius:2px"></div>Inde du Sud</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#0B1F3A;border-radius:2px;border:1px solid rgba(255,255,255,.3)"></div>Européen</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#D97706;border-radius:2px"></div>Zarabe/Gujarati</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8"><div style="width:10px;height:10px;background:#7C3AED;border-radius:2px"></div>Chinois</div>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="t1" style="position:relative;z-index:2">
+    <div>
+      <h1 class="tbig">Génome<br>Réunion</h1>
+      <p class="tsub">Transformer la Diversité en Donnée de Référence</p>
+      <p style="font-size:clamp(16px,1.8vw,26px);color:#94A3B8;line-height:1.7">De la puce SNP au séquençage complet (WGS) :<br>une sélection mathématique pour l'équité en santé.</p>
+      <p style="font-size:clamp(15px,1.7vw,24px);color:#4A6080;margin-top:clamp(10px,1.8vh,20px);font-style:italic">Pour un public mixte : cliniciens · scientifiques · décideurs</p>
+    </div>
+
+  </div>
+</div>
+ 
+<!-- 02 SOMMAIRE -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Plan de la présentation</h2>
+    <div class="srule" style="background:var(--teal)"></div>
+    <div class="tr" onclick="go(2)"><div class="tn" style="background:var(--s01)">01</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Angle Mort de la Médecine de Précision</strong><br><span class="body" style="font-size:clamp(15px,1.7vw,24px)">Pourquoi La Réunion est absente des bases génomiques mondiales</span></div></div>
+    <div class="tr" onclick="go(10)"><div class="tn" style="background:var(--s02)">02</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">La Singularité Génétique Réunionnaise</strong><br><span class="body" style="font-size:clamp(15px,1.7vw,24px)">Admixture, effet fondateur et enjeux cliniques</span></div></div>
+    <div class="tr" onclick="go(10)"><div class="tn" style="background:var(--s03)">03</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Le Design en Deux Temps</strong><br><span class="body" style="font-size:clamp(15px,1.7vw,24px)">De la puce SNP au séquençage ciblé (WGS)</span></div></div>
+    <div class="tr" onclick="go(13)"><div class="tn" style="background:var(--s04)">04</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Algorithme de Sélection</strong><br><span class="body" style="font-size:clamp(15px,1.7vw,24px)">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span></div></div>
+    <div class="tr" onclick="go(22)"><div class="tn" style="background:var(--s05)">05</div><div><strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Ce que le WGS va Produire</strong><br><span class="body" style="font-size:clamp(15px,1.7vw,24px)">Le référentiel réunionnais au service des patients</span></div></div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span></div>
+  </div>
+</div>
+ 
+<!-- 03 SEC 01 -->
+<div class="slide" style="background:var(--s01)">
+  <div class="secslide">
+          <div class="secslide-left"><div class="secnum">01</div></div>
+          <div class="secslide-right">
+            <div class="sectag">Section 01 · Angle mort</div>
+            <h2 class="sectitle">L'Angle Mort de la<br>Médecine de Précision</h2>
+            <p class="secsub">Pourquoi la population réunionnaise est absente des bases génomiques mondiales — et les conséquences cliniques concrètes.</p>
+          </div>
+        </div>
+</div>
+ 
+<!-- 04 BIAIS -->
+<div class="slide" style="background:var(--cream)" data-slide="4">
+  <div class="inner">
+    <h2 class="stitle">Un biais structurel mondial</h2>
+    <div class="srule" style="background:var(--coral)"></div>
+    <div class="g2" style="align-items:center;gap:28px">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div style="position:relative;width:min(260px,38vw);height:min(260px,38vw)">
+          <canvas id="donutChart"></canvas>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none">
+            <span style="font-family:Georgia,serif;font-size:clamp(24px,3.5vw,40px);font-weight:700;color:var(--navy)" id="donut-center-val">81%</span>
+            <span style="font-size:clamp(14px,1.6vw,22px);color:var(--muted)">Européenne</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:clamp(10px,1.6vh,20px)">
+        <div style="display:flex;align-items:center;gap:clamp(12px,1.8vh,24px);padding:clamp(12px,1.8vh,28px) 16px;background:white;border-radius:8px;border:2px solid var(--border)">
+          <div style="width:20px;height:20px;background:var(--navy);border-radius:4px;flex-shrink:0"></div>
+          <span style="font-size:clamp(26px,2.8vw,40px);font-weight:700;color:var(--navy);min-width:52px">81%</span>
+          <span class="body">Ascendance Européenne</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:clamp(12px,1.8vh,24px);padding:clamp(12px,1.8vh,28px) 16px;background:white;border-radius:8px;border:2px solid var(--border)">
+          <div style="width:20px;height:20px;background:#9CA3AF;border-radius:4px;flex-shrink:0"></div>
+          <span style="font-size:clamp(26px,2.8vw,40px);font-weight:700;color:var(--gray);min-width:52px">19%</span>
+          <span class="body">Données insuffisantes / Autres</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:clamp(12px,1.8vh,24px);padding:clamp(14px,2.2vh,34px) 16px;background:#FEF2F0;border-radius:8px;border:2px solid var(--coral)">
+          <div style="width:20px;height:20px;background:var(--coral);border-radius:4px;flex-shrink:0"></div>
+          <span style="font-size:clamp(24px,2.6vw,38px);font-weight:700;color:var(--coral);min-width:52px">≈0%</span>
+          <span style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--coral)">Population Réunionnaise : ABSENTE</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:#FEF2F0;border:1px solid #FECACA;border-radius:6px;padding:clamp(12px,1.8vh,28px) 16px;margin-top:clamp(10px,1.8vh,20px)">
+      <span style="font-weight:700;color:var(--coral)">Conséquences : </span>
+      <span class="body">Les outils d'imputation et les scores PRS perdent leur fiabilité sur les populations métissées. Les variants réunionnais sont classés par défaut comme VUS.</span>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">4</span></div>
+  </div>
+</div>
+ 
+<!-- 05 MUR CLINIQUE -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Le Mur Clinique : Incertitudes et Pertes de Chance</h2>
+    <div class="srule" style="background:var(--coral)"></div>
+    <div class="g2" style="margin-bottom:clamp(8px,1.5vh,18px)">
+      <div style="background:var(--navy);border-radius:8px;padding:clamp(18px,2.8vh,44px);text-align:center;min-height:clamp(120px,18vh,220px);display:flex;flex-direction:column;justify-content:center">
+        <h3 style="color:var(--white);margin-bottom:clamp(8px,1.5vh,18px);font-size:clamp(16px,1.8vw,26px)">Patient Européen Standard</h3>
+        <div style="font-size:clamp(17px,1.9vw,28px);font-weight:700;color:#6EE7B7;padding:clamp(14px,2.2vh,34px) 0">✓ Diagnostic bénin / clair</div>
+      </div>
+      <div style="background:var(--orange);border-radius:8px;padding:clamp(18px,2.8vh,44px);text-align:center;min-height:clamp(120px,18vh,220px);display:flex;flex-direction:column;justify-content:center">
+        <h3 style="color:var(--white);margin-bottom:clamp(8px,1.5vh,18px);font-size:clamp(16px,1.8vw,26px)">Patient Réunionnais</h3>
+        <div style="font-size:clamp(15px,1.7vw,24px);font-weight:700;color:var(--white);padding:8px 0">⚠ Résultat : VUS<br><span style="font-size:clamp(14px,1.6vw,22px);font-weight:400;opacity:.85">(Variant d'Incertitude Significative)</span></div>
+      </div>
+    </div>
+    <p class="body" style="font-size:clamp(16px,1.8vw,26px);margin-bottom:4px">— <strong>Faux positifs :</strong> diagnostics erronés (ex : cardiomyopathie hypertrophique à tort)</p>
+    <p class="body" style="font-size:clamp(16px,1.8vw,26px);margin-bottom:4px">— <strong>Surcoûts :</strong> analyses complémentaires inutiles, errance diagnostique prolongée</p>
+    <p class="body" style="font-size:clamp(16px,1.8vw,26px)">— <strong>Anxiété familiale</strong> prolongée sans réponse claire</p>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">5</span></div>
+  </div>
+</div>
+ 
+<!-- 06 PHARMACO -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Pharmacogénétique : Quand le Standard Devient Dangereux</h2>
+    <div class="srule" style="background:var(--coral)"></div>
+    <table style="margin-bottom:clamp(10px,1.8vh,20px)">
+      <tr><th>Médicament</th><th style="color:#6EE7B7">Hypothèse euro-centrée</th><th style="color:#FCA5A5">Réalité réunionnaise</th></tr>
+      <tr><td><strong>Warfarine</strong> (Anticoagulant)</td><td style="color:var(--green);font-weight:600">Dosage standard efficace</td><td style="color:var(--coral)"><strong>CYP2C9*5,*6,*8,*11</strong> → risque hémorragique accru</td></tr>
+      <tr><td><strong>Clopidogrel</strong> (Cardiologie)</td><td style="color:var(--green);font-weight:600">50% métaboliseurs normaux</td><td style="color:var(--coral)"><strong>CYP2C19</strong> perte-de-fonction → thrombose de stent</td></tr>
+    </table>
+    <div style="background:var(--navy);border-radius:8px;padding:13px 18px;display:flex;align-items:center;gap:clamp(12px,1.8vh,22px)">
+      <div style="font-size:clamp(36px,4.2vw,62px);font-weight:700;color:var(--coral);font-family:Georgia,serif;line-height:1;flex-shrink:0">90%</div>
+      <p style="font-size:clamp(16px,1.8vw,26px);color:var(--white);line-height:1.6">des individus d'une cohorte admixée portent au moins un variant pharmacogénétique actionnable.<br><em style="color:var(--tealL)">L'extrapolation européenne est une mise en danger.</em></p>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">6</span></div>
+  </div>
+</div>
+ 
+<!-- 07 IA CHOC -->
+<div class="slide" style="background:var(--cream)">
+  <div class="tabar" style="background:var(--coral)"></div>
+  <div class="inner">
+    <h2 class="stitle">Garbage In, Garbage Out.</h2>
+    <div class="srule" style="background:var(--coral)"></div>
+    <div class="g2" style="align-items:center;gap:clamp(20px,3vw,48px)">
+
+      <!-- Gauche : texte accroche + chiffres clés -->
+      <div style="display:flex;flex-direction:column;gap:clamp(14px,2vh,28px)">
+        <p class="body" style="font-size:clamp(17px,1.9vw,28px);font-style:italic;line-height:1.65;color:var(--muted)">
+          Les IA entraînées sur des données euro-centrées<br>perpétuent structurellement l'inégalité en santé.
+        </p>
+        <!-- Stat 81% -->
+        <div style="display:flex;align-items:center;gap:clamp(12px,1.8vw,24px);padding:clamp(14px,2.2vh,32px) clamp(16px,2vw,28px);background:white;border-radius:10px;border:2px solid var(--border)">
+          <div style="width:18px;height:18px;background:var(--navy);border-radius:3px;flex-shrink:0"></div>
+          <span style="font-family:Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--navy);min-width:72px;line-height:1">81%</span>
+          <span class="body">des données génomiques mondiales sont d'origine européenne</span>
+        </div>
+        <!-- Stat ≈0% -->
+        <div style="display:flex;align-items:center;gap:clamp(12px,1.8vw,24px);padding:clamp(14px,2.2vh,32px) clamp(16px,2vw,28px);background:#FEF2F0;border-radius:10px;border:2px solid var(--coral)">
+          <div style="width:18px;height:18px;background:var(--coral);border-radius:3px;flex-shrink:0"></div>
+          <span style="font-family:Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--coral);min-width:72px;line-height:1">≈ 0%</span>
+          <span style="font-size:clamp(15px,1.7vw,24px);font-weight:700;color:var(--coral)">de représentation pour La Réunion</span>
+        </div>
+      </div>
+
+      <!-- Droite : encadré conséquence -->
+      <div style="display:flex;flex-direction:column;gap:clamp(12px,1.8vh,24px)">
+        <div style="background:white;border-radius:10px;border:2px solid var(--border);padding:clamp(16px,2.5vh,36px) clamp(16px,2vw,28px)">
+          <h3 style="font-family:Georgia,serif;font-size:clamp(16px,1.8vw,26px);color:var(--navy);margin-bottom:clamp(8px,1.4vh,18px)">Pourquoi c'est un problème</h3>
+          <p class="body">Les algorithmes de diagnostic génomique, les scores PRS et les outils de <em>drug discovery</em> par IA sont entraînés sur ces corpus biaisés. Les populations admixées — dont La Réunion — sont les grandes oubliées de l'optimisation.</p>
+        </div>
+        <div style="background:#FEF2F0;border-left:4px solid var(--coral);border-radius:0 8px 8px 0;padding:clamp(12px,1.8vh,24px) clamp(16px,2vw,24px)">
+          <span style="font-weight:700;color:var(--coral)">Conséquence directe : </span>
+          <span class="body">les médicaments et biomarqueurs de demain seront structurellement moins efficaces pour les patients réunionnais.</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">7</span></div>
+  </div>
+</div>
+ 
+<!-- 08 IA DÉTAILLÉE -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Le Piège de l'IA en Médecine de Précision</h2>
+    <div class="srule" style="background:var(--coral)"></div>
+    <div class="g3" style="margin-bottom:clamp(8px,1.5vh,18px)">
+      <div class="card" style="border-top:3px solid var(--coral)"><div style="width:26px;height:26px;border-radius:50%;background:var(--coral);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">1</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Données biaisées</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Les bases (gnomAD, UK Biobank, TOPMed) sont à 80–90% européennes. Les IA s'entraînent sur ces corpus.</p></div>
+      <div class="card" style="border-top:3px solid var(--amber)"><div style="width:26px;height:26px;border-radius:50%;background:var(--amber);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">2</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Algorithmes non représentatifs</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Drug discovery, diagnostic génomique, scores PRS : tous optimisés pour des génomes européens.</p></div>
+      <div class="card" style="border-top:3px solid var(--orange)"><div style="width:26px;height:26px;border-radius:50%;background:var(--orange);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">3</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Thérapies inégales</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Les médicaments de demain seront moins efficaces pour les populations non-européennes — dont La Réunion.</p></div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--teal);padding:clamp(12px,1.8vh,28px) 14px;background:#F0FDFA;border-top:none;border-right:none;border-bottom:none;border-radius:0 6px 6px 0">
+      <h3 style="color:var(--teal);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">La réponse : Génome Réunion</h3>
+      <p class="body" style="font-size:clamp(15px,1.7vw,24px)">En construisant un panel local avant que les standards d'entraînement soient figés, le projet positionne La Réunion comme un <strong style="color:var(--teal)">correcteur de biais en amont</strong> — non comme une variable d'ajustement a posteriori.</p>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">8</span></div>
+  </div>
+</div>
+ 
+<!-- 09 SEC 02 -->
+<div class="slide" style="background:var(--s02)">
+  <div class="secslide">
+          <div class="secslide-left"><div class="secnum">02</div></div>
+          <div class="secslide-right">
+            <div class="sectag">Section 02 · Singularité</div>
+            <h2 class="sectitle">La Singularité<br>Génétique Réunionnaise</h2>
+            <p class="secsub">Un peuplement sans autochtones, à l'intersection de trois continents : une opportunité scientifique unique.</p>
+          </div>
+        </div>
+</div>
+ 
+<!-- 10 HISTOIRE -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">La Réunion : Un Laboratoire d'Histoire Humaine</h2>
+    <div class="srule" style="background:var(--teal)"></div>
+    <div style="display:flex;justify-content:space-between;position:relative;margin-bottom:clamp(12px,2.2vh,26px)">
+      <div style="position:absolute;top:clamp(28px,3.5vh,40px);left:0;right:0;height:2px;background:var(--border)"></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1">
+        <div style="width:clamp(56px,7vh,80px);height:clamp(56px,7vh,80px);border-radius:50%;background:var(--blue);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(11px,1.2vw,15px);line-height:1;text-align:center">1663</div>
+        <p style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--blue);text-align:center">Colonisation</p>
+        <p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Europe · Afrique<br>Madagascar</p>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1">
+        <div style="width:clamp(56px,7vh,80px);height:clamp(56px,7vh,80px);border-radius:50%;background:var(--teal);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(11px,1.2vw,15px);line-height:1;text-align:center">1848</div>
+        <p style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--teal);text-align:center">Engagisme</p>
+        <p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Inde du Sud · Chine<br>Afrique</p>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1">
+        <div style="width:clamp(56px,7vh,80px);height:clamp(56px,7vh,80px);border-radius:50%;background:var(--purple);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(11px,1.2vw,15px);line-height:1;text-align:center">XXe s.</div>
+        <p style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--purple);text-align:center">Migrations</p>
+        <p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Mayotte · Comores<br>Madagascar</p>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1">
+        <div style="width:clamp(56px,7vh,80px);height:clamp(56px,7vh,80px);border-radius:50%;background:var(--orange);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(11px,1.2vw,15px);line-height:1;text-align:center">Auj.</div>
+        <p style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--orange);text-align:center">Population</p>
+        <p style="font-size:clamp(16px,1.8vw,26px);color:var(--muted);text-align:center">Admixture<br>unique</p>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card" style="border-top:3px solid var(--teal)"><h3 style="color:var(--teal);margin-bottom:5px;font-size:clamp(14px,1.6vw,22px)">L'Admixture</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Diversité allélique riche issue de 5 sources continentales. Couverture génomique large indispensable.</p></div>
+      <div class="card" style="border-top:3px solid var(--orange)"><h3 style="color:var(--orange);margin-bottom:5px;font-size:clamp(14px,1.6vw,22px)">L'Effet Fondateur</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">L'isolement insulaire a fixé des variants rares. Syndrome Larsen-Bourbon (B4GALT7), Syndrome de Ravine.</p></div>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">10</span></div>
+  </div>
+</div>
+ 
+<!-- 11 SEC 03 -->
+<div class="slide" style="background:var(--s03)">
+  <div class="secslide">
+          <div class="secslide-left"><div class="secnum">03</div></div>
+          <div class="secslide-right">
+            <div class="sectag">Section 03 · Design</div>
+            <h2 class="sectitle">Le Design<br>en Deux Temps</h2>
+            <p class="secsub">Le WGS n'est pas un tirage au sort : c'est une optimisation mathématique à partir des données puce SNP.</p>
+          </div>
+        </div>
+</div>
+ 
+<!-- 12 PIPELINE -->
+<div class="slide" style="background:var(--cream)" data-slide="10">
+  <div class="inner">
+    <h2 class="stitle">Le Pipeline d'Optimisation</h2>
+    <div class="srule" style="background:var(--purple)"></div>
+    <div class="pipe-flow" id="pipeFlow">
+      <div class="pipe-box" style="background:var(--navy)" data-delay="0">
+        <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.18);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">1</div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0">
+        <p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Échantillonnage<br>(EFS)</p>
+        <p style="font-size:clamp(15px,1.7vw,24px);opacity:.8;line-height:1.5">Donneurs volontaires reflétant la diversité de l'île.</p>
+      </div>
+      <div class="pipe-arrow-el" data-delay="1"><svg viewBox="0 0 28 28" fill="none"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="pipe-box" style="background:var(--teal)" data-delay="2">
+        <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">2</div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0">
+        <p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Génotypage<br>(Puce SNP)</p>
+        <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">PCA · admixture · parenté · ROH</p>
+      </div>
+      <div class="pipe-arrow-el" data-delay="3"><svg viewBox="0 0 28 28" fill="none"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="pipe-box" style="background:var(--purple)" data-delay="4">
+        <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">3</div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0">
+        <p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Sélection WGS<br>(Optimisation)</p>
+        <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">Score multicritère → max information</p>
+      </div>
+      <div class="pipe-arrow-el" data-delay="5"><svg viewBox="0 0 28 28" fill="none"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="pipe-box" style="background:var(--coral)" data-delay="6">
+        <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">4</div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0">
+        <p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">Base de Données<br>Locale</p>
+        <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">Référentiel pour recalibrer les outils cliniques</p>
+      </div>
+    </div>
+    <div style="background:#F3F0FF;border:1px solid #C4B5FD;border-radius:6px;padding:clamp(12px,1.8vh,28px) 16px;font-size:clamp(16px,1.8vw,26px);color:var(--purple)"><strong>Le WGS coûte cher.</strong> Le passage étape 2→3 n'est pas un tirage au sort — c'est une <strong>équation d'optimisation</strong> : max I(S) sous Coût(S) ≤ B.</div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">12</span></div>
+  </div>
+</div>
+ 
+<!-- 13 TROIS NIVEAUX -->
+<div class="slide" style="background:var(--cream)" data-slide="13">
+  <div class="inner">
+    <h2 class="stitle">Trois niveaux d'analyse à ne pas confondre</h2>
+    <div class="srule" style="background:var(--purple)"></div>
+    <div class="g3">
+
+      <!-- CARD 1 : PCA -->
+      <div class="lvc">
+        <div class="lvh" style="background:var(--teal)">1. Exploration — PCA</div>
+        <div class="lvb">
+          <div class="fm">z_i = (PC₁, PC₂, …, PCₚ)</div>
+          <p class="body" style="font-size:15px;margin-bottom:10px">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p>
+          <!-- Mini scatter PCA -->
+          <div style="background:#F0FDFA;border-radius:6px;padding:8px;margin-bottom:10px">
+            <svg viewBox="0 0 200 110" style="width:100%;display:block">
+              <!-- axes -->
+              <line x1="18" y1="96" x2="190" y2="96" stroke="#CBD5E1" stroke-width="1"/>
+              <line x1="18" y1="8"  x2="18"  y2="96" stroke="#CBD5E1" stroke-width="1"/>
+              <text x="104" y="108" text-anchor="middle" font-size="8" fill="#8896A5">PC1</text>
+              <text x="8" y="52" text-anchor="middle" font-size="8" fill="#8896A5" transform="rotate(-90,8,52)">PC2</text>
+              <!-- Cluster Europe -->
+              <circle cx="48"  cy="72" r="3.5" fill="#3B82F6" opacity=".8"/>
+              <circle cx="55"  cy="68" r="3.5" fill="#3B82F6" opacity=".8"/>
+              <circle cx="42"  cy="78" r="3.5" fill="#3B82F6" opacity=".8"/>
+              <circle cx="60"  cy="74" r="3.5" fill="#3B82F6" opacity=".8"/>
+              <circle cx="50"  cy="65" r="3.5" fill="#3B82F6" opacity=".8"/>
+              <circle cx="38"  cy="70" r="3.5" fill="#3B82F6" opacity=".8"/>
+              <text x="49" y="88" text-anchor="middle" font-size="7" fill="#3B82F6">Europe</text>
+              <!-- Cluster Afrique -->
+              <circle cx="150" cy="25" r="3.5" fill="#059669" opacity=".8"/>
+              <circle cx="158" cy="32" r="3.5" fill="#059669" opacity=".8"/>
+              <circle cx="144" cy="30" r="3.5" fill="#059669" opacity=".8"/>
+              <circle cx="162" cy="22" r="3.5" fill="#059669" opacity=".8"/>
+              <circle cx="155" cy="18" r="3.5" fill="#059669" opacity=".8"/>
+              <text x="153" y="44" text-anchor="middle" font-size="7" fill="#059669">Afrique</text>
+              <!-- Cluster Asie -->
+              <circle cx="170" cy="75" r="3.5" fill="#D97706" opacity=".8"/>
+              <circle cx="178" cy="68" r="3.5" fill="#D97706" opacity=".8"/>
+              <circle cx="165" cy="82" r="3.5" fill="#D97706" opacity=".8"/>
+              <circle cx="175" cy="80" r="3.5" fill="#D97706" opacity=".8"/>
+              <text x="172" y="91" text-anchor="middle" font-size="7" fill="#D97706">Asie</text>
+              <!-- Individus Réunion admixés — entre les clusters -->
+              <circle cx="95" cy="55" r="4.5" fill="#E05A4B" stroke="white" stroke-width="1.2"/>
+              <circle cx="108" cy="48" r="4.5" fill="#E05A4B" stroke="white" stroke-width="1.2"/>
+              <circle cx="82"  cy="44" r="4.5" fill="#E05A4B" stroke="white" stroke-width="1.2"/>
+              <circle cx="118" cy="60" r="4.5" fill="#E05A4B" stroke="white" stroke-width="1.2"/>
+              <text x="100" y="38" text-anchor="middle" font-size="7.5" fill="#E05A4B" font-weight="700">La Réunion</text>
+              <line x1="100" y1="40" x2="95"  y2="52" stroke="#E05A4B" stroke-width=".8" stroke-dasharray="2,2"/>
+            </svg>
+            <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px">Espace PC1/PC2 — individus réunionnais entre les clusters</p>
+          </div>
+          <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ Ne fixe pas K — elle cadre les sources.</p>
+        </div>
+      </div>
+
+      <!-- CARD 2 : ADMIXTURE -->
+      <div class="lvc">
+        <div class="lvh" style="background:var(--purple)">2. Modélisation — ADMIXTURE</div>
+        <div class="lvb">
+          <div class="fm">q_i = (q_{i1},…,q_{iK})<br>Σ q_{ik} = 1</div>
+          <p class="body" style="font-size:15px;margin-bottom:10px">Proportions d'ascendance globale pour l'ensemble du jeu de données.</p>
+          <!-- Mini ADMIXTURE stacked bars -->
+          <div style="background:#FAF5FF;border-radius:6px;padding:8px 10px;margin-bottom:10px">
+            <svg viewBox="0 0 200 105" style="width:100%;display:block">
+              <!-- Labels individus -->
+              <text x="10" y="100" font-size="7" fill="#8896A5">EUR</text>
+              <text x="36" y="100" font-size="7" fill="#8896A5">AFR</text>
+              <text x="62" y="100" font-size="7" fill="#8896A5">ASI</text>
+              <text x="84" y="100" font-size="7" fill="#8896A5">IND</text>
+              <text x="108" y="100" font-size="7" fill="#E05A4B" font-weight="700">REU1</text>
+              <text x="134" y="100" font-size="7" fill="#E05A4B" font-weight="700">REU2</text>
+              <text x="160" y="100" font-size="7" fill="#E05A4B" font-weight="700">REU3</text>
+              <!-- EUR : 95% bleu -->
+              <rect x="6"   y="11" width="18" height="80" fill="#3B82F6" rx="2"/>
+              <rect x="6"   y="7"  width="18" height="4"  fill="#059669" rx="1"/>
+              <!-- AFR : 95% vert -->
+              <rect x="32"  y="11" width="18" height="76" fill="#059669" rx="2"/>
+              <rect x="32"  y="7"  width="18" height="4"  fill="#3B82F6" rx="1"/>
+              <rect x="32"  y="83" width="18" height="8"  fill="#D97706" rx="1"/>
+              <!-- ASI : 95% ambre -->
+              <rect x="58"  y="11" width="18" height="78" fill="#D97706" rx="2"/>
+              <rect x="58"  y="7"  width="18" height="4"  fill="#8B5CF6" rx="1"/>
+              <rect x="58"  y="85" width="18" height="6"  fill="#E05A4B" rx="1"/>
+              <!-- IND : 95% violet -->
+              <rect x="84"  y="11" width="18" height="80" fill="#8B5CF6" rx="2"/>
+              <rect x="84"  y="7"  width="18" height="4"  fill="#D97706" rx="1"/>
+              <!-- REU1 : mélange 4 -->
+              <rect x="110" y="7"  width="18" height="22" fill="#3B82F6" rx="1"/>
+              <rect x="110" y="29" width="18" height="28" fill="#059669" rx="1"/>
+              <rect x="110" y="57" width="18" height="18" fill="#D97706" rx="1"/>
+              <rect x="110" y="75" width="18" height="16" fill="#8B5CF6" rx="1"/>
+              <!-- REU2 : mélange équilibré -->
+              <rect x="136" y="7"  width="18" height="18" fill="#3B82F6" rx="1"/>
+              <rect x="136" y="25" width="18" height="22" fill="#059669" rx="1"/>
+              <rect x="136" y="47" width="18" height="20" fill="#D97706" rx="1"/>
+              <rect x="136" y="67" width="18" height="24" fill="#8B5CF6" rx="1"/>
+              <!-- REU3 : autre mélange -->
+              <rect x="162" y="7"  width="18" height="30" fill="#059669" rx="1"/>
+              <rect x="162" y="37" width="18" height="20" fill="#3B82F6" rx="1"/>
+              <rect x="162" y="57" width="18" height="24" fill="#8B5CF6" rx="1"/>
+              <rect x="162" y="81" width="18" height="10" fill="#D97706" rx="1"/>
+            </svg>
+            <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px">Profils réunionnais (REU) : admixture multi-continentale</p>
+          </div>
+          <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ K est global, pas individuel.</p>
+        </div>
+      </div>
+
+      <!-- CARD 3 : LOCAL ANCESTRY -->
+      <div class="lvc">
+        <div class="lvh" style="background:var(--coral)">3. Résolution — Local ancestry</div>
+        <div class="lvb">
+          <div class="fm">PCAdmix sur chromosomes phasés</div>
+          <p class="body" style="font-size:15px;margin-bottom:10px">Origine aux segments chromosomiques. Identifie les zones ambiguës.</p>
+          <!-- Mini local ancestry chromosome -->
+          <div style="background:#FFF5F5;border-radius:6px;padding:10px 12px;margin-bottom:10px">
+            <svg viewBox="0 0 200 90" style="width:100%;display:block">
+              <!-- Chromosome 1 (brin maternel) -->
+              <text x="4" y="22" font-size="7.5" fill="#8896A5">Chr.1 mat.</text>
+              <rect x="50" y="12" width="140" height="14" fill="#E8E4DC" rx="4"/>
+              <rect x="50" y="12" width="42"  height="14" fill="#3B82F6" rx="4"/>
+              <rect x="94" y="12" width="30"  height="14" fill="#059669" rx="0"/>
+              <rect x="126" y="12" width="18" height="14" fill="#E05A4B" rx="0"/>
+              <rect x="146" y="12" width="28" height="14" fill="#D97706" rx="0"/>
+              <rect x="176" y="12" width="14" height="14" fill="#3B82F6" rx="4" style="border-radius:0 4px 4px 0"/>
+              <!-- Chromosome 1 (brin paternel) -->
+              <text x="4" y="46" font-size="7.5" fill="#8896A5">Chr.1 pat.</text>
+              <rect x="50" y="36" width="140" height="14" fill="#E8E4DC" rx="4"/>
+              <rect x="50" y="36" width="20"  height="14" fill="#059669" rx="4"/>
+              <rect x="72" y="36" width="52"  height="14" fill="#3B82F6" rx="0"/>
+              <rect x="126" y="36" width="22" height="14" fill="#8B5CF6" rx="0"/>
+              <rect x="150" y="36" width="40" height="14" fill="#E05A4B" rx="4" style="border-radius:0 4px 4px 0"/>
+              <!-- Segment ambigu annoté -->
+              <rect x="118" y="10" width="4" height="42" fill="none" stroke="#E05A4B" stroke-width="1.2" stroke-dasharray="3,2"/>
+              <text x="122" y="62" font-size="7" fill="#E05A4B">ambigu</text>
+              <!-- Légende -->
+              <rect x="4"  y="72" width="9" height="9" fill="#3B82F6" rx="1"/>
+              <text x="15" y="80" font-size="7" fill="#4A5568">Europe</text>
+              <rect x="50" y="72" width="9" height="9" fill="#059669" rx="1"/>
+              <text x="61" y="80" font-size="7" fill="#4A5568">Afrique</text>
+              <rect x="98" y="72" width="9" height="9" fill="#D97706" rx="1"/>
+              <text x="109" y="80" font-size="7" fill="#4A5568">Asie S.</text>
+              <rect x="146" y="72" width="9" height="9" fill="#8B5CF6" rx="1"/>
+              <text x="157" y="80" font-size="7" fill="#4A5568">Inde</text>
+            </svg>
+            <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px">Résolution segment par segment — zone ambiguë signalée</p>
+          </div>
+          <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ Segment ambigu ≠ nouvelle ascendance.</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">13</span></div>
+  </div>
+</div>
+
+<!-- 14 SEC 04 -->
+<div class="slide" style="background:var(--s04)">
+  <div class="secslide">
+          <div class="secslide-left"><div class="secnum">04</div></div>
+          <div class="secslide-right">
+            <div class="sectag">Section 04 · Algorithme</div>
+            <h2 class="sectitle">L'Algorithme<br>de Sélection</h2>
+            <p class="secsub">Comment choisir — sous contrainte budgétaire — les individus qui maximisent l'information utile du futur panel réunionnais.</p>
+          </div>
+        </div>
+</div>
+ 
+<!-- 15 OPTIM -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Le problème d'optimisation</h2>
+    <div class="srule" style="background:var(--blue)"></div>
+    <div style="background:var(--navy);border-radius:8px;padding:clamp(14px,2.2vh,34px) 18px;margin-bottom:clamp(10px,1.8vh,20px);display:flex;align-items:center;gap:clamp(12px,2vh,24px)">
+      <div><div style="font-size:clamp(22px,2.4vw,34px);font-weight:700;color:var(--tealL);font-family:Georgia,serif">max</div><div style="font-size:clamp(15px,1.7vw,24px);color:#94A3B8">S⊂C, |S|=N</div></div>
+      <div style="font-size:clamp(28px,3.2vw,48px);font-weight:700;color:var(--white);font-family:Georgia,serif">I(S)</div>
+      <div style="font-size:clamp(14px,1.6vw,22px);color:#CBD5E1;font-style:italic">sous contrainte  Coût(S) ≤ B</div>
+    </div>
+    <div class="g3">
+      <div class="card" style="border-top:3px solid var(--orange)"><div style="width:28px;height:28px;border-radius:50%;background:var(--orange);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">1</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Le WGS est coûteux</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">La puce SNP identifie les N individus les plus informatifs parmi la cohorte complète.</p></div>
+      <div class="card" style="border-top:3px solid var(--amber)"><div style="width:28px;height:28px;border-radius:50%;background:var(--amber);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">2</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Le tirage au hasard est sous-optimal</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Il sur-représente les profils communs et sous-représente les profils rares.</p></div>
+      <div class="card" style="border-top:3px solid var(--teal)"><div style="width:28px;height:28px;border-radius:50%;background:var(--teal);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">3</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Un seul critère ne suffit pas</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Diversité, parenté, qualité ADN et quotas terrain doivent être combinés.</p></div>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">15</span></div>
+  </div>
+</div>
+ 
+<!-- 16 PCA ADM ENT -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Trois variables pour cartographier l'espace génétique</h2>
+    <div class="srule" style="background:var(--blue)"></div>
+    <div class="g3">
+      <div class="lvc"><div class="lvh" style="background:var(--teal)">1 · PCA — Position</div><div class="lvb"><div class="fm">z_i = (PC₁, PC₂, …, PCₚ)</div><p class="body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p><p style="font-size:clamp(16px,1.8vw,26px);color:var(--teal);font-style:italic">Géométrie globale de la variation.</p></div></div>
+      <div class="lvc"><div class="lvh" style="background:var(--purple)">2 · ADMIXTURE — Composition</div><div class="lvb"><div class="fm">q_i = (q_{i1},…,q_{iK})<br>Σ q_{ik} = 1</div><p class="body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">Proportions d'ascendance : 40% africain, 35% européen…</p><p style="font-size:clamp(16px,1.8vw,26px);color:var(--purple);font-style:italic">Deux proches en PCA peuvent avoir des compositions très différentes.</p></div></div>
+      <div class="lvc"><div class="lvh" style="background:var(--amber)">3 · Entropie H_i — Mélange</div><div class="lvb"><div class="fm">H_i = [−Σ q·ln(q)] / ln(K)</div><p class="body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">H≈0 concentré · H≈1 fortement admixé.</p><p style="font-size:clamp(16px,1.8vw,26px);color:var(--amber);font-style:italic">Identifie les profils les plus informatifs pour La Réunion.</p></div></div>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">16</span></div>
+  </div>
+</div>
+ 
+<!-- 17 SCORE -->
+<div class="slide" style="background:var(--cream)" data-slide="15">
+  <div class="inner">
+    <h2 class="stitle">Le Score de Diversité : tableau de bord paramétrable</h2>
+    <div class="srule" style="background:var(--blue)"></div>
+    <div class="fm" style="background:#EFF6FF;border-color:#BFDBFE;font-size:clamp(15px,1.7vw,24px)">S_div = 0.45 × D_PCA + 0.25 × D_ADM + 0.15 × (1–φmax) + 0.10 × U + 0.05 × DNAQ</div>
+    <div id="scoreChart" style="position:relative;height:260px;margin:14px 0">
+      <canvas id="scoreBarChart"></canvas>
+    </div>
+    <div class="fbar">Couvrir davantage, répéter moins. On cherche l'individu le plus éloigné de ceux déjà sélectionnés — pas l'individu moyen.</div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">17</span></div>
+  </div>
+</div>
+ 
+<!-- 18 PARENTÉ DNAQ -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Filtrer la redondance : parenté et qualité ADN</h2>
+    <div class="srule" style="background:var(--blue)"></div>
+    <div class="g2">
+      <div class="card" style="border-top:3px solid var(--orange)">
+        <h3 style="color:var(--navy);margin-bottom:4px">Pénalité de parenté</h3>
+        <div style="font-family:'Courier New',monospace;color:var(--orange);font-size:clamp(14px,1.6vw,22px);margin-bottom:clamp(5px,1vh,14px)">(1 – φ_i^max)</div>
+        <p class="body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">Deux cousins partagent ~12,5% de leur génome. Séquencer les deux n'apporte que 87,5% d'information nouvelle.</p>
+        <div class="fm" style="font-size:clamp(16px,1.8vw,26px)">φ_ij calculé par KING ou PLINK</div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-top:clamp(5px,1vh,14px)">
+          <div style="display:flex;gap:8px;align-items:center"><div style="width:13px;height:13px;background:#EF4444;border-radius:2px"></div><span style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:#EF4444">φ > 0.25</span><span style="font-size:clamp(14px,1.6vw,22px);color:var(--muted)">1er degré</span></div>
+          <div style="display:flex;gap:8px;align-items:center"><div style="width:13px;height:13px;background:var(--orange);border-radius:2px"></div><span style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--orange)">0.125–0.25</span><span style="font-size:clamp(14px,1.6vw,22px);color:var(--muted)">2e degré</span></div>
+          <div style="display:flex;gap:8px;align-items:center"><div style="width:13px;height:13px;background:var(--green);border-radius:2px"></div><span style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--green)">&lt; 0.0625</span><span style="font-size:clamp(14px,1.6vw,22px);color:var(--muted)">Non apparenté — ok</span></div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--amber)">
+        <h3 style="color:var(--navy);margin-bottom:4px">Qualité ADN opérationnelle</h3>
+        <div style="font-family:'Courier New',monospace;color:var(--amber);font-size:clamp(14px,1.6vw,22px);margin-bottom:clamp(5px,1vh,14px)">DNAQ_i</div>
+        <p class="body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">Un échantillon de mauvaise qualité peut échouer au séquençage WGS. Le sélectionner gaspille le budget.</p>
+        <p style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Critères évalués</p>
+        <p class="body" style="font-size:clamp(14px,1.6vw,22px)">· Concentration et intégrité ADN<br>· Call rate puce SNP > 95%<br>· Absence de contamination<br>· Consentement et traçabilité</p>
+      </div>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">18</span></div>
+  </div>
+</div>
+ 
+<!-- 19 4 BRAS -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Quatre bras pour quatre objectifs distincts</h2>
+    <div class="srule" style="background:var(--blue)"></div>
+    <div class="arm"><div class="apct" style="background:var(--blue)">60%</div><div class="abdy"><div class="atitle">Diversité-Référence</div><div class="adesc">Cœur du panel. Logique maximin sur D_PCA + D_ADM. Maximise la couverture de l'espace génétique réunionnais.</div></div></div>
+    <div class="arm"><div class="apct" style="background:var(--teal)">20%</div><div class="abdy"><div class="atitle">Central-Représentatif</div><div class="adesc">Profils médians de chaque cluster. Évite un panel composé uniquement de cas extrêmes.</div></div></div>
+    <div class="arm"><div class="apct" style="background:var(--purple)">15%</div><div class="abdy"><div class="atitle">Fondateur / ROH / IBD</div><div class="adesc">Individus les plus informatifs pour l'effet fondateur réunionnais et l'autozygotie.</div></div></div>
+    <div class="arm"><div class="apct" style="background:var(--gray)">5%</div><div class="abdy"><div class="atitle">Contrôle Technique</div><div class="adesc">Duplicats, trios, concordance puce/WGS. Valide la chaîne bioinformatique complète.</div></div></div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">19</span></div>
+  </div>
+</div>
+ 
+<!-- 20 FONDATEUR ROH -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Zoom : le bras Fondateur / ROH / IBD</h2>
+    <div class="srule" style="background:var(--amber)"></div>
+    <div class="g2">
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div class="card" style="border-top:3px solid var(--amber)">
+          <h3 style="color:var(--navy);margin-bottom:clamp(5px,1vh,14px)">Qu'est-ce qu'un ROH ?</h3>
+          <p style="color:var(--amber);font-style:italic;font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(8px,1.5vh,18px)">Run of Homozygosity</p>
+          <div id="rohDiagram" class="chrom-wrap">
+            <div class="chrom-row">
+              <span class="chrom-label">Population générale</span>
+              <div class="chrom-bar">
+                <div class="chrom-seg" style="background:#0D7377;left:5%;width:12%;opacity:0"></div>
+                <div class="chrom-seg" style="background:#0D7377;left:34%;width:8%;opacity:0"></div>
+                <div class="chrom-seg" style="background:#0D7377;left:58%;width:6%;opacity:0"></div>
+                <div class="chrom-seg" style="background:#0D7377;left:78%;width:10%;opacity:0"></div>
+              </div>
+            </div>
+            <div class="chrom-row">
+              <span class="chrom-label">Fondateur (mild)</span>
+              <div class="chrom-bar">
+                <div class="chrom-seg" style="background:#E05A4B;left:4%;width:22%;opacity:0"></div>
+                <div class="chrom-seg" style="background:#E05A4B;left:42%;width:18%;opacity:0"></div>
+                <div class="chrom-seg" style="background:#E05A4B;left:72%;width:20%;opacity:0"></div>
+              </div>
+            </div>
+            <div class="chrom-row">
+              <span class="chrom-label" style="color:var(--coral);font-weight:700">Fondateur (fort)</span>
+              <div class="chrom-bar" style="border:1px solid rgba(224,90,75,.35)">
+                <div class="chrom-seg" style="background:#E05A4B;left:2%;width:38%;opacity:0"></div>
+                <div class="chrom-seg" style="background:#E05A4B;left:45%;width:42%;opacity:0"></div>
+              </div>
+            </div>
+          </div>
+          <div class="chrom-legend">
+            <div class="leg-item"><div style="width:16px;height:16px;background:#0D7377;border-radius:3px"></div><span style="color:var(--muted)">Hétérozygote</span></div>
+            <div class="leg-item"><div style="width:16px;height:16px;background:#E05A4B;border-radius:3px"></div><span style="color:var(--muted)">ROH (homozygote)</span></div>
+          </div>
+          <div class="fm" style="margin-top:clamp(6px,1.2vh,16px)">F_ROH,i = ROH_total / L_autosomes</div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--teal)"><h3 style="color:var(--navy);margin-bottom:5px">IBD — Identity By Descent</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Segments partagés hérités d'un ancêtre commun. Capte des relations plus lointaines que le pedigree.</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div class="card" style="border-top:3px solid var(--amber)">
+          <h3 style="color:var(--navy);margin-bottom:clamp(5px,1vh,14px)">Score fondateur S_fond</h3>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;gap:7px"><div style="width:4px;background:var(--amber);border-radius:2px;flex-shrink:0"></div><span style="font-size:clamp(16px,1.8vw,26px);color:var(--muted)">0.40 ×</span><span style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--amber);font-family:'Courier New',monospace">ROHscore_i</span></div>
+            <div style="display:flex;gap:7px"><div style="width:4px;background:var(--teal);border-radius:2px;flex-shrink:0"></div><span style="font-size:clamp(16px,1.8vw,26px);color:var(--muted)">0.20 ×</span><span style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--teal);font-family:'Courier New',monospace">IBDscore_i</span></div>
+            <div style="display:flex;gap:7px"><div style="width:4px;background:var(--purple);border-radius:2px;flex-shrink:0"></div><span style="font-size:clamp(16px,1.8vw,26px);color:var(--muted)">0.15 ×</span><span style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--purple);font-family:'Courier New',monospace">D_ADM</span></div>
+            <div style="display:flex;gap:7px"><div style="width:4px;background:var(--orange);border-radius:2px;flex-shrink:0"></div><span style="font-size:clamp(16px,1.8vw,26px);color:var(--muted)">0.15 ×</span><span style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--orange);font-family:'Courier New',monospace">U_i</span></div>
+            <div style="display:flex;gap:7px"><div style="width:4px;background:var(--gray);border-radius:2px;flex-shrink:0"></div><span style="font-size:clamp(16px,1.8vw,26px);color:var(--muted)">0.10 ×</span><span style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--gray);font-family:'Courier New',monospace">DNAQ_i</span></div>
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--orange)"><h3 style="color:var(--navy);margin-bottom:5px">Pourquoi c'est clé pour La Réunion</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Les goulots d'étranglement de 1663 et 1848 ont fixé des variants rares — Syndrome Larsen-Bourbon (B4GALT7), Syndrome de Ravine — invisibles dans toutes les bases mondiales.</p></div>
+      </div>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">20</span></div>
+  </div>
+</div>
+ 
+<!-- 21 EXEMPLE -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Exemple concret : calcul pas-à-pas du score</h2>
+    <div class="srule" style="background:var(--blue)"></div>
+    <div class="fm">S_div = 0.45×D_PCA + 0.25×D_ADM + 0.15×(1–φmax) + 0.10×U + 0.05×DNAQ</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2.2vh,26px);align-items:center;margin-bottom:clamp(6px,1.2vh,16px)">
+      <div style="position:relative;height:280px">
+        <canvas id="radarChart"></canvas>
+      </div>
+      <div>
+        <table>
+          <tr><th>Candidat</th><th style="color:#6EE7B7;text-align:center">Score</th></tr>
+          <tr><td>Patient A <span style="font-size:clamp(14px,1.6vw,22px);color:var(--light)">(profil moyen)</span></td><td style="text-align:center;font-weight:700;color:var(--coral);font-size:clamp(17px,1.9vw,28px)">0.37 ✗</td></tr>
+          <tr><td>Patient B <span style="font-size:clamp(14px,1.6vw,22px);color:var(--light)">(extrême, apparenté)</span></td><td style="text-align:center;font-weight:700;color:var(--amber);font-size:clamp(17px,1.9vw,28px)">0.62 ~</td></tr>
+          <tr class="hi"><td><strong>Patient C</strong> <span style="font-size:clamp(14px,1.6vw,22px);color:var(--green)">(extrême, non apparenté)</span></td><td style="text-align:center;font-weight:700;color:var(--green);font-size:clamp(20px,2.2vw,32px)">0.87 ✓</td></tr>
+        </table>
+        <div style="margin-top:clamp(8px,1.5vh,18px);padding:clamp(10px,1.5vh,24px) 14px;background:#F0FDF4;border-left:3px solid var(--green);border-radius:0 6px 6px 0;font-size:clamp(15px,1.7vw,24px);color:var(--muted)">
+          Le radar illustre pourquoi C domine : il maximise <em>toutes</em> les dimensions simultanément, là où B est freiné par la parenté.
+        </div>
+      </div>
+    </div>
+    <p class="body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:3px">— <strong>Patient A :</strong> profil central, distances faibles. Non sélectionné.</p>
+    <p class="body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:3px">— <strong>Patient B :</strong> distances élevées mais très apparenté → 1–φ=0.20 effondre le score.</p>
+    <p style="font-size:clamp(15px,1.7vw,24px);font-weight:600;color:var(--green)">— <strong>Patient C :</strong> distances maximales ET non apparenté → sélectionné en priorité.</p>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">21</span></div>
+  </div>
+</div>
+ 
+<!-- 22 VALIDATION -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Ce qui rend la méthode défendable</h2>
+    <div class="srule" style="background:var(--teal)"></div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <div class="card" style="display:flex;gap:clamp(12px,1.8vh,24px);align-items:flex-start;border-left:4px solid var(--teal)"><div style="font-size:clamp(16px,1.8vw,26px);color:var(--teal);font-weight:700">✓</div><div><h3 style="color:var(--navy);margin-bottom:3px;font-size:clamp(16px,1.8vw,26px)">Variables définies</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">PCA, ADMIXTURE, entropie, parenté, ROH/IBD — définition précise et outil standard (PLINK, KING, ADMIXTURE).</p></div></div>
+      <div class="card" style="display:flex;gap:clamp(12px,1.8vh,24px);align-items:flex-start;border-left:4px solid var(--green)"><div style="font-size:clamp(16px,1.8vw,26px);color:var(--green);font-weight:700">✓</div><div><h3 style="color:var(--navy);margin-bottom:3px;font-size:clamp(16px,1.8vw,26px)">Poids annoncés</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Coefficients explicites. Version V1 (sans ascendance locale) et V2 (avec) permettent une montée en précision.</p></div></div>
+      <div class="card" style="display:flex;gap:clamp(12px,1.8vh,24px);align-items:flex-start;border-left:4px solid var(--tealL)"><div style="font-size:clamp(16px,1.8vw,26px);color:var(--tealL);font-weight:700">✓</div><div><h3 style="color:var(--navy);margin-bottom:3px;font-size:clamp(16px,1.8vw,26px)">Algorithme reproductible</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Sélection gloutonne déterministe : à ensemble S fixé, le même candidat est toujours choisi. Auditable par un tiers.</p></div></div>
+      <div class="card" style="display:flex;gap:clamp(12px,1.8vh,24px);align-items:flex-start;border-left:4px solid var(--amber)"><div style="font-size:clamp(16px,1.8vw,26px);color:var(--amber);font-weight:700">✓</div><div><h3 style="color:var(--navy);margin-bottom:3px;font-size:clamp(16px,1.8vw,26px)">Validation finale</h3><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Contrôle avant WGS : distribution PCA panel vs cohorte, q et H_i, parenté interne, couverture strates.</p></div></div>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">22</span></div>
+  </div>
+</div>
+ 
+<!-- 23 SEC 05 -->
+<div class="slide" style="background:var(--s05)">
+  <div class="secslide">
+          <div class="secslide-left"><div class="secnum">05</div></div>
+          <div class="secslide-right">
+            <div class="sectag">Section 05 · WGS</div>
+            <h2 class="sectitle">Ce que le WGS<br>va Produire</h2>
+            <p class="secsub">Du séquençage au bénéfice clinique concret pour les patients réunionnais.</p>
+          </div>
+        </div>
+</div>
+ 
+<!-- 24 IMPACTS -->
+<div class="slide" style="background:var(--cream)">
+  <div class="inner">
+    <h2 class="stitle">Les impacts attendus du référentiel réunionnais</h2>
+    <div class="srule" style="background:var(--green)"></div>
+    <div class="g3">
+      <div class="card" style="border:2px solid var(--green)"><p style="font-weight:700;color:var(--green);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">🧬 Reclassifier les VUS</p><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Convertir les variants d'incertitude en diagnostics clairs grâce à une base locale robuste.</p></div>
+      <div class="card" style="border:2px solid var(--teal)"><p style="font-weight:700;color:var(--teal);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">💊 Pharmacogénomique locale</p><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Adapter les dosages aux variants CYP spécifiques à la population réunionnaise.</p></div>
+      <div class="card" style="border:2px solid var(--blue)"><p style="font-weight:700;color:var(--blue);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">📊 Améliorer l'imputation</p><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Un panel local améliore massivement la qualité d'imputation pour les futures études.</p></div>
+      <div class="card" style="border:2px solid var(--purple)"><p style="font-weight:700;color:var(--purple);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">🏝 Effet fondateur</p><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Identifier les variants rares fixés par l'isolement : Larsen-Bourbon, Syndrome de Ravine.</p></div>
+      <div class="card" style="border:2px solid var(--amber)"><p style="font-weight:700;color:var(--amber);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">🤖 Corriger les biais IA</p><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Alimenter les algorithmes de drug discovery avec une diversité génomique représentative.</p></div>
+      <div class="card" style="border:2px solid var(--coral)"><p style="font-weight:700;color:var(--coral);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">⚖ Équité en santé</p><p class="body" style="font-size:clamp(15px,1.7vw,24px)">Garantir que la médecine de précision bénéficie aux populations admixées — pas seulement européennes.</p></div>
+    </div>
+    <div class="sfoot"><span class="cap">Génome Réunion</span><span class="cap">24</span></div>
+  </div>
+</div>
+ 
+<!-- 25 CONCLUSION -->
+<div class="slide" style="background:var(--navy)">
+  <div class="tabar"></div>
+  <div class="inner">
+    <p style="font-size:clamp(16px,1.8vw,26px);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--tealL);margin-bottom:clamp(6px,1.2vh,16px)">En résumé</p>
+    <h1 style="font-family:Georgia,serif;font-size:clamp(22px,3.2vw,38px);color:var(--white);line-height:1.15;margin-bottom:clamp(14px,2.4vh,28px)">Un design rigoureux au service<br>de l'équité en santé</h1>
+    <div class="cl"><div class="cd"></div><p style="color:#CBD5E1;font-size:clamp(14px,1.6vw,22px)">La Réunion est absente des bases génomiques mondiales — avec des conséquences cliniques réelles et mesurables.</p></div>
+    <div class="cl"><div class="cd"></div><p style="color:#CBD5E1;font-size:clamp(14px,1.6vw,22px)">Sa double singularité (admixture + effet fondateur) en fait une opportunité scientifique unique au monde.</p></div>
+    <div class="cl"><div class="cd"></div><p style="color:#CBD5E1;font-size:clamp(14px,1.6vw,22px)">Le design puce SNP → score multicritère → WGS ciblé maximise l'information utile sous contrainte budgétaire.</p></div>
+    <div class="cl"><div class="cd"></div><p style="color:#CBD5E1;font-size:clamp(14px,1.6vw,22px)">Le référentiel local bénéficiera aux diagnostics, traitements et à la lutte contre les biais de l'IA.</p></div>
+    <div style="background:rgba(13,147,136,.15);border:1px solid var(--teal);border-radius:8px;padding:13px 16px;margin-top:clamp(10px,2vh,24px)">
+      <p style="font-size:clamp(16px,1.8vw,26px);color:var(--white)"><strong style="color:var(--tealL)">Bon design =</strong> variables définies · poids annoncés · algorithme reproductible · validation finale</p>
+    </div>
+  </div>
+</div>
+ 
+</div><!-- end deck -->
+
+</div><!-- end deck -->
+
+<div id="hint">← → clavier · swipe mobile</div>
+
+<!-- ── Scripts ── -->
+<script src="data/admixture.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/navigation.js"></script>
+
+</body>
+</html>

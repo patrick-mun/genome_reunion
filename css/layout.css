@@ -1,0 +1,276 @@
+/* ============================================================
+   LAYOUT.CSS — Structure globale, navigation, slides
+   ============================================================ */
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Barre de navigation ── */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 46px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 300;
+  gap: 10px;
+}
+#nav-logo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--navy);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+#nav-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+  overflow: hidden;
+}
+.sec-pill {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .8px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  transition: .2s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.sec-pill:hover,
+.sec-pill.on { background: var(--navy); color: var(--white); }
+
+#nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.nbtn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  transition: .2s;
+}
+.nbtn:hover  { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.nbtn:disabled { opacity: .3; cursor: default; }
+#ctr { font-size: 12px; color: var(--muted); min-width: 44px; text-align: center; }
+
+/* ── Barre de progression ── */
+#prog {
+  position: fixed;
+  top: 46px; left: 0; right: 0;
+  height: 3px;
+  background: #E8E4DC;
+  z-index: 300;
+}
+#pf {
+  height: 100%;
+  background: var(--teal);
+  transition: width .4s ease;
+}
+
+/* ── Deck de slides ── */
+#deck {
+  position: fixed;
+  inset: 49px 0 0 0;
+  display: flex;
+  transition: transform .46s cubic-bezier(.4, 0, .2, 1);
+}
+.slide {
+  min-width: 100vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Contenu interne d'une slide ── */
+.inner {
+  width: min(1280px, 92vw);
+  height: calc(100vh - 68px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(16px, 3vh, 48px) clamp(24px, 3.5vw, 56px);
+  overflow-y: auto;
+}
+.inner::-webkit-scrollbar { width: 3px; }
+.inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── Animations d'entrée par slide ── */
+.inner > * {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.slide.on .inner > * { opacity: 1; transform: none; }
+.slide.on .inner > *:nth-child(1) { transition-delay: .04s; }
+.slide.on .inner > *:nth-child(2) { transition-delay: .10s; }
+.slide.on .inner > *:nth-child(3) { transition-delay: .16s; }
+.slide.on .inner > *:nth-child(4) { transition-delay: .22s; }
+.slide.on .inner > *:nth-child(5) { transition-delay: .28s; }
+.slide.on .inner > *:nth-child(6) { transition-delay: .34s; }
+.slide.on .inner > *:nth-child(7) { transition-delay: .40s; }
+
+/* ── Slide titre (slide 1) ── */
+.tabar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 7px;
+  background: var(--teal);
+}
+.t1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(680px, 50vw);
+  padding: 20px 40px 20px 48px;
+}
+.tbig {
+  font-family: Georgia, serif;
+  font-size: clamp(30px, 5vw, 58px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+.tsub {
+  font-size: clamp(16px, 1.9vw, 24px);
+  color: var(--tealL);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* ── Slides d'intro de section ── */
+.secslide {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+}
+.secslide-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgba(255, 255, 255, .15);
+  padding: 40px;
+}
+.secslide-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 72px) clamp(28px, 5vw, 64px);
+}
+.secnum {
+  font-family: Georgia, serif;
+  font-size: clamp(120px, 18vw, 240px);
+  font-weight: 700;
+  color: rgba(255, 255, 255, .2);
+  line-height: .9;
+  letter-spacing: -4px;
+}
+.sectag {
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .5);
+  margin-bottom: 16px;
+}
+.sectitle {
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 3.8vw, 52px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.08;
+  margin-bottom: 18px;
+}
+.secsub {
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: rgba(255, 255, 255, .72);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+/* ── Animation admixture (slide 1) ── */
+#admix-bg { will-change: transform; }
+@keyframes admix-scroll-v {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* ── Hint clavier ── */
+#hint {
+  position: fixed;
+  bottom: 10px; right: 14px;
+  font-size: 10px;
+  color: var(--light);
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  #nav-center               { display: none; }
+  .secslide                 { grid-template-columns: 1fr !important; }
+  .secslide-left            { display: none; }
+  .secslide-right           { padding: clamp(28px, 5vw, 48px); }
+  .g4                       { grid-template-columns: 1fr 1fr; }
+  .g3                       { grid-template-columns: 1fr 1fr; }
+  .g3 > *:last-child:nth-child(odd) { grid-column: span 2; }
+  .t1                       { grid-template-columns: 1fr; }
+  .t1 > div:last-child      { display: none; }
+  .inner                    { padding: 20px 22px; }
+  .secslide                 { padding: 24px 26px 36px; }
+  .bd                       { display: none; }
+}
+
+@media (max-width: 600px) {
+  #nav-logo   { font-size: 9px; letter-spacing: 1px; }
+  .nbtn       { padding: 4px 9px; font-size: 11px; }
+  #ctr        { min-width: 36px; font-size: 11px; }
+  .g2, .g3    { grid-template-columns: 1fr; }
+  .g3 > *:last-child:nth-child(odd) { grid-column: auto; }
+  .g4         { grid-template-columns: 1fr 1fr; }
+  .stitle     { font-size: clamp(20px, 4vw, 28px); }
+  .inner      { padding: 12px 14px; max-height: calc(100vh - 70px); }
+  .arm        { flex-direction: column; }
+  .apct       { min-width: auto; padding: 7px; font-size: 16px; }
+  .abdy       { border-left: none; border-top: 1px solid var(--border); }
+  table       { font-size: 11px; }
+  th, td      { padding: 6px 7px; }
+  .bl         { min-width: 58px; font-size: 10px; }
+  .bp2        { min-width: 24px; font-size: 10px; }
+  .tn         { min-width: 34px; height: 34px; font-size: 12px; }
+  #hint       { display: none; }
+}
+
+@media (max-width: 380px) {
+  .g4 { grid-template-columns: 1fr; }
+}

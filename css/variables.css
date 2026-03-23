@@ -1,0 +1,43 @@
+/* ============================================================
+   VARIABLES.CSS — Tokens de design Génome Réunion
+   Modifier ici pour changer tout le thème visuel
+   ============================================================ */
+
+:root {
+  /* Palette principale */
+  --navy:   #0B1F3A;
+  --teal:   #0D7377;
+  --tealL:  #14B8A6;
+  --cream:  #F4F1EC;
+  --white:  #FFFFFF;
+
+  /* Typographie & UI */
+  --text:   #1A2B3C;
+  --muted:  #4A5568;
+  --light:  #8896A5;
+  --border: #D1C9BC;
+
+  /* Couleurs d'accent */
+  --coral:  #E05A4B;
+  --amber:  #D97706;
+  --purple: #7C3AED;
+  --blue:   #0369A1;
+  --green:  #059669;
+  --orange: #EA580C;
+  --gray:   #6B7280;
+
+  /* Couleurs de section (pills nav + slides d'intro) */
+  --s01: #E05A4B;
+  --s02: #0D7377;
+  --s03: #7C3AED;
+  --s04: #0369A1;
+  --s05: #059669;
+
+  /* Admixture — composantes ancestrales réunionnaises
+     Ordre démographique réel : Afrique/Malgache dominant */
+  --adm-afro-malg: #0D9488;   /* ~45% — Cafres / Malgaches */
+  --adm-inde:      #E05A4B;   /* ~25% — Malbars (Inde du Sud) */
+  --adm-euro:      #0B1F3A;   /* ~15% — Européens (créoles blancs) */
+  --adm-zarabe:    #D97706;   /*  ~8% — Zarabes / Gujarati */
+  --adm-chinois:   #7C3AED;   /*  ~7% — Chinois */
+}
