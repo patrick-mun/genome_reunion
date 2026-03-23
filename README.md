@@ -1,6 +1,6 @@
 # Génome Réunion
 
-Présentation interactive sur le projet de référentiel génomique réunionnais.
+Présentation interactive de 25 slides sur le projet de référentiel génomique réunionnais.
 Accessible partout via GitHub Pages.
 
 ## 🌐 Accès en ligne
@@ -11,23 +11,28 @@ Accessible partout via GitHub Pages.
 
 ```
 genome-reunion/
-├── index.html              # Structure HTML des 25 slides
+├── index.html          # Structure HTML des 25 slides + commentaires par slide
 ├── css/
-│   ├── variables.css       # Tokens de design (couleurs, thème)
-│   ├── layout.css          # Navigation, deck, slides, responsive
-│   ├── components.css      # Cards, tableaux, grilles, formules
-│   └── charts.css          # Pipeline, ROH, radar chart
+│   └── main.css        # Tout le CSS : variables, layout, composants, responsive
+│                       # (13 sections commentées — voir entête du fichier)
 ├── js/
-│   ├── navigation.js       # go(), clavier, swipe, barre de progression
-│   └── charts.js           # Chart.js : donut, barres, radar + animations
+│   └── app.js          # Navigation, graphiques Chart.js, animations SVG
+│                       # (goToSlide, initDonutChart, initScoreChart, initRadarChart,
+│                       #  animatePipeline, animateROH et gestion clavier/swipe)
 └── data/
-    └── admixture.js        # Animation admixture slide 1 (données démographiques)
+    └── admixture.js    # Données de l'animation admixture (slide 1)
+                        # 60 lignes × composition démographique réunionnaise réelle
 ```
+
+> **Note — fichiers obsolètes** : le dossier `css/` contient aussi `variables.css`,
+> `layout.css`, `components.css` et `charts.css`, et `js/` contient `navigation.js`
+> et `charts.js`. Ces fichiers sont issus d'une version antérieure et ne sont plus
+> référencés par `index.html`. Ils peuvent être supprimés sans impact.
 
 ## 🚀 Déploiement GitHub Pages
 
 ```bash
-# 1. Créer le repo sur GitHub, puis :
+# 1. Initialiser le repo local et le connecter à GitHub
 git init
 git add .
 git commit -m "init: présentation Génome Réunion"
@@ -35,20 +40,23 @@ git branch -M main
 git remote add origin https://github.com/[username]/genome-reunion.git
 git push -u origin main
 
-# 2. Sur GitHub : Settings → Pages → Source : main / root → Save
-# 3. URL disponible en ~1 minute
+# 2. Activer GitHub Pages
+#    Settings → Pages → Source : main / (root) → Save
+
+# 3. Site disponible en ~1 minute à l'URL ci-dessus
 ```
 
 ## ✏️ Modifier le contenu
 
 | Besoin | Fichier à modifier |
 |---|---|
-| Texte d'une slide | `index.html` |
-| Couleurs / thème | `css/variables.css` |
-| Mise en page | `css/layout.css` |
-| Style d'un composant | `css/components.css` |
-| Ajouter un graphique | `js/charts.js` |
-| Animation admixture | `data/admixture.js` |
+| Texte ou structure d'une slide | `index.html` |
+| Couleurs, typographie, thème | `css/main.css` — section 1 (variables `:root`) |
+| Layout navigation ou deck | `css/main.css` — sections 3, 4, 5 |
+| Style d'un composant (card, formula…) | `css/main.css` — section 9 |
+| Responsive | `css/main.css` — section 12 |
+| Ajouter / modifier un graphique Chart.js | `js/app.js` |
+| Animation admixture (slide 1) | `data/admixture.js` |
 
 ## 🎮 Navigation
 
@@ -59,12 +67,16 @@ git push -u origin main
 
 ## 🔬 Composition démographique réunionnaise
 
-L'animation admixture de la slide 1 reflète la réalité historique et génétique :
+L'animation admixture de la slide 1 reflète la réalité historique et génétique.
+Les proportions sont encodées dans les poids de génération de `data/admixture.js`.
 
-| Composante | % | Couleur |
+| Composante | % estimé | Couleur CSS |
 |---|---|---|
-| Afrique / Malgache (Cafres) | ~45% | Teal `#0D9488` |
-| Inde du Sud (Malbars) | ~25% | Coral `#E05A4B` |
-| Européen (créoles blancs) | ~15% | Navy `#0B1F3A` |
-| Zarabe / Gujarati | ~8% | Amber `#D97706` |
-| Chinois | ~7% | Violet `#7C3AED` |
+| Afrique / Malgache (Cafres) | ~45% | `--adm-afro-malg` `#0D9488` teal |
+| Inde du Sud (Malbars) | ~25% | `--adm-inde` `#E05A4B` coral |
+| Européen (créoles blancs) | ~15% | `--adm-euro` `#0B1F3A` navy |
+| Zarabe / Gujarati | ~8% | `--adm-zarabe` `#D97706` amber |
+| Chinois | ~7% | `--adm-chinois` `#7C3AED` violet |
+
+Sources : étude ADN mitochondrial 2005 (lignées maternelles) + données démographiques
+historiques (engagisme 1848 : ~117 000 Indiens, ~50 000 Chinois et Indo-musulmans).
