@@ -5,11 +5,11 @@
 
 // ── Constantes de navigation ─────────────────────────────────
 
-const TOTAL_SLIDES = 25;
+const TOTAL_SLIDES = 29;
 
 // Pour chaque slide, indique quelle pill de navigation doit être active.
 // 0=Accueil 1=Angle mort 2=Singularité 3=Design 4=Algorithme 5=WGS
-const SECTION_MAP = [0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5];
+const SECTION_MAP = [0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5];
 
 // ── Éléments DOM ─────────────────────────────────────────────
 
@@ -60,10 +60,10 @@ function goToSlide(targetIndex) {
   });
 
   // Animations déclenchées à l'arrivée sur certaines slides
-  if (currentSlide === 11) { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
-  if (currentSlide === 16) { setTimeout(initScoreChart,  200); }
-  if (currentSlide === 19) { resetROHAnimation(); setTimeout(animateROH, 300); }
-  if (currentSlide === 20) { setTimeout(initRadarChart,  200); }
+  if (currentSlide === 15) { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
+  if (currentSlide === 20) { setTimeout(initScoreChart,  200); }
+  if (currentSlide === 23) { resetROHAnimation(); setTimeout(animateROH, 300); }
+  if (currentSlide === 24) { setTimeout(initRadarChart,  200); }
 }
 
 // Exposé globalement pour compatibilité avec d'éventuels appels externes.
