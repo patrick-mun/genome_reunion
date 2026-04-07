@@ -233,39 +233,48 @@
      Objectif : montrer qu'aucune ne constitue une référence dédiée
      pour la population réunionnaise.
      ═══════════════════════════════════════════════════════ -->
-<div class="slide" data-slide="4" style="background:var(--cream)">
+<!-- Slide 04 : panorama des ressources biaisées et de leurs limites pour La Réunion. -->
+<div class="slide slide--cream" data-slide="4">
 <div class="inner">
 <h2 class="slide-title">Un biais structurel documenté</h2>
-<div class="slide-rule" style="background:var(--coral)"></div>
-<p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(10px,1.8vh,20px)">Le problème n'est pas une seule base, mais l'addition de plusieurs ressources incomplètes. Elles documentent mieux certaines populations que d'autres, sans jamais isoler un profil réunionnais propre.</p>
-<table style="margin-bottom:clamp(10px,1.8vh,20px)">
+<div class="slide-rule slide-rule--coral"></div>
+<p class="text-body bias-intro">Le problème n'est pas une seule base, mais l'addition de plusieurs ressources incomplètes. Elles documentent mieux certaines populations que d'autres, sans jamais isoler un profil réunionnais propre.</p>
+<!-- Tableau de cadrage : chaque ligne correspond à une famille de ressources. -->
+<table class="bias-table">
+<colgroup>
+<col class="bias-col-resource">
+<col class="bias-col-key">
+<col class="bias-col-coverage">
+<col>
+</colgroup>
 <tr>
-<th style="width:24%">Ressource</th>
-<th style="width:22%">Constat clé</th>
-<th style="width:22%">Ce que cela couvre</th>
+<th>Ressource</th>
+<th>Constat clé</th>
+<th>Ce que cela couvre</th>
 <th>Limite pour La Réunion</th>
 </tr>
 <tr>
-<td><strong>1. GWAS</strong><br><span style="font-size:clamp(12px,1.2vw,14px);color:var(--light)">Cohortes d'association</span></td>
-<td style="font-weight:700;color:var(--coral)">Participants majoritairement européens</td>
+<td><strong>1. GWAS</strong><br><span class="bias-resource-note">Cohortes d'association</span></td>
+<td class="bias-key bias-key--coral">Participants majoritairement européens</td>
 <td>Découverte de variants associés et scores polygéniques</td>
 <td>Les performances chutent dans les populations sous-représentées et admixées ; un signal réunionnais peut rester invisible ou mal calibré.</td>
 </tr>
 <tr>
-<td><strong>2. gnomAD / ExAC</strong><br><span style="font-size:clamp(12px,1.2vw,14px);color:var(--light)">Fréquences de variants</span></td>
-<td style="font-weight:700;color:var(--amber)">Diversification en progrès, mais couverture incomplète</td>
+<td><strong>2. gnomAD / ExAC</strong><br><span class="bias-resource-note">Fréquences de variants</span></td>
+<td class="bias-key bias-key--amber">Diversification en progrès, mais couverture incomplète</td>
 <td>Fréquence populationnelle, filtrage de variants, aide à l'interprétation</td>
 <td>Une fréquence "rare" au niveau global peut être fréquente localement ; les profils réunionnais restent dilués dans des catégories trop larges.</td>
 </tr>
 <tr>
-<td><strong>3. 1000 Genomes / H3Africa</strong><br><span style="font-size:clamp(12px,1.2vw,14px);color:var(--light)">Panels de diversité</span></td>
-<td style="font-weight:700;color:var(--teal)">Diversité mieux représentée que dans les GWAS historiques</td>
+<td><strong>3. 1000 Genomes / H3Africa</strong><br><span class="bias-resource-note">Panels de diversité</span></td>
+<td class="bias-key bias-key--teal">Diversité mieux représentée que dans les GWAS historiques</td>
 <td>Structure génétique, haplotypes, comparaison entre populations</td>
 <td>Aucun sous-groupe ne reproduit l'admixture et la structuration locale réunionnaises ; ce ne sont pas des panels de référence réunionnais.</td>
 </tr>
 </table>
-<div style="background:#FEF2F0;border:1px solid #FECACA;border-radius:6px;padding:clamp(12px,1.8vh,28px) 16px;margin-top:clamp(10px,1.8vh,20px)">
-<span style="font-weight:700;color:var(--coral)">Conclusion : </span>
+<!-- Cartouche final : le vrai manque n'est pas l'absence totale de données, mais l'absence de référence dédiée. -->
+<div class="bias-callout">
+<span class="bias-callout-label">Conclusion : </span>
 <span class="text-body">La population réunionnaise n'est pas absente de toute littérature, mais absente comme <strong>référence dédiée</strong>. C'est cette absence qui fragilise l'imputation, l'interprétation des variants et les scores de risque.</span>
 </div>
 <div class="slide-footer slide-footer-citations">
@@ -286,24 +295,34 @@
      Contraste visuel patient européen (diagnostic clair) vs
      patient réunionnais (VUS — Variant d'Incertitude Significative).
      ═══════════════════════════════════════════════════════ -->
-<div class="slide" style="background:var(--cream)">
+<!-- Slide 05 : contraste clinique entre référentiel standard et patient réunionnais. -->
+<div class="slide slide--cream">
 <div class="inner">
 <h2 class="slide-title">Le Mur Clinique : Incertitudes et Pertes de Chance</h2>
-<div class="slide-rule" style="background:var(--coral)"></div>
-<div class="grid-2" style="margin-bottom:clamp(8px,1.5vh,18px)">
-<div style="background:var(--navy);border-radius:8px;padding:clamp(18px,2.8vh,44px);text-align:center;min-height:clamp(120px,18vh,220px);display:flex;flex-direction:column;justify-content:center">
-<h3 style="color:var(--white);margin-bottom:clamp(8px,1.5vh,18px);font-size:clamp(16px,1.8vw,26px)">Patient Européen Standard</h3>
-<div style="font-size:clamp(17px,1.9vw,28px);font-weight:700;color:#6EE7B7;padding:clamp(14px,2.2vh,34px) 0">✓ Diagnostic bénin / clair</div>
+<div class="slide-rule slide-rule--coral"></div>
+<!-- Deux cartes miroir pour opposer le parcours standard et la perte de chance. -->
+<div class="grid-2 clinical-grid">
+<div class="clinical-panel clinical-panel--navy">
+<h3 class="clinical-panel-title">Patient Européen Standard</h3>
+<div class="clinical-panel-result clinical-panel-result--success">✓ Diagnostic bénin / clair</div>
 </div>
-<div style="background:var(--orange);border-radius:8px;padding:clamp(18px,2.8vh,44px);text-align:center;min-height:clamp(120px,18vh,220px);display:flex;flex-direction:column;justify-content:center">
-<h3 style="color:var(--white);margin-bottom:clamp(8px,1.5vh,18px);font-size:clamp(16px,1.8vw,26px)">Patient Réunionnais</h3>
-<div style="font-size:clamp(15px,1.7vw,24px);font-weight:700;color:var(--white);padding:8px 0">⚠ Résultat : VUS<br><span style="font-size:clamp(14px,1.6vw,22px);font-weight:400;opacity:.85">(Variant d'Incertitude Significative)</span></div>
+<div class="clinical-panel clinical-panel--orange">
+<h3 class="clinical-panel-title">Patient Réunionnais</h3>
+<div class="clinical-panel-result clinical-panel-result--warning">⚠ Résultat : VUS<br><span class="clinical-panel-note">(Variant d'Incertitude Significative)</span></div>
 </div>
 </div>
-<p class="text-body" style="font-size:clamp(16px,1.8vw,26px);margin-bottom:4px">— <strong>Faux positifs :</strong> diagnostics erronés (ex : cardiomyopathie hypertrophique à tort)</p>
-<p class="text-body" style="font-size:clamp(16px,1.8vw,26px);margin-bottom:4px">— <strong>Surcoûts :</strong> analyses complémentaires inutiles, errance diagnostique prolongée</p>
-<p class="text-body" style="font-size:clamp(16px,1.8vw,26px)">— <strong>Anxiété familiale</strong> prolongée sans réponse claire</p>
-<div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">5</span></div>
+<p class="text-body clinical-impact-line">— <strong>Faux positifs :</strong> diagnostics erronés (ex : cardiomyopathie hypertrophique à tort)</p>
+<p class="text-body clinical-impact-line">— <strong>Surcoûts :</strong> analyses complémentaires inutiles, errance diagnostique prolongée</p>
+<p class="text-body clinical-impact-line">— <strong>Anxiété familiale</strong> prolongée sans réponse claire</p>
+<div class="slide-footer slide-footer-citations">
+<div class="slide-footer-meta">
+<span class="caption">Génome Réunion</span>
+<div class="slide-footer-sources">
+<span class="slide-footer-source">Manrai et al., <em>Genetic Misdiagnoses and the Potential for Health Disparities</em>, N Engl J Med, 2016.</span>
+</div>
+</div>
+<span class="caption">5</span>
+</div>
 </div>
 </div>
 <!-- ═══════════════════════════════════════════════════════
@@ -311,20 +330,51 @@
      Tableau comparatif des risques médicamenteux spécifiques
      à la population réunionnaise (warfarine, clopidogrel).
      ═══════════════════════════════════════════════════════ -->
-<div class="slide" style="background:var(--cream)">
+<!-- Slide 06 : tableau pharmacogénétique + message de synthèse clinique. -->
+<div class="slide slide--cream">
 <div class="inner">
 <h2 class="slide-title">Pharmacogénétique : Quand le Standard Devient Dangereux</h2>
-<div class="slide-rule" style="background:var(--coral)"></div>
-<table style="margin-bottom:clamp(10px,1.8vh,20px)">
-<toc-row><th>Médicament</th><th style="color:#6EE7B7">Hypothèse euro-centrée</th><th style="color:#FCA5A5">Réalité réunionnaise</th></toc-row>
-<toc-row><td><strong>Warfarine</strong> (Anticoagulant)</td><td style="color:var(--green);font-weight:600">Dosage standard efficace</td><td style="color:var(--coral)"><strong>CYP2C9*5,*6,*8,*11</strong> → risque hémorragique accru</td></toc-row>
-<toc-row><td><strong>Clopidogrel</strong> (Cardiologie)</td><td style="color:var(--green);font-weight:600">50% métaboliseurs normaux</td><td style="color:var(--coral)"><strong>CYP2C19</strong> perte-de-fonction → thrombose de stent</td></toc-row>
+<div class="slide-rule slide-rule--coral"></div>
+<table class="pharma-table">
+<colgroup>
+<col class="pharma-col-drug">
+<col class="pharma-col-expected">
+<col class="pharma-col-risk">
+</colgroup>
+<tr>
+<th>Médicament</th>
+<th class="pharma-head--expected">Hypothèse euro-centrée</th>
+<th class="pharma-head--risk">Réalité réunionnaise</th>
+</tr>
+<tr>
+<td><strong>Warfarine</strong><br><span class="caption">(Anticoagulant)</span></td>
+<td class="pharma-cell--expected">Dosage standard efficace</td>
+<td class="pharma-cell--risk"><strong>CYP2C9*5,*6,*8,*11</strong> → risque hémorragique accru</td>
+</tr>
+<tr>
+<td><strong>Clopidogrel</strong><br><span class="caption">(Cardiologie)</span></td>
+<td class="pharma-cell--expected">50% métaboliseurs normaux</td>
+<td class="pharma-cell--risk"><strong>CYP2C19</strong> perte-de-fonction → thrombose de stent</td>
+</tr>
 </table>
-<div style="background:var(--navy);border-radius:8px;padding:13px 18px;display:flex;align-items:center;gap:clamp(12px,1.8vh,22px)">
-<div style="font-size:clamp(36px,4.2vw,62px);font-weight:700;color:var(--coral);font-family:Georgia,serif;line-height:1;flex-shrink:0">90%</div>
-<p style="font-size:clamp(16px,1.8vw,26px);color:var(--white);line-height:1.6">des individus d'une cohorte admixée portent au moins un variant pharmacogénétique actionnable.<br><em style="color:var(--tealL)">L'extrapolation européenne est une mise en danger.</em></p>
+<!-- Grand cartouche de conclusion pour transformer le tableau en message clinique. -->
+<div class="pharma-highlight">
+<div class="pharma-highlight-value">90 %</div>
+<p class="pharma-highlight-copy">des individus d’une cohorte admixée ont au moins un résultat pharmacogénétique actionnable ;<br><em class="pharma-highlight-emphasis">l’extrapolation européenne peut sous-estimer le risque.</em></p>
 </div>
-<div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">6</span></div>
+<div class="slide-footer slide-footer-citations">
+<div class="slide-footer-meta">
+<span class="caption">Génome Réunion</span>
+<div class="slide-footer-sources">
+<span class="slide-footer-source">Warfarine : Perera et al., <em>Lancet</em>, 2013; Johnson et al., <em>Clin Pharmacol Ther</em>, 2017.</span>
+<span class="slide-footer-source">Clopidogrel : Magavern et al., <em>JACC Adv</em>, 2023.</span>
+<span class="slide-footer-source">Bertholim-Nasciben et al., <em>Front Pharmacol</em>, 2023.</span>
+<span class="slide-footer-source">Chan, Zhang, Pirmohamed, <em>Br J Cancer</em>, 2024.</span>
+<span class="slide-footer-source">Suarez-Kurtz, Parra, <em>Adv Pharmacol</em>, 2018.</span>
+</div>
+</div>
+<span class="caption">6</span>
+</div>
 </div>
 </div>
 <!-- ═══════════════════════════════════════════════════════
@@ -332,61 +382,75 @@
      Slide d'impact : les deux chiffres clés (81% / ≈0%)
      avec la conséquence directe pour les patients réunionnais.
      ═══════════════════════════════════════════════════════ -->
-<div class="slide" style="background:var(--cream)">
-<div class="accent-bar" style="background:var(--coral)"></div>
+<!-- Slide 07 : montrer comment un référentiel incomplet se propage jusque dans l'IA biomédicale. -->
+<div class="slide slide--cream">
+<div class="accent-bar accent-bar--coral"></div>
 <div class="inner">
-<h2 class="slide-title">Garbage In, Garbage Out.</h2>
-<div class="slide-rule" style="background:var(--coral)"></div>
-<div class="grid-2" style="align-items:center;gap:clamp(20px,3vw,48px)">
-<!-- Colonne gauche : accroche + deux stats clés 81% et ≈0% -->
-<div style="display:flex;flex-direction:column;gap:clamp(14px,2vh,28px)">
-<p class="text-body" style="font-size:clamp(17px,1.9vw,28px);font-style:italic;line-height:1.65;color:var(--muted)">
-          Les IA entraînées sur des données euro-centrées<br>perpétuent structurellement l'inégalité en santé.
+<h2 class="slide-title">Quand l'IA Hérite d'une Mauvaise Référence</h2>
+<div class="slide-rule slide-rule--coral"></div>
+<!-- L'accroche reste pleine largeur pour annoncer le problème avant la grille 2x2. -->
+<p class="text-body ai-lead">
+          Quand les référentiels sont construits sur des cohortes majoritairement européennes, les PRS, la pharmacogénétique et les modèles d'IA biomédicale se généralisent mal aux populations admixées.
         </p>
-<!-- Badge statistique : 81% des données génomiques mondiales sont européennes -->
-<div style="display:flex;align-items:center;gap:clamp(12px,1.8vw,24px);padding:clamp(14px,2.2vh,32px) clamp(16px,2vw,28px);background:white;border-radius:10px;border:2px solid var(--border)">
-<div style="width:18px;height:18px;background:var(--navy);border-radius:3px;flex-shrink:0"></div>
-<span style="font-family:Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--navy);min-width:72px;line-height:1">81%</span>
-<span class="text-body">des données génomiques mondiales sont d'origine européenne</span>
-</div>
-<!-- Badge statistique : ≈0% de représentation pour La Réunion -->
-<div style="display:flex;align-items:center;gap:clamp(12px,1.8vw,24px);padding:clamp(14px,2.2vh,32px) clamp(16px,2vw,28px);background:#FEF2F0;border-radius:10px;border:2px solid var(--coral)">
-<div style="width:18px;height:18px;background:var(--coral);border-radius:3px;flex-shrink:0"></div>
-<span style="font-family:Georgia,serif;font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--coral);min-width:72px;line-height:1">≈ 0%</span>
-<span style="font-size:clamp(15px,1.7vw,24px);font-weight:700;color:var(--coral)">de représentation pour La Réunion</span>
+<div class="grid-2 ai-grid-2">
+<div class="card ai-badge-card">
+<div class="ai-badge-dot"></div>
+<div class="ai-badge-copy">
+<div class="ai-badge-title">GWAS</div>
+<div class="text-body">cohortes majoritairement européennes dans les études d'association et les scores dérivés</div>
 </div>
 </div>
-<!-- Colonne droite : explication du problème + conséquence directe pour les patients -->
-<div style="display:flex;flex-direction:column;gap:clamp(12px,1.8vh,24px)">
-<div style="background:white;border-radius:10px;border:2px solid var(--border);padding:clamp(16px,2.5vh,36px) clamp(16px,2vw,28px)">
-<h3 style="font-family:Georgia,serif;font-size:clamp(16px,1.8vw,26px);color:var(--navy);margin-bottom:clamp(8px,1.4vh,18px)">Pourquoi c'est un problème</h3>
-<p class="text-body">Les algorithmes de diagnostic génomique, les scores PRS et les outils de <em>drug discovery</em> par IA sont entraînés sur ces corpus biaisés. Les populations admixées — dont La Réunion — sont les grandes oubliées de l'optimisation.</p>
+<div class="card ai-body-card">
+<h3 class="ai-card-title">Pourquoi c'est un problème</h3>
+<p class="text-body">L'IA biomédicale n'invente pas ses biais : elle les hérite des bases de données, cohortes et référentiels sur lesquels elle est entraînée ou calibrée.</p>
 </div>
-<div style="background:#FEF2F0;border-left:4px solid var(--coral);border-radius:0 8px 8px 0;padding:clamp(12px,1.8vh,24px) clamp(16px,2vw,24px)">
-<span style="font-weight:700;color:var(--coral)">Conséquence directe : </span>
-<span class="text-body">les médicaments et biomarqueurs de demain seront structurellement moins efficaces pour les patients réunionnais.</span>
+<div class="card ai-badge-card ai-badge-card--alert">
+<div class="ai-badge-dot"></div>
+<div class="ai-badge-copy">
+<div class="ai-badge-title">Aucune</div>
+<div class="ai-badge-emphasis">référence réunionnaise dédiée dans les standards internationaux</div>
 </div>
 </div>
+<div class="ai-callout ai-callout--alert">
+<span class="ai-callout-label">Conséquence directe : </span>
+<span class="text-body">Les outils prédictifs, biomarqueurs et recommandations assistés par IA risquent d'être moins bien calibrés pour les patients réunionnais.</span>
 </div>
-<div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">7</span></div>
+</div>
+<div class="slide-footer slide-footer-citations">
+<div class="slide-footer-meta">
+<span class="caption">Génome Réunion</span>
+<div class="slide-footer-sources">
+<span class="slide-footer-source">Martin et al., 2017; Peterson et al., 2019; Fatumo et al., 2022</span>
+<span class="slide-footer-source">Lek et al., 2016; Karczewski et al., 2020; Gudmundsson et al., 2022</span>
+<span class="slide-footer-source">1000 Genomes Project Consortium, 2010; H3Africa Consortium, 2014</span>
+<span class="slide-footer-source">IA / biais : Hasanzadeh et al., <em>NPJ Digit Med</em>, 2025.</span>
+<span class="slide-footer-source">Pharmacogénomique / équité : Paetznick, Okoro, <em>Pharmacy</em>, 2023; Botton et al., <em>Front Pharmacol</em>, 2022.</span>
+<span class="slide-footer-source">Drug discovery assisté par IA : Ocana et al., <em>Biomark Res</em>, 2025.</span>
+</div>
+</div>
+<span class="caption">7</span>
+</div>
 </div>
 </div>
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 08 — IA EN MÉDECINE DE PRÉCISION (DÉTAIL)
-     3 étapes du piège IA + callout solution Génome Réunion.
+     SLIDE 08 — COMMENT LE PROJET CORRIGE LE BIAIS IA
+     3 leviers orientés données / modèles / usage clinique.
      ═══════════════════════════════════════════════════════ -->
-<div class="slide" style="background:var(--cream)">
+<!-- Slide 08 : réponse au biais, structurée selon la logique IA données → modèles → transfert clinique. -->
+<div class="slide slide--cream">
+<div class="accent-bar accent-bar--coral"></div>
 <div class="inner">
-<h2 class="slide-title">Le Piège de l'IA en Médecine de Précision</h2>
-<div class="slide-rule" style="background:var(--coral)"></div>
-<div class="grid-3" style="margin-bottom:clamp(8px,1.5vh,18px)">
-<div class="card" style="border-top:3px solid var(--coral)"><div style="width:26px;height:26px;border-radius:50%;background:var(--coral);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">1</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Données biaisées</h3><p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Les bases (gnomAD, UK Biobank, TOPMed) sont à 80–90% européennes. Les IA s'entraînent sur ces corpus.</p></div>
-<div class="card" style="border-top:3px solid var(--amber)"><div style="width:26px;height:26px;border-radius:50%;background:var(--amber);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">2</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Algorithmes non représentatifs</h3><p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Drug discovery, diagnostic génomique, scores PRS : tous optimisés pour des génomes européens.</p></div>
-<div class="card" style="border-top:3px solid var(--orange)"><div style="width:26px;height:26px;border-radius:50%;background:var(--orange);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">3</div><h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Thérapies inégales</h3><p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Les médicaments de demain seront moins efficaces pour les populations non-européennes — dont La Réunion.</p></div>
+<h2 class="slide-title">Comment Génome Réunion Corrige le Biais de l'IA</h2>
+<div class="slide-rule slide-rule--coral"></div>
+<div class="grid-3 ai-step-grid">
+<div class="card ai-step-card ai-step-card--coral"><div class="ai-step-number ai-step-number--coral">1</div><h3 class="ai-card-title">Données d'entraînement</h3><p class="text-body ai-step-text">Introduire une référence réunionnaise pour que les modèles ne déduisent plus la diversité locale à partir d'un proxy européen.</p></div>
+<div class="card ai-step-card ai-step-card--amber"><div class="ai-step-number ai-step-number--amber">2</div><h3 class="ai-card-title">Modèles recalibrés</h3><p class="text-body ai-step-text">Améliorer PRS, interprétation de variants, pharmacogénétique et outils d'aide à la décision à partir d'un jeu de données représentatif.</p></div>
+<div class="card ai-step-card ai-step-card--orange"><div class="ai-step-number ai-step-number--orange">3</div><h3 class="ai-card-title">IA plus transférable</h3><p class="text-body ai-step-text">Réduire les faux positifs, mieux classer les VUS et limiter les erreurs thérapeutiques quand les recommandations assistées par IA passent au lit du patient.</p></div>
 </div>
-<div class="card" style="border-left:4px solid var(--teal);padding:clamp(12px,1.8vh,28px) 14px;background:#F0FDFA;border-top:none;border-right:none;border-bottom:none;border-radius:0 6px 6px 0">
-<h3 style="color:var(--teal);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">La réponse : Génome Réunion</h3>
-<p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">En construisant un panel local avant que les standards d'entraînement soient figés, le projet positionne La Réunion comme un <strong style="color:var(--teal)">correcteur de biais en amont</strong> — non comme une variable d'ajustement a posteriori.</p>
+<!-- Callout final : la réponse n'est pas cosmétique, elle agit sur les données sources des modèles. -->
+<div class="ai-callout">
+<h3 class="ai-card-title">La réponse au biais IA</h3>
+<p class="text-body ai-step-text">L'objectif n'est pas d'ajuster après coup un modèle euro-centré, mais d'introduire la diversité réunionnaise dans les données qui servent à <strong class="ai-callout-emphasis">entraîner, calibrer et évaluer</strong> les outils.</p>
 </div>
 <div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">8</span></div>
 </div>
