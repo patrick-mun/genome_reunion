@@ -407,8 +407,8 @@ html, body {
    8. SLIDES D'INTRO DE SECTION
    Chaque grande section commence par une slide pleine couleur
    avec un grand numéro à gauche et le titre à droite.
-   La couleur de fond est définie en inline style (var(--s01)
-   à var(--s05)) directement sur la div.slide.
+   La couleur de fond est définie via .slide.slide--s0X
+   (voir classes modificatrices plus bas dans ce fichier).
    ============================================================ */
 .section-slide {
   position: relative;
@@ -565,14 +565,16 @@ html, body {
    ============================================================ */
 
 /* ── Fonds de slides ─────────────────────────────────────── */
-.slide--cream { background: var(--cream); }
-.slide--navy  { background: var(--navy); }
-.slide--hero  { background: var(--navy); justify-content: flex-start; }
-.slide--s01   { background: var(--s01); }
-.slide--s02   { background: var(--s02); }
-.slide--s03   { background: var(--s03); }
-.slide--s04   { background: var(--s04); }
-.slide--s05   { background: var(--s05); }
+/* Sélecteurs composés (.slide.slide--*) pour garantir la priorité
+   sur la règle de base .slide sans dépendre de l'ordre cascade. */
+.slide.slide--cream { background: var(--cream); }
+.slide.slide--navy  { background: var(--navy); }
+.slide.slide--hero  { background: var(--navy); justify-content: flex-start; }
+.slide.slide--s01   { background: var(--s01); }
+.slide.slide--s02   { background: var(--s02); }
+.slide.slide--s03   { background: var(--s03); }
+.slide.slide--s04   { background: var(--s04); }
+.slide.slide--s05   { background: var(--s05); }
 
 /* ── Règles colorées sous les titres ─────────────────────── */
 .accent-bar--coral,
