@@ -260,14 +260,14 @@ function resetPipelineAnimation() {
 }
 
 /**
- * Slide 20 — Diagramme ROH : apparition progressive des segments chromosomiques
+ * Slide 20 — Diagramme ROH : apparition progressive des segments chromosomiques.
+ * La classe .roh-visible (définie dans main.css) gère opacity et transition.
  */
 function animateROH() {
   const segments = document.querySelectorAll('#rohDiagram .chromosome-segment');
   segments.forEach(function(segment, index) {
     setTimeout(function() {
-      segment.style.opacity    = '1';
-      segment.style.transition = 'opacity .5s ease';
+      segment.classList.add('roh-visible');
     }, index * 90 + 200);
   });
 }
@@ -275,8 +275,7 @@ function animateROH() {
 function resetROHAnimation() {
   document.querySelectorAll('#rohDiagram .chromosome-segment')
     .forEach(function(segment) {
-      segment.style.opacity    = '0';
-      segment.style.transition = 'none';
+      segment.classList.remove('roh-visible');
     });
 }
 
