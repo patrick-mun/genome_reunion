@@ -191,6 +191,7 @@ html, body {
 }
 
 #pf {
+  width: 0;                   /* Valeur initiale ; app.js fixe la largeur dès goToSlide(0) */
   height: 100%;
   background: var(--teal);
   transition: width .4s ease; /* Transition fluide entre slides */
@@ -558,20 +559,60 @@ html, body {
 }
 
 /* ============================================================
-   Slides 07-08 — Référentiels, IA et correction du biais
-   Ce bloc remplace les styles inline de ces deux slides afin
-   de garder un HTML plus lisible et des ajustements centralisés.
+   Variantes de slides et composants — classes modificatrices
+   Ces classes remplacent tous les inline style="background:..."
+   présents dans le HTML. Ajouter ici toute nouvelle couleur.
    ============================================================ */
 
-/* Thèmes simples réutilisables pour les slides de contenu. */
-.slide--cream {
-  background: var(--cream);
-}
+/* ── Fonds de slides ─────────────────────────────────────── */
+.slide--cream { background: var(--cream); }
+.slide--navy  { background: var(--navy); }
+.slide--hero  { background: var(--navy); justify-content: flex-start; }
+.slide--s01   { background: var(--s01); }
+.slide--s02   { background: var(--s02); }
+.slide--s03   { background: var(--s03); }
+.slide--s04   { background: var(--s04); }
+.slide--s05   { background: var(--s05); }
 
+/* ── Règles colorées sous les titres ─────────────────────── */
 .accent-bar--coral,
-.slide-rule--coral {
-  background: var(--coral);
-}
+.slide-rule--coral  { background: var(--coral); }
+.slide-rule--teal   { background: var(--teal); }
+.slide-rule--orange { background: var(--orange); }
+.slide-rule--purple { background: var(--purple); }
+.slide-rule--blue   { background: var(--blue); }
+.slide-rule--amber  { background: var(--amber); }
+.slide-rule--green  { background: var(--green); }
+
+/* ── Badges numérotés du sommaire ────────────────────────── */
+.toc-number--s01 { background: var(--s01); }
+.toc-number--s02 { background: var(--s02); }
+.toc-number--s03 { background: var(--s03); }
+.toc-number--s04 { background: var(--s04); }
+.toc-number--s05 { background: var(--s05); }
+
+/* ── Boîtes du pipeline SNP → WGS ───────────────────────── */
+.pipeline-box--navy   { background: var(--navy); }
+.pipeline-box--teal   { background: var(--teal); }
+.pipeline-box--purple { background: var(--purple); }
+.pipeline-box--coral  { background: var(--coral); }
+
+/* ── En-têtes des level-cards ────────────────────────────── */
+.level-header--teal   { background: var(--teal); }
+.level-header--purple { background: var(--purple); }
+.level-header--coral  { background: var(--coral); }
+.level-header--amber  { background: var(--amber); }
+.level-header--blue   { background: var(--blue); }
+
+/* ── Pourcentages des arm-cards ──────────────────────────── */
+.arm-percent--blue   { background: var(--blue); }
+.arm-percent--teal   { background: var(--teal); }
+.arm-percent--purple { background: var(--purple); }
+.arm-percent--gray   { background: var(--gray); }
+
+/* ── Cartes double singularité (dégradés) ────────────────── */
+.s2-double-card--teal   { background: linear-gradient(135deg, var(--teal), #0F766E); }
+.s2-double-card--orange { background: linear-gradient(135deg, var(--orange), #EA580C); }
 
 /* Intro textuelle commune aux slides d'analyse et de réponse IA. */
 .ai-lead {
@@ -1109,7 +1150,7 @@ html, body {
 .toc-row:last-child { border: none; }
 
 /* Badge numéroté coloré à gauche de chaque entrée du sommaire.
-   La couleur de fond est définie en inline style (var(--s01) etc.) */
+   La couleur de fond est définie via .toc-number--s0X (voir variantes CSS). */
 .toc-number {
   min-width: clamp(36px, 4.5vh, 52px);
   height: clamp(36px, 4.5vh, 52px);
@@ -1269,7 +1310,7 @@ tr:last-child td { border: none; }
 /* ── Arm-card : composant "4 bras" (slide 19) ───────────────
    Représente les 4 bras de la stratégie de sélection WGS.
    Structure : .arm-card > .arm-percent (%) | .arm-body > .arm-title + .arm-desc
-   La couleur du .arm-percent est définie en inline style. */
+   La couleur du .arm-percent est définie via .arm-percent--* (voir variantes CSS). */
 .arm-card {
   display: flex;
   align-items: stretch;
@@ -1313,7 +1354,7 @@ tr:last-child td { border: none; }
 /* ── Level-card : carte à en-tête coloré (slide 16) ─────────
    Utilisée pour les trois variables génomiques (PCA, ADMIXTURE,
    Entropie). Structure : .level-card > .level-header + .level-body
-   La couleur du .level-header est définie en inline style. */
+   La couleur du .level-header est définie via .level-header--* (voir variantes CSS). */
 .level-card   { background: var(--white); border: 2px solid var(--border); border-radius: 8px; overflow: hidden; }
 .level-header { padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px); color: var(--white); font-weight: 700; font-size: clamp(12px, 1.3vw, 15px); }
 .level-body   { padding: clamp(8px, 1.4vh, 18px); }
@@ -1427,7 +1468,14 @@ tr:last-child td { border: none; }
   top: 0;
   height: 100%;
   border-radius: 2px;
+  opacity: 0;                              /* Caché par défaut ; révélé par .roh-visible */
   transition: width .8s ease, left .8s ease;
+}
+
+/* Classe ajoutée par animateROH() — remplace les inline style opacity */
+.chromosome-segment.roh-visible {
+  opacity: 1;
+  transition: opacity .5s ease, width .8s ease, left .8s ease;
 }
 .chromosome-legend { display: flex; gap: clamp(14px, 2.2vh, 26px); margin-top: clamp(6px, 1.2vh, 16px); font-size: clamp(14px, 1.6vw, 22px); }
 .legend-item       { display: flex; align-items: center; gap: 6px; }
