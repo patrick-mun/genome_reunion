@@ -1,78 +1,98 @@
 # Génome Réunion
 
-Présentation interactive de 25 slides sur le projet de référentiel génomique réunionnais.
-Accessible partout via GitHub Pages.
+Présentation HTML/CSS/JS statique du projet de référentiel génomique réunionnais.
 
-## 🌐 Accès en ligne
+Le deck est actuellement composé de **29 slides**, sans build tool et sans dépendance CDN à l'exécution.
 
-→ **https://[ton-username].github.io/genome-reunion/**
+## Accès en ligne
 
-## 📁 Structure du projet
+Le site est publié via GitHub Pages :
 
-```
-genome-reunion/
-├── index.html          # Structure HTML des 25 slides + commentaires par slide
+[https://patrick-mun.github.io/genome_reunion/](https://patrick-mun.github.io/genome_reunion/)
+
+## Structure du projet
+
+```text
+genome_reunion/
+├── index.html              # Source unique de vérité : toutes les slides
 ├── css/
-│   └── main.css        # Tout le CSS : variables, layout, composants, responsive
-│                       # (13 sections commentées — voir entête du fichier)
+│   └── main.css            # Variables, layout, composants, responsive, accessibilité
 ├── js/
-│   └── app.js          # Navigation, graphiques Chart.js, animations SVG
-│                       # (goToSlide, initScoreChart, initRadarChart,
-│                       #  animatePipeline, animateROH et gestion clavier/swipe)
-└── data/
-    └── admixture.js    # Données de l'animation admixture (slide 1)
-                        # 60 lignes × composition démographique réunionnaise réelle
+│   ├── app.js              # Navigation, compteur, progression, animations, Chart.js
+│   └── vendor/
+│       └── chart.umd.js    # Chart.js vendorisé localement
+├── data/
+│   └── admixture.js        # Injection DOM du fond admixture de la slide hero
+├── AGENTS.md               # Règles de travail pour contribuer au dépôt
+├── CLAUDE.md               # Index structuré du projet (slides, CSS, IDs DOM)
+└── SECURITY.md             # Politique de sécurité
 ```
 
-## 🚀 Déploiement GitHub Pages
+## Architecture
+
+- `index.html` contient l'ensemble des **29 slides**.
+- `css/main.css` centralise le système visuel et les composants.
+- `js/app.js` pilote :
+  - la navigation clavier / boutons / swipe
+  - le compteur de slides
+  - la barre de progression
+  - les animations SVG et graphiques
+- `data/admixture.js` garde une seule source de vérité pour l'animation de la slide d'ouverture.
+
+## Navigation
+
+- `←` `→` ou `↑` `↓` : navigation clavier
+- `Préc.` / `Suiv.` : boutons en haut à droite
+- swipe gauche / droite : navigation tactile
+- boutons de section et sommaire : navigation par `data-target-slide`
+
+## Lancer le projet en local
+
+Comme il s'agit d'un site statique, on peut ouvrir directement `index.html` dans un navigateur.
+
+Pour un test plus propre, on peut aussi lancer un petit serveur local :
 
 ```bash
-# 1. Initialiser le repo local et le connecter à GitHub
-git init
-git add .
-git commit -m "init: présentation Génome Réunion"
-git branch -M main
-git remote add origin https://github.com/[username]/genome-reunion.git
-git push -u origin main
-
-# 2. Activer GitHub Pages
-#    Settings → Pages → Source : main / (root) → Save
-
-# 3. Site disponible en ~1 minute à l'URL ci-dessus
+cd /Users/patrickmunier/Library/CloudStorage/OneDrive-Personnel/genome_reunion/genome_reunion
+python3 -m http.server 8000
 ```
 
-## ✏️ Modifier le contenu
+Puis ouvrir :
 
-| Besoin | Fichier à modifier |
+[http://localhost:8000/](http://localhost:8000/)
+
+## Mettre à jour le dépôt local
+
+```bash
+cd /Users/patrickmunier/Library/CloudStorage/OneDrive-Personnel/genome_reunion/genome_reunion
+git pull origin main
+```
+
+## Modifier le contenu
+
+| Besoin | Fichier principal |
 |---|---|
-| Texte ou structure d'une slide | `index.html` |
-| Couleurs, typographie, thème | `css/main.css` — section 1 (variables `:root`) |
-| Layout navigation ou deck | `css/main.css` — sections 3, 4, 5 |
-| Style d'un composant (card, formula…) | `css/main.css` — section 9 |
-| Responsive | `css/main.css` — section 12 |
-| Ajouter / modifier un graphique Chart.js | `js/app.js` |
+| Texte, ordre, structure des slides | `index.html` |
+| Couleurs, layout, composants, responsive | `css/main.css` |
+| Navigation, progression, animations, graphiques | `js/app.js` |
 | Animation admixture (slide 1) | `data/admixture.js` |
+| Index du projet / carte des slides | `CLAUDE.md` |
+| Règles de contribution | `AGENTS.md` |
 
-## 🎮 Navigation
+## Conventions importantes
 
-- **Clavier** : `←` `→` ou `↑` `↓`
-- **Mobile** : swipe gauche / droite
-- **Boutons** : Préc. / Suiv. en haut à droite
-- **Sections** : boutons de section et sommaire via attributs `data-target-slide`
+- privilégier les **classes CSS** aux styles inline
+- garder `index.html` lisible et bien commenté par slide
+- ne pas modifier le fond scientifique sans validation
+- mettre à jour `CLAUDE.md` après toute modification qui change :
+  - une slide
+  - une classe CSS
+  - un ID DOM
+  - une cible de navigation
 
-## 🔬 Composition démographique réunionnaise
+## Références de design et de contenu
 
-L'animation admixture de la slide 1 reflète la réalité historique et génétique.
-Le conteneur HTML de la slide 1 reste vide par design ; les lignes sont injectées
-dynamiquement depuis `data/admixture.js` pour garder une seule source de vérité.
+Le projet suit deux documents de travail internes :
 
-| Composante | % estimé | Couleur CSS |
-|---|---|---|
-| Afrique / Malgache (Cafres) | ~45% | `--adm-afro-malg` `#0D9488` teal |
-| Inde du Sud (Malbars) | ~25% | `--adm-inde` `#E05A4B` coral |
-| Européen (créoles blancs) | ~15% | `--adm-euro` `#0B1F3A` navy |
-| Zarabe / Gujarati | ~8% | `--adm-zarabe` `#D97706` amber |
-| Chinois | ~7% | `--adm-chinois` `#7C3AED` violet |
-
-Sources : étude ADN mitochondrial 2005 (lignées maternelles) + données démographiques
-historiques (engagisme 1848 : ~117 000 Indiens, ~50 000 Chinois et Indo-musulmans).
+- `AGENTS.md` pour les règles d'édition et de maintenabilité
+- `CLAUDE.md` pour la carte technique du deck

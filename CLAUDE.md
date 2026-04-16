@@ -88,7 +88,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 22 | LES 4 BRAS DE SÉLECTION | 1565 | 4 | — | `slide--cream` |
 | 23 | ZOOM : EFFET FONDATEUR / ROH / IBD | 1611 | 4 | `roh` | `slide--cream` |
 | 24 | EXEMPLE CONCRET : CALCUL DU SCORE | 1714 | 4 | `radar` | `slide--cream` |
-| 25 | CE QUI REND LA MÉTHODE DÉFENDABLE | 1784 | 5 | — | `slide--cream` |
+| 25 | CE QUI REND LA MÉTHODE DÉFENDABLE | 1784 | 4 | — | `slide--cream` |
 | 26 | INTRO S05 — WGS | 1828 | 5 | — | `slide--s05` |
 | 27 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1847 | 5 | — | `slide--cream` |
 | 28 | CONCLUSION | 1888 | 5 | — | `slide--navy` |
@@ -102,7 +102,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 02 · Singularité | 8 |
 | 03 · Design | 14 |
 | 04 · Algorithme | 17 |
-| 05 · WGS | 25 |
+| 05 · WGS | 27 |
 
 ## IDs DOM utilisés par app.js
 
