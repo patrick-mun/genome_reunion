@@ -31,11 +31,11 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 7 | Hero (slide 0) | 306 | `.accent-bar .hero-content .hero-title .hero-subtitle .hero-authors .hero-pill` |
 | 8 | Intro de section | 410 | `.section-slide .section-number .section-tag .section-title .section-subtitle .section-graphic` |
 | 9 | Composants | 534 | Voir sous-index ci-dessous |
-| 10 | Admixture (slide 0) | 1967 | `.admix-wrap #admix-bg .admix-overlay-left .admix-overlay-vignette .adm-legend .adm-legend-dot--*` |
-| 11 | Graphiques / SVG | 2049 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
-| 12 | Responsive | 2132 | `@media 900px / 600px / 380px` |
-| 13 | Hauteurs min. fluides | 2191 | `.grid-* .card .level-card .arm-card` min-height |
-| 14 | Accessibilité (motion) | 2179 | `@media (prefers-reduced-motion: reduce)` |
+| 10 | Admixture (slide 0) | 2181 | `.admix-wrap #admix-bg .admix-overlay-left .admix-overlay-vignette .adm-legend .adm-legend-dot--*` |
+| 11 | Graphiques / SVG | 2263 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
+| 12 | Responsive | 2346 | `@media 900px / 600px / 380px` |
+| 13 | Hauteurs min. fluides | 2405 | `.grid-* .card .level-card .arm-card` min-height |
+| 14 | Accessibilité (motion) | 2393 | `@media (prefers-reduced-motion: reduce)` |
 
 ### Sous-index section 9 — Composants
 
@@ -51,15 +51,16 @@ Règles de travail détaillées dans `AGENTS.md`.
 | History quotes | 1016 | `.history-quotes .history-quote .history-quote-prosper --fuma` |
 | s2 (section 02) | 1053 | `.s2-grid-2--center .s2-card--accent-left-* .s2-card--soft-* .s2-card--mt/.s2-card--mb .s2-kicker--light .s2-heading .s2-body-* .s2-note-* .s2-chip--* .s2-figure .s2-legend .s2-legend-dot--* .s2-compare .s2-double .s2-clinical-band` |
 | Algo (section 04) | 1382 | `.algo-problem-* .algo-card-* .algo-badge-* .algo-inline-formula-* .algo-legend-* .algo-validation-*` |
-| Footer | 1638 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
-| TOC | 1695 | `.toc-row .toc-number .toc-title .toc-desc` |
-| Formule | 1737 | `.formula` |
-| Barres de progression | 1754 | `.progress-bar .progress-label .progress-track .progress-fill` |
-| Tableau | 1797 | `table th td .hi .pharma-*` |
-| Arm-card | 1881 | `.arm-card .arm-percent .arm-body .arm-title .arm-desc` |
-| Callout | 1911 | `.callout` |
-| Level-card | 1925 | `.level-card .level-header .level-body` |
-| Conclusion | 1932 | `.conclusion-item .conclusion-dot` |
+| Special (slides 24-25) | 1619 | `.special-stack .special-card-* .special-score-* .special-copy-* .special-legend-*` |
+| Footer | 1852 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
+| TOC | 1909 | `.toc-row .toc-number .toc-title .toc-desc` |
+| Formule | 1951 | `.formula` |
+| Barres de progression | 1968 | `.progress-bar .progress-label .progress-track .progress-fill` |
+| Tableau | 2011 | `table th td .hi .pharma-*` |
+| Arm-card | 2095 | `.arm-card .arm-percent .arm-body .arm-title .arm-desc` |
+| Callout | 2125 | `.callout` |
+| Level-card | 2139 | `.level-card .level-header .level-body` |
+| Conclusion | 2146 | `.conclusion-item .conclusion-dot` |
 
 ## index.html — Carte des slides
 
@@ -88,8 +89,8 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 20 | LE SCORE DE DIVERSITÉ S_div | 1486 | 4 | `score` | `slide--cream` |
 | 21 | PARENTÉ ET QUALITÉ ADN | 1502 | 4 | — | `slide--cream` |
 | 22 | LES 4 BRAS DE SÉLECTION | 1565 | 4 | — | `slide--cream` |
-| 23 | ZOOM : EFFET FONDATEUR / ROH / IBD | 1611 | 4 | `roh` | `slide--cream` |
-| 24 | EXEMPLE CONCRET : CALCUL DU SCORE | 1714 | 4 | `radar` | `slide--cream` |
+| 23 | ZOOM : EFFET FONDATEUR / ROH / IBD | 1604 | 4 | `roh` | `slide--cream` |
+| 24 | EXEMPLE CONCRET : CALCUL DU SCORE | 1707 | 4 | `radar` | `slide--cream` |
 | 25 | CE QUI REND LA MÉTHODE DÉFENDABLE | 1780 | 4 | — | `slide--cream` |
 | 26 | INTRO S05 — WGS | 1828 | 5 | — | `slide--s05` |
 | 27 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1847 | 5 | — | `slide--cream` |
