@@ -257,6 +257,7 @@ html, body {
 .slide.on .inner > *:nth-child(5)   { transition-delay: .28s; }
 .slide.on .inner > *:nth-child(6)   { transition-delay: .34s; }
 .slide.on .inner > *:nth-child(7)   { transition-delay: .40s; }
+.slide.on .inner > *:nth-child(n+8) { transition-delay: .46s; } /* 8e enfant et au-delà : délai max */
 
 
 /* ============================================================

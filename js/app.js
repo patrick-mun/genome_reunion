@@ -125,6 +125,7 @@ document.addEventListener('touchend', function(event) {
  * Slide 17 — Barres horizontales : poids de chaque composante du score S_div
  */
 function initScoreChart() {
+  if (typeof Chart === 'undefined') { console.warn('[app.js] Chart.js non chargé — initScoreChart annulé.'); return; }
   const canvas = document.getElementById('scoreBarChart');
   if (!canvas || scoreChartInstance) return;
 
@@ -185,6 +186,7 @@ function initScoreChart() {
  * Slide 21 — Radar : comparaison des 3 profils candidats
  */
 function initRadarChart() {
+  if (typeof Chart === 'undefined') { console.warn('[app.js] Chart.js non chargé — initRadarChart annulé.'); return; }
   const canvas = document.getElementById('radarChart');
   if (!canvas || radarChartInstance) return;
 
@@ -254,7 +256,9 @@ function initRadarChart() {
  * Slide 12 — Pipeline SNP → WGS : apparition séquentielle des étapes
  */
 function animatePipeline() {
-  document.querySelectorAll('#pipeFlow .pipeline-box, #pipeFlow .pipeline-arrow')
+  const pipeFlow = document.getElementById('pipeFlow');
+  if (!pipeFlow) { console.warn('[app.js] #pipeFlow introuvable — animatePipeline annulé.'); return; }
+  pipeFlow.querySelectorAll('.pipeline-box, .pipeline-arrow')
     .forEach(function(element) {
       const animationDelay = parseInt(element.dataset.delay || 0) * 130;
       setTimeout(function() { element.classList.add('shown'); }, animationDelay);
@@ -262,7 +266,9 @@ function animatePipeline() {
 }
 
 function resetPipelineAnimation() {
-  document.querySelectorAll('#pipeFlow .pipeline-box, #pipeFlow .pipeline-arrow')
+  const pipeFlow = document.getElementById('pipeFlow');
+  if (!pipeFlow) return;
+  pipeFlow.querySelectorAll('.pipeline-box, .pipeline-arrow')
     .forEach(function(element) { element.classList.remove('shown'); });
 }
 
@@ -287,4 +293,5 @@ function resetROHAnimation() {
 }
 
 // ── Démarrage ─────────────────────────────────────────────────
+console.assert(allSlides.length > 0, '[app.js] Aucune .slide trouvée — vérifier le HTML.');
 goToSlide(0);
