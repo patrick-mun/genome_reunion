@@ -177,6 +177,14 @@ html, body {
   text-align: center;
 }
 
+/* Focus visible homogène pour la navigation et les cibles enrichies au clavier */
+.nbtn:focus-visible,
+.sec-pill:focus-visible,
+.js-slide-jump:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
 
 /* ============================================================
    4. BARRE DE PROGRESSION
@@ -300,6 +308,16 @@ html, body {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   font-weight: 600;
+}
+
+/* Le titre reçoit le focus après navigation pour annoncer la nouvelle slide
+   sans créer un style trop agressif dans le deck. */
+.hero-title:focus,
+.slide-title:focus,
+.section-title:focus {
+  outline: 2px solid rgba(13, 115, 119, .45);
+  outline-offset: 6px;
+  border-radius: 6px;
 }
 
 

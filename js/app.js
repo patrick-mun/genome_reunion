@@ -36,6 +36,82 @@ let currentSlide = 0;
 let scoreChartInstance = null;
 let radarChartInstance = null;
 
+// ── Accessibilité du deck ────────────────────────────────────
+
+/**
+ * Retourne le meilleur titre/focus-target de la slide :
+ * hero, titre standard ou titre d'introduction de section.
+ */
+function getSlideTitleElement(slide) {
+  return slide.querySelector('.hero-title, .slide-title, .section-title');
+}
+
+/**
+ * Prépare la structure accessible du deck :
+ * - chaque slide reçoit un rôle et un lien explicite vers son titre
+ * - les cibles cliquables non natives deviennent accessibles au clavier
+ */
+function setupDeckAccessibility() {
+  allSlides.forEach(function(slide, index) {
+    var title = getSlideTitleElement(slide);
+
+    slide.id = slide.id || `slide-${index + 1}`;
+    slide.setAttribute('role', 'group');
+    slide.setAttribute('aria-roledescription', 'slide');
+
+    if (title) {
+      title.id = title.id || `slide-title-${index + 1}`;
+      title.setAttribute('tabindex', '-1');
+      slide.setAttribute('aria-labelledby', title.id);
+    } else {
+      slide.setAttribute('aria-label', `Slide ${index + 1} sur ${TOTAL_SLIDES}`);
+    }
+  });
+
+  slideJumpTargets.forEach(function(target) {
+    var isNativeControl = target.matches('button, a[href]');
+    if (!isNativeControl) {
+      target.setAttribute('role', 'button');
+      target.setAttribute('tabindex', '0');
+    }
+  });
+}
+
+/**
+ * Les slides inactives restent nécessaires au layout horizontal du deck,
+ * mais doivent être masquées sémantiquement et retirées du focus clavier.
+ */
+function updateSlideAccessibility() {
+  allSlides.forEach(function(slide, index) {
+    var isActive = index === currentSlide;
+
+    slide.setAttribute('aria-hidden', String(!isActive));
+
+    if (isActive) {
+      slide.removeAttribute('inert');
+    } else {
+      slide.setAttribute('inert', '');
+    }
+
+    if ('inert' in slide) {
+      slide.inert = !isActive;
+    }
+  });
+}
+
+/**
+ * Déplace le focus vers le titre de la slide active après navigation.
+ * Cela aide les lecteurs d'écran et les utilisateurs clavier à se repérer.
+ */
+function focusCurrentSlideTitle() {
+  var activeSlide = allSlides[currentSlide];
+  var focusTarget = getSlideTitleElement(activeSlide);
+
+  if (!focusTarget) return;
+
+  focusTarget.focus({ preventScroll: true });
+}
+
 // ══════════════════════════════════════════════════════════════
 //   NAVIGATION
 // ══════════════════════════════════════════════════════════════
@@ -46,7 +122,8 @@ let radarChartInstance = null;
  * les boutons et les pills de navigation.
  * Déclenche les animations propres à certaines slides.
  */
-function goToSlide(targetIndex) {
+function goToSlide(targetIndex, options) {
+  options = options || {};
   targetIndex = Math.max(0, Math.min(TOTAL_SLIDES - 1, targetIndex));
 
   allSlides[currentSlide].classList.remove('on');
@@ -71,6 +148,8 @@ function goToSlide(targetIndex) {
     }
   });
 
+  updateSlideAccessibility();
+
   // Animations déclenchées à l'arrivée sur certaines slides.
   // La slide active est identifiée via data-animate (plus d'indices hardcodés).
   var animate = allSlides[currentSlide].dataset.animate;
@@ -78,6 +157,10 @@ function goToSlide(targetIndex) {
   if (animate === 'score')    { setTimeout(initScoreChart,  200); }
   if (animate === 'roh')      { resetROHAnimation(); setTimeout(animateROH, 300); }
   if (animate === 'radar')    { setTimeout(initRadarChart,  200); }
+
+  if (!options.skipFocus) {
+    focusCurrentSlideTitle();
+  }
 }
 
 // Exposé globalement pour compatibilité avec d'éventuels appels externes.
@@ -98,6 +181,17 @@ slideJumpTargets.forEach(function(target) {
     const targetIndex = Number.parseInt(target.dataset.targetSlide, 10);
     if (!Number.isNaN(targetIndex)) {
       goToSlide(targetIndex);
+    }
+  });
+
+  target.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+
+      const targetIndex = Number.parseInt(target.dataset.targetSlide, 10);
+      if (!Number.isNaN(targetIndex)) {
+        goToSlide(targetIndex);
+      }
     }
   });
 });
@@ -301,4 +395,5 @@ function resetROHAnimation() {
 
 // ── Démarrage ─────────────────────────────────────────────────
 console.assert(allSlides.length > 0, '[app.js] Aucune .slide trouvée — vérifier le HTML.');
-goToSlide(0);
+setupDeckAccessibility();
+goToSlide(0, { skipFocus: true });

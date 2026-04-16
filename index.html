@@ -8,7 +8,7 @@
     <script src="js/vendor/chart.umd.js"></script>
   </head>
   <body>
-    <nav id="nav">
+    <nav id="nav" aria-label="Navigation de la présentation">
       <span id="nav-logo">Génome Réunion</span>
       <div id="nav-center">
         <!-- Navigation de section : data-target-slide = index 0-based de la slide d'entrée de section -->
@@ -20,13 +20,13 @@
         <button class="sec-pill js-slide-jump" data-target-slide="27">05 · WGS</button>
       </div>
       <div id="nav-right">
-        <button class="nbtn" id="bp" aria-label="Slide précédente">← Préc.</button>
-        <span id="ctr" aria-live="polite" aria-atomic="true">1 / 29</span>
-        <button class="nbtn" id="bn" aria-label="Slide suivante">Suiv. →</button>
+        <button class="nbtn" id="bp" aria-label="Slide précédente" aria-controls="deck">← Préc.</button>
+        <span id="ctr" role="status" aria-live="polite" aria-atomic="true">1 / 29</span>
+        <button class="nbtn" id="bn" aria-label="Slide suivante" aria-controls="deck">Suiv. →</button>
       </div>
     </nav>
     <div id="prog"><div id="pf"></div></div>
-    <div id="deck">
+    <main id="deck" aria-label="Présentation Génome Réunion">
       <!-- ═══════════════════════════════════════════════════════
      SLIDE 01 — TITRE HERO
      Fond navy + barre accent teal + animation admixture à droite.
@@ -1918,7 +1918,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
     <!-- end deck -->
     <div id="hint">← → clavier · swipe mobile</div>
     <script src="data/admixture.js"></script>

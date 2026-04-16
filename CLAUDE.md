@@ -13,7 +13,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 |---|---|
 | `index.html` | Toutes les slides (source unique de vérité) |
 | `css/main.css` | Styles (1 650 lignes, 14 sections numérotées) |
-| `js/app.js` | Navigation, Chart.js, animations SVG |
+| `js/app.js` | Navigation, accessibilité du deck, Chart.js, animations SVG |
 | `data/admixture.js` | Données + builder DOM du fond admixture (slide 0) |
 | `js/vendor/chart.umd.js` | Chart.js 4.4.1 vendorisé (pas de CDN) |
 | `AGENTS.md` | Règles de travail (contenu, commits, CSS) |
