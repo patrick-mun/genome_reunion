@@ -1149,56 +1149,56 @@
           <div class="slide-rule slide-rule--purple"></div>
           <div class="pipeline-flow" id="pipeFlow">
             <div class="pipeline-box pipeline-box--navy" data-delay="0">
-              <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.18);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">1</div>
-              <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0" />
-              <p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">
+              <div class="design-pipeline-step">1</div>
+              <hr class="design-pipeline-divider" />
+              <p class="design-pipeline-title">
                 Échantillonnage
                 <br />
                 (EFS)
               </p>
-              <p style="font-size:clamp(15px,1.7vw,24px);opacity:.8;line-height:1.5">Donneurs volontaires reflétant la diversité de l'île.</p>
+              <p class="design-pipeline-copy design-pipeline-copy--soft">Donneurs volontaires reflétant la diversité de l'île.</p>
             </div>
             <div class="pipeline-arrow" data-delay="1">
               <svg fill="none" viewbox="0 0 28 28" aria-hidden="true"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
             </div>
             <div class="pipeline-box pipeline-box--teal" data-delay="2">
-              <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">2</div>
-              <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0" />
-              <p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">
+              <div class="design-pipeline-step">2</div>
+              <hr class="design-pipeline-divider" />
+              <p class="design-pipeline-title">
                 Génotypage
                 <br />
                 (Puce SNP)
               </p>
-              <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">PCA · admixture · parenté · ROH</p>
+              <p class="design-pipeline-copy design-pipeline-copy--mid">PCA · admixture · parenté · ROH</p>
             </div>
             <div class="pipeline-arrow" data-delay="3">
               <svg fill="none" viewbox="0 0 28 28" aria-hidden="true"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
             </div>
             <div class="pipeline-box pipeline-box--purple" data-delay="4">
-              <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">3</div>
-              <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0" />
-              <p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">
+              <div class="design-pipeline-step">3</div>
+              <hr class="design-pipeline-divider" />
+              <p class="design-pipeline-title">
                 Sélection WGS
                 <br />
                 (Optimisation)
               </p>
-              <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">Score multicritère → max information</p>
+              <p class="design-pipeline-copy design-pipeline-copy--mid">Score multicritère → max information</p>
             </div>
             <div class="pipeline-arrow" data-delay="5">
               <svg fill="none" viewbox="0 0 28 28" aria-hidden="true"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
             </div>
             <div class="pipeline-box pipeline-box--coral" data-delay="6">
-              <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">4</div>
-              <hr style="border:none;border-top:1px solid rgba(255,255,255,.2);margin:8px 0" />
-              <p style="font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">
+              <div class="design-pipeline-step">4</div>
+              <hr class="design-pipeline-divider" />
+              <p class="design-pipeline-title">
                 Base de Données
                 <br />
                 Locale
               </p>
-              <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">Référentiel pour recalibrer les outils cliniques</p>
+              <p class="design-pipeline-copy design-pipeline-copy--mid">Référentiel pour recalibrer les outils cliniques</p>
             </div>
           </div>
-          <div style="background:#F3F0FF;border:1px solid #C4B5FD;border-radius:6px;padding:clamp(12px,1.8vh,28px) 16px;font-size:clamp(16px,1.8vw,26px);color:var(--purple)">
+          <div class="design-pipeline-note">
             <strong>Le WGS coûte cher.</strong>
             Le passage étape 2→3 n'est pas un tirage au sort — c'est une
             <strong>équation d'optimisation</strong>
@@ -1226,10 +1226,10 @@
               <div class="level-header level-header--teal">1. Exploration — PCA</div>
               <div class="level-body">
                 <div class="formula">z_i = (PC₁, PC₂, …, PCₚ)</div>
-                <p class="text-body" style="font-size:15px;margin-bottom:10px">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p>
+                <p class="text-body design-body">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p>
                 <!-- Mini scatter PCA -->
-                <div style="background:#F0FDFA;border-radius:6px;padding:8px;margin-bottom:10px">
-                  <svg style="width:100%;display:block" viewbox="0 0 200 110" aria-hidden="true">
+                <div class="design-figure design-figure--teal">
+                  <svg class="design-figure-svg" viewbox="0 0 200 110" aria-hidden="true">
                     <!-- axes -->
                     <line stroke="#CBD5E1" stroke-width="1" x1="18" x2="190" y1="96" y2="96"></line>
                     <line stroke="#CBD5E1" stroke-width="1" x1="18" x2="18" y1="8" y2="96"></line>
@@ -1264,9 +1264,9 @@
                     <text fill="#E05A4B" font-size="7.5" font-weight="700" text-anchor="middle" x="100" y="38">La Réunion</text>
                     <line stroke="#E05A4B" stroke-dasharray="2,2" stroke-width=".8" x1="100" x2="95" y1="40" y2="52"></line>
                   </svg>
-                  <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px">Espace PC1/PC2 — individus réunionnais entre les clusters</p>
+                  <p class="design-figure-caption">Espace PC1/PC2 — individus réunionnais entre les clusters</p>
                 </div>
-                <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ Ne fixe pas K — elle cadre les sources.</p>
+                <p class="design-warning">⚠ Ne fixe pas K — elle cadre les sources.</p>
               </div>
             </div>
             <!-- CARD 2 : ADMIXTURE -->
@@ -1278,10 +1278,10 @@
                   <br />
                   Σ q_{ik} = 1
                 </div>
-                <p class="text-body" style="font-size:15px;margin-bottom:10px">Proportions d'ascendance globale pour l'ensemble du jeu de données.</p>
+                <p class="text-body design-body">Proportions d'ascendance globale pour l'ensemble du jeu de données.</p>
                 <!-- Mini ADMIXTURE stacked bars -->
-                <div style="background:#FAF5FF;border-radius:6px;padding:8px 10px;margin-bottom:10px">
-                  <svg style="width:100%;display:block" viewbox="0 0 200 105" aria-hidden="true">
+                <div class="design-figure design-figure--purple">
+                  <svg class="design-figure-svg" viewbox="0 0 200 105" aria-hidden="true">
                     <!-- Labels individus -->
                     <text fill="#8896A5" font-size="7" x="10" y="100">EUR</text>
                     <text fill="#8896A5" font-size="7" x="36" y="100">AFR</text>
@@ -1320,9 +1320,9 @@
                     <rect fill="#8B5CF6" height="24" rx="1" width="18" x="162" y="57"></rect>
                     <rect fill="#D97706" height="10" rx="1" width="18" x="162" y="81"></rect>
                   </svg>
-                  <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px">Profils réunionnais (REU) : admixture multi-continentale</p>
+                  <p class="design-figure-caption">Profils réunionnais (REU) : admixture multi-continentale</p>
                 </div>
-                <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ K est global, pas individuel.</p>
+                <p class="design-warning">⚠ K est global, pas individuel.</p>
               </div>
             </div>
             <!-- CARD 3 : LOCAL ANCESTRY -->
@@ -1330,10 +1330,10 @@
               <div class="level-header level-header--coral">3. Résolution — Local ancestry</div>
               <div class="level-body">
                 <div class="formula">PCAdmix sur chromosomes phasés</div>
-                <p class="text-body" style="font-size:15px;margin-bottom:10px">Origine aux segments chromosomiques. Identifie les zones ambiguës.</p>
+                <p class="text-body design-body">Origine aux segments chromosomiques. Identifie les zones ambiguës.</p>
                 <!-- Mini local ancestry chromosome -->
-                <div style="background:#FFF5F5;border-radius:6px;padding:10px 12px;margin-bottom:10px">
-                  <svg style="width:100%;display:block" viewbox="0 0 200 90" aria-hidden="true">
+                <div class="design-figure design-figure--coral">
+                  <svg class="design-figure-svg" viewbox="0 0 200 90" aria-hidden="true">
                     <!-- Chromosome 1 (brin maternel) -->
                     <text fill="#8896A5" font-size="7.5" x="4" y="22">Chr.1 mat.</text>
                     <rect fill="#E8E4DC" height="14" rx="4" width="140" x="50" y="12"></rect>
@@ -1341,14 +1341,14 @@
                     <rect fill="#059669" height="14" rx="0" width="30" x="94" y="12"></rect>
                     <rect fill="#E05A4B" height="14" rx="0" width="18" x="126" y="12"></rect>
                     <rect fill="#D97706" height="14" rx="0" width="28" x="146" y="12"></rect>
-                    <rect fill="#3B82F6" height="14" rx="4" style="border-radius:0 4px 4px 0" width="14" x="176" y="12"></rect>
+                    <rect fill="#3B82F6" height="14" rx="4" width="14" x="176" y="12"></rect>
                     <!-- Chromosome 1 (brin paternel) -->
                     <text fill="#8896A5" font-size="7.5" x="4" y="46">Chr.1 pat.</text>
                     <rect fill="#E8E4DC" height="14" rx="4" width="140" x="50" y="36"></rect>
                     <rect fill="#059669" height="14" rx="4" width="20" x="50" y="36"></rect>
                     <rect fill="#3B82F6" height="14" rx="0" width="52" x="72" y="36"></rect>
                     <rect fill="#8B5CF6" height="14" rx="0" width="22" x="126" y="36"></rect>
-                    <rect fill="#E05A4B" height="14" rx="4" style="border-radius:0 4px 4px 0" width="40" x="150" y="36"></rect>
+                    <rect fill="#E05A4B" height="14" rx="4" width="40" x="150" y="36"></rect>
                     <!-- Segment ambigu annoté -->
                     <rect fill="none" height="42" stroke="#E05A4B" stroke-dasharray="3,2" stroke-width="1.2" width="4" x="118" y="10"></rect>
                     <text fill="#E05A4B" font-size="7" x="122" y="62">ambigu</text>
@@ -1362,9 +1362,9 @@
                     <rect fill="#8B5CF6" height="9" rx="1" width="9" x="146" y="72"></rect>
                     <text fill="#4A5568" font-size="7" x="157" y="80">Inde</text>
                   </svg>
-                  <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px">Résolution segment par segment — zone ambiguë signalée</p>
+                  <p class="design-figure-caption">Résolution segment par segment — zone ambiguë signalée</p>
                 </div>
-                <p style="font-size:14px;color:var(--orange);font-style:italic">⚠ Segment ambigu ≠ nouvelle ascendance.</p>
+                <p class="design-warning">⚠ Segment ambigu ≠ nouvelle ascendance.</p>
               </div>
             </div>
           </div>
