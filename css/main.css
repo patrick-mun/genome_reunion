@@ -2158,6 +2158,111 @@ tr:last-child td { border: none; }
   flex-shrink: 0;
 }
 
+/* ── Fin de deck : impacts et conclusion (slides 28-29) ────
+   Cartes d'impact colorées et bloc de synthèse final sur fond
+   navy. Permet de garder une cohérence de ton sur la fin du deck
+   tout en retirant les inline styles redondants. */
+.impact-card {
+  border: 2px solid;
+}
+
+.impact-card--green {
+  border-color: var(--green);
+}
+
+.impact-card--teal {
+  border-color: var(--teal);
+}
+
+.impact-card--blue {
+  border-color: var(--blue);
+}
+
+.impact-card--purple {
+  border-color: var(--purple);
+}
+
+.impact-card--amber {
+  border-color: var(--amber);
+}
+
+.impact-card--coral {
+  border-color: var(--coral);
+}
+
+.impact-card-title {
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: clamp(16px, 1.8vw, 26px);
+}
+
+.impact-card-title--green {
+  color: var(--green);
+}
+
+.impact-card-title--teal {
+  color: var(--teal);
+}
+
+.impact-card-title--blue {
+  color: var(--blue);
+}
+
+.impact-card-title--purple {
+  color: var(--purple);
+}
+
+.impact-card-title--amber {
+  color: var(--amber);
+}
+
+.impact-card-title--coral {
+  color: var(--coral);
+}
+
+.impact-card-copy {
+  font-size: clamp(15px, 1.7vw, 24px);
+}
+
+.conclusion-kicker {
+  font-size: clamp(16px, 1.8vw, 26px);
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--tealL);
+  margin-bottom: clamp(6px, 1.2vh, 16px);
+}
+
+.conclusion-title {
+  font-family: Georgia, serif;
+  font-size: clamp(22px, 3.2vw, 38px);
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: clamp(14px, 2.4vh, 28px);
+}
+
+.conclusion-copy {
+  color: #CBD5E1;
+  font-size: clamp(14px, 1.6vw, 22px);
+}
+
+.conclusion-band {
+  background: rgba(13, 147, 136, .15);
+  border: 1px solid var(--teal);
+  border-radius: 8px;
+  padding: 13px 16px;
+  margin-top: clamp(10px, 2vh, 24px);
+}
+
+.conclusion-band-copy {
+  font-size: clamp(16px, 1.8vw, 26px);
+  color: var(--white);
+}
+
+.conclusion-band-label {
+  color: var(--tealL);
+}
+
 /* Hint de navigation — visible uniquement sur desktop */
 #hint {
   position: fixed;

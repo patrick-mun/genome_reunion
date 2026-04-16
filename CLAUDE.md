@@ -31,11 +31,11 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 7 | Hero (slide 0) | 306 | `.accent-bar .hero-content .hero-title .hero-subtitle .hero-authors .hero-pill` |
 | 8 | Intro de section | 410 | `.section-slide .section-number .section-tag .section-title .section-subtitle .section-graphic` |
 | 9 | Composants | 534 | Voir sous-index ci-dessous |
-| 10 | Admixture (slide 0) | 2181 | `.admix-wrap #admix-bg .admix-overlay-left .admix-overlay-vignette .adm-legend .adm-legend-dot--*` |
-| 11 | Graphiques / SVG | 2263 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
-| 12 | Responsive | 2346 | `@media 900px / 600px / 380px` |
-| 13 | Hauteurs min. fluides | 2405 | `.grid-* .card .level-card .arm-card` min-height |
-| 14 | Accessibilité (motion) | 2393 | `@media (prefers-reduced-motion: reduce)` |
+| 10 | Admixture (slide 0) | 2286 | `.admix-wrap #admix-bg .admix-overlay-left .admix-overlay-vignette .adm-legend .adm-legend-dot--*` |
+| 11 | Graphiques / SVG | 2368 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
+| 12 | Responsive | 2451 | `@media 900px / 600px / 380px` |
+| 13 | Hauteurs min. fluides | 2513 | `.grid-* .card .level-card .arm-card` min-height |
+| 14 | Accessibilité (motion) | 2498 | `@media (prefers-reduced-motion: reduce)` |
 
 ### Sous-index section 9 — Composants
 
@@ -61,6 +61,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Callout | 2125 | `.callout` |
 | Level-card | 2139 | `.level-card .level-header .level-body` |
 | Conclusion | 2146 | `.conclusion-item .conclusion-dot` |
+| Fin de deck | 2165 | `.impact-card* .conclusion-kicker .conclusion-band* .conclusion-copy` |
 
 ## index.html — Carte des slides
 
@@ -93,8 +94,8 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 24 | EXEMPLE CONCRET : CALCUL DU SCORE | 1707 | 4 | `radar` | `slide--cream` |
 | 25 | CE QUI REND LA MÉTHODE DÉFENDABLE | 1780 | 4 | — | `slide--cream` |
 | 26 | INTRO S05 — WGS | 1828 | 5 | — | `slide--s05` |
-| 27 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1847 | 5 | — | `slide--cream` |
-| 28 | CONCLUSION | 1888 | 5 | — | `slide--navy` |
+| 27 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1843 | 5 | — | `slide--cream` |
+| 28 | CONCLUSION | 1884 | 5 | — | `slide--navy` |
 
 ### Navigation pills → slide d'entrée de section
 
