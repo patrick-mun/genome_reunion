@@ -716,6 +716,27 @@ html, body {
   font-style: italic;
 }
 
+.design-body--tight {
+  margin-bottom: 5px;
+}
+
+.design-note {
+  font-size: clamp(16px, 1.8vw, 26px);
+  font-style: italic;
+}
+
+.design-note--teal {
+  color: var(--teal);
+}
+
+.design-note--purple {
+  color: var(--purple);
+}
+
+.design-note--amber {
+  color: var(--amber);
+}
+
 /* ── Pourcentages des arm-cards ──────────────────────────── */
 .arm-percent--blue   { background: var(--blue); }
 .arm-percent--teal   { background: var(--teal); }
@@ -1960,6 +1981,11 @@ html, body {
   line-height: 1.7;
 }
 
+.formula--score {
+  border-color: #BFDBFE;
+  font-size: clamp(15px, 1.7vw, 24px);
+}
+
 /* ── Barres de progression (composant) ──────────────────────
    Composant pour afficher des métriques sous forme de barres
    horizontales animées. Utilisé sur les slides de statistiques.
@@ -2371,6 +2397,11 @@ tr:last-child td { border: none; }
   height: 100%;
 }
 
+.chart-wrapper--score {
+  height: 260px;
+  margin: 14px 0;
+}
+
 /* ── Pipeline SNP → WGS (slide 12) ─────────────────────────
    Séquence d'étapes horizontales animées.
    Chaque .pipeline-box et .pipeline-arrow commence invisible
@@ -2423,6 +2454,14 @@ tr:last-child td { border: none; }
   border-radius: 2px;
   opacity: 0;                              /* Caché par défaut ; révélé par .roh-visible */
   transition: width .8s ease, left .8s ease;
+}
+
+.chromosome-segment--teal {
+  background: #0D7377;
+}
+
+.chromosome-segment--coral {
+  background: #E05A4B;
 }
 
 /* Classe ajoutée par animateROH() — remplace les inline style opacity */

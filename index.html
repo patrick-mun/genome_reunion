@@ -1446,8 +1446,8 @@
               <div class="level-header level-header--teal">1 · PCA — Position</div>
               <div class="level-body">
                 <div class="formula">z_i = (PC₁, PC₂, …, PCₚ)</div>
-                <p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p>
-                <p style="font-size:clamp(16px,1.8vw,26px);color:var(--teal);font-style:italic">Géométrie globale de la variation.</p>
+                <p class="text-body design-body design-body--tight">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p>
+                <p class="design-note design-note--teal">Géométrie globale de la variation.</p>
               </div>
             </div>
             <div class="level-card">
@@ -1458,16 +1458,16 @@
                   <br />
                   Σ q_{ik} = 1
                 </div>
-                <p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">Proportions d'ascendance : 40% africain, 35% européen…</p>
-                <p style="font-size:clamp(16px,1.8vw,26px);color:var(--purple);font-style:italic">Deux proches en PCA peuvent avoir des compositions très différentes.</p>
+                <p class="text-body design-body design-body--tight">Proportions d'ascendance : 40% africain, 35% européen…</p>
+                <p class="design-note design-note--purple">Deux proches en PCA peuvent avoir des compositions très différentes.</p>
               </div>
             </div>
             <div class="level-card">
               <div class="level-header level-header--amber">3 · Entropie H_i — Mélange</div>
               <div class="level-body">
                 <div class="formula">H_i = [−Σ q·ln(q)] / ln(K)</div>
-                <p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:5px">H≈0 concentré · H≈1 fortement admixé.</p>
-                <p style="font-size:clamp(16px,1.8vw,26px);color:var(--amber);font-style:italic">Identifie les profils les plus informatifs pour La Réunion.</p>
+                <p class="text-body design-body design-body--tight">H≈0 concentré · H≈1 fortement admixé.</p>
+                <p class="design-note design-note--amber">Identifie les profils les plus informatifs pour La Réunion.</p>
               </div>
             </div>
           </div>
@@ -1487,8 +1487,8 @@
         <div class="inner">
           <h2 class="slide-title">Le Score de Diversité : tableau de bord paramétrable</h2>
           <div class="slide-rule slide-rule--blue"></div>
-          <div class="formula" style="background:#EFF6FF;border-color:#BFDBFE;font-size:clamp(15px,1.7vw,24px)">S_div = 0.45 × D_PCA + 0.25 × D_ADM + 0.15 × (1–φmax) + 0.10 × U + 0.05 × DNAQ</div>
-          <div id="scoreChart" style="position:relative;height:260px;margin:14px 0">
+          <div class="formula formula--score">S_div = 0.45 × D_PCA + 0.25 × D_ADM + 0.15 × (1–φmax) + 0.10 × U + 0.05 × DNAQ</div>
+          <div id="scoreChart" class="chart-wrapper chart-wrapper--score">
             <canvas id="scoreBarChart"></canvas>
           </div>
           <div class="callout">Couvrir davantage, répéter moins. On cherche l'individu le plus éloigné de ceux déjà sélectionnés — pas l'individu moyen.</div>
@@ -1621,25 +1621,25 @@
                   <div class="chromosome-row">
                     <span class="chromosome-label">Population générale</span>
                     <div class="chromosome-bar">
-                      <div class="chromosome-segment" style="background:#0D7377;left:5%;width:12%"></div>
-                      <div class="chromosome-segment" style="background:#0D7377;left:34%;width:8%"></div>
-                      <div class="chromosome-segment" style="background:#0D7377;left:58%;width:6%"></div>
-                      <div class="chromosome-segment" style="background:#0D7377;left:78%;width:10%"></div>
+                      <div class="chromosome-segment chromosome-segment--teal" style="left:5%;width:12%"></div>
+                      <div class="chromosome-segment chromosome-segment--teal" style="left:34%;width:8%"></div>
+                      <div class="chromosome-segment chromosome-segment--teal" style="left:58%;width:6%"></div>
+                      <div class="chromosome-segment chromosome-segment--teal" style="left:78%;width:10%"></div>
                     </div>
                   </div>
                   <div class="chromosome-row">
                     <span class="chromosome-label">Fondateur (mild)</span>
                     <div class="chromosome-bar">
-                      <div class="chromosome-segment" style="background:#E05A4B;left:4%;width:22%"></div>
-                      <div class="chromosome-segment" style="background:#E05A4B;left:42%;width:18%"></div>
-                      <div class="chromosome-segment" style="background:#E05A4B;left:72%;width:20%"></div>
+                      <div class="chromosome-segment chromosome-segment--coral" style="left:4%;width:22%"></div>
+                      <div class="chromosome-segment chromosome-segment--coral" style="left:42%;width:18%"></div>
+                      <div class="chromosome-segment chromosome-segment--coral" style="left:72%;width:20%"></div>
                     </div>
                   </div>
                   <div class="chromosome-row">
                     <span class="chromosome-label special-founder-label-strong">Fondateur (fort)</span>
                     <div class="chromosome-bar special-founder-bar-strong">
-                      <div class="chromosome-segment" style="background:#E05A4B;left:2%;width:38%"></div>
-                      <div class="chromosome-segment" style="background:#E05A4B;left:45%;width:42%"></div>
+                      <div class="chromosome-segment chromosome-segment--coral" style="left:2%;width:38%"></div>
+                      <div class="chromosome-segment chromosome-segment--coral" style="left:45%;width:42%"></div>
                     </div>
                   </div>
                 </div>

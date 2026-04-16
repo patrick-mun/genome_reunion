@@ -44,7 +44,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Grilles | 542 | `.grid-2 .grid-3 .grid-4` |
 | Cards | 551 | `.card .card-colored` |
 | Modificateurs de slides | 565 | `.slide--cream --navy --hero --s01…s05` `.slide-rule--*` `.toc-number--*` `.pipeline-box--*` `.level-header--*` `.arm-percent--*` `.s2-double-card--*` |
-| Design / pipeline | 629 | `.design-pipeline-* .design-figure-* .design-body .design-warning` |
+| Design / pipeline | 629 | `.design-pipeline-* .design-figure-* .design-body* .design-note* .design-warning` |
 | AI slides | 730 | `.ai-lead .ai-grid-2 .ai-badge-card .ai-callout .ai-step-*` |
 | Clinical | 895 | `.clinical-grid .clinical-panel .clinical-panel--*` |
 | Biais | 960 | `.bias-intro .bias-table .bias-callout` |
@@ -54,7 +54,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Special (slides 24-25) | 1619 | `.special-stack .special-card-* .special-score-* .special-copy-* .special-legend-*` |
 | Footer | 1852 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
 | TOC | 1909 | `.toc-row .toc-number .toc-title .toc-desc` |
-| Formule | 1951 | `.formula` |
+| Formule | 1951 | `.formula .formula--score` |
 | Barres de progression | 1968 | `.progress-bar .progress-label .progress-track .progress-fill` |
 | Tableau | 2011 | `table th td .hi .pharma-*` |
 | Arm-card | 2095 | `.arm-card .arm-percent .arm-body .arm-title .arm-desc` |
@@ -121,6 +121,12 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `#scoreBarChart` | Canvas Chart.js barres (slide 20, animate:score) |
 | `#radarChart` | Canvas Chart.js radar (slide 24, animate:radar) |
 | `#rohDiagram` | Diagramme ROH (slide 23, animate:roh) |
+
+## Inline styles résiduels
+
+Il ne reste plus que **9** `style=""` inline dans `index.html`, tous sur la slide 24.
+Ils servent uniquement à placer les segments du schéma ROH (`left` / `width`), donc
+ils sont conservés volontairement comme géométrie locale d'un dessin unique.
 
 ## Conventions de nommage CSS
 
