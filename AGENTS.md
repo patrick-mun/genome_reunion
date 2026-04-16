@@ -51,7 +51,17 @@ visuelle entre les slides.
   changer le message de la slide.
 - Avant un commit, verifier qu'aucun style inline inutile n'a ete laisse.
 
-## Attendu par defaut pour Codex
+## Index du projet (CLAUDE.md)
+
+- `CLAUDE.md` contient l'index structuré du projet : carte des slides, sections CSS
+  avec numéros de lignes, IDs DOM, familles de classes.
+- **Obligation** : après toute modification qui change une ligne de référence, ajoute
+  une slide, crée une classe CSS ou modifie un ID DOM, mettre à jour `CLAUDE.md`
+  dans le même commit.
+- Les numéros de lignes sont indicatifs (±5 lignes tolérées) ; l'ordre et le contenu
+  sont ce qui compte.
+
+
 
 - Favoriser la maintenabilite plutot que la vitesse brute.
 - Proposer une structure propre avant d'ajouter des exceptions locales.
