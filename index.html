@@ -1401,29 +1401,29 @@
         <div class="inner">
           <h2 class="slide-title">Le problème d'optimisation</h2>
           <div class="slide-rule slide-rule--blue"></div>
-          <div style="background:var(--navy);border-radius:8px;padding:clamp(14px,2.2vh,34px) 18px;margin-bottom:clamp(10px,1.8vh,20px);display:flex;align-items:center;gap:clamp(12px,2vh,24px)">
+          <div class="algo-problem-box">
             <div>
-              <div style="font-size:clamp(22px,2.4vw,34px);font-weight:700;color:var(--tealL);font-family:Georgia,serif">max</div>
-              <div style="font-size:clamp(15px,1.7vw,24px);color:#94A3B8">S⊂C, |S|=N</div>
+              <div class="algo-problem-side-max">max</div>
+              <div class="algo-problem-side-set">S⊂C, |S|=N</div>
             </div>
-            <div style="font-size:clamp(28px,3.2vw,48px);font-weight:700;color:var(--white);font-family:Georgia,serif">I(S)</div>
-            <div style="font-size:clamp(14px,1.6vw,22px);color:#CBD5E1;font-style:italic">sous contrainte Coût(S) ≤ B</div>
+            <div class="algo-problem-target">I(S)</div>
+            <div class="algo-problem-constraint">sous contrainte Coût(S) ≤ B</div>
           </div>
           <div class="grid-3">
-            <div class="card" style="border-top:3px solid var(--orange)">
-              <div style="width:28px;height:28px;border-radius:50%;background:var(--orange);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">1</div>
-              <h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Le WGS est coûteux</h3>
-              <p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">La puce SNP identifie les N individus les plus informatifs parmi la cohorte complète.</p>
+            <div class="card algo-card algo-card--top-orange">
+              <div class="algo-badge algo-badge--orange">1</div>
+              <h3 class="algo-card-title">Le WGS est coûteux</h3>
+              <p class="text-body algo-body-md">La puce SNP identifie les N individus les plus informatifs parmi la cohorte complète.</p>
             </div>
-            <div class="card" style="border-top:3px solid var(--amber)">
-              <div style="width:28px;height:28px;border-radius:50%;background:var(--amber);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">2</div>
-              <h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Le tirage au hasard est sous-optimal</h3>
-              <p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Il sur-représente les profils communs et sous-représente les profils rares.</p>
+            <div class="card algo-card algo-card--top-amber">
+              <div class="algo-badge algo-badge--amber">2</div>
+              <h3 class="algo-card-title">Le tirage au hasard est sous-optimal</h3>
+              <p class="text-body algo-body-md">Il sur-représente les profils communs et sous-représente les profils rares.</p>
             </div>
-            <div class="card" style="border-top:3px solid var(--teal)">
-              <div style="width:28px;height:28px;border-radius:50%;background:var(--teal);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(16px,1.8vw,26px);margin-bottom:clamp(5px,1vh,14px)">3</div>
-              <h3 style="color:var(--navy);margin-bottom:5px;font-size:clamp(16px,1.8vw,26px)">Un seul critère ne suffit pas</h3>
-              <p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Diversité, parenté, qualité ADN et quotas terrain doivent être combinés.</p>
+            <div class="card algo-card algo-card--top-teal">
+              <div class="algo-badge algo-badge--teal">3</div>
+              <h3 class="algo-card-title">Un seul critère ne suffit pas</h3>
+              <p class="text-body algo-body-md">Diversité, parenté, qualité ADN et quotas terrain doivent être combinés.</p>
             </div>
           </div>
           <div class="slide-footer">
@@ -1509,35 +1509,35 @@
           <h2 class="slide-title">Filtrer la redondance : parenté et qualité ADN</h2>
           <div class="slide-rule slide-rule--blue"></div>
           <div class="grid-2">
-            <div class="card" style="border-top:3px solid var(--orange)">
-              <h3 style="color:var(--navy);margin-bottom:4px">Pénalité de parenté</h3>
-              <div style="font-family:'Courier New',monospace;color:var(--orange);font-size:clamp(14px,1.6vw,22px);margin-bottom:clamp(5px,1vh,14px)">(1 – φ_i^max)</div>
-              <p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">Deux cousins partagent ~12,5% de leur génome. Séquencer les deux n'apporte que 87,5% d'information nouvelle.</p>
-              <div class="formula" style="font-size:clamp(16px,1.8vw,26px)">φ_ij calculé par KING ou PLINK</div>
-              <div style="display:flex;flex-direction:column;gap:4px;margin-top:clamp(5px,1vh,14px)">
-                <div style="display:flex;gap:8px;align-items:center">
-                  <div style="width:13px;height:13px;background:#EF4444;border-radius:2px"></div>
-                  <span style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:#EF4444">φ &gt; 0.25</span>
-                  <span style="font-size:clamp(14px,1.6vw,22px);color:var(--muted)">1er degré</span>
+            <div class="card algo-card algo-card--top-orange">
+              <h3 class="algo-card-title algo-card-title--tight">Pénalité de parenté</h3>
+              <div class="algo-inline-formula algo-inline-formula--orange">(1 – φ_i^max)</div>
+              <p class="text-body algo-body-md algo-body-md--mb">Deux cousins partagent ~12,5% de leur génome. Séquencer les deux n'apporte que 87,5% d'information nouvelle.</p>
+              <div class="formula algo-body-md">φ_ij calculé par KING ou PLINK</div>
+              <div class="algo-legend">
+                <div class="algo-legend-row">
+                  <div class="algo-legend-swatch algo-legend-swatch--red"></div>
+                  <span class="algo-legend-value algo-legend-value--red">φ &gt; 0.25</span>
+                  <span class="algo-legend-label">1er degré</span>
                 </div>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <div style="width:13px;height:13px;background:var(--orange);border-radius:2px"></div>
-                  <span style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--orange)">0.125–0.25</span>
-                  <span style="font-size:clamp(14px,1.6vw,22px);color:var(--muted)">2e degré</span>
+                <div class="algo-legend-row">
+                  <div class="algo-legend-swatch algo-legend-swatch--orange"></div>
+                  <span class="algo-legend-value algo-legend-value--orange">0.125–0.25</span>
+                  <span class="algo-legend-label">2e degré</span>
                 </div>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <div style="width:13px;height:13px;background:var(--green);border-radius:2px"></div>
-                  <span style="font-size:clamp(14px,1.6vw,22px);font-weight:700;color:var(--green)">&lt; 0.0625</span>
-                  <span style="font-size:clamp(14px,1.6vw,22px);color:var(--muted)">Non apparenté — ok</span>
+                <div class="algo-legend-row">
+                  <div class="algo-legend-swatch algo-legend-swatch--green"></div>
+                  <span class="algo-legend-value algo-legend-value--green">&lt; 0.0625</span>
+                  <span class="algo-legend-label">Non apparenté — ok</span>
                 </div>
               </div>
             </div>
-            <div class="card" style="border-top:3px solid var(--amber)">
-              <h3 style="color:var(--navy);margin-bottom:4px">Qualité ADN opérationnelle</h3>
-              <div style="font-family:'Courier New',monospace;color:var(--amber);font-size:clamp(14px,1.6vw,22px);margin-bottom:clamp(5px,1vh,14px)">DNAQ_i</div>
-              <p class="text-body" style="font-size:clamp(15px,1.7vw,24px);margin-bottom:clamp(5px,1vh,14px)">Un échantillon de mauvaise qualité peut échouer au séquençage WGS. Le sélectionner gaspille le budget.</p>
-              <p style="font-size:clamp(16px,1.8vw,26px);font-weight:700;color:var(--light);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Critères évalués</p>
-              <p class="text-body" style="font-size:clamp(14px,1.6vw,22px)">
+            <div class="card algo-card algo-card--top-amber">
+              <h3 class="algo-card-title algo-card-title--tight">Qualité ADN opérationnelle</h3>
+              <div class="algo-inline-formula algo-inline-formula--amber">DNAQ_i</div>
+              <p class="text-body algo-body-md algo-body-md--mb">Un échantillon de mauvaise qualité peut échouer au séquençage WGS. Le sélectionner gaspille le budget.</p>
+              <p class="algo-label">Critères évalués</p>
+              <p class="text-body algo-legend-label">
                 · Concentration et intégrité ADN
                 <br />
                 · Call rate puce SNP &gt; 95%
@@ -1785,33 +1785,33 @@
         <div class="inner">
           <h2 class="slide-title">Ce qui rend la méthode défendable</h2>
           <div class="slide-rule slide-rule--teal"></div>
-          <div style="display:flex;flex-direction:column;gap:9px">
-            <div class="card" style="display:flex;gap:clamp(12px,1.8vh,24px);align-items:flex-start;border-left:4px solid var(--teal)">
-              <div style="font-size:clamp(16px,1.8vw,26px);color:var(--teal);font-weight:700">✓</div>
+          <div class="algo-validation-list">
+            <div class="card algo-validation-item algo-validation-item--teal">
+              <div class="algo-validation-mark algo-validation-mark--teal">✓</div>
               <div>
-                <h3 style="color:var(--navy);margin-bottom:3px;font-size:clamp(16px,1.8vw,26px)">Variables définies</h3>
-                <p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">PCA, ADMIXTURE, entropie, parenté, ROH/IBD — définition précise et outil standard (PLINK, KING, ADMIXTURE).</p>
+                <h3 class="algo-validation-title">Variables définies</h3>
+                <p class="text-body algo-validation-copy">PCA, ADMIXTURE, entropie, parenté, ROH/IBD — définition précise et outil standard (PLINK, KING, ADMIXTURE).</p>
               </div>
             </div>
-            <div class="card" style="display:flex;gap:clamp(12px,1.8vh,24px);align-items:flex-start;border-left:4px solid var(--green)">
-              <div style="font-size:clamp(16px,1.8vw,26px);color:var(--green);font-weight:700">✓</div>
+            <div class="card algo-validation-item algo-validation-item--green">
+              <div class="algo-validation-mark algo-validation-mark--green">✓</div>
               <div>
-                <h3 style="color:var(--navy);margin-bottom:3px;font-size:clamp(16px,1.8vw,26px)">Poids annoncés</h3>
-                <p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Coefficients explicites. Version V1 (sans ascendance locale) et V2 (avec) permettent une montée en précision.</p>
+                <h3 class="algo-validation-title">Poids annoncés</h3>
+                <p class="text-body algo-validation-copy">Coefficients explicites. Version V1 (sans ascendance locale) et V2 (avec) permettent une montée en précision.</p>
               </div>
             </div>
-            <div class="card" style="display:flex;gap:clamp(12px,1.8vh,24px);align-items:flex-start;border-left:4px solid var(--tealL)">
-              <div style="font-size:clamp(16px,1.8vw,26px);color:var(--tealL);font-weight:700">✓</div>
+            <div class="card algo-validation-item algo-validation-item--teal-light">
+              <div class="algo-validation-mark algo-validation-mark--teal-light">✓</div>
               <div>
-                <h3 style="color:var(--navy);margin-bottom:3px;font-size:clamp(16px,1.8vw,26px)">Algorithme reproductible</h3>
-                <p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Sélection gloutonne déterministe : à ensemble S fixé, le même candidat est toujours choisi. Auditable par un tiers.</p>
+                <h3 class="algo-validation-title">Algorithme reproductible</h3>
+                <p class="text-body algo-validation-copy">Sélection gloutonne déterministe : à ensemble S fixé, le même candidat est toujours choisi. Auditable par un tiers.</p>
               </div>
             </div>
-            <div class="card" style="display:flex;gap:clamp(12px,1.8vh,24px);align-items:flex-start;border-left:4px solid var(--amber)">
-              <div style="font-size:clamp(16px,1.8vw,26px);color:var(--amber);font-weight:700">✓</div>
+            <div class="card algo-validation-item algo-validation-item--amber">
+              <div class="algo-validation-mark algo-validation-mark--amber">✓</div>
               <div>
-                <h3 style="color:var(--navy);margin-bottom:3px;font-size:clamp(16px,1.8vw,26px)">Validation finale</h3>
-                <p class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Contrôle avant WGS : distribution PCA panel vs cohorte, q et H_i, parenté interne, couverture strates.</p>
+                <h3 class="algo-validation-title">Validation finale</h3>
+                <p class="text-body algo-validation-copy">Contrôle avant WGS : distribution PCA panel vs cohorte, q et H_i, parenté interne, couverture strates.</p>
               </div>
             </div>
           </div>

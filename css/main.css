@@ -1286,6 +1286,241 @@ html, body {
   text-align: center;
 }
 
+/* Composants algorithmiques (slides 19, 22, 26)
+   Regroupe les cartes, badges, légendes et blocs de validation pour
+   réduire les inline styles dans la section algorithme. */
+.algo-problem-box {
+  background: var(--navy);
+  border-radius: 8px;
+  padding: clamp(14px, 2.2vh, 34px) 18px;
+  margin-bottom: clamp(10px, 1.8vh, 20px);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vh, 24px);
+}
+
+.algo-problem-side-max {
+  font-size: clamp(22px, 2.4vw, 34px);
+  font-weight: 700;
+  color: var(--tealL);
+  font-family: Georgia, serif;
+}
+
+.algo-problem-side-set {
+  font-size: clamp(15px, 1.7vw, 24px);
+  color: #94A3B8;
+}
+
+.algo-problem-target {
+  font-size: clamp(28px, 3.2vw, 48px);
+  font-weight: 700;
+  color: var(--white);
+  font-family: Georgia, serif;
+}
+
+.algo-problem-constraint {
+  font-size: clamp(14px, 1.6vw, 22px);
+  color: #CBD5E1;
+  font-style: italic;
+}
+
+.algo-card {
+  border-top-width: 3px;
+  border-top-style: solid;
+}
+
+.algo-card--top-orange {
+  border-top-color: var(--orange);
+}
+
+.algo-card--top-amber {
+  border-top-color: var(--amber);
+}
+
+.algo-card--top-teal {
+  border-top-color: var(--teal);
+}
+
+.algo-card-title {
+  color: var(--navy);
+  margin-bottom: 5px;
+  font-size: clamp(16px, 1.8vw, 26px);
+}
+
+.algo-card-title--tight {
+  margin-bottom: 4px;
+}
+
+.algo-body-md {
+  font-size: clamp(15px, 1.7vw, 24px);
+}
+
+.algo-body-md--mb {
+  margin-bottom: clamp(5px, 1vh, 14px);
+}
+
+.algo-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: clamp(16px, 1.8vw, 26px);
+  margin-bottom: clamp(5px, 1vh, 14px);
+}
+
+.algo-badge--orange {
+  background: var(--orange);
+}
+
+.algo-badge--amber {
+  background: var(--amber);
+}
+
+.algo-badge--teal {
+  background: var(--teal);
+}
+
+.algo-inline-formula {
+  font-family: 'Courier New', monospace;
+  font-size: clamp(14px, 1.6vw, 22px);
+  margin-bottom: clamp(5px, 1vh, 14px);
+}
+
+.algo-inline-formula--orange {
+  color: var(--orange);
+}
+
+.algo-inline-formula--amber {
+  color: var(--amber);
+}
+
+.algo-label {
+  font-size: clamp(16px, 1.8vw, 26px);
+  font-weight: 700;
+  color: var(--light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.algo-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: clamp(5px, 1vh, 14px);
+}
+
+.algo-legend-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.algo-legend-swatch {
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+}
+
+.algo-legend-swatch--red {
+  background: #EF4444;
+}
+
+.algo-legend-swatch--orange {
+  background: var(--orange);
+}
+
+.algo-legend-swatch--green {
+  background: var(--green);
+}
+
+.algo-legend-value {
+  font-size: clamp(14px, 1.6vw, 22px);
+  font-weight: 700;
+}
+
+.algo-legend-value--red {
+  color: #EF4444;
+}
+
+.algo-legend-value--orange {
+  color: var(--orange);
+}
+
+.algo-legend-value--green {
+  color: var(--green);
+}
+
+.algo-legend-label {
+  font-size: clamp(14px, 1.6vw, 22px);
+  color: var(--muted);
+}
+
+.algo-validation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.algo-validation-item {
+  display: flex;
+  gap: clamp(12px, 1.8vh, 24px);
+  align-items: flex-start;
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+.algo-validation-item--teal {
+  border-left-color: var(--teal);
+}
+
+.algo-validation-item--green {
+  border-left-color: var(--green);
+}
+
+.algo-validation-item--teal-light {
+  border-left-color: var(--tealL);
+}
+
+.algo-validation-item--amber {
+  border-left-color: var(--amber);
+}
+
+.algo-validation-mark {
+  font-size: clamp(16px, 1.8vw, 26px);
+  font-weight: 700;
+}
+
+.algo-validation-mark--teal {
+  color: var(--teal);
+}
+
+.algo-validation-mark--green {
+  color: var(--green);
+}
+
+.algo-validation-mark--teal-light {
+  color: var(--tealL);
+}
+
+.algo-validation-mark--amber {
+  color: var(--amber);
+}
+
+.algo-validation-title {
+  color: var(--navy);
+  margin-bottom: 3px;
+  font-size: clamp(16px, 1.8vw, 26px);
+}
+
+.algo-validation-copy {
+  font-size: clamp(15px, 1.7vw, 24px);
+}
+
 
 /* Variante de mise en page pour les slides de section 02 dont le titre
    est plus long. On aligne le contenu en haut pour éviter qu'il soit

@@ -31,11 +31,11 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 7 | Hero (slide 0) | 306 | `.accent-bar .hero-content .hero-title .hero-subtitle .hero-authors .hero-pill` |
 | 8 | Intro de section | 410 | `.section-slide .section-number .section-tag .section-title .section-subtitle .section-graphic` |
 | 9 | Composants | 534 | Voir sous-index ci-dessous |
-| 10 | Admixture (slide 0) | 1413 | `.admix-wrap #admix-bg .admix-overlay-left .admix-overlay-vignette .adm-legend .adm-legend-dot--*` |
-| 11 | Graphiques / SVG | 1500 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
-| 12 | Responsive | 1579 | `@media 900px / 600px / 380px` |
-| 13 | Hauteurs min. fluides | 1631 | `.grid-* .card .level-card .arm-card` min-height |
-| 14 | Accessibilité (motion) | 1646 | `@media (prefers-reduced-motion: reduce)` |
+| 10 | Admixture (slide 0) | 1877 | `.admix-wrap #admix-bg .admix-overlay-left .admix-overlay-vignette .adm-legend .adm-legend-dot--*` |
+| 11 | Graphiques / SVG | 1965 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
+| 12 | Responsive | 2042 | `@media 900px / 600px / 380px` |
+| 13 | Hauteurs min. fluides | 2106 | `.grid-* .card .level-card .arm-card` min-height |
+| 14 | Accessibilité (motion) | 2121 | `@media (prefers-reduced-motion: reduce)` |
 
 ### Sous-index section 9 — Composants
 
@@ -49,15 +49,16 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Biais | 851 | `.bias-intro .bias-table .bias-callout` |
 | History quotes | 906 | `.history-quotes .history-quote .history-quote-prosper --fuma` |
 | s2 (section 02) | 943 | `.s2-grid-2--center .s2-card--accent-left-* .s2-card--soft-* .s2-card--mt/.s2-card--mb .s2-kicker--light .s2-heading .s2-body-* .s2-note-* .s2-chip--* .s2-figure .s2-legend .s2-legend-dot--* .s2-compare .s2-double .s2-clinical-band` |
-| Footer | 1092 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
-| TOC | 1148 | `.toc-row .toc-number .toc-title .toc-desc` |
-| Formule | 1191 | `.formula` |
-| Barres de progression | 1206 | `.progress-bar .progress-label .progress-track .progress-fill` |
-| Tableau | 1251 | `table th td .hi .pharma-*` |
-| Arm-card | 1334 | `.arm-card .arm-percent .arm-body .arm-title .arm-desc` |
-| Callout | 1365 | `.callout` |
-| Level-card | 1378 | `.level-card .level-header .level-body` |
-| Conclusion | 1386 | `.conclusion-item .conclusion-dot` |
+| Algo (section 04) | 1292 | `.algo-problem-* .algo-card-* .algo-badge-* .algo-inline-formula-* .algo-legend-* .algo-validation-*` |
+| Footer | 1545 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
+| TOC | 1601 | `.toc-row .toc-number .toc-title .toc-desc` |
+| Formule | 1644 | `.formula` |
+| Barres de progression | 1659 | `.progress-bar .progress-label .progress-track .progress-fill` |
+| Tableau | 1704 | `table th td .hi .pharma-*` |
+| Arm-card | 1787 | `.arm-card .arm-percent .arm-body .arm-title .arm-desc` |
+| Callout | 1818 | `.callout` |
+| Level-card | 1831 | `.level-card .level-header .level-body` |
+| Conclusion | 1839 | `.conclusion-item .conclusion-dot` |
 
 ## index.html — Carte des slides
 
@@ -81,14 +82,14 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 15 | LE PIPELINE D'OPTIMISATION | 1146 | 3 | `pipeline` | `slide--cream` |
 | 16 | TROIS NIVEAUX DE SINGULARITÉ | 1219 | 3 | — | `slide--cream` |
 | 17 | INTRO S04 — ALGORITHME | 1381 | 4 | — | `slide--s04` |
-| 18 | LE PROBLÈME D'OPTIMISATION | 1400 | 4 | — | `slide--cream` |
+| 18 | LE PROBLÈME D'OPTIMISATION | 1396 | 4 | — | `slide--cream` |
 | 19 | TROIS VARIABLES GÉNOMIQUES | 1440 | 4 | — | `slide--cream` |
 | 20 | LE SCORE DE DIVERSITÉ S_div | 1486 | 4 | `score` | `slide--cream` |
-| 21 | PARENTÉ ET QUALITÉ ADN | 1507 | 4 | — | `slide--cream` |
+| 21 | PARENTÉ ET QUALITÉ ADN | 1502 | 4 | — | `slide--cream` |
 | 22 | LES 4 BRAS DE SÉLECTION | 1565 | 4 | — | `slide--cream` |
 | 23 | ZOOM : EFFET FONDATEUR / ROH / IBD | 1611 | 4 | `roh` | `slide--cream` |
 | 24 | EXEMPLE CONCRET : CALCUL DU SCORE | 1714 | 4 | `radar` | `slide--cream` |
-| 25 | CE QUI REND LA MÉTHODE DÉFENDABLE | 1784 | 4 | — | `slide--cream` |
+| 25 | CE QUI REND LA MÉTHODE DÉFENDABLE | 1780 | 4 | — | `slide--cream` |
 | 26 | INTRO S05 — WGS | 1828 | 5 | — | `slide--s05` |
 | 27 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1847 | 5 | — | `slide--cream` |
 | 28 | CONCLUSION | 1888 | 5 | — | `slide--navy` |
