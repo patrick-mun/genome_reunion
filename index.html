@@ -42,12 +42,12 @@
          Les barres sont injectées par data/admixture.js ; ce bloc HTML reste volontairement vide
          pour éviter une duplication des données entre index.html et data/admixture.js.
          Les deux dégradés (gauche et haut/bas) fondent l'animation dans le fond navy. -->
-        <div aria-hidden="true" style="position:absolute;right:0;top:0;bottom:0;width:50%;overflow:hidden;opacity:.32;pointer-events:none;display:flex;flex-direction:column">
-          <div id="admix-bg" style="display:flex;flex-direction:column;gap:5px;padding:0;animation:admix-scroll-v 24s linear infinite"></div>
-          <!-- Dégradé gauche : fondu de navy vers transparent pour intégrer l'animation au fond -->
-          <div style="position:absolute;inset:0;background:linear-gradient(to right,var(--navy) 0%,transparent 35%)"></div>
-          <!-- Dégradés haut et bas : masquent les bords de l'animation pour un rendu propre -->
-          <div style="position:absolute;inset:0;background:linear-gradient(to bottom,var(--navy) 0%,transparent 8%,transparent 92%,var(--navy) 100%)"></div>
+        <div class="admix-wrap" aria-hidden="true">
+          <div id="admix-bg"></div>
+          <!-- Fondu gauche : navy → transparent pour intégrer l'animation au fond -->
+          <div class="admix-overlay-left"></div>
+          <!-- Fondus haut et bas : masquent les bords de l'animation -->
+          <div class="admix-overlay-vignette"></div>
         </div>
         <!-- Légende des composantes ancestrales — coin bas droit, discret (opacity .65)
          Correspond aux couleurs des variables CSS --adm-* dans variables.css -->
@@ -296,7 +296,7 @@
      pour la population réunionnaise.
      ═══════════════════════════════════════════════════════ -->
       <!-- Slide 04 : panorama des ressources biaisées et de leurs limites pour La Réunion. -->
-      <div class="slide slide--cream" data-section="1" data-slide="4">
+      <div class="slide slide--cream" data-section="1">
         <div class="inner">
           <h2 class="slide-title">Un biais structurel documenté</h2>
           <div class="slide-rule slide-rule--coral"></div>
@@ -1143,7 +1143,7 @@
      Chaque .pipeline-box a un attribut data-delay (index)
      qui contrôle son délai d'apparition (index × 130ms).
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-section="3" data-slide="15" data-animate="pipeline">
+      <div class="slide slide--cream" data-section="3" data-animate="pipeline">
         <div class="inner">
           <h2 class="slide-title">Le Pipeline d'Optimisation</h2>
           <div class="slide-rule slide-rule--purple"></div>
@@ -1216,7 +1216,7 @@
      de La Réunion : admixture 5 sources, effet fondateur,
      et absence totale des bases mondiales.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-section="3" data-slide="16">
+      <div class="slide slide--cream" data-section="3">
         <div class="inner">
           <h2 class="slide-title">Trois niveaux d'analyse à ne pas confondre</h2>
           <div class="slide-rule slide-rule--purple"></div>
@@ -1483,7 +1483,7 @@
      initialisé par initScoreChart() dans app.js.
      Poids : D_PCA 45% · D_ADM 25% · (1-φ) 15% · U 10% · DNAQ 5%
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-section="4" data-slide="20" data-animate="score">
+      <div class="slide slide--cream" data-section="4" data-animate="score">
         <div class="inner">
           <h2 class="slide-title">Le Score de Diversité : tableau de bord paramétrable</h2>
           <div class="slide-rule slide-rule--blue"></div>

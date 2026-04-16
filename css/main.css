@@ -1399,8 +1399,40 @@ tr:last-child td { border: none; }
    est identique. Voir data/admixture.js pour la génération.
    will-change: transform active l'accélération GPU.
    ============================================================ */
+/* Wrapper : zone droite de la slide hero qui contient l'animation */
+.admix-wrap {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 50%;
+  overflow: hidden;
+  opacity: .32;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barres admixture — animation et layout définis ici, plus en inline */
 #admix-bg {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+  animation: admix-scroll-v 24s linear infinite;
   will-change: transform; /* Délègue l'animation au GPU */
+}
+
+/* Fondu gauche : fondu navy → transparent pour intégrer l'animation */
+.admix-overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--navy) 0%, transparent 35%);
+}
+
+/* Fondu haut/bas : masque les bords de l'animation */
+.admix-overlay-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--navy) 0%, transparent 8%, transparent 92%, var(--navy) 100%);
 }
 
 @keyframes admix-scroll-v {
@@ -1537,6 +1569,19 @@ tr:last-child td { border: none; }
 
 @media (max-width: 380px) {
   .grid-4 { grid-template-columns: 1fr; } /* Mobile très étroit : tout en colonne */
+}
+
+
+/* ============================================================
+   14. ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
+   Respecte le réglage système "Réduire les animations".
+   Désactive l'animation admixture et simplifie les transitions.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  #admix-bg  { animation: none; }
+  #deck      { transition: none; }
+  #pf        { transition: none; }
+  .inner > * { transition: none; }
 }
 
 
