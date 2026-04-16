@@ -102,7 +102,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 02 · Singularité | 8 |
 | 03 · Design | 14 |
 | 04 · Algorithme | 17 |
-| 05 · WGS | 27 |
+| 05 · WGS | 26 |
 
 ## IDs DOM utilisés par app.js
 

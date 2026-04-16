@@ -310,14 +310,12 @@ html, body {
   font-weight: 600;
 }
 
-/* Le titre reçoit le focus après navigation pour annoncer la nouvelle slide
-   sans créer un style trop agressif dans le deck. */
+/* Les titres peuvent recevoir le focus par JS pour l'annonce lecteur d'écran,
+   mais on neutralise le focus natif visible afin de préserver le design du deck. */
 .hero-title:focus,
 .slide-title:focus,
 .section-title:focus {
-  outline: 2px solid rgba(13, 115, 119, .45);
-  outline-offset: 6px;
-  border-radius: 6px;
+  outline: none;
 }
 
 
