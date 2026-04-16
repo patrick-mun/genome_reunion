@@ -5,22 +5,27 @@
 
 // ── Constantes de navigation ─────────────────────────────────
 
-const TOTAL_SLIDES = 29;
-
-// Pour chaque slide, indique quelle pill de navigation doit être active.
-// 0=Accueil 1=Angle mort 2=Singularité 3=Design 4=Algorithme 5=WGS
-const SECTION_MAP = [0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5];
-
 // ── Éléments DOM ─────────────────────────────────────────────
 
-const slideDeck      = document.getElementById('deck');
-const slideCounter   = document.getElementById('ctr');
-const progressBar    = document.getElementById('pf');
-const buttonPrevious = document.getElementById('bp');
-const buttonNext     = document.getElementById('bn');
-const allSlides      = document.querySelectorAll('.slide');
-const navPills       = document.querySelectorAll('.sec-pill');
+const slideDeck        = document.getElementById('deck');
+const slideCounter     = document.getElementById('ctr');
+const progressBar      = document.getElementById('pf');
+const buttonPrevious   = document.getElementById('bp');
+const buttonNext       = document.getElementById('bn');
+const allSlides        = document.querySelectorAll('.slide');
+const navPills         = document.querySelectorAll('.sec-pill');
 const slideJumpTargets = document.querySelectorAll('.js-slide-jump');
+
+// ── Constantes dérivées du DOM ────────────────────────────────
+
+// Nombre de slides lu depuis le HTML — plus besoin de mettre à jour manuellement.
+const TOTAL_SLIDES = allSlides.length;
+
+// Construit le tableau de section depuis les attributs data-section du HTML.
+// 0=Accueil 1=Angle mort 2=Singularité 3=Design 4=Algorithme 5=WGS
+const SECTION_MAP = Array.from(allSlides).map(function(slide) {
+  return parseInt(slide.dataset.section, 10) || 0;
+});
 
 // ── État ──────────────────────────────────────────────────────
 

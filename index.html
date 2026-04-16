@@ -35,7 +35,7 @@
      Les barres reflètent la composition démographique réelle :
      ~45% Afrique/Malgache · ~25% Inde du Sud · ~15% Européen
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--hero">
+      <div class="slide slide--hero" data-section="0">
         <div class="accent-bar"></div>
         <!-- Zone droite : animation admixture en arrière-plan
          aria-hidden=true car purement décoratif — ne pas lire par les lecteurs d'écran
@@ -115,7 +115,7 @@
      Les data-target-slide ci-dessous sont alignés sur les vraies
      slides d'introduction de section (index 0-based).
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="0">
         <div class="inner">
           <h2 class="slide-title">Plan de la présentation</h2>
           <div class="slide-rule slide-rule--teal"></div>
@@ -166,7 +166,7 @@
      SLIDE 03 — INTRO SECTION 01 : L'ANGLE MORT
      Slide d'intro pleine couleur var(--s01) = coral.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--s01">
+      <div class="slide slide--s01" data-section="1">
         <div class="section-slide">
           <div class="section-slide-left"><div class="section-number">01</div></div>
           <div class="section-slide-right">
@@ -296,7 +296,7 @@
      pour la population réunionnaise.
      ═══════════════════════════════════════════════════════ -->
       <!-- Slide 04 : panorama des ressources biaisées et de leurs limites pour La Réunion. -->
-      <div class="slide slide--cream" data-slide="4">
+      <div class="slide slide--cream" data-section="1" data-slide="4">
         <div class="inner">
           <h2 class="slide-title">Un biais structurel documenté</h2>
           <div class="slide-rule slide-rule--coral"></div>
@@ -374,7 +374,7 @@
      patient réunionnais (VUS — Variant d'Incertitude Significative).
      ═══════════════════════════════════════════════════════ -->
       <!-- Slide 05 : contraste clinique entre référentiel standard et patient réunionnais. -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="1">
         <div class="inner">
           <h2 class="slide-title">Le Mur Clinique : Incertitudes et Pertes de Chance</h2>
           <div class="slide-rule slide-rule--coral"></div>
@@ -429,7 +429,7 @@
      à la population réunionnaise (warfarine, clopidogrel).
      ═══════════════════════════════════════════════════════ -->
       <!-- Slide 06 : tableau pharmacogénétique + message de synthèse clinique. -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="1">
         <div class="inner">
           <h2 class="slide-title">Pharmacogénétique : Quand le Standard Devient Dangereux</h2>
           <div class="slide-rule slide-rule--coral"></div>
@@ -521,7 +521,7 @@
      avec la conséquence directe pour les patients réunionnais.
      ═══════════════════════════════════════════════════════ -->
       <!-- Slide 07 : montrer comment un référentiel incomplet se propage jusque dans l'IA biomédicale. -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="1">
         <div class="accent-bar accent-bar--coral"></div>
         <div class="inner">
           <h2 class="slide-title">Quand l'IA Hérite d'une Mauvaise Référence</h2>
@@ -587,7 +587,7 @@
      3 leviers orientés données / modèles / usage clinique.
      ═══════════════════════════════════════════════════════ -->
       <!-- Slide 08 : réponse au biais, structurée selon la logique IA données → modèles → transfert clinique. -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="1">
         <div class="accent-bar accent-bar--coral"></div>
         <div class="inner">
           <h2 class="slide-title">Comment Génome Réunion Corrige le Biais de l'IA</h2>
@@ -628,7 +628,7 @@
      SLIDE 09 — INTRO SECTION 02 : SINGULARITÉ RÉUNIONNAISE
      Slide d'intro pleine couleur var(--s02) = teal.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--s02">
+      <div class="slide slide--s02" data-section="2">
         <div class="section-slide">
           <div class="section-slide-left"><div class="section-number">02</div></div>
           <div class="section-slide-right">
@@ -737,7 +737,7 @@
      → XXe migrations. Cette slide ne traite plus la génétique
      en bloc : elle pose seulement la construction historique.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="2">
         <div class="inner">
           <h2 class="slide-title">La Réunion : un peuplement sans autochtones</h2>
           <div class="slide-rule slide-rule--teal"></div>
@@ -832,7 +832,7 @@
      Montre la transition entre vagues de peuplement et
      recomposition biologique mesurable (admixture).
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="2">
         <div class="inner">
           <h2 class="slide-title">Du peuplement au métissage</h2>
           <div class="slide-rule slide-rule--teal"></div>
@@ -919,7 +919,7 @@
      Comparaison visuelle simple : faible hétérogénéité interne
      contre structure admixée à plusieurs échelles.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="2">
         <div class="inner s2-inner-top">
           <h2 class="slide-title">Pourquoi La Réunion n'est pas une population homogène</h2>
           <div class="slide-rule slide-rule--teal"></div>
@@ -1012,7 +1012,7 @@
      Complément de l'admixture : l'isolement et les goulots
      historiques peuvent enrichir localement certains variants.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="2">
         <div class="inner">
           <h2 class="slide-title">L'effet fondateur : l'autre singularité</h2>
           <div class="slide-rule slide-rule--orange"></div>
@@ -1090,7 +1090,7 @@
      Slide de synthèse avant de basculer vers la section Design.
      Réunit admixture, effet fondateur et impact analytique.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="2">
         <div class="inner">
           <h2 class="slide-title">La double singularité réunionnaise</h2>
           <div class="slide-rule slide-rule--teal"></div>
@@ -1122,7 +1122,7 @@
      SLIDE 15 — INTRO SECTION 03 : DESIGN
      Slide d'intro pleine couleur var(--s03) = violet.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--s03">
+      <div class="slide slide--s03" data-section="3">
         <div class="section-slide">
           <div class="section-slide-left"><div class="section-number">03</div></div>
           <div class="section-slide-right">
@@ -1143,7 +1143,7 @@
      Chaque .pipeline-box a un attribut data-delay (index)
      qui contrôle son délai d'apparition (index × 130ms).
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-slide="15">
+      <div class="slide slide--cream" data-section="3" data-slide="15">
         <div class="inner">
           <h2 class="slide-title">Le Pipeline d'Optimisation</h2>
           <div class="slide-rule slide-rule--purple"></div>
@@ -1216,7 +1216,7 @@
      de La Réunion : admixture 5 sources, effet fondateur,
      et absence totale des bases mondiales.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-slide="16">
+      <div class="slide slide--cream" data-section="3" data-slide="16">
         <div class="inner">
           <h2 class="slide-title">Trois niveaux d'analyse à ne pas confondre</h2>
           <div class="slide-rule slide-rule--purple"></div>
@@ -1378,7 +1378,7 @@
      SLIDE 18 — INTRO SECTION 04 : ALGORITHME
      Slide d'intro pleine couleur var(--s04) = bleu.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--s04">
+      <div class="slide slide--s04" data-section="4">
         <div class="section-slide">
           <div class="section-slide-left"><div class="section-number">04</div></div>
           <div class="section-slide-right">
@@ -1397,7 +1397,7 @@
      Formalisation : max I(S) avec Coût(S) ≤ B.
      3 raisons pour lesquelles un seul critère ne suffit pas.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="4">
         <div class="inner">
           <h2 class="slide-title">Le problème d'optimisation</h2>
           <div class="slide-rule slide-rule--blue"></div>
@@ -1437,7 +1437,7 @@
      Level-cards : PCA (position), ADMIXTURE (composition),
      Entropie H_i (mélange). Formules mathématiques incluses.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="4">
         <div class="inner">
           <h2 class="slide-title">Trois variables pour cartographier l'espace génétique</h2>
           <div class="slide-rule slide-rule--blue"></div>
@@ -1483,7 +1483,7 @@
      initialisé par initScoreChart() dans app.js.
      Poids : D_PCA 45% · D_ADM 25% · (1-φ) 15% · U 10% · DNAQ 5%
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-slide="20">
+      <div class="slide slide--cream" data-section="4" data-slide="20">
         <div class="inner">
           <h2 class="slide-title">Le Score de Diversité : tableau de bord paramétrable</h2>
           <div class="slide-rule slide-rule--blue"></div>
@@ -1504,7 +1504,7 @@
      parenté (1-φmax calculé par KING/PLINK) et score
      qualité ADN (call rate, contamination, consentement).
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="4">
         <div class="inner">
           <h2 class="slide-title">Filtrer la redondance : parenté et qualité ADN</h2>
           <div class="slide-rule slide-rule--blue"></div>
@@ -1562,7 +1562,7 @@
        15% Fondateur/ROH/IBD (effet fondateur réunionnais)
         5% Contrôle Technique (duplicats, concordance)
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="4">
         <div class="inner">
           <h2 class="slide-title">Quatre bras pour quatre objectifs distincts</h2>
           <div class="slide-rule slide-rule--blue"></div>
@@ -1608,7 +1608,7 @@
      Contexte : goulots 1663 et 1848 → Syndrome Larsen-Bourbon
      (B4GALT7) et Syndrome de Ravine, invisibles mondialement.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="4">
         <div class="inner">
           <h2 class="slide-title">Zoom : le bras Fondateur / ROH / IBD</h2>
           <div class="slide-rule slide-rule--amber"></div>
@@ -1711,7 +1711,7 @@
      B (extrême mais apparenté, score moyen),
      C (extrême ET non apparenté, sélectionné ✓).
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="4">
         <div class="inner">
           <h2 class="slide-title">Exemple concret : calcul pas-à-pas du score</h2>
           <div class="slide-rule slide-rule--blue"></div>
@@ -1781,7 +1781,7 @@
      4 critères de validation : variables définies,
      poids annoncés, algorithme reproductible, validation finale.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="5">
         <div class="inner">
           <h2 class="slide-title">Ce qui rend la méthode défendable</h2>
           <div class="slide-rule slide-rule--teal"></div>
@@ -1825,7 +1825,7 @@
      SLIDE 27 — INTRO SECTION 05 : WGS
      Slide d'intro pleine couleur var(--s05) = vert.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--s05">
+      <div class="slide slide--s05" data-section="5">
         <div class="section-slide">
           <div class="section-slide-left"><div class="section-number">05</div></div>
           <div class="section-slide-right">
@@ -1844,7 +1844,7 @@
      6 impacts : VUS, pharmacogénomique, imputation,
      effet fondateur, biais IA, équité en santé.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream">
+      <div class="slide slide--cream" data-section="5">
         <div class="inner">
           <h2 class="slide-title">Les impacts attendus du référentiel réunionnais</h2>
           <div class="slide-rule slide-rule--green"></div>
@@ -1885,7 +1885,7 @@
      Fond navy comme la slide titre, .accent-bar teal.
      4 points de conclusion + encadré récapitulatif.
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--navy">
+      <div class="slide slide--navy" data-section="5">
         <div class="accent-bar"></div>
         <div class="inner">
           <p style="font-size:clamp(16px,1.8vw,26px);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--tealL);margin-bottom:clamp(6px,1.2vh,16px)">En résumé</p>
