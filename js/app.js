@@ -61,7 +61,14 @@ function goToSlide(targetIndex) {
   buttonNext.disabled     = currentSlide === TOTAL_SLIDES - 1;
 
   navPills.forEach(function(pill, index) {
-    pill.classList.toggle('on', index === (SECTION_MAP[currentSlide] || 0));
+    var isActive = index === (SECTION_MAP[currentSlide] || 0);
+    pill.classList.toggle('on', isActive);
+    // aria-current indique la section active aux lecteurs d'écran.
+    if (isActive) {
+      pill.setAttribute('aria-current', 'true');
+    } else {
+      pill.removeAttribute('aria-current');
+    }
   });
 
   // Animations déclenchées à l'arrivée sur certaines slides.

@@ -12,7 +12,7 @@
       <span id="nav-logo">Génome Réunion</span>
       <div id="nav-center">
         <!-- Navigation de section : data-target-slide = index 0-based de la slide d'entrée de section -->
-        <button class="sec-pill js-slide-jump on" data-target-slide="0">Accueil</button>
+        <button class="sec-pill js-slide-jump on" data-target-slide="0" aria-current="true">Accueil</button>
         <button class="sec-pill js-slide-jump" data-target-slide="2">01 · Angle mort</button>
         <button class="sec-pill js-slide-jump" data-target-slide="8">02 · Singularité</button>
         <button class="sec-pill js-slide-jump" data-target-slide="14">03 · Design</button>
@@ -20,9 +20,9 @@
         <button class="sec-pill js-slide-jump" data-target-slide="25">05 · WGS</button>
       </div>
       <div id="nav-right">
-        <button class="nbtn" id="bp">← Préc.</button>
-        <span id="ctr">1 / 29</span>
-        <button class="nbtn" id="bn">Suiv. →</button>
+        <button class="nbtn" id="bp" aria-label="Slide précédente">← Préc.</button>
+        <span id="ctr" aria-live="polite" aria-atomic="true">1 / 29</span>
+        <button class="nbtn" id="bn" aria-label="Slide suivante">Suiv. →</button>
       </div>
     </nav>
     <div id="prog"><div id="pf"></div></div>
@@ -51,32 +51,32 @@
         </div>
         <!-- Légende des composantes ancestrales — coin bas droit, discret (opacity .65)
          Correspond aux couleurs des variables CSS --adm-* dans variables.css -->
-        <div aria-hidden="true" style="position:absolute;bottom:20px;right:20px;display:flex;gap:clamp(10px,1.6vh,20px);opacity:.65;z-index:2">
-          <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8">
-            <div style="width:12px;height:12px;background:#0D9488;border-radius:2px"></div>
+        <div class="adm-legend" aria-hidden="true">
+          <div class="adm-legend-item">
+            <div class="adm-legend-dot adm-legend-dot--afrique"></div>
             Afrique/Malgache
           </div>
-          <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8">
-            <div style="width:10px;height:10px;background:#E05A4B;border-radius:2px"></div>
+          <div class="adm-legend-item">
+            <div class="adm-legend-dot adm-legend-dot--inde"></div>
             Inde du Sud
           </div>
-          <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8">
-            <div style="width:10px;height:10px;background:#0B1F3A;border-radius:2px;border:1px solid rgba(255,255,255,.3)"></div>
+          <div class="adm-legend-item">
+            <div class="adm-legend-dot adm-legend-dot--europe"></div>
             Européen
           </div>
-          <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8">
-            <div style="width:10px;height:10px;background:#D97706;border-radius:2px"></div>
+          <div class="adm-legend-item">
+            <div class="adm-legend-dot adm-legend-dot--zarabe"></div>
             Zarabe/Gujarati
           </div>
-          <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#94A3B8">
-            <div style="width:10px;height:10px;background:#7C3AED;border-radius:2px"></div>
+          <div class="adm-legend-item">
+            <div class="adm-legend-dot adm-legend-dot--chinois"></div>
             Chinois
           </div>
         </div>
         <!-- Contenu principal hero — z-index:2 pour rester au-dessus de l'animation admixture.
          Le bloc texte reste volontairement court : titre + promesse + signature auteurs,
          pour laisser la slide d'ouverture jouer pleinement son rôle de couverture. -->
-        <div class="hero-content" style="position:relative;z-index:2">
+        <div class="hero-content">
           <div>
             <h1 class="hero-title">
               Génomes
@@ -122,41 +122,41 @@
           <div class="toc-row js-slide-jump" data-target-slide="2">
             <div class="toc-number toc-number--s01">01</div>
             <div>
-              <strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Angle Mort de la Médecine de Précision</strong>
+              <strong class="toc-title">L'Angle Mort de la Médecine de Précision</strong>
               <br />
-              <span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Pourquoi La Réunion est absente des bases génomiques mondiales</span>
+              <span class="text-body toc-desc">Pourquoi La Réunion est absente des bases génomiques mondiales</span>
             </div>
           </div>
           <div class="toc-row js-slide-jump" data-target-slide="8">
             <div class="toc-number toc-number--s02">02</div>
             <div>
-              <strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Histoire et Singularité Génétique de La Réunion</strong>
+              <strong class="toc-title">Histoire et Singularité Génétique de La Réunion</strong>
               <br />
-              <span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Peuplement, métissage, effet fondateur et double singularité</span>
+              <span class="text-body toc-desc">Peuplement, métissage, effet fondateur et double singularité</span>
             </div>
           </div>
           <div class="toc-row js-slide-jump" data-target-slide="14">
             <div class="toc-number toc-number--s03">03</div>
             <div>
-              <strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Le Design en Deux Temps</strong>
+              <strong class="toc-title">Le Design en Deux Temps</strong>
               <br />
-              <span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">De la puce SNP au séquençage ciblé (WGS)</span>
+              <span class="text-body toc-desc">De la puce SNP au séquençage ciblé (WGS)</span>
             </div>
           </div>
           <div class="toc-row js-slide-jump" data-target-slide="17">
             <div class="toc-number toc-number--s04">04</div>
             <div>
-              <strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">L'Algorithme de Sélection</strong>
+              <strong class="toc-title">L'Algorithme de Sélection</strong>
               <br />
-              <span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span>
+              <span class="text-body toc-desc">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span>
             </div>
           </div>
           <div class="toc-row js-slide-jump" data-target-slide="25">
             <div class="toc-number toc-number--s05">05</div>
             <div>
-              <strong style="color:var(--navy);font-size:clamp(14px,1.6vw,22px)">Ce que le WGS va Produire</strong>
+              <strong class="toc-title">Ce que le WGS va Produire</strong>
               <br />
-              <span class="text-body" style="font-size:clamp(15px,1.7vw,24px)">Le référentiel réunionnais au service des patients</span>
+              <span class="text-body toc-desc">Le référentiel réunionnais au service des patients</span>
             </div>
           </div>
           <div class="slide-footer"><span class="caption">Génome Réunion</span></div>
@@ -856,7 +856,7 @@
               </div>
             </div>
             <div class="s2-figure">
-              <svg viewBox="0 0 660 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 660 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <defs>
                   <linearGradient id="mixBandA" x1="0" y1="0" x2="1" y2="0">
                     <stop stop-color="#0D7377" stop-opacity=".95" />
@@ -890,19 +890,19 @@
               </svg>
               <div class="s2-legend">
                 <div class="s2-legend-item">
-                  <span class="s2-legend-dot" style="background:#0D7377"></span>
+                  <span class="s2-legend-dot s2-legend-dot--teal"></span>
                   Afrique / Madagascar
                 </div>
                 <div class="s2-legend-item">
-                  <span class="s2-legend-dot" style="background:#7C3AED"></span>
+                  <span class="s2-legend-dot s2-legend-dot--purple"></span>
                   Inde du Sud
                 </div>
                 <div class="s2-legend-item">
-                  <span class="s2-legend-dot" style="background:#3B82F6"></span>
+                  <span class="s2-legend-dot s2-legend-dot--blue"></span>
                   Europe
                 </div>
                 <div class="s2-legend-item">
-                  <span class="s2-legend-dot" style="background:#D97706"></span>
+                  <span class="s2-legend-dot s2-legend-dot--amber"></span>
                   Asie / Chine
                 </div>
               </div>
@@ -928,7 +928,7 @@
               <div class="s2-kicker">Cas 1</div>
               <div class="s2-compare-title">Population plus homogène</div>
               <div class="s2-figure">
-                <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <rect x="28" y="34" width="264" height="152" rx="18" fill="rgba(59,130,246,.08)" stroke="rgba(59,130,246,.18)" />
                   <g fill="#3B82F6" opacity=".78">
                     <circle cx="92" cy="82" r="10" />
@@ -956,7 +956,7 @@
               <div class="s2-kicker">Cas 2</div>
               <div class="s2-compare-title">La Réunion : une structure interne stratifiée</div>
               <div class="s2-figure">
-                <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <rect x="24" y="26" width="272" height="168" rx="18" fill="rgba(13,115,119,.06)" stroke="rgba(13,115,119,.16)" />
                   <g fill="#0D7377" opacity=".86">
                     <circle cx="82" cy="70" r="9" />
@@ -1018,7 +1018,7 @@
           <div class="slide-rule slide-rule--orange"></div>
           <div class="s2-grid-2" style="align-items:center">
             <div class="s2-figure s2-founder-figure">
-              <svg viewBox="0 0 620 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 620 340" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <g fill="rgba(13,115,119,.80)">
                   <circle cx="76" cy="76" r="10" />
                   <circle cx="122" cy="58" r="10" />
@@ -1159,7 +1159,7 @@
               <p style="font-size:clamp(15px,1.7vw,24px);opacity:.8;line-height:1.5">Donneurs volontaires reflétant la diversité de l'île.</p>
             </div>
             <div class="pipeline-arrow" data-delay="1">
-              <svg fill="none" viewbox="0 0 28 28"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+              <svg fill="none" viewbox="0 0 28 28" aria-hidden="true"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
             </div>
             <div class="pipeline-box pipeline-box--teal" data-delay="2">
               <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">2</div>
@@ -1172,7 +1172,7 @@
               <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">PCA · admixture · parenté · ROH</p>
             </div>
             <div class="pipeline-arrow" data-delay="3">
-              <svg fill="none" viewbox="0 0 28 28"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+              <svg fill="none" viewbox="0 0 28 28" aria-hidden="true"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
             </div>
             <div class="pipeline-box pipeline-box--purple" data-delay="4">
               <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">3</div>
@@ -1185,7 +1185,7 @@
               <p style="font-size:clamp(15px,1.7vw,24px);opacity:.85;line-height:1.5">Score multicritère → max information</p>
             </div>
             <div class="pipeline-arrow" data-delay="5">
-              <svg fill="none" viewbox="0 0 28 28"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+              <svg fill="none" viewbox="0 0 28 28" aria-hidden="true"><path d="M4 14h20M18 8l6 6-6 6" stroke="#9CA3AF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
             </div>
             <div class="pipeline-box pipeline-box--coral" data-delay="6">
               <div style="font-size:42px;font-weight:700;color:rgba(255,255,255,.2);font-family:Georgia,serif;line-height:1;margin-bottom:clamp(5px,1vh,14px)">4</div>
@@ -1229,7 +1229,7 @@
                 <p class="text-body" style="font-size:15px;margin-bottom:10px">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p>
                 <!-- Mini scatter PCA -->
                 <div style="background:#F0FDFA;border-radius:6px;padding:8px;margin-bottom:10px">
-                  <svg style="width:100%;display:block" viewbox="0 0 200 110">
+                  <svg style="width:100%;display:block" viewbox="0 0 200 110" aria-hidden="true">
                     <!-- axes -->
                     <line stroke="#CBD5E1" stroke-width="1" x1="18" x2="190" y1="96" y2="96"></line>
                     <line stroke="#CBD5E1" stroke-width="1" x1="18" x2="18" y1="8" y2="96"></line>
@@ -1281,7 +1281,7 @@
                 <p class="text-body" style="font-size:15px;margin-bottom:10px">Proportions d'ascendance globale pour l'ensemble du jeu de données.</p>
                 <!-- Mini ADMIXTURE stacked bars -->
                 <div style="background:#FAF5FF;border-radius:6px;padding:8px 10px;margin-bottom:10px">
-                  <svg style="width:100%;display:block" viewbox="0 0 200 105">
+                  <svg style="width:100%;display:block" viewbox="0 0 200 105" aria-hidden="true">
                     <!-- Labels individus -->
                     <text fill="#8896A5" font-size="7" x="10" y="100">EUR</text>
                     <text fill="#8896A5" font-size="7" x="36" y="100">AFR</text>
@@ -1333,7 +1333,7 @@
                 <p class="text-body" style="font-size:15px;margin-bottom:10px">Origine aux segments chromosomiques. Identifie les zones ambiguës.</p>
                 <!-- Mini local ancestry chromosome -->
                 <div style="background:#FFF5F5;border-radius:6px;padding:10px 12px;margin-bottom:10px">
-                  <svg style="width:100%;display:block" viewbox="0 0 200 90">
+                  <svg style="width:100%;display:block" viewbox="0 0 200 90" aria-hidden="true">
                     <!-- Chromosome 1 (brin maternel) -->
                     <text fill="#8896A5" font-size="7.5" x="4" y="22">Chr.1 mat.</text>
                     <rect fill="#E8E4DC" height="14" rx="4" width="140" x="50" y="12"></rect>
