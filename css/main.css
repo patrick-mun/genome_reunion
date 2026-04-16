@@ -950,6 +950,14 @@ html, body {
   gap: clamp(12px, 2vh, 24px);
 }
 
+/* Quand .s2-figure est dans une grille stretch (défaut), on centre
+   le SVG verticalement pour qu'il ne se retrouve pas collé en haut. */
+.s2-grid-2 .s2-figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .s2-card {
   background: var(--white);
   border: 1px solid rgba(15, 23, 42, .08);
