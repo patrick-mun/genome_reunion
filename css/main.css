@@ -2529,17 +2529,6 @@ tr:last-child td { border: none; }
 }
 
 
-/* ============================================================
-   14. ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
-   Respecte le réglage système "Réduire les animations".
-   Désactive l'animation admixture et simplifie les transitions.
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  #admix-bg  { animation: none; }
-  #deck      { transition: none; }
-  #pf        { transition: none; }
-  .inner > * { transition: none; }
-}
 
 
 /* ============================================================

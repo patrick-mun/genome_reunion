@@ -12,7 +12,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Fichier | Rôle |
 |---|---|
 | `index.html` | Toutes les slides (source unique de vérité) |
-| `css/main.css` | Styles (1 650 lignes, 14 sections numérotées) |
+| `css/main.css` | Styles (~2 565 lignes, sections documentées ci-dessous) |
 | `js/app.js` | Navigation, accessibilité du deck, Chart.js, animations SVG |
 | `data/admixture.js` | Données + builder DOM du fond admixture (slide 0) |
 | `js/vendor/chart.umd.js` | Chart.js 4.4.1 vendorisé (pas de CDN) |
@@ -34,8 +34,8 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 10 | Admixture (slide 0) | 2286 | `.admix-wrap #admix-bg .admix-overlay-left .admix-overlay-vignette .adm-legend .adm-legend-dot--*` |
 | 11 | Graphiques / SVG | 2368 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
 | 12 | Responsive | 2451 | `@media 900px / 600px / 380px` |
-| 13 | Hauteurs min. fluides | 2513 | `.grid-* .card .level-card .arm-card` min-height |
-| 14 | Accessibilité (motion) | 2498 | `@media (prefers-reduced-motion: reduce)` |
+| 13 | Accessibilité (motion) | 2498 | `@media (prefers-reduced-motion: reduce)` |
+| 14 | Hauteurs min. fluides | 2502 | `.grid-* .card .level-card .arm-card` min-height |
 
 ### Sous-index section 9 — Composants
 
