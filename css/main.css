@@ -27,6 +27,7 @@
      11. Graphiques et animations SVG
      12. Responsive (breakpoints 900px / 600px / 380px)
      13. Hauteurs minimales fluides
+     14. Accessibilité — Réduction des animations
    ============================================================ */
 
 
@@ -325,6 +326,8 @@ html, body {
   justify-content: center;
   width: min(820px, 54vw);
   padding: 20px 40px 20px 48px; /* 48px à gauche = décalé de .accent-bar */
+  position: relative;
+  z-index: 2; /* Au-dessus de l'animation admixture */
 }
 
 .hero-title {
@@ -1020,6 +1023,12 @@ html, body {
   border-radius: 50%;
 }
 
+/* Couleurs des dots de légende — remplacent les inline style="background:..." */
+.s2-legend-dot--teal   { background: var(--teal); }
+.s2-legend-dot--purple { background: var(--purple); }
+.s2-legend-dot--blue   { background: var(--blue); }
+.s2-legend-dot--amber  { background: var(--amber); }
+
 .s2-compare {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1165,6 +1174,18 @@ html, body {
   font-size: clamp(14px, 1.8vh, 20px);
   color: var(--white);
   flex-shrink: 0;
+}
+
+/* Titre et description dans chaque entrée du sommaire.
+   Remplacent les inline style="color/font-size" répétés sur chaque .toc-row. */
+.toc-title {
+  color: var(--navy);
+  font-size: clamp(14px, 1.6vw, 22px);
+  font-weight: 700;
+}
+
+.toc-desc {
+  font-size: clamp(15px, 1.7vw, 24px); /* Plus grand que le .text-body de base */
 }
 
 /* ── Formule mathématique ───────────────────────────────────
@@ -1440,6 +1461,41 @@ tr:last-child td { border: none; }
   100% { transform: translateY(-50%); } /* -50% = exactement 60 lignes */
 }
 
+/* Légende des composantes ancestrales — coin bas droit de la slide hero.
+   Remplace le bloc inline style répété dans index.html. */
+.adm-legend {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: clamp(10px, 1.6vh, 20px);
+  opacity: .65;
+  z-index: 2;
+}
+
+.adm-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #94A3B8;
+}
+
+.adm-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Couleurs des 5 composantes ancestrales.
+   #0D9488 est distinct de --teal (#0D7377) — c'est la teinte ADMIXTURE. */
+.adm-legend-dot--afrique { background: #0D9488; width: 12px; height: 12px; }
+.adm-legend-dot--inde    { background: var(--coral); }
+.adm-legend-dot--europe  { background: var(--navy); border: 1px solid rgba(255,255,255,.3); }
+.adm-legend-dot--zarabe  { background: var(--amber); }
+.adm-legend-dot--chinois { background: var(--purple); }
+
 
 /* ============================================================
    11. GRAPHIQUES ET ANIMATIONS SVG
@@ -1573,19 +1629,6 @@ tr:last-child td { border: none; }
 
 
 /* ============================================================
-   14. ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
-   Respecte le réglage système "Réduire les animations".
-   Désactive l'animation admixture et simplifie les transitions.
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  #admix-bg  { animation: none; }
-  #deck      { transition: none; }
-  #pf        { transition: none; }
-  .inner > * { transition: none; }
-}
-
-
-/* ============================================================
    13. HAUTEURS MINIMALES FLUIDES
    Garantit que les cellules de grille et les composants
    ont une hauteur décente sur tous les écrans, même quand
@@ -1598,3 +1641,16 @@ tr:last-child td { border: none; }
 .card        { min-height: clamp(100px, 12vh, 180px); }
 .level-card  { min-height: clamp(180px, 22vh, 320px); }
 .arm-card    { min-height: clamp(60px, 8vh, 110px); }
+
+
+/* ============================================================
+   14. ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
+   Respecte le réglage système "Réduire les animations".
+   Désactive l'animation admixture et simplifie les transitions.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  #admix-bg  { animation: none; }
+  #deck      { transition: none; }
+  #pf        { transition: none; }
+  .inner > * { transition: none; }
+}
