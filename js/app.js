@@ -5,22 +5,27 @@
 
 // ── Constantes de navigation ─────────────────────────────────
 
-const TOTAL_SLIDES = 29;
-
-// Pour chaque slide, indique quelle pill de navigation doit être active.
-// 0=Accueil 1=Angle mort 2=Singularité 3=Design 4=Algorithme 5=WGS
-const SECTION_MAP = [0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5];
-
 // ── Éléments DOM ─────────────────────────────────────────────
 
-const slideDeck      = document.getElementById('deck');
-const slideCounter   = document.getElementById('ctr');
-const progressBar    = document.getElementById('pf');
-const buttonPrevious = document.getElementById('bp');
-const buttonNext     = document.getElementById('bn');
-const allSlides      = document.querySelectorAll('.slide');
-const navPills       = document.querySelectorAll('.sec-pill');
+const slideDeck        = document.getElementById('deck');
+const slideCounter     = document.getElementById('ctr');
+const progressBar      = document.getElementById('pf');
+const buttonPrevious   = document.getElementById('bp');
+const buttonNext       = document.getElementById('bn');
+const allSlides        = document.querySelectorAll('.slide');
+const navPills         = document.querySelectorAll('.sec-pill');
 const slideJumpTargets = document.querySelectorAll('.js-slide-jump');
+
+// ── Constantes dérivées du DOM ────────────────────────────────
+
+// Nombre de slides lu depuis le HTML — plus besoin de mettre à jour manuellement.
+const TOTAL_SLIDES = allSlides.length;
+
+// Construit le tableau de section depuis les attributs data-section du HTML.
+// 0=Accueil 1=Angle mort 2=Singularité 3=Design 4=Algorithme 5=WGS
+const SECTION_MAP = Array.from(allSlides).map(function(slide) {
+  return parseInt(slide.dataset.section, 10) || 0;
+});
 
 // ── État ──────────────────────────────────────────────────────
 
@@ -59,11 +64,13 @@ function goToSlide(targetIndex) {
     pill.classList.toggle('on', index === (SECTION_MAP[currentSlide] || 0));
   });
 
-  // Animations déclenchées à l'arrivée sur certaines slides
-  if (currentSlide === 15) { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
-  if (currentSlide === 20) { setTimeout(initScoreChart,  200); }
-  if (currentSlide === 23) { resetROHAnimation(); setTimeout(animateROH, 300); }
-  if (currentSlide === 24) { setTimeout(initRadarChart,  200); }
+  // Animations déclenchées à l'arrivée sur certaines slides.
+  // La slide active est identifiée via data-animate (plus d'indices hardcodés).
+  var animate = allSlides[currentSlide].dataset.animate;
+  if (animate === 'pipeline') { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
+  if (animate === 'score')    { setTimeout(initScoreChart,  200); }
+  if (animate === 'roh')      { resetROHAnimation(); setTimeout(animateROH, 300); }
+  if (animate === 'radar')    { setTimeout(initRadarChart,  200); }
 }
 
 // Exposé globalement pour compatibilité avec d'éventuels appels externes.
@@ -118,6 +125,7 @@ document.addEventListener('touchend', function(event) {
  * Slide 17 — Barres horizontales : poids de chaque composante du score S_div
  */
 function initScoreChart() {
+  if (typeof Chart === 'undefined') { console.warn('[app.js] Chart.js non chargé — initScoreChart annulé.'); return; }
   const canvas = document.getElementById('scoreBarChart');
   if (!canvas || scoreChartInstance) return;
 
@@ -178,6 +186,7 @@ function initScoreChart() {
  * Slide 21 — Radar : comparaison des 3 profils candidats
  */
 function initRadarChart() {
+  if (typeof Chart === 'undefined') { console.warn('[app.js] Chart.js non chargé — initRadarChart annulé.'); return; }
   const canvas = document.getElementById('radarChart');
   if (!canvas || radarChartInstance) return;
 
@@ -247,7 +256,9 @@ function initRadarChart() {
  * Slide 12 — Pipeline SNP → WGS : apparition séquentielle des étapes
  */
 function animatePipeline() {
-  document.querySelectorAll('#pipeFlow .pipeline-box, #pipeFlow .pipeline-arrow')
+  const pipeFlow = document.getElementById('pipeFlow');
+  if (!pipeFlow) { console.warn('[app.js] #pipeFlow introuvable — animatePipeline annulé.'); return; }
+  pipeFlow.querySelectorAll('.pipeline-box, .pipeline-arrow')
     .forEach(function(element) {
       const animationDelay = parseInt(element.dataset.delay || 0) * 130;
       setTimeout(function() { element.classList.add('shown'); }, animationDelay);
@@ -255,7 +266,9 @@ function animatePipeline() {
 }
 
 function resetPipelineAnimation() {
-  document.querySelectorAll('#pipeFlow .pipeline-box, #pipeFlow .pipeline-arrow')
+  const pipeFlow = document.getElementById('pipeFlow');
+  if (!pipeFlow) return;
+  pipeFlow.querySelectorAll('.pipeline-box, .pipeline-arrow')
     .forEach(function(element) { element.classList.remove('shown'); });
 }
 
@@ -280,4 +293,5 @@ function resetROHAnimation() {
 }
 
 // ── Démarrage ─────────────────────────────────────────────────
+console.assert(allSlides.length > 0, '[app.js] Aucune .slide trouvée — vérifier le HTML.');
 goToSlide(0);
