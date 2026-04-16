@@ -64,11 +64,13 @@ function goToSlide(targetIndex) {
     pill.classList.toggle('on', index === (SECTION_MAP[currentSlide] || 0));
   });
 
-  // Animations déclenchées à l'arrivée sur certaines slides
-  if (currentSlide === 15) { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
-  if (currentSlide === 20) { setTimeout(initScoreChart,  200); }
-  if (currentSlide === 23) { resetROHAnimation(); setTimeout(animateROH, 300); }
-  if (currentSlide === 24) { setTimeout(initRadarChart,  200); }
+  // Animations déclenchées à l'arrivée sur certaines slides.
+  // La slide active est identifiée via data-animate (plus d'indices hardcodés).
+  var animate = allSlides[currentSlide].dataset.animate;
+  if (animate === 'pipeline') { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
+  if (animate === 'score')    { setTimeout(initScoreChart,  200); }
+  if (animate === 'roh')      { resetROHAnimation(); setTimeout(animateROH, 300); }
+  if (animate === 'radar')    { setTimeout(initRadarChart,  200); }
 }
 
 // Exposé globalement pour compatibilité avec d'éventuels appels externes.
