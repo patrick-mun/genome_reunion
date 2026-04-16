@@ -48,7 +48,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Clinical | 782 | `.clinical-grid .clinical-panel .clinical-panel--*` |
 | Biais | 851 | `.bias-intro .bias-table .bias-callout` |
 | History quotes | 906 | `.history-quotes .history-quote .history-quote-prosper --fuma` |
-| s2 (section 02) | 943 | `.s2-card .s2-kicker .s2-chip .s2-figure .s2-legend .s2-legend-dot--* .s2-compare .s2-double .s2-clinical-band` |
+| s2 (section 02) | 943 | `.s2-grid-2--center .s2-card--accent-left-* .s2-card--soft-* .s2-card--mt/.s2-card--mb .s2-kicker--light .s2-heading .s2-body-* .s2-note-* .s2-chip--* .s2-figure .s2-legend .s2-legend-dot--* .s2-compare .s2-double .s2-clinical-band` |
 | Footer | 1092 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
 | TOC | 1148 | `.toc-row .toc-number .toc-title .toc-desc` |
 | Formule | 1191 | `.formula` |

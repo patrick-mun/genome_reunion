@@ -966,6 +966,10 @@ html, body {
   gap: clamp(12px, 2vh, 24px);
 }
 
+.s2-grid-2--center {
+  align-items: center;
+}
+
 /* Quand .s2-figure est dans une grille stretch (défaut), le SVG remplit
    la hauteur disponible via flex:1 — supprime le vide sous le schéma. */
 .s2-grid-2 .s2-figure {
@@ -987,12 +991,89 @@ html, body {
   box-shadow: 0 12px 28px rgba(15, 23, 42, .05);
 }
 
+.s2-card--accent-left-teal {
+  border-left: 4px solid var(--teal);
+}
+
+.s2-card--accent-left-orange {
+  border-left: 4px solid var(--orange);
+}
+
+.s2-card--soft-teal {
+  margin-top: clamp(10px, 1.4vh, 18px);
+  background: #F8FAFC;
+  border-color: rgba(13, 115, 119, .14);
+  box-shadow: none;
+}
+
+.s2-card--soft-orange {
+  background: #FFF7ED;
+  border-color: rgba(217, 119, 6, .18);
+}
+
+.s2-card--mb {
+  margin-bottom: clamp(10px, 1.6vh, 20px);
+}
+
+.s2-card--mt {
+  margin-top: clamp(10px, 1.5vh, 20px);
+}
+
 .s2-kicker {
   font-size: clamp(11px, 1vw, 13px);
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--muted);
   margin-bottom: clamp(6px, 1vh, 12px);
+}
+
+.s2-kicker--light {
+  color: rgba(255, 255, 255, .72);
+}
+
+.s2-heading {
+  font-size: clamp(22px, 2.3vw, 34px);
+  color: var(--navy);
+  margin-bottom: clamp(8px, 1.2vh, 14px);
+}
+
+.s2-body-lg {
+  font-size: clamp(16px, 1.8vw, 26px);
+}
+
+.s2-body-md {
+  font-size: clamp(15px, 1.7vw, 24px);
+}
+
+.s2-body-md--mt {
+  margin-top: clamp(8px, 1.2vh, 14px);
+}
+
+.s2-body-center {
+  text-align: center;
+}
+
+.s2-note {
+  font-size: clamp(16px, 1.8vw, 24px);
+  font-style: italic;
+}
+
+.s2-note--teal {
+  color: var(--teal);
+}
+
+.s2-note--orange {
+  color: var(--orange);
+}
+
+.s2-note--light {
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .9);
+}
+
+.s2-note--light-strong {
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .92);
 }
 
 .s2-chip-row {
@@ -1010,6 +1091,11 @@ html, body {
   color: var(--navy);
   background: rgba(13, 115, 119, .08);
 }
+
+.s2-chip--teal   { background: rgba(13, 115, 119, .12); }
+.s2-chip--purple { background: rgba(124, 58, 237, .12); }
+.s2-chip--blue   { background: rgba(59, 130, 246, .12); }
+.s2-chip--amber  { background: rgba(217, 119, 6, .12); }
 
 .s2-figure {
   background: linear-gradient(180deg, rgba(248,250,252,.95), rgba(241,245,249,.9));
@@ -1117,6 +1203,87 @@ html, body {
   border: 1px solid rgba(224, 90, 75, .24);
   background: linear-gradient(135deg, #FEF2F0, #FFF7ED);
   padding: clamp(12px, 1.8vh, 22px) clamp(14px, 1.8vw, 24px);
+}
+
+.s2-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.6vh, 18px);
+}
+
+.s2-strong--teal {
+  color: var(--teal);
+}
+
+.s2-strong--orange {
+  color: var(--orange);
+}
+
+.s2-strong--coral {
+  color: var(--coral);
+}
+
+/* Frise historique de la slide 10 — quatre étapes sur une ligne
+   avec axe horizontal, pastilles de date et textes centrés. */
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: clamp(12px, 2.2vh, 26px);
+}
+
+.timeline-line {
+  position: absolute;
+  top: clamp(28px, 3.5vh, 40px);
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--border);
+}
+
+.timeline-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 1;
+}
+
+.timeline-node {
+  width: clamp(56px, 7vh, 80px);
+  height: clamp(56px, 7vh, 80px);
+  border-radius: 50%;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: clamp(11px, 1.2vw, 15px);
+  line-height: 1;
+  text-align: center;
+}
+
+.timeline-node--blue   { background: var(--blue); }
+.timeline-node--teal   { background: var(--teal); }
+.timeline-node--purple { background: var(--purple); }
+.timeline-node--orange { background: var(--orange); }
+
+.timeline-label {
+  font-size: clamp(14px, 1.6vw, 22px);
+  font-weight: 700;
+  text-align: center;
+}
+
+.timeline-label--blue   { color: var(--blue); }
+.timeline-label--teal   { color: var(--teal); }
+.timeline-label--purple { color: var(--purple); }
+.timeline-label--orange { color: var(--orange); }
+
+.timeline-copy {
+  font-size: clamp(16px, 1.8vw, 26px);
+  color: var(--muted);
+  text-align: center;
 }
 
 
