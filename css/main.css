@@ -1050,6 +1050,21 @@ html, body {
   margin-bottom: clamp(8px, 1.1vh, 14px);
 }
 
+/* Plafonne la hauteur des figures SVG dans les cartes de comparaison.
+   Sans cette règle, les SVG s'étirent proportionnellement à la largeur
+   des cartes et provoquent un scroll sur grand écran. */
+.s2-compare-card .s2-figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.s2-compare-card .s2-figure svg {
+  height: clamp(100px, 16vh, 160px);
+  width: auto;
+  max-width: 100%;
+}
+
 .s2-double {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1082,6 +1097,13 @@ html, body {
 .s2-inner-top {
   justify-content: flex-start;
   padding-top: clamp(28px, 4.5vh, 56px);
+}
+
+/* Dans les slides top-alignées, le footer est ancré en bas du .inner
+   via margin-top:auto (flexbox). Crée un respir naturel entre le contenu
+   et le footer quelle que soit la hauteur d'écran. */
+.s2-inner-top .slide-footer {
+  margin-top: auto;
 }
 
 .s2-inner-top .slide-title {
