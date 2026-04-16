@@ -950,12 +950,17 @@ html, body {
   gap: clamp(12px, 2vh, 24px);
 }
 
-/* Quand .s2-figure est dans une grille stretch (défaut), on centre
-   le SVG verticalement pour qu'il ne se retrouve pas collé en haut. */
+/* Quand .s2-figure est dans une grille stretch (défaut), le SVG remplit
+   la hauteur disponible via flex:1 — supprime le vide sous le schéma. */
 .s2-grid-2 .s2-figure {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.s2-grid-2 .s2-figure svg {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
 }
 
 .s2-card {
