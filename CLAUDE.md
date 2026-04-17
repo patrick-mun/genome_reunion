@@ -24,7 +24,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Fichier | Slides | Classes clés | État |
 |---|---|---|---|
 | `s00-hero.css` | 0 | `.hero-* .accent-bar .admix-* .adm-legend-*` | ✓ extrait |
-| `s01-angle-mort.css` | 2–7 | `.bias-* .ai-* .clinical-* .pharma-*` | à faire |
+| `s01-angle-mort.css` | 2–7 | `.bias-* .ai-* .clinical-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 8–13 | `.s2-* .history-quote*` | à faire |
 | `s03-design.css` | 14–16 | `.design-* .pipeline-*` | à faire |
 | `s04-algorithme.css` | 17–25 | `.algo-* .special-* .chromosome-* .formula--score` | à faire |
