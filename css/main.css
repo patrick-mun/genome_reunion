@@ -319,109 +319,6 @@ html, body {
 }
 
 
-/* ============================================================
-   7. SLIDE HERO (slide 1 — titre)
-   La slide titre utilise une mise en page spéciale :
-   fond --navy, barre d'accent teal à gauche, contenu calé
-   à gauche pour laisser l'animation admixture à droite.
-   ============================================================ */
-
-/* Barre verticale colorée collée au bord gauche de la slide */
-.accent-bar {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 7px;
-  background: var(--teal);
-}
-
-/* Bloc de contenu principal — limité à 50vw pour laisser
-   la moitié droite à l'animation admixture */
-.hero-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: min(820px, 54vw);
-  padding: 20px 40px 20px 48px; /* 48px à gauche = décalé de .accent-bar */
-  position: relative;
-  z-index: 2; /* Au-dessus de l'animation admixture */
-}
-
-.hero-title {
-  font-family: Georgia, serif;
-  font-size: clamp(40px, 10vw, 200px);
-  font-weight: 700;
-  color: var(--white);
-  line-height: .92;
-  letter-spacing: -.03em;
-  margin-bottom: 16px;
-  text-shadow: 0 10px 28px rgba(0, 0, 0, .28);
-}
-
-.hero-subtitle {
-  font-size: clamp(17px, 2vw, 26px);
-  color: var(--tealL);
-  font-style: italic;
-  margin-bottom: 42px;
-  line-height: 1.35;
-}
-
-/* Signature éditoriale de la slide d'ouverture :
-   remplace le paragraphe explicatif par un bloc auteurs plus net,
-   avec un fond translucide léger pour lui donner du poids visuel. */
-.hero-authors {
-  max-width: min(470px, 100%);
-  margin-top: clamp(42px, 8vh, 110px);
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
-  border: 1px solid rgba(148, 163, 184, .18);
-  box-shadow: 0 18px 40px rgba(3, 8, 20, .14);
-  backdrop-filter: blur(4px);
-}
-
-.hero-authors-label {
-  font-size: 11px;
-  letter-spacing: 2.2px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: rgba(148, 184, 178, .78);
-  margin-bottom: 12px;
-}
-
-.hero-authors-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.hero-author-name {
-  font-size: clamp(14px, 1.35vw, 17px);
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1.25;
-  margin-bottom: 2px;
-}
-
-.hero-author-role {
-  font-size: clamp(11.5px, 1.05vw, 13px);
-  color: #96A8BD;
-  line-height: 1.5;
-}
-
-/* Encadré semi-transparent pour les badges/pills du hero */
-.hero-pill {
-  background: rgba(255, 255, 255, .07);
-  border: 1px solid rgba(20, 184, 166, .3);
-  border-radius: 8px;
-  padding: 16px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--white);
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
 
 /* ============================================================
    8. SLIDES D'INTRO DE SECTION
@@ -2298,91 +2195,6 @@ tr:last-child td { border: none; }
 }
 
 
-/* ============================================================
-   10. ANIMATION ADMIXTURE (slide 1)
-   Le bloc #admix-bg contient 120 lignes de barres colorées
-   (60 lignes uniques + copie exacte pour le loop seamless).
-   L'animation translateY(-50%) fait défiler vers le haut
-   jusqu'à la moitié exacte du bloc, puis recommence
-   instantanément depuis le début — invisible car le contenu
-   est identique. Voir data/admixture.js pour la génération.
-   will-change: transform active l'accélération GPU.
-   ============================================================ */
-/* Wrapper : zone droite de la slide hero qui contient l'animation */
-.admix-wrap {
-  position: absolute;
-  right: 0; top: 0; bottom: 0;
-  width: 50%;
-  overflow: hidden;
-  opacity: .32;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Barres admixture — animation et layout définis ici, plus en inline */
-#admix-bg {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 0;
-  animation: admix-scroll-v 24s linear infinite;
-  will-change: transform; /* Délègue l'animation au GPU */
-}
-
-/* Fondu gauche : fondu navy → transparent pour intégrer l'animation */
-.admix-overlay-left {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, var(--navy) 0%, transparent 35%);
-}
-
-/* Fondu haut/bas : masque les bords de l'animation */
-.admix-overlay-vignette {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, var(--navy) 0%, transparent 8%, transparent 92%, var(--navy) 100%);
-}
-
-@keyframes admix-scroll-v {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(-50%); } /* -50% = exactement 60 lignes */
-}
-
-/* Légende des composantes ancestrales — coin bas droit de la slide hero.
-   Remplace le bloc inline style répété dans index.html. */
-.adm-legend {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  gap: clamp(10px, 1.6vh, 20px);
-  opacity: .65;
-  z-index: 2;
-}
-
-.adm-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: #94A3B8;
-}
-
-.adm-legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-/* Couleurs des 5 composantes ancestrales.
-   #0D9488 est distinct de --teal (#0D7377) — c'est la teinte ADMIXTURE. */
-.adm-legend-dot--afrique { background: #0D9488; width: 12px; height: 12px; }
-.adm-legend-dot--inde    { background: var(--coral); }
-.adm-legend-dot--europe  { background: var(--navy); border: 1px solid rgba(255,255,255,.3); }
-.adm-legend-dot--zarabe  { background: var(--amber); }
-.adm-legend-dot--chinois { background: var(--purple); }
 
 
 /* ============================================================
@@ -2495,8 +2307,6 @@ tr:last-child td { border: none; }
   .grid-4                           { grid-template-columns: 1fr 1fr; }
   .grid-3                           { grid-template-columns: 1fr 1fr; }
   .grid-3 > *:last-child:nth-child(odd) { grid-column: span 2; }  /* Dernier élément impair = pleine largeur */
-  .hero-content                     { grid-template-columns: 1fr; }
-  .hero-content > div:last-child    { display: none; }
   .inner                            { padding: 20px 22px; }
   .section-slide                    { padding: 24px 26px 36px; }
   .progress-desc                    { display: none; }             /* Description trop large */
@@ -2552,7 +2362,6 @@ tr:last-child td { border: none; }
    Désactive l'animation admixture et simplifie les transitions.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  #admix-bg  { animation: none; }
   #deck      { transition: none; }
   #pf        { transition: none; }
   .inner > * { transition: none; }
