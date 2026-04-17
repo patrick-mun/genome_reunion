@@ -1,0 +1,317 @@
+/* ============================================================
+   S01 — L'ANGLE MORT (slides 2–7)
+   Styles spécifiques aux slides de biais structurel, clinique,
+   pharmacogénétique et réponse IA.
+   Dépend des variables définies dans main.css.
+   ============================================================ */
+
+/* ── IA : analyse et réponse (slides 6–7) ───────────────── */
+
+/* Intro textuelle commune aux slides d'analyse et de réponse IA. */
+.ai-lead {
+  max-width: none;
+  margin-bottom: clamp(16px, 2.4vh, 30px);
+  color: var(--muted);
+  font-size: clamp(17px, 1.9vw, 28px);
+  font-style: italic;
+  line-height: 1.65;
+}
+
+/* Grille 2 colonnes utilisée sur la slide 7 :
+   les cartes de gauche et de droite restent alignées par rangée. */
+.ai-grid-2 {
+  align-items: stretch;
+  gap: clamp(20px, 3vw, 48px);
+}
+
+/* Variante de carte avec repère visuel + titre fort + texte de contexte.
+   Sert aux blocs "GWAS" et "Aucune". */
+.ai-badge-card {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(12px, 1.8vw, 24px);
+  padding: clamp(14px, 2.2vh, 32px) clamp(16px, 2vw, 28px);
+}
+
+.ai-badge-dot {
+  width: 18px;
+  height: 18px;
+  margin-top: 8px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  background: var(--navy);
+}
+
+.ai-badge-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ai-badge-title {
+  color: var(--navy);
+  font-family: Georgia, serif;
+  font-size: clamp(24px, 2.8vw, 40px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ai-badge-emphasis {
+  color: var(--navy);
+  font-size: clamp(15px, 1.7vw, 24px);
+  font-weight: 700;
+}
+
+/* Variante d'alerte pour signaler l'absence de référence dédiée. */
+.ai-badge-card--alert {
+  background: #FEF2F0;
+  border-color: var(--coral);
+}
+
+.ai-badge-card--alert .ai-badge-dot {
+  background: var(--coral);
+}
+
+.ai-badge-card--alert .ai-badge-title,
+.ai-badge-card--alert .ai-badge-emphasis {
+  color: var(--coral);
+}
+
+/* Cartes explicatives et callouts pour slides 7 et 8. */
+.ai-body-card {
+  padding: clamp(16px, 2.5vh, 36px) clamp(16px, 2vw, 28px);
+}
+
+.ai-card-title {
+  margin-bottom: clamp(8px, 1.4vh, 18px);
+  color: var(--navy);
+  font-family: Georgia, serif;
+  font-size: clamp(16px, 1.8vw, 26px);
+}
+
+.ai-callout {
+  padding: clamp(12px, 1.8vh, 28px) clamp(16px, 2vw, 24px);
+  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--teal);
+  background: #F0FDFA;
+}
+
+.ai-callout--alert {
+  border-left-color: var(--coral);
+  background: #FEF2F0;
+}
+
+.ai-callout-label {
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.ai-callout--alert .ai-callout-label {
+  color: var(--coral);
+}
+
+.ai-callout-emphasis {
+  color: var(--teal);
+}
+
+/* Slide 7 : trois leviers orientés données / modèles / transfert clinique. */
+.ai-step-grid {
+  margin-bottom: clamp(8px, 1.5vh, 18px);
+}
+
+.ai-step-card {
+  border-top-width: 3px;
+  border-top-style: solid;
+}
+
+.ai-step-card--coral  { border-top-color: var(--coral); }
+.ai-step-card--amber  { border-top-color: var(--amber); }
+.ai-step-card--orange { border-top-color: var(--orange); }
+
+.ai-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-bottom: clamp(5px, 1vh, 14px);
+  border-radius: 50%;
+  color: var(--white);
+  font-size: clamp(15px, 1.7vw, 24px);
+  font-weight: 700;
+}
+
+.ai-step-number--coral  { background: var(--coral); }
+.ai-step-number--amber  { background: var(--amber); }
+.ai-step-number--orange { background: var(--orange); }
+
+.ai-step-text {
+  font-size: clamp(15px, 1.7vw, 24px);
+}
+
+/* ── Clinique (slide 5) ──────────────────────────────────── */
+/* Deux profils patients face à un référentiel inadapté. */
+
+.clinical-grid {
+  margin-bottom: clamp(8px, 1.5vh, 18px);
+}
+
+.clinical-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: clamp(120px, 18vh, 220px);
+  padding: clamp(18px, 2.8vh, 44px);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.clinical-panel--navy   { background: var(--navy); }
+.clinical-panel--orange { background: var(--orange); }
+
+.clinical-panel-title {
+  margin-bottom: clamp(8px, 1.5vh, 18px);
+  color: var(--white);
+  font-size: clamp(16px, 1.8vw, 26px);
+}
+
+.clinical-panel-result {
+  padding: clamp(14px, 2.2vh, 34px) 0;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.clinical-panel-result--success {
+  color: #6EE7B7;
+  font-size: clamp(17px, 1.9vw, 28px);
+}
+
+.clinical-panel-result--warning {
+  color: var(--white);
+  font-size: clamp(15px, 1.7vw, 24px);
+  padding: 8px 0;
+}
+
+.clinical-panel-note {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: clamp(14px, 1.6vw, 22px);
+  font-weight: 400;
+  opacity: .85;
+}
+
+.clinical-impact-line {
+  margin: 0;
+  font-size: clamp(16px, 1.8vw, 26px);
+}
+
+.clinical-impact-line + .clinical-impact-line {
+  margin-top: 4px;
+}
+
+/* ── Biais structurel (slide 3) ─────────────────────────── */
+/* Tableau lisible avec callout final signalant l'absence
+   de référence réunionnaise dédiée. */
+
+.bias-intro {
+  margin-bottom: clamp(10px, 1.8vh, 20px);
+  font-size: clamp(15px, 1.7vw, 24px);
+}
+
+.bias-table {
+  margin-bottom: clamp(10px, 1.8vh, 20px);
+}
+
+.bias-col-resource { width: 24%; }
+
+.bias-col-key,
+.bias-col-coverage { width: 22%; }
+
+.bias-resource-note {
+  font-size: clamp(12px, 1.2vw, 14px);
+  color: var(--light);
+}
+
+.bias-key { font-weight: 700; }
+
+.bias-key--coral { color: var(--coral); }
+.bias-key--amber { color: var(--amber); }
+.bias-key--teal  { color: var(--teal); }
+
+.bias-callout {
+  margin-top: clamp(10px, 1.8vh, 20px);
+  padding: clamp(12px, 1.8vh, 28px) 16px;
+  border: 1px solid #FECACA;
+  border-radius: 6px;
+  background: #FEF2F0;
+}
+
+.bias-callout-label {
+  color: var(--coral);
+  font-weight: 700;
+}
+
+/* ── Pharmacogénétique (slide 5) ─────────────────────────── */
+/* Tableau de médicaments + encadré de synthèse "90 %". */
+
+.pharma-table {
+  margin-bottom: clamp(10px, 1.8vh, 20px);
+  table-layout: fixed;
+}
+
+.pharma-col-drug     { width: 30%; }
+.pharma-col-expected { width: 28%; }
+.pharma-col-risk     { width: 42%; }
+
+.pharma-table th,
+.pharma-table td {
+  vertical-align: top;
+}
+
+.pharma-head--expected { color: #6EE7B7; }
+.pharma-head--risk     { color: #FCA5A5; }
+
+.pharma-cell--expected {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.pharma-cell--risk {
+  color: var(--coral);
+}
+
+.pharma-table td strong {
+  display: inline-block;
+  margin-bottom: 3px;
+}
+
+/* Encadré de synthèse : grand repère visuel "90 %" + message clé. */
+.pharma-highlight {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.8vh, 22px);
+  padding: 13px 18px;
+  border-radius: 8px;
+  background: var(--navy);
+}
+
+.pharma-highlight-value {
+  flex-shrink: 0;
+  color: var(--coral);
+  font-family: Georgia, serif;
+  font-size: clamp(36px, 4.2vw, 62px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pharma-highlight-copy {
+  margin: 0;
+  color: var(--white);
+  font-size: clamp(16px, 1.8vw, 26px);
+  line-height: 1.6;
+}
+
+.pharma-highlight-emphasis {
+  color: var(--tealL);
+}
