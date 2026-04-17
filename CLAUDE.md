@@ -27,7 +27,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s01-angle-mort.css` | 2–7 | `.bias-* .ai-* .clinical-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 8–13 | `.s2-* .history-quote* .timeline-*` | ✓ extrait |
 | `s03-design.css` | 14–16 | `.design-* .pipeline-*` | ✓ extrait |
-| `s04-algorithme.css` | 17–25 | `.algo-* .special-* .chromosome-* .formula--score` | à faire |
+| `s04-algorithme.css` | 17–25 | `.algo-* .special-* .arm-card* .arm-percent--* .chromosome-* .chart-wrapper* #radarChart` | ✓ extrait |
 | `s05-wgs.css` | 26–28 | `.impact-card* .conclusion-*` | ✓ extrait |
 
 ## CSS — Sections (main.css)
@@ -37,43 +37,29 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 1 | Variables de design | 34 | `:root` — `--navy --teal --cream --coral --amber --purple --blue --green` |
 | 2 | Reset & base | 73 | `* html body` |
 | 3 | Navigation fixe | 92 | `#nav #nav-logo #nav-center #nav-right .sec-pill .nbtn #ctr` |
-| 4 | Barre de progression | 181 | `#prog #pf` |
-| 5 | Deck de slides | 202 | `#deck .slide .inner` + delays `nth-child(1-7, n+8)` |
-| 6 | Typographie | 264 | `.slide-title .slide-rule .text-body .caption` |
-| 7 | Intro de section | ~322 | `.section-slide .section-number .section-tag .section-title .section-subtitle .section-graphic` |
-| 8 | Composants | ~440 | Voir sous-index ci-dessous |
-| 9 | Graphiques / SVG | ~2200 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
-| 10 | Responsive | ~2290 | `@media 900px / 600px / 380px` |
-| 11 | Accessibilité (motion) | ~2370 | `@media (prefers-reduced-motion: reduce)` |
-| 12 | Hauteurs min. fluides | ~2380 | `.grid-* .card .level-card .arm-card` min-height |
-| 13 | Accessibilité (motion) | 2498 | `@media (prefers-reduced-motion: reduce)` |
-| 14 | Hauteurs min. fluides | 2502 | `.grid-* .card .level-card .arm-card` min-height |
+| 4 | Barre de progression | 189 | `#prog #pf` |
+| 5 | Deck de slides | 210 | `#deck .slide .inner` + delays `nth-child(1-7, n+8)` |
+| 6 | Typographie | 272 | `.slide-title .slide-rule .text-body .caption` |
+| 7 | Intro de section | 323 | `.section-slide .section-number .section-tag .section-title .section-subtitle .section-graphic` |
+| 8 | Composants | 447 | Voir sous-index ci-dessous |
+| 9 | Responsive | 727 | `@media 900px / 600px / 380px` |
+| 10 | Hauteurs min. fluides | 775 | `.grid-* .card .level-card` min-height |
+| 11 | Accessibilité (motion) | 789 | `@media (prefers-reduced-motion: reduce)` |
 
-### Sous-index section 9 — Composants
+### Sous-index section 8 — Composants (main.css)
 
 | Groupe | Ligne | Classes |
 |---|---|---|
-| Grilles | 542 | `.grid-2 .grid-3 .grid-4` |
-| Cards | 551 | `.card .card-colored` |
-| Modificateurs de slides | 565 | `.slide--cream --navy --hero --s01…s05` `.slide-rule--*` `.toc-number--*` `.pipeline-box--*` `.level-header--*` `.arm-percent--*` `.s2-double-card--*` |
-| Design / pipeline | 629 | `.design-pipeline-* .design-figure-* .design-body* .design-note* .design-warning` |
-| AI slides | 730 | `.ai-lead .ai-grid-2 .ai-badge-card .ai-callout .ai-step-*` |
-| Clinical | 895 | `.clinical-grid .clinical-panel .clinical-panel--*` |
-| Biais | 960 | `.bias-intro .bias-table .bias-callout` |
-| History quotes | 1016 | `.history-quotes .history-quote .history-quote-prosper --fuma` |
-| s2 (section 02) | 1053 | `.s2-grid-2--center .s2-card--accent-left-* .s2-card--soft-* .s2-card--mt/.s2-card--mb .s2-kicker--light .s2-heading .s2-body-* .s2-note-* .s2-chip--* .s2-figure .s2-legend .s2-legend-dot--* .s2-compare .s2-double .s2-clinical-band` |
-| Algo (section 04) | 1382 | `.algo-problem-* .algo-card-* .algo-badge-* .algo-inline-formula-* .algo-legend-* .algo-validation-*` |
-| Special (slides 24-25) | 1619 | `.special-stack .special-card-* .special-score-* .special-copy-* .special-legend-*` |
-| Footer | 1852 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
-| TOC | 1909 | `.toc-row .toc-number .toc-title .toc-desc` |
-| Formule | 1951 | `.formula .formula--score` |
-| Barres de progression | 1968 | `.progress-bar .progress-label .progress-track .progress-fill` |
-| Tableau | 2011 | `table th td .hi .pharma-*` |
-| Arm-card | 2095 | `.arm-card .arm-percent .arm-body .arm-title .arm-desc` |
-| Callout | 2125 | `.callout` |
-| Level-card | 2139 | `.level-card .level-header .level-body` |
-| Conclusion | 2146 | `.conclusion-item .conclusion-dot` |
-| Fin de deck | 2165 | `.impact-card* .conclusion-kicker .conclusion-band* .conclusion-copy` |
+| Grilles | 451 | `.grid-2 .grid-3 .grid-4` |
+| Cards | 459 | `.card .card-colored` |
+| Modificateurs de slides | 484 | `.slide--cream --navy --hero --s01…s05` `.slide-rule--*` `.toc-number--*` `.level-header--*` |
+| Footer | 523 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
+| TOC | 579 | `.toc-row .toc-number .toc-title .toc-desc` |
+| Formule | 622 | `.formula .formula--score` |
+| Barres de progression | 642 | `.progress-bar .progress-label .progress-track .progress-fill` |
+| Tableau | 687 | `table th td .hi` |
+| Callout | 696 | `.callout` |
+| Level-card | 709 | `.level-card .level-header .level-body` |
 
 ## index.html — Carte des slides
 
