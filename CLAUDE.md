@@ -28,7 +28,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s02-singularite.css` | 8–13 | `.s2-* .history-quote*` | à faire |
 | `s03-design.css` | 14–16 | `.design-* .pipeline-*` | à faire |
 | `s04-algorithme.css` | 17–25 | `.algo-* .special-* .chromosome-* .formula--score` | à faire |
-| `s05-wgs.css` | 26–28 | `.impact-card* .conclusion-*` | à faire |
+| `s05-wgs.css` | 26–28 | `.impact-card* .conclusion-*` | ✓ extrait |
 
 ## CSS — Sections (main.css)
 
