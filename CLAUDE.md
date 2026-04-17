@@ -12,11 +12,23 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Fichier | Rôle |
 |---|---|
 | `index.html` | Toutes les slides (source unique de vérité) |
-| `css/main.css` | Styles (~2 565 lignes, sections documentées ci-dessous) |
+| `css/main.css` | Styles transversaux (variables, reset, nav, deck, typo, composants génériques, responsive) |
+| `css/slides/s00-hero.css` | Slide 0 — hero layout, auteurs, pills, animation admixture |
 | `js/app.js` | Navigation, accessibilité du deck, Chart.js, animations SVG |
 | `data/admixture.js` | Données + builder DOM du fond admixture (slide 0) |
 | `js/vendor/chart.umd.js` | Chart.js 4.4.1 vendorisé (pas de CDN) |
 | `AGENTS.md` | Règles de travail (contenu, commits, CSS) |
+
+## CSS — Fichiers slides (css/slides/)
+
+| Fichier | Slides | Classes clés | État |
+|---|---|---|---|
+| `s00-hero.css` | 0 | `.hero-* .accent-bar .admix-* .adm-legend-*` | ✓ extrait |
+| `s01-angle-mort.css` | 2–7 | `.bias-* .ai-* .clinical-* .pharma-*` | à faire |
+| `s02-singularite.css` | 8–13 | `.s2-* .history-quote*` | à faire |
+| `s03-design.css` | 14–16 | `.design-* .pipeline-*` | à faire |
+| `s04-algorithme.css` | 17–25 | `.algo-* .special-* .chromosome-* .formula--score` | à faire |
+| `s05-wgs.css` | 26–28 | `.impact-card* .conclusion-*` | à faire |
 
 ## CSS — Sections (main.css)
 
@@ -28,12 +40,12 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 4 | Barre de progression | 181 | `#prog #pf` |
 | 5 | Deck de slides | 202 | `#deck .slide .inner` + delays `nth-child(1-7, n+8)` |
 | 6 | Typographie | 264 | `.slide-title .slide-rule .text-body .caption` |
-| 7 | Hero (slide 0) | 306 | `.accent-bar .hero-content .hero-title .hero-subtitle .hero-authors .hero-pill` |
-| 8 | Intro de section | 410 | `.section-slide .section-number .section-tag .section-title .section-subtitle .section-graphic` |
-| 9 | Composants | 534 | Voir sous-index ci-dessous |
-| 10 | Admixture (slide 0) | 2286 | `.admix-wrap #admix-bg .admix-overlay-left .admix-overlay-vignette .adm-legend .adm-legend-dot--*` |
-| 11 | Graphiques / SVG | 2368 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
-| 12 | Responsive | 2451 | `@media 900px / 600px / 380px` |
+| 7 | Intro de section | ~322 | `.section-slide .section-number .section-tag .section-title .section-subtitle .section-graphic` |
+| 8 | Composants | ~440 | Voir sous-index ci-dessous |
+| 9 | Graphiques / SVG | ~2200 | `.chart-wrapper .pipeline-box .pipeline-arrow .chromosome-*` `#radarChart` |
+| 10 | Responsive | ~2290 | `@media 900px / 600px / 380px` |
+| 11 | Accessibilité (motion) | ~2370 | `@media (prefers-reduced-motion: reduce)` |
+| 12 | Hauteurs min. fluides | ~2380 | `.grid-* .card .level-card .arm-card` min-height |
 | 13 | Accessibilité (motion) | 2498 | `@media (prefers-reduced-motion: reduce)` |
 | 14 | Hauteurs min. fluides | 2502 | `.grid-* .card .level-card .arm-card` min-height |
 
