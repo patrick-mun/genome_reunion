@@ -539,9 +539,21 @@
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 600px) {
+  /* Arm-card */
   .arm-card    { flex-direction: column; }
   .arm-percent { min-width: auto; padding: 7px; font-size: 16px; }
   .arm-body    { border-left: none; border-top: 1px solid var(--border); }
+
+  /* Grille score → 1 colonne */
+  .special-score-grid { grid-template-columns: 1fr; }
+
+  /* Radar réduit */
+  .special-radar-wrap { height: 220px; }
+  #radarChart         { max-height: 220px; }
+
+  /* Chromosomes ROH — label plus compact */
+  .chromosome-label  { min-width: 72px; font-size: clamp(11px, 3vw, 14px); }
+  .chromosome-legend { flex-wrap: wrap; gap: 8px; }
 }
 
 /* ── Hauteurs minimales fluides ──────────────────────────── */
