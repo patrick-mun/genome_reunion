@@ -754,6 +754,10 @@ tr:last-child td { border: none; }
   .grid-2,
   .grid-3      { grid-template-columns: 1fr; }
   .grid-3 > *:last-child:nth-child(odd) { grid-column: auto; }
+  /* Typographie des slides section — plus lisible sur mobile */
+  .section-title    { font-size: clamp(36px, 9vw, 44px); }
+  .section-subtitle { font-size: clamp(16px, 4vw, 18px); }
+  .section-tag      { font-size: 12px; }
   .grid-4      { grid-template-columns: 1fr 1fr; }
   .slide-title { font-size: clamp(20px, 4vw, 28px); }
   .inner       { padding: 12px 14px 28px; max-height: calc(100vh - 70px); }
