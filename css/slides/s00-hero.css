@@ -189,8 +189,28 @@
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .hero-content                  { grid-template-columns: 1fr; }
-  .hero-content > div:last-child { display: none; }
+  /* Animation plein écran en fond — plus de moitié droite */
+  .admix-wrap {
+    width: 100%;
+    opacity: .18;
+  }
+  /* Fondu latéral inutile en plein écran */
+  .admix-overlay-left {
+    display: none;
+  }
+  /* Contenu pleine largeur par-dessus l'animation */
+  .hero-content {
+    width: 100%;
+    padding: clamp(24px, 6vw, 48px) clamp(20px, 5vw, 40px);
+  }
+  /* Légende centrée et sur plusieurs lignes */
+  .adm-legend {
+    flex-wrap: wrap;
+    left: 16px;
+    right: 16px;
+    justify-content: center;
+    gap: 8px;
+  }
 }
 
 /* ── Accessibilité : réduction des animations ────────────── */
