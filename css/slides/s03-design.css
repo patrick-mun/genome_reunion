@@ -134,3 +134,11 @@
 
 .pipeline-arrow.shown { opacity: 1; }
 .pipeline-arrow svg   { width: 28px; height: 28px; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  /* Pipeline horizontal → vertical */
+  .pipeline-flow  { flex-direction: column; }
+  /* Flèche orientée vers le bas */
+  .pipeline-arrow { transform: rotate(90deg); width: 100%; height: 28px; }
+}

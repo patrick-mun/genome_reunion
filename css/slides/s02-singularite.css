@@ -339,3 +339,22 @@
   font-size: clamp(20px, 2.45vw, 34px);
   max-width: 24ch;
 }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  /* Grilles 2 colonnes → 1 colonne */
+  .history-quotes,
+  .s2-grid-2,
+  .s2-compare,
+  .s2-double { grid-template-columns: 1fr; }
+
+  /* Timeline horizontale → verticale (node à gauche, texte à droite) */
+  .timeline        { flex-direction: column; gap: clamp(8px, 1.5vh, 14px); }
+  .timeline-line   { display: none; }
+  .timeline-step   { flex-direction: row; align-items: center;
+                     justify-content: flex-start; gap: 12px; }
+  .timeline-copy   { text-align: left; }
+
+  /* Schéma effet fondateur — hauteur réduite sur mobile */
+  .s2-founder-figure svg { min-height: clamp(160px, 26vh, 260px); }
+}
