@@ -756,7 +756,7 @@ tr:last-child td { border: none; }
   .grid-3 > *:last-child:nth-child(odd) { grid-column: auto; }
   .grid-4      { grid-template-columns: 1fr 1fr; }
   .slide-title { font-size: clamp(20px, 4vw, 28px); }
-  .inner       { padding: 12px 14px; max-height: calc(100vh - 70px); }
+  .inner       { padding: 12px 14px 28px; max-height: calc(100vh - 70px); }
   table        { font-size: 11px; }
   th, td       { padding: 6px 7px; }
   .progress-label { min-width: 58px; font-size: 10px; }
