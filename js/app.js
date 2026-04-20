@@ -130,6 +130,9 @@ function goToSlide(targetIndex, options) {
   currentSlide = targetIndex;
   allSlides[currentSlide].classList.add('on');
 
+  var innerEl = allSlides[currentSlide].querySelector('.inner');
+  if (innerEl) innerEl.scrollTop = 0;
+
   slideDeck.style.transform = `translateX(-${currentSlide * 100}vw)`;
   slideCounter.textContent  = `${currentSlide + 1} / ${TOTAL_SLIDES}`;
   progressBar.style.width   = `${((currentSlide + 1) / TOTAL_SLIDES) * 100}%`;
