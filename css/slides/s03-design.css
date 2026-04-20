@@ -135,10 +135,28 @@
 .pipeline-arrow.shown { opacity: 1; }
 .pipeline-arrow svg   { width: 28px; height: 28px; }
 
+/* ── Entonnoir d'optimisation (slide 16) ─────────────────── */
+.funnel-layout {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+  margin-top: 10px;
+}
+
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 600px) {
   /* Pipeline horizontal → vertical */
   .pipeline-flow  { flex-direction: column; }
   /* Flèche orientée vers le bas */
   .pipeline-arrow { transform: rotate(90deg); width: 100%; height: 28px; }
+
+  /* Entonnoir : SVG au-dessus, étapes en dessous */
+  .funnel-layout {
+    grid-template-columns: 1fr;
+  }
+  .funnel-layout > svg {
+    max-width: 180px;
+    margin: 0 auto;
+  }
 }
