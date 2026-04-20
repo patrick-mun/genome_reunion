@@ -1230,162 +1230,63 @@
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 17 — TROIS NIVEAUX DE SINGULARITÉ
-     Présente les 3 caractéristiques génomiques uniques
-     de La Réunion : admixture 5 sources, effet fondateur,
-     et absence totale des bases mondiales.
+     SLIDE 17 — L'ENTONNOIR D'OPTIMISATION
+     Schéma synthétique SNP → Score → WGS Panel.
+     Conclut la section pipeline méthodologique.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="3">
         <div class="inner">
-          <h2 class="slide-title">Trois niveaux d'analyse à ne pas confondre</h2>
+          <h2 class="slide-title">De la Puce SNP au WGS : l'entonnoir d'optimisation</h2>
           <div class="slide-rule slide-rule--purple"></div>
-          <div class="grid-3">
-            <!-- CARD 1 : PCA -->
-            <div class="level-card">
-              <div class="level-header level-header--teal">1. Exploration — PCA</div>
-              <div class="level-body">
-                <div class="formula">z_i = (PC₁, PC₂, …, PCₚ)</div>
-                <p class="text-body design-body">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p>
-                <!-- Mini scatter PCA -->
-                <div class="design-figure design-figure--teal">
-                  <svg class="design-figure-svg" viewBox="0 0 200 110" aria-hidden="true">
-                    <!-- axes -->
-                    <line stroke="#CBD5E1" stroke-width="1" x1="18" x2="190" y1="96" y2="96"></line>
-                    <line stroke="#CBD5E1" stroke-width="1" x1="18" x2="18" y1="8" y2="96"></line>
-                    <text fill="#8896A5" font-size="8" text-anchor="middle" x="104" y="108">PC1</text>
-                    <text fill="#8896A5" font-size="8" text-anchor="middle" transform="rotate(-90,8,52)" x="8" y="52">PC2</text>
-                    <!-- Cluster Europe -->
-                    <circle cx="48" cy="72" fill="#3B82F6" opacity=".8" r="3.5"></circle>
-                    <circle cx="55" cy="68" fill="#3B82F6" opacity=".8" r="3.5"></circle>
-                    <circle cx="42" cy="78" fill="#3B82F6" opacity=".8" r="3.5"></circle>
-                    <circle cx="60" cy="74" fill="#3B82F6" opacity=".8" r="3.5"></circle>
-                    <circle cx="50" cy="65" fill="#3B82F6" opacity=".8" r="3.5"></circle>
-                    <circle cx="38" cy="70" fill="#3B82F6" opacity=".8" r="3.5"></circle>
-                    <text fill="#3B82F6" font-size="7" text-anchor="middle" x="49" y="88">Europe</text>
-                    <!-- Cluster Afrique -->
-                    <circle cx="150" cy="25" fill="#059669" opacity=".8" r="3.5"></circle>
-                    <circle cx="158" cy="32" fill="#059669" opacity=".8" r="3.5"></circle>
-                    <circle cx="144" cy="30" fill="#059669" opacity=".8" r="3.5"></circle>
-                    <circle cx="162" cy="22" fill="#059669" opacity=".8" r="3.5"></circle>
-                    <circle cx="155" cy="18" fill="#059669" opacity=".8" r="3.5"></circle>
-                    <text fill="#059669" font-size="7" text-anchor="middle" x="153" y="44">Afrique</text>
-                    <!-- Cluster Asie -->
-                    <circle cx="170" cy="75" fill="#D97706" opacity=".8" r="3.5"></circle>
-                    <circle cx="178" cy="68" fill="#D97706" opacity=".8" r="3.5"></circle>
-                    <circle cx="165" cy="82" fill="#D97706" opacity=".8" r="3.5"></circle>
-                    <circle cx="175" cy="80" fill="#D97706" opacity=".8" r="3.5"></circle>
-                    <text fill="#D97706" font-size="7" text-anchor="middle" x="172" y="91">Asie</text>
-                    <!-- Individus Réunion admixés — entre les clusters -->
-                    <circle cx="95" cy="55" fill="#E05A4B" r="4.5" stroke="white" stroke-width="1.2"></circle>
-                    <circle cx="108" cy="48" fill="#E05A4B" r="4.5" stroke="white" stroke-width="1.2"></circle>
-                    <circle cx="82" cy="44" fill="#E05A4B" r="4.5" stroke="white" stroke-width="1.2"></circle>
-                    <circle cx="118" cy="60" fill="#E05A4B" r="4.5" stroke="white" stroke-width="1.2"></circle>
-                    <text fill="#E05A4B" font-size="7.5" font-weight="700" text-anchor="middle" x="100" y="38">La Réunion</text>
-                    <line stroke="#E05A4B" stroke-dasharray="2,2" stroke-width=".8" x1="100" x2="95" y1="40" y2="52"></line>
-                  </svg>
-                  <p class="design-figure-caption">Espace PC1/PC2 — individus réunionnais entre les clusters</p>
-                </div>
-                <p class="design-warning">⚠ Ne fixe pas K — elle cadre les sources.</p>
+          <div style="display:grid;grid-template-columns:40% 1fr;gap:clamp(20px,3vw,40px);align-items:start;margin-top:10px;">
+            <!-- SVG Entonnoir -->
+            <svg viewBox="0 0 280 370" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;display:block;">
+              <defs>
+                <clipPath id="funnelClip">
+                  <path d="M14,18 L266,18 L158,198 L122,198 Z"/>
+                </clipPath>
+              </defs>
+              <path d="M14,18 L266,18 L158,200 L158,268 L122,268 L122,200 Z" fill="rgba(11,31,58,0.05)" stroke="#0B1F3A" stroke-width="1.8" stroke-linejoin="round"/>
+              <g clip-path="url(#funnelClip)">
+                <circle cx="80"  cy="32" r="3.5" fill="#94A3B8"/><circle cx="110" cy="29" r="3"   fill="#CBD5E1"/><circle cx="140" cy="33" r="3.5" fill="#94A3B8"/><circle cx="170" cy="28" r="3"   fill="#CBD5E1"/><circle cx="200" cy="32" r="3.5" fill="#94A3B8"/>
+                <circle cx="55"  cy="50" r="3"   fill="#CBD5E1"/><circle cx="83"  cy="52" r="3.5" fill="#94A3B8"/><circle cx="113" cy="48" r="3"   fill="#CBD5E1"/><circle cx="140" cy="52" r="4"   fill="#94A3B8"/><circle cx="168" cy="49" r="3"   fill="#CBD5E1"/><circle cx="196" cy="52" r="3.5" fill="#94A3B8"/><circle cx="224" cy="49" r="3"   fill="#CBD5E1"/>
+                <circle cx="66"  cy="70" r="3.5" fill="#94A3B8"/><circle cx="96"  cy="72" r="3"   fill="#CBD5E1"/><circle cx="125" cy="68" r="3.5" fill="#94A3B8"/><circle cx="150" cy="72" r="4"   fill="#CBD5E1"/><circle cx="178" cy="69" r="3"   fill="#94A3B8"/><circle cx="207" cy="71" r="3.5" fill="#CBD5E1"/>
+                <circle cx="77"  cy="90" r="3"   fill="#94A3B8"/><circle cx="105" cy="92" r="3.5" fill="#CBD5E1"/><circle cx="132" cy="88" r="3"   fill="#94A3B8"/><circle cx="152" cy="92" r="4"   fill="#CBD5E1"/><circle cx="174" cy="88" r="3"   fill="#94A3B8"/><circle cx="198" cy="91" r="3.5" fill="#CBD5E1"/>
+                <circle cx="88"  cy="110" r="3.5" fill="#94A3B8"/><circle cx="115" cy="112" r="3"   fill="#CBD5E1"/><circle cx="140" cy="108" r="3.5" fill="#94A3B8"/><circle cx="163" cy="112" r="3"   fill="#CBD5E1"/><circle cx="187" cy="110" r="3.5" fill="#94A3B8"/>
+                <circle cx="98"  cy="130" r="3"   fill="#94A3B8"/><circle cx="122" cy="132" r="3.5" fill="#CBD5E1"/><circle cx="145" cy="129" r="3"   fill="#94A3B8"/><circle cx="163" cy="132" r="3.5" fill="#CBD5E1"/><circle cx="182" cy="130" r="3"   fill="#94A3B8"/>
+                <circle cx="108" cy="150" r="3.5" fill="#94A3B8"/><circle cx="130" cy="152" r="3"   fill="#CBD5E1"/><circle cx="150" cy="148" r="3.5" fill="#94A3B8"/><circle cx="170" cy="152" r="3"   fill="#CBD5E1"/>
+                <circle cx="118" cy="170" r="3"   fill="#94A3B8"/><circle cx="140" cy="172" r="3.5" fill="#CBD5E1"/><circle cx="162" cy="169" r="3"   fill="#94A3B8"/>
+                <circle cx="130" cy="190" r="3"   fill="#94A3B8"/><circle cx="152" cy="188" r="3"   fill="#CBD5E1"/>
+              </g>
+              <text x="140" y="13" text-anchor="middle" font-size="11" font-weight="700" fill="#0B1F3A" font-family="Georgia,serif">Puce SNP</text>
+              <rect x="120" y="197" width="40" height="14" fill="#0D7377" rx="2"/>
+              <text x="168" y="208" text-anchor="start" font-size="9" font-weight="700" fill="#0D7377" font-family="sans-serif">Score S_div</text>
+              <rect x="122" y="211" width="36" height="52" fill="rgba(13,115,119,0.06)" stroke="#0D7377" stroke-width="1"/>
+              <circle cx="124" cy="277" r="5.5" fill="#0D7377"/><circle cx="140" cy="281" r="5.5" fill="#E05A4B"/><circle cx="156" cy="277" r="5"   fill="#D97706"/>
+              <circle cx="116" cy="292" r="5"   fill="#7C3AED"/><circle cx="132" cy="295" r="5.5" fill="#0D7377"/><circle cx="148" cy="292" r="5"   fill="#3B82F6"/><circle cx="164" cy="289" r="4.5" fill="#E05A4B"/>
+              <circle cx="122" cy="308" r="5"   fill="#D97706"/><circle cx="138" cy="311" r="5.5" fill="#0D7377"/><circle cx="154" cy="308" r="5"   fill="#7C3AED"/>
+              <circle cx="130" cy="323" r="5"   fill="#3B82F6"/><circle cx="147" cy="325" r="5.5" fill="#E05A4B"/>
+              <text x="140" y="348" text-anchor="middle" font-size="11" font-weight="700" fill="#0B1F3A" font-family="Georgia,serif">WGS Panel</text>
+            </svg>
+            <!-- Étapes -->
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="card" style="display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#0B1F3A;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;">1</div>
+                <div><strong>Puce SNP — Économique &amp; Exhaustif</strong><br/><span class="text-body" style="font-size:clamp(13px,1.4vw,16px);">Génotypage de toute la cohorte EFS pour cartographier la structure génétique globale à moindre coût.</span></div>
+              </div>
+              <div class="card" style="display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#0D7377;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;">2</div>
+                <div><strong>Score Multicritère S_div — Le Filtre</strong><br/><span class="text-body" style="font-size:clamp(13px,1.4vw,16px);">Calcul de S_div pour identifier les profils maximisant l'information nouvelle I(S) sous contrainte budgétaire.</span></div>
+              </div>
+              <div class="card" style="display:flex;gap:14px;align-items:flex-start;">
+                <div style="width:28px;height:28px;border-radius:50%;background:#E05A4B;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;">3</div>
+                <div><strong>WGS Panel — Coûteux &amp; Précis</strong><br/><span class="text-body" style="font-size:clamp(13px,1.4vw,16px);">Séquençage complet uniquement sur le sous-ensemble S optimisé.</span></div>
+              </div>
+              <div class="design-pipeline-note">
+                <strong>Conclusion :</strong> Ce n'est pas un échantillonnage aléatoire, mais une <strong>optimisation dirigée par la donnée observable</strong>.
               </div>
             </div>
-            <!-- CARD 2 : ADMIXTURE -->
-            <div class="level-card">
-              <div class="level-header level-header--purple">2. Modélisation — ADMIXTURE</div>
-              <div class="level-body">
-                <div class="formula">
-                  q_i = (q_{i1},…,q_{iK})
-                  <br />
-                  Σ q_{ik} = 1
-                </div>
-                <p class="text-body design-body">Proportions d'ascendance globale pour l'ensemble du jeu de données.</p>
-                <!-- Mini ADMIXTURE stacked bars -->
-                <div class="design-figure design-figure--purple">
-                  <svg class="design-figure-svg" viewBox="0 0 200 105" aria-hidden="true">
-                    <!-- Labels individus -->
-                    <text fill="#8896A5" font-size="7" x="10" y="100">EUR</text>
-                    <text fill="#8896A5" font-size="7" x="36" y="100">AFR</text>
-                    <text fill="#8896A5" font-size="7" x="62" y="100">ASI</text>
-                    <text fill="#8896A5" font-size="7" x="84" y="100">IND</text>
-                    <text fill="#E05A4B" font-size="7" font-weight="700" x="108" y="100">REU1</text>
-                    <text fill="#E05A4B" font-size="7" font-weight="700" x="134" y="100">REU2</text>
-                    <text fill="#E05A4B" font-size="7" font-weight="700" x="160" y="100">REU3</text>
-                    <!-- EUR : 95% bleu -->
-                    <rect fill="#3B82F6" height="80" rx="2" width="18" x="6" y="11"></rect>
-                    <rect fill="#059669" height="4" rx="1" width="18" x="6" y="7"></rect>
-                    <!-- AFR : 95% vert -->
-                    <rect fill="#059669" height="76" rx="2" width="18" x="32" y="11"></rect>
-                    <rect fill="#3B82F6" height="4" rx="1" width="18" x="32" y="7"></rect>
-                    <rect fill="#D97706" height="8" rx="1" width="18" x="32" y="83"></rect>
-                    <!-- ASI : 95% ambre -->
-                    <rect fill="#D97706" height="78" rx="2" width="18" x="58" y="11"></rect>
-                    <rect fill="#8B5CF6" height="4" rx="1" width="18" x="58" y="7"></rect>
-                    <rect fill="#E05A4B" height="6" rx="1" width="18" x="58" y="85"></rect>
-                    <!-- IND : 95% violet -->
-                    <rect fill="#8B5CF6" height="80" rx="2" width="18" x="84" y="11"></rect>
-                    <rect fill="#D97706" height="4" rx="1" width="18" x="84" y="7"></rect>
-                    <!-- REU1 : mélange 4 -->
-                    <rect fill="#3B82F6" height="22" rx="1" width="18" x="110" y="7"></rect>
-                    <rect fill="#059669" height="28" rx="1" width="18" x="110" y="29"></rect>
-                    <rect fill="#D97706" height="18" rx="1" width="18" x="110" y="57"></rect>
-                    <rect fill="#8B5CF6" height="16" rx="1" width="18" x="110" y="75"></rect>
-                    <!-- REU2 : mélange équilibré -->
-                    <rect fill="#3B82F6" height="18" rx="1" width="18" x="136" y="7"></rect>
-                    <rect fill="#059669" height="22" rx="1" width="18" x="136" y="25"></rect>
-                    <rect fill="#D97706" height="20" rx="1" width="18" x="136" y="47"></rect>
-                    <rect fill="#8B5CF6" height="24" rx="1" width="18" x="136" y="67"></rect>
-                    <!-- REU3 : autre mélange -->
-                    <rect fill="#059669" height="30" rx="1" width="18" x="162" y="7"></rect>
-                    <rect fill="#3B82F6" height="20" rx="1" width="18" x="162" y="37"></rect>
-                    <rect fill="#8B5CF6" height="24" rx="1" width="18" x="162" y="57"></rect>
-                    <rect fill="#D97706" height="10" rx="1" width="18" x="162" y="81"></rect>
-                  </svg>
-                  <p class="design-figure-caption">Profils réunionnais (REU) : admixture multi-continentale</p>
-                </div>
-                <p class="design-warning">⚠ K est global, pas individuel.</p>
-              </div>
-            </div>
-            <!-- CARD 3 : LOCAL ANCESTRY -->
-            <div class="level-card">
-              <div class="level-header level-header--coral">3. Résolution — Local ancestry</div>
-              <div class="level-body">
-                <div class="formula">PCAdmix sur chromosomes phasés</div>
-                <p class="text-body design-body">Origine aux segments chromosomiques. Identifie les zones ambiguës.</p>
-                <!-- Mini local ancestry chromosome -->
-                <div class="design-figure design-figure--coral">
-                  <svg class="design-figure-svg" viewBox="0 0 200 90" aria-hidden="true">
-                    <!-- Chromosome 1 (brin maternel) -->
-                    <text fill="#8896A5" font-size="7.5" x="4" y="22">Chr.1 mat.</text>
-                    <rect fill="#E8E4DC" height="14" rx="4" width="140" x="50" y="12"></rect>
-                    <rect fill="#3B82F6" height="14" rx="4" width="42" x="50" y="12"></rect>
-                    <rect fill="#059669" height="14" rx="0" width="30" x="94" y="12"></rect>
-                    <rect fill="#E05A4B" height="14" rx="0" width="18" x="126" y="12"></rect>
-                    <rect fill="#D97706" height="14" rx="0" width="28" x="146" y="12"></rect>
-                    <rect fill="#3B82F6" height="14" rx="4" width="14" x="176" y="12"></rect>
-                    <!-- Chromosome 1 (brin paternel) -->
-                    <text fill="#8896A5" font-size="7.5" x="4" y="46">Chr.1 pat.</text>
-                    <rect fill="#E8E4DC" height="14" rx="4" width="140" x="50" y="36"></rect>
-                    <rect fill="#059669" height="14" rx="4" width="20" x="50" y="36"></rect>
-                    <rect fill="#3B82F6" height="14" rx="0" width="52" x="72" y="36"></rect>
-                    <rect fill="#8B5CF6" height="14" rx="0" width="22" x="126" y="36"></rect>
-                    <rect fill="#E05A4B" height="14" rx="4" width="40" x="150" y="36"></rect>
-                    <!-- Segment ambigu annoté -->
-                    <rect fill="none" height="42" stroke="#E05A4B" stroke-dasharray="3,2" stroke-width="1.2" width="4" x="118" y="10"></rect>
-                    <text fill="#E05A4B" font-size="7" x="122" y="62">ambigu</text>
-                    <!-- Légende -->
-                    <rect fill="#3B82F6" height="9" rx="1" width="9" x="4" y="72"></rect>
-                    <text fill="#4A5568" font-size="7" x="15" y="80">Europe</text>
-                    <rect fill="#059669" height="9" rx="1" width="9" x="50" y="72"></rect>
-                    <text fill="#4A5568" font-size="7" x="61" y="80">Afrique</text>
-                    <rect fill="#D97706" height="9" rx="1" width="9" x="98" y="72"></rect>
-                    <text fill="#4A5568" font-size="7" x="109" y="80">Asie S.</text>
-                    <rect fill="#8B5CF6" height="9" rx="1" width="9" x="146" y="72"></rect>
-                    <text fill="#4A5568" font-size="7" x="157" y="80">Inde</text>
-                  </svg>
-                  <p class="design-figure-caption">Résolution segment par segment — zone ambiguë signalée</p>
-                </div>
-                <p class="design-warning">⚠ Segment ambigu ≠ nouvelle ascendance.</p>
-              </div>
-            </div>
+          </div>
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
@@ -1412,7 +1313,146 @@
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 19 — LE PROBLÈME D'OPTIMISATION
+     SLIDE 19 — TROIS NIVEAUX D'ANALYSE (PCA / ADMIXTURE / LOCAL ANCESTRY)
+     Déplacée de la section 03 vers la section 04 : sert de support
+     pour comprendre les variables utilisées dans l'algorithme.
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Trois niveaux d'analyse à ne pas confondre</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+          <div class="grid-3">
+            <!-- CARD 1 : PCA -->
+            <div class="level-card">
+              <div class="level-header level-header--teal">1. Exploration — PCA</div>
+              <div class="level-body">
+                <div class="formula">z_i = (PC₁, PC₂, …, PCₚ)</div>
+                <p class="text-body design-body">Projette dans l'espace génétique. Clusters, gradients et extrêmes.</p>
+                <div class="design-figure design-figure--teal">
+                  <svg class="design-figure-svg" viewBox="0 0 200 110" aria-hidden="true">
+                    <line stroke="#CBD5E1" stroke-width="1" x1="18" x2="190" y1="96" y2="96"></line>
+                    <line stroke="#CBD5E1" stroke-width="1" x1="18" x2="18" y1="8" y2="96"></line>
+                    <text fill="#8896A5" font-size="8" text-anchor="middle" x="104" y="108">PC1</text>
+                    <text fill="#8896A5" font-size="8" text-anchor="middle" transform="rotate(-90,8,52)" x="8" y="52">PC2</text>
+                    <circle cx="48" cy="72" fill="#3B82F6" opacity=".8" r="3.5"></circle>
+                    <circle cx="55" cy="68" fill="#3B82F6" opacity=".8" r="3.5"></circle>
+                    <circle cx="42" cy="78" fill="#3B82F6" opacity=".8" r="3.5"></circle>
+                    <circle cx="60" cy="74" fill="#3B82F6" opacity=".8" r="3.5"></circle>
+                    <circle cx="50" cy="65" fill="#3B82F6" opacity=".8" r="3.5"></circle>
+                    <circle cx="38" cy="70" fill="#3B82F6" opacity=".8" r="3.5"></circle>
+                    <text fill="#3B82F6" font-size="7" text-anchor="middle" x="49" y="88">Europe</text>
+                    <circle cx="150" cy="25" fill="#059669" opacity=".8" r="3.5"></circle>
+                    <circle cx="158" cy="32" fill="#059669" opacity=".8" r="3.5"></circle>
+                    <circle cx="144" cy="30" fill="#059669" opacity=".8" r="3.5"></circle>
+                    <circle cx="162" cy="22" fill="#059669" opacity=".8" r="3.5"></circle>
+                    <circle cx="155" cy="18" fill="#059669" opacity=".8" r="3.5"></circle>
+                    <text fill="#059669" font-size="7" text-anchor="middle" x="153" y="44">Afrique</text>
+                    <circle cx="170" cy="75" fill="#D97706" opacity=".8" r="3.5"></circle>
+                    <circle cx="178" cy="68" fill="#D97706" opacity=".8" r="3.5"></circle>
+                    <circle cx="165" cy="82" fill="#D97706" opacity=".8" r="3.5"></circle>
+                    <circle cx="175" cy="80" fill="#D97706" opacity=".8" r="3.5"></circle>
+                    <text fill="#D97706" font-size="7" text-anchor="middle" x="172" y="91">Asie</text>
+                    <circle cx="95" cy="55" fill="#E05A4B" r="4.5" stroke="white" stroke-width="1.2"></circle>
+                    <circle cx="108" cy="48" fill="#E05A4B" r="4.5" stroke="white" stroke-width="1.2"></circle>
+                    <circle cx="82" cy="44" fill="#E05A4B" r="4.5" stroke="white" stroke-width="1.2"></circle>
+                    <circle cx="118" cy="60" fill="#E05A4B" r="4.5" stroke="white" stroke-width="1.2"></circle>
+                    <text fill="#E05A4B" font-size="7.5" font-weight="700" text-anchor="middle" x="100" y="38">La Réunion</text>
+                    <line stroke="#E05A4B" stroke-dasharray="2,2" stroke-width=".8" x1="100" x2="95" y1="40" y2="52"></line>
+                  </svg>
+                  <p class="design-figure-caption">Espace PC1/PC2 — individus réunionnais entre les clusters</p>
+                </div>
+                <p class="design-warning">⚠ Ne fixe pas K — elle cadre les sources.</p>
+              </div>
+            </div>
+            <!-- CARD 2 : ADMIXTURE -->
+            <div class="level-card">
+              <div class="level-header level-header--purple">2. Modélisation — ADMIXTURE</div>
+              <div class="level-body">
+                <div class="formula">q_i = (q_{i1},…,q_{iK})<br />Σ q_{ik} = 1</div>
+                <p class="text-body design-body">Proportions d'ascendance globale pour l'ensemble du jeu de données.</p>
+                <div class="design-figure design-figure--purple">
+                  <svg class="design-figure-svg" viewBox="0 0 200 105" aria-hidden="true">
+                    <text fill="#8896A5" font-size="7" x="10" y="100">EUR</text>
+                    <text fill="#8896A5" font-size="7" x="36" y="100">AFR</text>
+                    <text fill="#8896A5" font-size="7" x="62" y="100">ASI</text>
+                    <text fill="#8896A5" font-size="7" x="84" y="100">IND</text>
+                    <text fill="#E05A4B" font-size="7" font-weight="700" x="108" y="100">REU1</text>
+                    <text fill="#E05A4B" font-size="7" font-weight="700" x="134" y="100">REU2</text>
+                    <text fill="#E05A4B" font-size="7" font-weight="700" x="160" y="100">REU3</text>
+                    <rect fill="#3B82F6" height="80" rx="2" width="18" x="6" y="11"></rect>
+                    <rect fill="#059669" height="4" rx="1" width="18" x="6" y="7"></rect>
+                    <rect fill="#059669" height="76" rx="2" width="18" x="32" y="11"></rect>
+                    <rect fill="#3B82F6" height="4" rx="1" width="18" x="32" y="7"></rect>
+                    <rect fill="#D97706" height="8" rx="1" width="18" x="32" y="83"></rect>
+                    <rect fill="#D97706" height="78" rx="2" width="18" x="58" y="11"></rect>
+                    <rect fill="#8B5CF6" height="4" rx="1" width="18" x="58" y="7"></rect>
+                    <rect fill="#E05A4B" height="6" rx="1" width="18" x="58" y="85"></rect>
+                    <rect fill="#8B5CF6" height="80" rx="2" width="18" x="84" y="11"></rect>
+                    <rect fill="#D97706" height="4" rx="1" width="18" x="84" y="7"></rect>
+                    <rect fill="#3B82F6" height="22" rx="1" width="18" x="110" y="7"></rect>
+                    <rect fill="#059669" height="28" rx="1" width="18" x="110" y="29"></rect>
+                    <rect fill="#D97706" height="18" rx="1" width="18" x="110" y="57"></rect>
+                    <rect fill="#8B5CF6" height="16" rx="1" width="18" x="110" y="75"></rect>
+                    <rect fill="#3B82F6" height="18" rx="1" width="18" x="136" y="7"></rect>
+                    <rect fill="#059669" height="22" rx="1" width="18" x="136" y="25"></rect>
+                    <rect fill="#D97706" height="20" rx="1" width="18" x="136" y="47"></rect>
+                    <rect fill="#8B5CF6" height="24" rx="1" width="18" x="136" y="67"></rect>
+                    <rect fill="#059669" height="30" rx="1" width="18" x="162" y="7"></rect>
+                    <rect fill="#3B82F6" height="20" rx="1" width="18" x="162" y="37"></rect>
+                    <rect fill="#8B5CF6" height="24" rx="1" width="18" x="162" y="57"></rect>
+                    <rect fill="#D97706" height="10" rx="1" width="18" x="162" y="81"></rect>
+                  </svg>
+                  <p class="design-figure-caption">Profils réunionnais (REU) : admixture multi-continentale</p>
+                </div>
+                <p class="design-warning">⚠ K est global, pas individuel.</p>
+              </div>
+            </div>
+            <!-- CARD 3 : LOCAL ANCESTRY -->
+            <div class="level-card">
+              <div class="level-header level-header--coral">3. Résolution — Local ancestry</div>
+              <div class="level-body">
+                <div class="formula">PCAdmix sur chromosomes phasés</div>
+                <p class="text-body design-body">Origine aux segments chromosomiques. Identifie les zones ambiguës.</p>
+                <div class="design-figure design-figure--coral">
+                  <svg class="design-figure-svg" viewBox="0 0 200 90" aria-hidden="true">
+                    <text fill="#8896A5" font-size="7.5" x="4" y="22">Chr.1 mat.</text>
+                    <rect fill="#E8E4DC" height="14" rx="4" width="140" x="50" y="12"></rect>
+                    <rect fill="#3B82F6" height="14" rx="4" width="42" x="50" y="12"></rect>
+                    <rect fill="#059669" height="14" rx="0" width="30" x="94" y="12"></rect>
+                    <rect fill="#E05A4B" height="14" rx="0" width="18" x="126" y="12"></rect>
+                    <rect fill="#D97706" height="14" rx="0" width="28" x="146" y="12"></rect>
+                    <rect fill="#3B82F6" height="14" rx="4" width="14" x="176" y="12"></rect>
+                    <text fill="#8896A5" font-size="7.5" x="4" y="46">Chr.1 pat.</text>
+                    <rect fill="#E8E4DC" height="14" rx="4" width="140" x="50" y="36"></rect>
+                    <rect fill="#059669" height="14" rx="4" width="20" x="50" y="36"></rect>
+                    <rect fill="#3B82F6" height="14" rx="0" width="52" x="72" y="36"></rect>
+                    <rect fill="#8B5CF6" height="14" rx="0" width="22" x="126" y="36"></rect>
+                    <rect fill="#E05A4B" height="14" rx="4" width="40" x="150" y="36"></rect>
+                    <rect fill="none" height="42" stroke="#E05A4B" stroke-dasharray="3,2" stroke-width="1.2" width="4" x="118" y="10"></rect>
+                    <text fill="#E05A4B" font-size="7" x="122" y="62">ambigu</text>
+                    <rect fill="#3B82F6" height="9" rx="1" width="9" x="4" y="72"></rect>
+                    <text fill="#4A5568" font-size="7" x="15" y="80">Europe</text>
+                    <rect fill="#059669" height="9" rx="1" width="9" x="50" y="72"></rect>
+                    <text fill="#4A5568" font-size="7" x="61" y="80">Afrique</text>
+                    <rect fill="#D97706" height="9" rx="1" width="9" x="98" y="72"></rect>
+                    <text fill="#4A5568" font-size="7" x="109" y="80">Asie S.</text>
+                    <rect fill="#8B5CF6" height="9" rx="1" width="9" x="146" y="72"></rect>
+                    <text fill="#4A5568" font-size="7" x="157" y="80">Inde</text>
+                  </svg>
+                  <p class="design-figure-caption">Résolution segment par segment — zone ambiguë signalée</p>
+                </div>
+                <p class="design-warning">⚠ Segment ambigu ≠ nouvelle ascendance.</p>
+              </div>
+            </div>
+          </div>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">19</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 20 — LE PROBLÈME D'OPTIMISATION
      Formalisation : max I(S) avec Coût(S) ≤ B.
      3 raisons pour lesquelles un seul critère ne suffit pas.
      ═══════════════════════════════════════════════════════ -->
@@ -1447,12 +1487,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">19</span>
+            <span class="caption">20</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 20 — TROIS VARIABLES GÉNOMIQUES
+     SLIDE 21 — TROIS VARIABLES GÉNOMIQUES
      Level-cards : PCA (position), ADMIXTURE (composition),
      Entropie H_i (mélange). Formules mathématiques incluses.
      ═══════════════════════════════════════════════════════ -->
@@ -1492,12 +1532,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">20</span>
+            <span class="caption">21</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 21 — LE SCORE DE DIVERSITÉ S_div
+     SLIDE 22 — LE SCORE DE DIVERSITÉ S_div
      Graphique barres horizontales Chart.js (#scoreBarChart)
      initialisé par initScoreChart() dans app.js.
      Poids : D_PCA 45% · D_ADM 25% · (1-φ) 15% · U 10% · DNAQ 5%
@@ -1513,12 +1553,12 @@
           <div class="callout">Couvrir davantage, répéter moins. On cherche l'individu le plus éloigné de ceux déjà sélectionnés — pas l'individu moyen.</div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">21</span>
+            <span class="caption">22</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 22 — PARENTÉ ET QUALITÉ ADN
+     SLIDE 23 — PARENTÉ ET QUALITÉ ADN
      Détail des deux critères de filtrage : pénalité de
      parenté (1-φmax calculé par KING/PLINK) et score
      qualité ADN (call rate, contamination, consentement).
@@ -1569,12 +1609,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">22</span>
+            <span class="caption">23</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 23 — LES 4 BRAS DE SÉLECTION
+     SLIDE 24 — LES 4 BRAS DE SÉLECTION
      Composant .arm-card × 4 :
        60% Diversité-Référence (cœur du panel)
        20% Central-Représentatif (profils médians)
@@ -1615,12 +1655,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">23</span>
+            <span class="caption">24</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 24 — ZOOM : EFFET FONDATEUR / ROH / IBD
+     SLIDE 25 — ZOOM : EFFET FONDATEUR / ROH / IBD
      Diagramme chromosomes animé (#rohDiagram) déclenché par
      animateROH() dans app.js. Les .chromosome-segment
      apparaissent progressivement (index × 90ms + 200ms).
@@ -1718,12 +1758,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">24</span>
+            <span class="caption">25</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 25 — EXEMPLE CONCRET : CALCUL DU SCORE
+     SLIDE 26 — EXEMPLE CONCRET : CALCUL DU SCORE
      Graphique radar Chart.js (#radarChart) initialisé par
      initRadarChart() dans app.js.
      3 patients comparés : A (profil moyen, rejeté),
@@ -1791,12 +1831,12 @@
           </p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">25</span>
+            <span class="caption">26</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 26 — CE QUI REND LA MÉTHODE DÉFENDABLE
+     SLIDE 27 — CE QUI REND LA MÉTHODE DÉFENDABLE
      4 critères de validation : variables définies,
      poids annoncés, algorithme reproductible, validation finale.
      ═══════════════════════════════════════════════════════ -->
@@ -1836,12 +1876,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">26</span>
+            <span class="caption">27</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 27 — INTRO SECTION 05 : WGS
+     SLIDE 28 — INTRO SECTION 05 : WGS
      Slide d'intro pleine couleur var(--s05) = vert.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--s05" data-section="5">
@@ -1859,7 +1899,7 @@
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 28 — IMPACTS ATTENDUS DU RÉFÉRENTIEL
+     SLIDE 29 — IMPACTS ATTENDUS DU RÉFÉRENTIEL
      6 impacts : VUS, pharmacogénomique, imputation,
      effet fondateur, biais IA, équité en santé.
      ═══════════════════════════════════════════════════════ -->
@@ -1895,12 +1935,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">28</span>
+            <span class="caption">29</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 29 — CONCLUSION
+     SLIDE 30 — CONCLUSION
      Fond navy comme la slide titre, .accent-bar teal.
      4 points de conclusion + encadré récapitulatif.
      ═══════════════════════════════════════════════════════ -->
