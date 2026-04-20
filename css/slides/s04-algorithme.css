@@ -547,9 +547,12 @@
   /* Grille score → 1 colonne */
   .special-score-grid { grid-template-columns: 1fr; }
 
-  /* Radar réduit */
-  .special-radar-wrap { height: 220px; }
-  #radarChart         { max-height: 220px; }
+  /* Radar réduit et borné en largeur */
+  .special-radar-wrap { height: 220px; width: 100%; }
+  #radarChart         { max-height: 220px; max-width: 100% !important; width: 100% !important; }
+
+  /* Callout score — reste dans l'écran */
+  .special-score-callout { max-width: 100%; overflow: hidden; word-break: break-word; }
 
   /* Chromosomes ROH — label plus compact */
   .chromosome-label  { min-width: 72px; font-size: clamp(11px, 3vw, 14px); }
