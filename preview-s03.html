@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview — Nouvelles slides S03</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/slides/s03-design.css" />
+  <style>
+    /* ── Mise en page preview — défilement vertical simple ── */
+    body { background: #E8E4DC; padding: 40px 20px; }
+    .preview-label {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #64748B;
+      margin: 40px 0 10px;
+    }
+    .preview-label:first-child { margin-top: 0; }
+    .slide-shell {
+      width: min(960px, 100%);
+      height: 540px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(15,23,42,.18);
+      background: #F5F1E8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide-shell .inner {
+      width: 92%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 36px 48px;
+      overflow-y: auto;
+    }
+    /* partenaires */
+    .partner-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .partner-card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid rgba(15,23,42,.08);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(15,23,42,.06);
+    }
+    .partner-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .partner-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: #0B1F3A;
+    }
+    .partner-role {
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.4;
+    }
+    .partner-step {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: #fff;
+    }
+    /* SNP vs WGS comparaison */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      gap: 0;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .compare-card {
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .compare-card--bad {
+      background: #FEF2F0;
+      border: 1px solid #FECACA;
+    }
+    .compare-card--good {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+    }
+    .compare-arrow {
+      text-align: center;
+      font-size: 22px;
+      color: #94A3B8;
+    }
+    .compare-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .compare-title--bad  { color: #E05A4B; }
+    .compare-title--good { color: #059669; }
+    .compare-item {
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.6;
+      padding-left: 12px;
+      border-left: 3px solid;
+      margin-bottom: 8px;
+    }
+    .compare-item--bad  { border-color: #FCA5A5; }
+    .compare-item--good { border-color: #6EE7B7; }
+    /* Livrables */
+    .deliverable-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .deliverable-card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid rgba(15,23,42,.08);
+      padding: 18px 20px;
+      box-shadow: 0 4px 14px rgba(15,23,42,.06);
+    }
+    .deliverable-number {
+      font-family: Georgia, serif;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .deliverable-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #0B1F3A;
+      margin-bottom: 6px;
+    }
+    .deliverable-desc {
+      font-size: 12px;
+      color: #64748B;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE A — Les acteurs du pipeline
+     ══════════════════════════════════════════════════════ -->
+<p class="preview-label">Slide A — Les Acteurs du Pipeline (nouvelle slide après l'intro S03)</p>
+<div class="slide-shell">
+  <div class="inner">
+    <h2 class="slide-title">Les acteurs du pipeline</h2>
+    <div class="slide-rule slide-rule--purple"></div>
+    <p class="text-body" style="font-size:15px;color:#475569;margin-bottom:4px;">
+      Cinq partenaires, un objectif commun : produire le premier référentiel génomique réunionnais.
+    </p>
+    <div class="partner-grid">
+
+      <div class="partner-card">
+        <div class="partner-icon" style="background:#0D7377;">EFS</div>
+        <div>
+          <div class="partner-name">EFS</div>
+          <div class="partner-role">Recrutement &amp; collecte des donneurs volontaires représentatifs</div>
+        </div>
+        <span class="partner-step" style="background:#0D7377;">Étape 1</span>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-icon" style="background:#0B1F3A;">CHU</div>
+        <div>
+          <div class="partner-name">CHU Réunion</div>
+          <div class="partner-role">Extraction ADN, coordination scientifique locale</div>
+        </div>
+        <span class="partner-step" style="background:#0B1F3A;">Étapes 1–4</span>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-icon" style="background:#7C3AED;">iScan</div>
+        <div>
+          <div class="partner-name">Illumina</div>
+          <div class="partner-role">Génotypage SNP haute densité (technologie iScan)</div>
+        </div>
+        <span class="partner-step" style="background:#7C3AED;">Étape 2</span>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-icon" style="background:#D97706;">EP</div>
+        <div>
+          <div class="partner-name">Epitech</div>
+          <div class="partner-role">Bioinformatique, analyses PCA / ADMIXTURE / score</div>
+        </div>
+        <span class="partner-step" style="background:#D97706;">Étape 3</span>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-icon" style="background:#E05A4B;">PG</div>
+        <div>
+          <div class="partner-name">POPgen</div>
+          <div class="partner-role">Séquençage WGS des échantillons sélectionnés</div>
+        </div>
+        <span class="partner-step" style="background:#E05A4B;">Étape 4</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE B — Pourquoi SNP avant WGS ?
+     ══════════════════════════════════════════════════════ -->
+<p class="preview-label">Slide B — Pourquoi la puce SNP avant le WGS ? (nouvelle slide avant la slide pipeline animée)</p>
+<div class="slide-shell">
+  <div class="inner">
+    <h2 class="slide-title">Pourquoi la puce SNP avant le WGS ?</h2>
+    <div class="slide-rule slide-rule--purple"></div>
+    <div class="compare-grid">
+
+      <div class="compare-card compare-card--bad">
+        <div class="compare-title compare-title--bad">WGS direct sur tous</div>
+        <div class="compare-item compare-item--bad">Coût prohibitif : ~1 000 € / échantillon</div>
+        <div class="compare-item compare-item--bad">Aucune sélection préalable → redondances</div>
+        <div class="compare-item compare-item--bad">Sujets trop apparentés ou peu informatifs inclus</div>
+        <div class="compare-item compare-item--bad">Diversité sous-représentée par le hasard</div>
+      </div>
+
+      <div class="compare-arrow">→</div>
+
+      <div class="compare-card compare-card--good">
+        <div class="compare-title compare-title--good">SNP → Score → WGS ciblé</div>
+        <div class="compare-item compare-item--good">Génotypage abordable : ~150 € / échantillon</div>
+        <div class="compare-item compare-item--good">Score S_div sélectionne les profils les plus informatifs</div>
+        <div class="compare-item compare-item--good">Parenté et redondances éliminées avant WGS</div>
+        <div class="compare-item compare-item--good">Maximum d'information génétique sous contrainte budgétaire</div>
+      </div>
+
+    </div>
+    <div class="design-pipeline-note" style="margin-top:16px;font-size:14px;">
+      Le WGS n'est pas un tirage au sort — c'est l'aboutissement d'une optimisation raisonnée.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE C — Les livrables attendus
+     ══════════════════════════════════════════════════════ -->
+<p class="preview-label">Slide C — Les Livrables Attendus (nouvelle slide après la slide pipeline animée)</p>
+<div class="slide-shell">
+  <div class="inner">
+    <h2 class="slide-title">Les livrables attendus</h2>
+    <div class="slide-rule slide-rule--purple"></div>
+    <p class="text-body" style="font-size:15px;color:#475569;margin-bottom:4px;">
+      Un référentiel opérationnel pour 2030, en quatre apports concrets.
+    </p>
+    <div class="deliverable-grid">
+
+      <div class="deliverable-card">
+        <div class="deliverable-number" style="color:#0D7377;">01</div>
+        <div class="deliverable-title">Base de variants réunionnais</div>
+        <div class="deliverable-desc">Catalogue complet des variants présents dans la population réunionnaise, intégré aux bases internationales (HapMap, CEPH).</div>
+      </div>
+
+      <div class="deliverable-card">
+        <div class="deliverable-number" style="color:#7C3AED;">02</div>
+        <div class="deliverable-title">Recalibrage des outils diagnostiques</div>
+        <div class="deliverable-desc">Réduction des VUS et des faux positifs pour les patients réunionnais. Fin de l'errance diagnostique liée aux référentiels euro-centrés.</div>
+      </div>
+
+      <div class="deliverable-card">
+        <div class="deliverable-number" style="color:#D97706;">03</div>
+        <div class="deliverable-title">Profil pharmacogénétique local</div>
+        <div class="deliverable-desc">Adaptation des posologies aux variants spécifiques de la population réunionnaise. Sécurisation de la prescription médicamenteuse.</div>
+      </div>
+
+      <div class="deliverable-card">
+        <div class="deliverable-number" style="color:#E05A4B;">04</div>
+        <div class="deliverable-title">Modèle pour populations métissées</div>
+        <div class="deliverable-desc">Publication internationale et mise à disposition de la communauté scientifique — La Réunion devient un cas d'étude pour la diversité génomique mondiale.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
