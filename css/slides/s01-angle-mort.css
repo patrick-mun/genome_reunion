@@ -315,3 +315,16 @@
 .pharma-highlight-emphasis {
   color: var(--tealL);
 }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  /* Masque la colonne "Limite pour La Réunion" — le callout Conclusion
+     en bas de slide conserve l'essentiel du message sur mobile */
+  .bias-table th:last-child,
+  .bias-table td:last-child { display: none; }
+
+  /* Redistribue les 3 colonnes restantes sur toute la largeur */
+  .bias-col-resource  { width: 32%; }
+  .bias-col-key       { width: 38%; }
+  .bias-col-coverage  { width: 30%; }
+}
