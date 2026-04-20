@@ -4,7 +4,7 @@
 
 ## Vue d'ensemble
 
-Présentation HTML/CSS/JS statique — 29 slides, zéro build tool, zéro CDN à l'exécution.
+Présentation HTML/CSS/JS statique — 30 slides, zéro build tool, zéro CDN à l'exécution.
 Règles de travail détaillées dans `AGENTS.md`.
 
 ## Fichiers
@@ -26,9 +26,9 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s00-hero.css` | 0 | `.hero-* .accent-bar .admix-* .adm-legend-*` | ✓ extrait |
 | `s01-angle-mort.css` | 2–7 | `.bias-* .ai-* .clinical-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 8–13 | `.s2-* .history-quote* .timeline-*` | ✓ extrait |
-| `s03-design.css` | 14–16 | `.design-* .pipeline-*` | ✓ extrait |
-| `s04-algorithme.css` | 17–25 | `.algo-* .special-* .arm-card* .arm-percent--* .chromosome-* .chart-wrapper* #radarChart` | ✓ extrait |
-| `s05-wgs.css` | 26–28 | `.impact-card* .conclusion-*` | ✓ extrait |
+| `s03-design.css` | 14–16 | `.design-* .pipeline-* .funnel-*` | ✓ extrait |
+| `s04-algorithme.css` | 17–26 | `.algo-* .special-* .arm-card* .arm-percent--* .chromosome-* .chart-wrapper* #radarChart` | ✓ extrait |
+| `s05-wgs.css` | 27–29 | `.impact-card* .conclusion-*` | ✓ extrait |
 
 ## CSS — Sections (main.css)
 
@@ -79,21 +79,22 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 11 | POPULATION HOMOGÈNE VS LA RÉUNION | 922 | 2 | — | `slide--cream` |
 | 12 | EFFET FONDATEUR | 1015 | 2 | — | `slide--cream` |
 | 13 | DOUBLE SINGULARITÉ | 1093 | 2 | — | `slide--cream` |
-| 14 | INTRO S03 — DESIGN | 1125 | 3 | — | `slide--s03` |
+| 14 | INTRO S03 — PIPELINE MÉTHODOLOGIQUE | 1128 | 3 | — | `slide--s03` |
 | 15 | LE PIPELINE D'OPTIMISATION | 1146 | 3 | `pipeline` | `slide--cream` |
-| 16 | TROIS NIVEAUX DE SINGULARITÉ | 1219 | 3 | — | `slide--cream` |
-| 17 | INTRO S04 — ALGORITHME | 1381 | 4 | — | `slide--s04` |
-| 18 | LE PROBLÈME D'OPTIMISATION | 1396 | 4 | — | `slide--cream` |
-| 19 | TROIS VARIABLES GÉNOMIQUES | 1440 | 4 | — | `slide--cream` |
-| 20 | LE SCORE DE DIVERSITÉ S_div | 1486 | 4 | `score` | `slide--cream` |
-| 21 | PARENTÉ ET QUALITÉ ADN | 1502 | 4 | — | `slide--cream` |
-| 22 | LES 4 BRAS DE SÉLECTION | 1565 | 4 | — | `slide--cream` |
-| 23 | ZOOM : EFFET FONDATEUR / ROH / IBD | 1604 | 4 | `roh` | `slide--cream` |
-| 24 | EXEMPLE CONCRET : CALCUL DU SCORE | 1707 | 4 | `radar` | `slide--cream` |
-| 25 | CE QUI REND LA MÉTHODE DÉFENDABLE | 1780 | 4 | — | `slide--cream` |
-| 26 | INTRO S05 — WGS | 1828 | 5 | — | `slide--s05` |
-| 27 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1843 | 5 | — | `slide--cream` |
-| 28 | CONCLUSION | 1884 | 5 | — | `slide--navy` |
+| 16 | L'ENTONNOIR D'OPTIMISATION | 1233 | 3 | — | `slide--cream` |
+| 17 | INTRO S04 — ALGORITHME | 1298 | 4 | — | `slide--s04` |
+| 18 | TROIS NIVEAUX DE SINGULARITÉ | 1316 | 4 | — | `slide--cream` |
+| 19 | LE PROBLÈME D'OPTIMISATION | 1455 | 4 | — | `slide--cream` |
+| 20 | TROIS VARIABLES GÉNOMIQUES | 1495 | 4 | — | `slide--cream` |
+| 21 | LE SCORE DE DIVERSITÉ S_div | 1540 | 4 | `score` | `slide--cream` |
+| 22 | PARENTÉ ET QUALITÉ ADN | 1561 | 4 | — | `slide--cream` |
+| 23 | LES 4 BRAS DE SÉLECTION | 1617 | 4 | — | `slide--cream` |
+| 24 | ZOOM : EFFET FONDATEUR / ROH / IBD | 1663 | 4 | `roh` | `slide--cream` |
+| 25 | EXEMPLE CONCRET : CALCUL DU SCORE | 1766 | 4 | `radar` | `slide--cream` |
+| 26 | CE QUI REND LA MÉTHODE DÉFENDABLE | 1839 | 4 | — | `slide--cream` |
+| 27 | INTRO S05 — WGS | 1884 | 5 | — | `slide--s05` |
+| 28 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1902 | 5 | — | `slide--cream` |
+| 29 | CONCLUSION | 1943 | 5 | — | `slide--navy` |
 
 ### Navigation pills → slide d'entrée de section
 
@@ -102,9 +103,9 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Accueil | 0 |
 | 01 · Angle mort | 2 |
 | 02 · Singularité | 8 |
-| 03 · Design | 14 |
+| 03 · Méthodo | 14 |
 | 04 · Algorithme | 17 |
-| 05 · WGS | 26 |
+| 05 · WGS | 27 |
 
 ## IDs DOM utilisés par app.js
 
@@ -112,17 +113,17 @@ Règles de travail détaillées dans `AGENTS.md`.
 |---|---|
 | `#deck` | Conteneur des slides (translateX) |
 | `#bp` / `#bn` | Boutons Préc. / Suiv. |
-| `#ctr` | Compteur "N / 29" (aria-live) |
+| `#ctr` | Compteur "N / 30" (aria-live) |
 | `#pf` | Barre de progression (width %) |
 | `#admix-bg` | Conteneur des barres admixture (injecté par data/admixture.js) |
 | `#pipeFlow` | Animation pipeline (slide 15, animate:pipeline) |
-| `#scoreBarChart` | Canvas Chart.js barres (slide 20, animate:score) |
-| `#radarChart` | Canvas Chart.js radar (slide 24, animate:radar) |
-| `#rohDiagram` | Diagramme ROH (slide 23, animate:roh) |
+| `#scoreBarChart` | Canvas Chart.js barres (slide 21, animate:score) |
+| `#radarChart` | Canvas Chart.js radar (slide 25, animate:radar) |
+| `#rohDiagram` | Diagramme ROH (slide 24, animate:roh) |
 
 ## Inline styles résiduels
 
-Il ne reste plus que **9** `style=""` inline dans `index.html`, tous sur la slide 24.
+Il ne reste plus que **9** `style=""` inline dans `index.html`, tous sur la slide 25.
 Ils servent uniquement à placer les segments du schéma ROH (`left` / `width`), donc
 ils sont conservés volontairement comme géométrie locale d'un dessin unique.
 
