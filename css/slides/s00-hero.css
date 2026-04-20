@@ -29,7 +29,7 @@
 
 .hero-title {
   font-family: Georgia, serif;
-  font-size: clamp(40px, 10vw, 200px);
+  font-size: clamp(64px, 15vw, 200px);
   font-weight: 700;
   color: var(--white);
   line-height: .92;
