@@ -745,6 +745,7 @@ tr:last-child td { border: none; }
   .inner                            { padding: 20px 22px; }
   .section-slide                    { padding: 24px 26px 36px; }
   .progress-desc                    { display: none; }             /* Description trop large */
+  .section-graphic                  { display: none; }             /* SVG décoratif masqué sur mobile */
 }
 
 @media (max-width: 600px) {
