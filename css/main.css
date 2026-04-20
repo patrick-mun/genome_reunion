@@ -761,7 +761,7 @@ tr:last-child td { border: none; }
   .section-tag      { font-size: 12px; }
   .grid-4      { grid-template-columns: 1fr 1fr; }
   .slide-title { font-size: clamp(20px, 4vw, 28px); }
-  .inner       { padding: 22px 14px 28px; max-height: calc(100vh - 70px); }
+  .inner       { padding: 22px 14px 28px; max-height: calc(100vh - 70px); justify-content: flex-start; }
   table        { font-size: 11px; }
   th, td       { padding: 6px 7px; }
   .progress-label { min-width: 58px; font-size: 10px; }
