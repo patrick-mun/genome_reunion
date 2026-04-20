@@ -311,5 +311,198 @@
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════
+     SLIDE D — L'entonnoir d'optimisation
+     ══════════════════════════════════════════════════════ -->
+<style>
+  .funnel-layout {
+    display: grid;
+    grid-template-columns: 42% 1fr;
+    gap: clamp(20px, 3vw, 40px);
+    align-items: start;
+    margin-top: 12px;
+  }
+  .funnel-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .funnel-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid rgba(15,23,42,.07);
+    box-shadow: 0 3px 10px rgba(15,23,42,.05);
+  }
+  .funnel-step-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+    margin-top: 1px;
+  }
+  .funnel-step-title {
+    font-weight: 700;
+    font-size: clamp(13px, 1.3vw, 16px);
+    color: #0B1F3A;
+    margin-bottom: 3px;
+  }
+  .funnel-step-sub {
+    font-size: clamp(12px, 1.1vw, 14px);
+    color: #475569;
+    line-height: 1.5;
+  }
+</style>
+
+<p class="preview-label">Slide D — L'entonnoir d'optimisation (remplace "Trois niveaux de singularité" en fin de S03)</p>
+<div class="slide-shell">
+  <div class="inner">
+    <h2 class="slide-title">De la Puce SNP au WGS : l'entonnoir d'optimisation</h2>
+    <div class="slide-rule slide-rule--purple"></div>
+    <div class="funnel-layout">
+
+      <!-- SVG Entonnoir -->
+      <svg viewBox="0 0 280 370" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;display:block;">
+        <defs>
+          <!-- Clip pour contraindre les points dans l'entonnoir -->
+          <clipPath id="funnelClip">
+            <path d="M14,18 L266,18 L158,198 L122,198 Z"/>
+          </clipPath>
+        </defs>
+
+        <!-- Contour entonnoir -->
+        <path d="M14,18 L266,18 L158,200 L158,268 L122,268 L122,200 Z"
+              fill="rgba(11,31,58,0.05)" stroke="#0B1F3A" stroke-width="1.8"
+              stroke-linejoin="round" fill-opacity="1"/>
+
+        <!-- Masse de points gris (Puce SNP) — clippés dans l'entonnoir -->
+        <g clip-path="url(#funnelClip)">
+          <!-- Rangée 1 -->
+          <circle cx="80"  cy="32" r="3.5" fill="#94A3B8"/>
+          <circle cx="110" cy="29" r="3"   fill="#CBD5E1"/>
+          <circle cx="140" cy="33" r="3.5" fill="#94A3B8"/>
+          <circle cx="170" cy="28" r="3"   fill="#CBD5E1"/>
+          <circle cx="200" cy="32" r="3.5" fill="#94A3B8"/>
+          <!-- Rangée 2 -->
+          <circle cx="55"  cy="50" r="3"   fill="#CBD5E1"/>
+          <circle cx="83"  cy="52" r="3.5" fill="#94A3B8"/>
+          <circle cx="113" cy="48" r="3"   fill="#CBD5E1"/>
+          <circle cx="140" cy="52" r="4"   fill="#94A3B8"/>
+          <circle cx="168" cy="49" r="3"   fill="#CBD5E1"/>
+          <circle cx="196" cy="52" r="3.5" fill="#94A3B8"/>
+          <circle cx="224" cy="49" r="3"   fill="#CBD5E1"/>
+          <!-- Rangée 3 -->
+          <circle cx="66"  cy="70" r="3.5" fill="#94A3B8"/>
+          <circle cx="96"  cy="72" r="3"   fill="#CBD5E1"/>
+          <circle cx="125" cy="68" r="3.5" fill="#94A3B8"/>
+          <circle cx="150" cy="72" r="4"   fill="#CBD5E1"/>
+          <circle cx="178" cy="69" r="3"   fill="#94A3B8"/>
+          <circle cx="207" cy="71" r="3.5" fill="#CBD5E1"/>
+          <!-- Rangée 4 -->
+          <circle cx="77"  cy="90" r="3"   fill="#94A3B8"/>
+          <circle cx="105" cy="92" r="3.5" fill="#CBD5E1"/>
+          <circle cx="132" cy="88" r="3"   fill="#94A3B8"/>
+          <circle cx="152" cy="92" r="4"   fill="#CBD5E1"/>
+          <circle cx="174" cy="88" r="3"   fill="#94A3B8"/>
+          <circle cx="198" cy="91" r="3.5" fill="#CBD5E1"/>
+          <!-- Rangée 5 -->
+          <circle cx="88"  cy="110" r="3.5" fill="#94A3B8"/>
+          <circle cx="115" cy="112" r="3"   fill="#CBD5E1"/>
+          <circle cx="140" cy="108" r="3.5" fill="#94A3B8"/>
+          <circle cx="163" cy="112" r="3"   fill="#CBD5E1"/>
+          <circle cx="187" cy="110" r="3.5" fill="#94A3B8"/>
+          <!-- Rangée 6 -->
+          <circle cx="98"  cy="130" r="3"   fill="#94A3B8"/>
+          <circle cx="122" cy="132" r="3.5" fill="#CBD5E1"/>
+          <circle cx="145" cy="129" r="3"   fill="#94A3B8"/>
+          <circle cx="163" cy="132" r="3.5" fill="#CBD5E1"/>
+          <circle cx="182" cy="130" r="3"   fill="#94A3B8"/>
+          <!-- Rangée 7 -->
+          <circle cx="108" cy="150" r="3.5" fill="#94A3B8"/>
+          <circle cx="130" cy="152" r="3"   fill="#CBD5E1"/>
+          <circle cx="150" cy="148" r="3.5" fill="#94A3B8"/>
+          <circle cx="170" cy="152" r="3"   fill="#CBD5E1"/>
+          <!-- Rangée 8 -->
+          <circle cx="118" cy="170" r="3"   fill="#94A3B8"/>
+          <circle cx="140" cy="172" r="3.5" fill="#CBD5E1"/>
+          <circle cx="162" cy="169" r="3"   fill="#94A3B8"/>
+          <!-- Rangée 9 -->
+          <circle cx="130" cy="190" r="3"   fill="#94A3B8"/>
+          <circle cx="152" cy="188" r="3"   fill="#CBD5E1"/>
+        </g>
+
+        <!-- Label Puce SNP -->
+        <text x="140" y="13" text-anchor="middle" font-size="11" font-weight="700"
+              fill="#0B1F3A" font-family="Georgia,serif">Puce SNP</text>
+
+        <!-- Bande filtre (col du funnel) -->
+        <rect x="120" y="197" width="40" height="14" fill="#0D7377" rx="2"/>
+        <text x="168" y="208" text-anchor="start" font-size="9" font-weight="700"
+              fill="#0D7377" font-family="sans-serif">Score S_div</text>
+
+        <!-- Tube -->
+        <rect x="122" y="211" width="36" height="52" fill="rgba(13,115,119,0.06)"
+              stroke="#0D7377" stroke-width="1"/>
+
+        <!-- Points colorés WGS Panel -->
+        <circle cx="124" cy="277" r="5.5" fill="#0D7377"/>
+        <circle cx="140" cy="281" r="5.5" fill="#E05A4B"/>
+        <circle cx="156" cy="277" r="5"   fill="#D97706"/>
+        <circle cx="116" cy="292" r="5"   fill="#7C3AED"/>
+        <circle cx="132" cy="295" r="5.5" fill="#0D7377"/>
+        <circle cx="148" cy="292" r="5"   fill="#3B82F6"/>
+        <circle cx="164" cy="289" r="4.5" fill="#E05A4B"/>
+        <circle cx="122" cy="308" r="5"   fill="#D97706"/>
+        <circle cx="138" cy="311" r="5.5" fill="#0D7377"/>
+        <circle cx="154" cy="308" r="5"   fill="#7C3AED"/>
+        <circle cx="130" cy="323" r="5"   fill="#3B82F6"/>
+        <circle cx="147" cy="325" r="5.5" fill="#E05A4B"/>
+
+        <!-- Label WGS Panel -->
+        <text x="140" y="348" text-anchor="middle" font-size="11" font-weight="700"
+              fill="#0B1F3A" font-family="Georgia,serif">WGS Panel</text>
+      </svg>
+
+      <!-- Étapes à droite -->
+      <div class="funnel-steps">
+        <div class="funnel-step">
+          <div class="funnel-step-dot" style="background:#0B1F3A;">1</div>
+          <div>
+            <div class="funnel-step-title">Puce SNP — Économique &amp; Exhaustif</div>
+            <div class="funnel-step-sub">Génotypage de toute la cohorte EFS pour cartographier la structure génétique globale à moindre coût.</div>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-dot" style="background:#0D7377;">2</div>
+          <div>
+            <div class="funnel-step-title">Score Multicritère — Le Filtre</div>
+            <div class="funnel-step-sub">Calcul de S_div pour identifier les profils maximisant l'information nouvelle I(S) sous contrainte budgétaire.</div>
+          </div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-dot" style="background:#E05A4B;">3</div>
+          <div>
+            <div class="funnel-step-title">WGS Panel — Coûteux &amp; Précis</div>
+            <div class="funnel-step-sub">Séquençage complet uniquement sur le sous-ensemble S optimisé.</div>
+          </div>
+        </div>
+        <div class="design-pipeline-note" style="margin-top:4px;">
+          <strong>Conclusion :</strong> Ce n'est pas un échantillonnage aléatoire, mais une <strong>optimisation dirigée par la donnée observable</strong>.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
