@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/slides/s03-design.css" />
   <style>
+    /* ── Annule les animations main.css pour le preview ── */
+    body { overflow: auto !important; }
+    .inner > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .inner { height: auto !important; max-height: none !important; justify-content: flex-start !important; }
+
     /* ── Mise en page preview — défilement vertical simple ── */
     body { background: #E8E4DC; padding: 40px 20px; }
     .preview-label {
