@@ -23,7 +23,51 @@ La Réunion présente une **double singularité génétique** :
 
 Le **biais de représentation global** signifie que les bases génomiques mondiales (gnomAD, 1000 Genomes) sous-représentent systématiquement les variants rares réunionnais, particulièrement en pharmacogénétique et prédiction de risque génétique (Martin et al., 2019 ; Naslavsky et al., 2022).
 
-### 1.2 Architecture de sélection en trois temps
+### 1.2 Justification statistique de N=350 WGS
+
+**Principe** : le nombre de séquençages WGS doit permettre la caractérisation fiable des variants alléliques rares propres à la population réunionnaise, dans les limites du budget disponible.
+
+**Cadre de calcul — 350 WGS = 700 haplotypes :**
+
+Pour un variant à fréquence allélique f dans la population, la probabilité de le détecter au moins une fois dans 700 haplotypes est :
+
+```
+P(détection) = 1 - (1 - MAF)^700
+```
+
+| MAF | Copies attendues | P(détection) | Précision fréquence (IC95) |
+|---|---|---|---|
+| 5% | 35 | >99.9% | Élevée |
+| 2% | 14 | >99.9% | Bonne (±1.5×) |
+| **1%** | **7** | **>99.9%** | **Limite acceptable (±2×)** |
+| 0.5% | 3.5 | ~97% | Insuffisante |
+| 0.1% | 0.7 | ~50% | Non fiable |
+
+**Seuil retenu : MAF ≥ 1%**
+
+350 WGS garantit :
+- **Détection systématique** (>99.9%) de tout variant présent à MAF ≥ 1% dans la population
+- **Estimation de fréquence acceptable** (IC95 < facteur 2) pour MAF ≥ 1%
+- **Couverture pharmacogénomique** : la majorité des variants cliniquement actionnables (pharmacogènes CYP, transporteurs) ont une MAF > 1%
+
+**Au-delà de la limite MAF ≥ 1% :**
+- Variants à MAF 0.5–1% : détectables dans ~97% des cas mais fréquences non estimables → à documenter
+- Variants à MAF < 0.5% : nécessitent N >> 1000 WGS — hors portée de ce projet
+- **Compensation** : les 2150 individus génotypés SNP (non séquencés) permettront l'imputation depuis le référentiel WGS, enrichissant partiellement la couverture des variants rares
+
+**Comparaison bibliographique :**
+
+| Étude | N WGS | Haplotypes | Seuil effectif MAF |
+|---|---|---|---|
+| Naslavsky et al. (2022) — Brésil | 1171 | 2342 | ~0.1% |
+| Nunes et al. (2025) — Brésil | > 2000 | > 4000 | ~0.05% |
+| **Génome Réunion** | **350** | **700** | **~1%** |
+
+350 WGS est financièrement contraint mais scientifiquement justifié comme **référentiel de première génération** : il couvre l'ensemble des variants MAF ≥ 1%, représente 14% de la cohorte SNP, et constitue la base d'une imputation vers les 2150 restants.
+
+---
+
+### 1.3 Architecture de sélection en trois temps
 
 ```
 Cohorte EFS (2500 individus)
@@ -663,7 +707,8 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | 3.0 | 2026-04-21 | Révision | Correction formule IBD_score ; K ADMIXTURE générique (CV) ; tables illustratives labelisées ; proxy 1000G étendu à 3 groupes ; ajout argument généralisabilité |
 | 3.1 | 2026-04-21 | Révision | IBD_score = 1 - max_j IBD(i,j) ; stratification binaire (60/40) pour N_WGS 6–19 ; cohérence anti-biais directionnel tous secteurs |
 | 3.2 | 2026-04-21 | Révision | PCA et ADMIXTURE calculés globalement sur les 2500 → métriques comparables inter-secteurs ; IBD reste intra-secteur ; pipeline niveau 1/2 |
-| 3.3 | 2026-04-21 | Révision | Cohérence complète : §7.2 corrigé (global vs par secteur) ; §4.3 label PCA corrigé ; label flip ADMIXTURE documenté (pong) ; --seed=42 Annexe A ; IBD cross-secteur explicité ; flowchart §1.2 mis à jour |
+| 3.3 | 2026-04-21 | Révision | Cohérence complète : §7.2 corrigé (global vs par secteur) ; §4.3 label PCA corrigé ; label flip ADMIXTURE documenté (pong) ; --seed=42 Annexe A ; IBD cross-secteur explicité ; flowchart §1.3 mis à jour |
+| 3.4 | 2026-04-21 | Révision | Ajout §1.2 justification statistique N=350 : P(détection) = 1-(1-MAF)^700, seuil MAF≥1%, tableau comparatif bibliographique |
 
 ---
 
