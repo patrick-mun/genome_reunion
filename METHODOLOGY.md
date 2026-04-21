@@ -134,23 +134,23 @@ Le score S_div agrège **4 dimensions indépendantes** de la diversité généti
 
 **Calcul** :
 1. Calculer la matrice de parenté pairwise **au sein du secteur** avec PLINK/KING
-2. Pour chaque individu i, calculer son IBD moyen avec les autres membres du secteur :
+2. Pour chaque individu i, identifier sa parenté maximale avec n'importe quel autre membre du secteur :
    ```
-   IBD_raw(i) = moyenne(IBD(i, j)) pour tout j ≠ i dans le secteur
+   IBD_score(i) = 1 - max_j IBD(i, j)    pour tout j ≠ i dans le secteur
    ```
-3. Score IBD (individus les plus isolés = score le plus élevé) :
-   ```
-   IBD_score(i) = 1 - (IBD_raw(i) - min) / (max - min)
-   ```
-4. **Contrainte dure** lors de la sélection greedy (en supplément du score) :
+   Les valeurs IBD sont bornées [0, 1], donc IBD_score(i) ∈ [0, 1] sans normalisation supplémentaire.
+
+   *Justification du `max` vs `mean`* : utiliser la moyenne diluerait l'effet d'un seul apparentement proche. Un individu avec un jumeau (IBD=1) mais 99 non-apparentés (IBD≈0) aurait un score moyen élevé alors qu'il introduit une forte redondance. Le `max` pénalise dès qu'il existe un lien proche, ce qui est cohérent avec le critère d'exclusion de la contrainte dure.
+
+3. **Contrainte dure** lors de la sélection greedy (en supplément du score) :
    ```
    IBD_threshold = 0.125  (seuil cousins 1er degré)
    ```
    Un candidat est éliminé si IBD(candidat, tout individu déjà sélectionné) ≥ 0.125
 
 **Interprétation** :
-- IBD_score proche de 1 → individu peu apparenté aux autres → apporte information génétique nouvelle ✓
-- IBD_score proche de 0 → individu fortement apparenté à d'autres → information redondante ✗
+- IBD_score proche de 1 → individu non-apparenté à quiconque dans le secteur → information génétique nouvelle ✓
+- IBD_score proche de 0 → individu qui a un proche parent dans le secteur → information redondante ✗
 
 ---
 
@@ -226,13 +226,28 @@ avec contraintes :
    | Q5 (scores bas) | Ordinaires | 10% | 5 |
    | **Total** | — | **100%** | **50** |
 
-   **Cas des petits secteurs** : Si N_WGS < 20, la stratification quintile n'a pas de sens → **utiliser S_div seul** (greedy)
+   **Règles selon la taille du secteur** :
+   
+   | N_WGS alloué | Stratégie | Justification |
+   |---|---|---|
+   | ≥ 20 | Quintile (5 groupes : 20-20-30-20-10%) | Effectif suffisant pour 5 strates |
+   | 6 à 19 | **Binaire (2 groupes : top 50% / bottom 50%)** | Maintient le principe anti-biais directionnel |
+   | < 6 | S_div greedy seul | Trop petit pour toute stratification (< 1.7% cohorte) |
+
+   *Le principe anti-biais directionnel est conservé dès N_WGS ≥ 6 — seuls les secteurs représentant moins de 1.7% de la cohorte y dérogent, et ils font l'objet d'une documentation explicite.*
 
 #### **2.4.2 Justification**
 
 - **Q3 (médiane) = 30%** : Les individus "typiques" du secteur forment l'anchor génétique local
 - **Q1-Q2 = 40%** : Les profils extrêmes capturent la diversité rare du secteur
 - **Q4-Q5 = 30%** : Les profils ordinaires garantissent une couverture complète sans biais
+
+**Stratification binaire (N_WGS = 6–19)** : allocation 60% top / 40% bottom
+- *Top 50% S_div* (60% des WGS alloués) : favorise la diversité tout en limitant l'effet plafonnier
+- *Bottom 50% S_div* (40% des WGS alloués) : ancre la sélection dans les profils représentatifs du secteur
+- Ce ratio 60/40 reproduit l'esprit des quintiles (favoriser sans exclure) avec seulement 2 strates
+
+**Principe commun** : quelle que soit la taille du secteur (≥ 6 WGS), la sélection ne peut jamais n'être que les individus en haut de la distribution S_div — un sous-ensemble du bas est toujours inclus.
 
 ---
 
@@ -326,8 +341,30 @@ for secteur in ["Nord", "Nord-Est", ..., "Nord-Ouest"]:
                 
                 if is_unrelated:
                     selected_total.append(candidate)
+    elif N_secteur_WGS >= 6:
+        # SECTEUR INTERMÉDIAIRE (6–19 individus WGS) : stratification binaire top/bottom 50%
+        
+        sorted_sector = sorted(individuals_secteur, key=lambda i: S_div(i), reverse=True)
+        mid = len(sorted_sector) // 2
+        top_half    = sorted_sector[:mid]   # top 50% S_div
+        bottom_half = sorted_sector[mid:]   # bottom 50% S_div
+        
+        n_top    = round(0.60 * N_secteur_WGS)
+        n_bottom = N_secteur_WGS - n_top    # = round(0.40 * N_secteur_WGS)
+        
+        for group, n_target in [(top_half, n_top), (bottom_half, n_bottom)]:
+            selected_in_group = 0
+            for candidate in group:
+                if selected_in_group >= n_target:
+                    break
+                is_unrelated = all(IBD(candidate, sel) < 0.125 for sel in selected_total)
+                if is_unrelated:
+                    selected_total.append(candidate)
+                    selected_in_group += 1
+    
     else:
-        # PETIT SECTEUR (< 20 individus WGS) : S_div seul, pas de quintiles
+        # TRÈS PETIT SECTEUR (< 6 individus WGS) : S_div greedy seul
+        # Documenter explicitement ce cas (< 1.7% de la cohorte)
         
         for candidate in sorted(individuals_secteur, key=lambda i: S_div(i), reverse=True):
             if len([s for s in selected_total if s in individuals_secteur]) >= N_secteur_WGS:
@@ -517,7 +554,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 |---|---|---|
 | **Biais puce SNP** | SNPs choisis reflètent bias eurocentré | Accepter et documenter ; valider sur 1000G |
 | **Variants rares manqués** | Même optimisé, 350 < 2500 = perte information | Documenter couverture variants < 1% |
-| **Secteurs très petits** | Secteurs < 5% = peu d'individus WGS | Appliquer S_div seul, pas de quintiles |
+| **Secteurs très petits** | N_WGS < 6 = pas de stratification possible | S_div seul documenté ; cas < 1.7% cohorte |
 | **Poids arbitraires** | Choix de w1, w2, w3, w4 sans justification | Validation 1000G + analyse sensibilité |
 
 ### 6.2 Limitations acceptables
@@ -586,6 +623,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | 1.0 | 2026-04-21 | Équipe Génome Réunion | Document initial |
 | 2.0 | 2026-04-21 | Révision | Réarchitecture complète : stratification géographique + S_div par secteur |
 | 3.0 | 2026-04-21 | Révision | Correction formule IBD_score ; K ADMIXTURE générique (CV) ; tables illustratives labelisées ; proxy 1000G étendu à 3 groupes ; ajout argument généralisabilité |
+| 3.1 | 2026-04-21 | Révision | IBD_score = 1 - max_j IBD(i,j) ; stratification binaire (60/40) pour N_WGS 6–19 ; cohérence anti-biais directionnel tous secteurs |
 
 ---
 
