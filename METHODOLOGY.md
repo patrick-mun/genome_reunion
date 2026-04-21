@@ -144,7 +144,7 @@ Le score S_div agrège **4 dimensions indépendantes** de la diversité généti
 | IBD | Par secteur | Parenté évaluée dans le contexte local de sélection |
 | ROH | **2500 individus (global)** | Métrique individuelle, non affectée par le groupe de calcul |
 
-PCA et ADMIXTURE calculés globalement garantissent que le score d'un individu du Nord est **dans le même référentiel** que celui d'un individu du Sud. La sélection et la stratification quintile restent faites **par secteur** — seules les métriques sous-jacentes sont globales.
+PCA et ADMIXTURE calculés globalement apportent deux garanties concrètes : (1) le centroïde de chaque secteur est positionné dans un espace commun à toute la cohorte — la marginalité intra-secteur est mesurée dans une géométrie non déformée, (2) les proportions q_k signifient la même chose pour tous les 2500 individus (q_1 "africain" vaut autant au Nord qu'au Sud). En revanche, la **normalisation locale** (min/max par secteur) rend les scores absolus non comparables entre secteurs — ce qui est sans conséquence puisque le classement et la stratification quintile n'opèrent **qu'au sein de chaque secteur**.
 
 #### **Composante 1 : PCA — Position dans l'espace génétique**
 
@@ -165,7 +165,7 @@ PCA et ADMIXTURE calculés globalement garantissent que le score d'un individu d
    PCA_score(i) = (PCA_distance(i) - min_secteur) / (max_secteur - min_secteur)
    ```
 
-**Pourquoi global** : une PCA par secteur produit des axes propres à chaque sous-groupe, rendant les scores incomparables. Une PCA globale place tous les individus dans le même espace — la distance au centroïde du secteur mesure alors réellement qui est "marginal" dans sa région par rapport à la structure génétique de l'île entière.
+**Pourquoi global** : une PCA par secteur produit des axes propres à chaque sous-groupe — le centroïde serait mal positionné et les distances biaisées. Une PCA globale garantit que les axes PC1-PC5 capturent la structure génétique de l'île entière, et que le centroïde de chaque secteur est positionné correctement dans cet espace. La normalisation locale qui suit ne remet pas en cause ce bénéfice : elle sert uniquement à ramener les distances à [0,1] pour l'agrégation pondérée dans S_div.
 
 **Interprétation** : PCA_score proche de 1 → individu aux marges génétiques de son secteur, dans l'espace de référence commun à toute la cohorte.
 
@@ -191,7 +191,7 @@ PCA et ADMIXTURE calculés globalement garantissent que le score d'un individu d
    ADMIX_score(i) = (entropie(i) - min_secteur) / (max_secteur - min_secteur)
    ```
 
-**Pourquoi global** : ADMIXTURE par secteur produit un modèle ancestral propre à chaque sous-groupe. Un secteur à majorité africaine et un secteur à majorité indienne auraient des axes k différents, rendant les q_k incomparables. Un modèle global garantit que q_1 (ex: africain) signifie la même chose pour tous les 2500 individus.
+**Pourquoi global** : ADMIXTURE par secteur produit un modèle ancestral propre à chaque sous-groupe — un secteur à majorité africaine et un secteur à majorité indienne auraient des axes k différents, rendant les q_k non-interprétables d'un secteur à l'autre. Un modèle global garantit que q_1 (ex: africain) signifie la même chose pour tous les 2500 individus. La normalisation locale de l'entropie qui suit (min/max par secteur) est correcte : on compare l'entropie d'un individu à celle de ses voisins géographiques, ce qui est l'objectif.
 
 **Interprétation** : 
 - ADMIX_score = 1 → individu avec K ancêtries à parts égales (profil maximalement mélangé)
@@ -320,6 +320,8 @@ avec contraintes :
 
 **Principe commun** : quelle que soit la taille du secteur (≥ 6 WGS), la sélection ne peut jamais n'être que les individus en haut de la distribution S_div — un sous-ensemble du bas est toujours inclus.
 
+**Garantie algorithmique** : le plafond par quintile (`n_to_select`) est vérifié par un compteur `selected_in_quintile` indépendant du total secteur. La contrainte IBD peut vider un quintile (aucun candidat non-apparenté disponible) — dans ce cas, le quota non rempli est perdu (non reporté sur le quintile suivant), ce qui peut réduire légèrement N total ; ce cas doit être tracé et documenté dans le rapport de sélection.
+
 ---
 
 ## 3. Pipeline de sélection
@@ -413,16 +415,18 @@ for secteur in ["Nord", "Nord-Est", ..., "Nord-Ouest"]:
         for quintile_label in ["Q1", "Q2", "Q3", "Q4", "Q5"]:
             candidates = quintiles[quintile_label]
             n_to_select = allocations[quintile_label]
+            selected_in_quintile = 0                        # ← compteur par quintile
             
             for candidate in sorted(candidates, key=lambda i: S_div(i), reverse=True):
-                if len([s for s in selected_total if s in individuals_secteur]) >= N_secteur_WGS:
+                if selected_in_quintile >= n_to_select:     # ← plafond par quintile
                     break
                 
-                # Vérifier IBD (non-parenté avec TOUS les sélectionnés)
+                # Vérifier IBD (non-parenté avec TOUS les sélectionnés cross-secteur)
                 is_unrelated = all(IBD(candidate, sel) < 0.125 for sel in selected_total)
                 
                 if is_unrelated:
                     selected_total.append(candidate)
+                    selected_in_quintile += 1               # ← incrément compteur
     elif N_secteur_WGS >= 6:
         # SECTEUR INTERMÉDIAIRE (6–19 individus WGS) : stratification binaire top/bottom 50%
         
@@ -714,6 +718,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | 3.3 | 2026-04-21 | Révision | Cohérence complète : §7.2 corrigé (global vs par secteur) ; §4.3 label PCA corrigé ; label flip ADMIXTURE documenté (pong) ; --seed=42 Annexe A ; IBD cross-secteur explicité ; flowchart §1.3 mis à jour |
 | 3.4 | 2026-04-21 | Révision | Ajout §1.2 justification statistique N=350 : P(détection) = 1-(1-MAF)^700, seuil MAF≥1%, tableau comparatif bibliographique |
 | 3.5 | 2026-04-21 | Révision finale | §3.1 : clarification MAF puce SNP ≠ WGS output ; §4.1 : périmètre validation explicité (S_div validé, stratification géo hors portée 1000G) |
+| 3.6 | 2026-04-21 | Correction critique | Bug algorithmique §3.3 : ajout compteur selected_in_quintile (n_to_select jamais vérifié) ; reformulation comparabilité §2.2 (normalization locale ≠ comparabilité inter-secteurs) ; garantie algorithmique documentée §2.4.2 |
 
 ---
 
