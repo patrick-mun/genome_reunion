@@ -226,7 +226,8 @@ document.addEventListener('touchend', function(event) {
 // ══════════════════════════════════════════════════════════════
 
 /**
- * Slide 17 — Barres horizontales : poids de chaque composante du score S_div
+ * Slide 23 — Barres horizontales : poids de chaque composante du score S_div
+ * Formule v3.8 : PCA 30% · ADMIX 30% · IBD 25% · ROH 15%
  */
 function initScoreChart() {
   if (typeof Chart === 'undefined') { console.warn('[app.js] Chart.js non chargé — initScoreChart annulé.'); return; }
@@ -234,21 +235,20 @@ function initScoreChart() {
   if (!canvas || scoreChartInstance) return;
 
   const componentDescriptions = [
-    'Couverture espace génétique global',
-    'Profils ancestraux non représentés',
-    'Pénalité de parenté',
-    'Bonus strate terrain',
-    'Qualité ADN'
+    'Distance au centroïde du secteur dans l\'espace PCA global',
+    'Entropie de Shannon des proportions ancestrales q_k',
+    'Indépendance génétique (1 − max IBD intra-secteur)',
+    'Effet fondateur / consanguinité (1 − ROH_total / 100 Mb)'
   ];
 
   scoreChartInstance = new Chart(canvas, {
     type: 'bar',
     data: {
-      labels: ['D_PCA', 'D_ADM', '1 – φmax', 'U (quota)', 'DNAQ'],
+      labels: ['PCA_score', 'ADMIX_score', 'IBD_score', 'ROH_score'],
       datasets: [{
         label: 'Poids (%)',
-        data: [45, 25, 15, 10, 5],
-        backgroundColor: ['#0D7377', '#7C3AED', '#EA580C', '#D97706', '#6B7280'],
+        data: [30, 30, 25, 15],
+        backgroundColor: ['#0D7377', '#7C3AED', '#EA580C', '#D97706'],
         borderRadius: 6,
         borderSkipped: false
       }]
@@ -287,7 +287,9 @@ function initScoreChart() {
 }
 
 /**
- * Slide 21 — Radar : comparaison des 3 profils candidats
+ * Slide 26 — Radar : comparaison des 3 profils candidats
+ * 4 axes : PCA_score · ADMIX_score · IBD_score · ROH_score
+ * Scores cohérents avec la formule S_div v3.8 (0.30/0.30/0.25/0.15)
  */
 function initRadarChart() {
   if (typeof Chart === 'undefined') { console.warn('[app.js] Chart.js non chargé — initRadarChart annulé.'); return; }
@@ -297,11 +299,12 @@ function initRadarChart() {
   radarChartInstance = new Chart(canvas, {
     type: 'radar',
     data: {
-      labels: ['D_PCA', 'D_ADM', '1–φmax', 'U', 'DNAQ'],
+      labels: ['PCA_score', 'ADMIX_score', 'IBD_score', 'ROH_score'],
       datasets: [
         {
-          label: 'Patient A (profil moyen)',
-          data: [0.20, 0.15, 0.90, 0.50, 0.80],
+          // S_div = 0.30×0.20 + 0.30×0.15 + 0.25×0.80 + 0.15×0.55 = 0.38
+          label: 'Patient A — profil médian',
+          data: [0.20, 0.15, 0.80, 0.55],
           backgroundColor: 'rgba(107,114,128,.12)',
           borderColor: '#9CA3AF',
           pointBackgroundColor: '#9CA3AF',
@@ -309,8 +312,9 @@ function initRadarChart() {
           pointRadius: 4
         },
         {
-          label: 'Patient B (apparenté)',
-          data: [0.85, 0.70, 0.20, 0.60, 0.90],
+          // S_div = 0.30×0.80 + 0.30×0.70 + 0.25×0.20 + 0.15×0.60 = 0.59
+          label: 'Patient B — extrême, apparenté',
+          data: [0.80, 0.70, 0.20, 0.60],
           backgroundColor: 'rgba(217,119,6,.12)',
           borderColor: '#D97706',
           pointBackgroundColor: '#D97706',
@@ -318,8 +322,9 @@ function initRadarChart() {
           pointRadius: 4
         },
         {
+          // S_div = 0.30×0.90 + 0.30×0.80 + 0.25×0.88 + 0.15×0.80 = 0.84
           label: 'Patient C — sélectionné ✓',
-          data: [0.90, 0.80, 0.95, 0.70, 0.85],
+          data: [0.90, 0.80, 0.88, 0.80],
           backgroundColor: 'rgba(5,150,105,.15)',
           borderColor: '#059669',
           pointBackgroundColor: '#059669',
