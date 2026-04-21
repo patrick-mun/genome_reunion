@@ -30,16 +30,23 @@ Cohorte EFS (2500 individus)
          ↓
     Génotypage SNP (puce)
          ↓
+MÉTRIQUES GLOBALES (sur les 2500, une seule fois) :
+   PCA globale → coordonnées PC1-PC5
+   ADMIXTURE K optimal → proportions q_k
+   ROH → ROH_score individuel
+         ↓
 STRATIFICATION GÉOGRAPHIQUE (représentativité = contrainte)
    Secteur A: 32% → 112 WGS
    Secteur B: 25% → 87 WGS
    ...
    Secteur H: 3% → 7 WGS
          ↓
-AU SEIN DE CHAQUE SECTEUR :
-   Calcul S_div (4 critères)
-   Stratification quintile (si N ≥ 20)
-   Sélection greedy non-apparentée
+AU SEIN DE CHAQUE SECTEUR (en parallèle) :
+   IBD intra-secteur → IBD_score
+   PCA_score + ADMIX_score (depuis métriques globales, normalisés localement)
+   Agrégation S_div → classement local
+   Stratification quintile / binaire selon N
+   Sélection greedy (contrainte IBD cross-secteur)
          ↓
    SÉLECTION 350 WGS (100% représentatif géographiquement)
          ↓
@@ -411,10 +418,10 @@ return selected_total  # 350 individus total, stratifiés géographiquement + op
 
 **Avantages** :
 - ✓ Représentativité géographique garantie (100%)
-- ✓ Au sein de chaque secteur : diversité génétique maximisée par S_div
-- ✓ Pas de biais directionnel (stratification quintile ou S_div seul)
-- ✓ Pas de sur-représentation des extrêmes
-- ✓ Petits secteurs traités spécifiquement (pas de quintiles fictives)
+- ✓ Métriques PCA/ADMIXTURE globales → S_div comparables entre secteurs
+- ✓ Pas de biais directionnel : quintile (N≥20), binaire 60/40 (N 6–19), greedy seul (<6)
+- ✓ Contrainte IBD vérifiée cross-secteur (IBD(candidat, tous les déjà sélectionnés)) — évite la parenté entre secteurs également
+- ✓ Exception greedy-seul documentée et limitée à < 1.7% de la cohorte
 
 ---
 
@@ -459,6 +466,8 @@ Construire un dataset synthétique à 3 ancêtries à partir de populations pare
 | Partial | YRI 70% / CEU 20% / CHB 10% | 50 |
 
 **Argumentaire** : si S_div stratifié surpasse les alternatives sur les 3 groupes (structures africain/européen, sud-asiatique, et tri-ancestrale simulée), la logique est démontrée indépendamment de la structure spécifique réunionnaise.
+
+**Note technique — alignement des labels ADMIXTURE** : ADMIXTURE étant stochastique, les composantes q_k peuvent être permutées entre deux exécutions indépendantes (q_1 = "africain" dans un run peut devenir q_2 dans un autre). Chaque groupe 1000G sera analysé avec son propre modèle ADMIXTURE → les labels doivent être alignés manuellement (ou via `pong`) avant toute comparaison inter-groupes. Cela ne crée pas d'ambiguïté dans l'entropie de Shannon (invariante à la permutation des labels), mais est crucial pour l'interprétation des q_k individuels.
 
 #### **4.2.2 Scénarios testés**
 
@@ -519,11 +528,11 @@ Si ce profil de résultats se reproduit sur les 3 groupes 1000G (africain/europ�
 
 | Propriété de S_div | Justification universelle |
 |---|---|
-| PCA intra-secteur | Capture la diversité positionnelle quelle que soit la structure ancestrale |
-| Entropie ancestrale | Mesure le degré d'admixture sans supposer d'ancêtries spécifiques |
-| Indépendance IBD | Maximise l'information non-redondante dans tout groupe |
+| PCA globale, scoring intra-secteur | Espace commun à toute la cohorte ; diversité positionnelle comparable entre groupes |
+| Entropie ancestrale (modèle global) | Mesure le degré d'admixture sans supposer d'ancêtries spécifiques |
+| Indépendance IBD (max_j) | Maximise l'information non-redondante dans tout groupe |
 | ROH score | Pénalise la consanguinité, universellement indésirable |
-| Stratification quintile | Évite le biais directionnel dans toute distribution |
+| Stratification quintile / binaire | Évite le biais directionnel dans toute distribution, quelle que soit la taille |
 
 **Populations pour lesquelles la même logique s'appliquerait** :
 - Brésil : admixture africain/européen/amérindien (Naslavsky 2022 → structure différente mais même logique)
@@ -616,8 +625,8 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | Semaine | Tâche | Livrable |
 |---|---|---|
 | 1-2 | Réception génotypes SNP 2500 EFS + secteurs | Données PLINK QC + cartographie secteurs |
-| 3 | PCA + ADMIXTURE par secteur | Scores Réunion par secteur |
-| 4 | IBD + ROH par secteur | Données parenté Réunion |
+| 3 | PCA + ADMIXTURE + ROH **globaux** sur les 2500 | Coordonnées PCA, proportions q_k, ROH_score |
+| 4 | IBD intra-secteur (parallélisé) + calcul S_div par secteur | Matrices IBD + classements S_div par secteur |
 | 5 | Sélection 350 individus (stratifiée géographique) | Liste de 350 IDs + répartition par secteur |
 | 6-8 | Coordination WGS + extractions ADN | 350 échantillons en séquençage |
 | 9-10 | Premiers résultats WGS | BAMs/VCFs préliminaires |
@@ -654,6 +663,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | 3.0 | 2026-04-21 | Révision | Correction formule IBD_score ; K ADMIXTURE générique (CV) ; tables illustratives labelisées ; proxy 1000G étendu à 3 groupes ; ajout argument généralisabilité |
 | 3.1 | 2026-04-21 | Révision | IBD_score = 1 - max_j IBD(i,j) ; stratification binaire (60/40) pour N_WGS 6–19 ; cohérence anti-biais directionnel tous secteurs |
 | 3.2 | 2026-04-21 | Révision | PCA et ADMIXTURE calculés globalement sur les 2500 → métriques comparables inter-secteurs ; IBD reste intra-secteur ; pipeline niveau 1/2 |
+| 3.3 | 2026-04-21 | Révision | Cohérence complète : §7.2 corrigé (global vs par secteur) ; §4.3 label PCA corrigé ; label flip ADMIXTURE documenté (pong) ; --seed=42 Annexe A ; IBD cross-secteur explicité ; flowchart §1.2 mis à jour |
 
 ---
 
@@ -684,14 +694,18 @@ plink --bfile data_qc \
   --out roh_global
 
 # ADMIXTURE — déterminer K optimal par cross-validation (K=2 à 6)
+# --seed fixé pour reproductibilité
 for K in 2 3 4 5 6; do
-    admixture --cv data_qc.bed $K | tee admixture_K${K}.log
+    admixture --cv --seed=42 data_qc.bed $K | tee admixture_K${K}.log
 done
 # Sélectionner K avec CV-error minimal
 grep "CV error" admixture_K*.log
 
 # Puis lancer avec K optimal (ex: K=4 pour La Réunion)
-admixture data_qc.bed 4
+admixture --seed=42 data_qc.bed 4
+# → fichier data_qc.4.Q : proportions ancestrales pour les 2500 individus
+# Note : les labels k peuvent différer entre runs indépendants (label flip)
+# → utiliser pong ou alignement manuel si comparaison multi-runs nécessaire
 
 # ── NIVEAU 2 : calculs PAR SECTEUR ───────────────────────────
 
