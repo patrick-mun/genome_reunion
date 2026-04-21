@@ -61,17 +61,17 @@ AU SEIN DE CHAQUE SECTEUR :
 1. **Documenter la distribution démographique de la cohorte 2500** :
    - Compter le nombre d'individus par secteur géographique (7-8 régions)
    - Calculer le % de chaque secteur
-   - Exemple :
+   - Exemple *(valeurs illustratives — les proportions réelles dépendent de la cohorte EFS)* :
    
    | Secteur | N (cohorte 2500) | % | N WGS (350) |
    |---|---|---|---|
    | Nord | 320 | 12.8% | 45 |
-   | Nord-Est | 560 | 22.4% | 78 |
+   | Nord-Est | 500 | 20.0% | 70 |
    | Est | 380 | 15.2% | 53 |
-   | Sud-Est | 420 | 16.8% | 59 |
-   | Sud | 375 | 15.0% | 52 |
+   | Sud-Est | 400 | 16.0% | 56 |
+   | Sud | 350 | 14.0% | 49 |
    | Ouest | 300 | 12.0% | 42 |
-   | Nord-Ouest | 245 | 9.8% | 34 |
+   | Nord-Ouest | 250 | 10.0% | 35 |
    | **Total** | **2500** | **100%** | **350** |
 
 2. **Allocation irrevocable** : Chaque secteur reçoit exactement `N_secteur_WGS = round(proportion_secteur × 350)`
@@ -108,12 +108,14 @@ Le score S_div agrège **4 dimensions indépendantes** de la diversité généti
 **Objectif** : Favoriser les individus avec des profils d'admixture rares ou bien mélangés au sein du secteur.
 
 **Calcul** :
-1. Lancer ADMIXTURE avec K=3 (représentant les 3 ancêtries majeures : africaine, indienne, européenne) **au sein du secteur**
+1. Déterminer K optimal par cross-validation (CV-error ADMIXTURE, K testé de 2 à 6) **sur l'ensemble de la cohorte**
+   - Pour La Réunion : K attendu = 4 (africain, indien, européen, malgache) — à confirmer empiriquement
+   - Pour la validation 1000G : K déterminé selon la population proxy utilisée
 2. Pour chaque individu i, calculer l'entropie de Shannon de son profil ancestral :
    ```
-   ADMIX_score(i) = -Σ(k=1 à 3) q_k(i) × log(q_k(i))
+   ADMIX_score(i) = -Σ(k=1 à K) q_k(i) × log(q_k(i))
    ```
-   où q_k(i) = proportion de l'ancêtrie k chez l'individu i
+   où q_k(i) = proportion de l'ancêtrie k chez l'individu i, K = valeur optimale déterminée par CV
 
 3. Normaliser entre 0 et 1 :
    ```
@@ -121,22 +123,34 @@ Le score S_div agrège **4 dimensions indépendantes** de la diversité généti
    ```
 
 **Interprétation** : 
-- ADMIX_score = 1 → individu avec 3 ancêtries à parts égales (profil maximalement mélangé)
+- ADMIX_score = 1 → individu avec K ancêtries à parts égales (profil maximalement mélangé)
 - ADMIX_score = 0 → individu avec une seule ancêtrie dominante (parental ou peu mélangé)
 
 ---
 
 #### **Composante 3 : IBD — Parenté et indépendance génétique**
 
-**Objectif** : Éviter la redondance génétique en sélectionnant des individus non-apparentés au sein du secteur.
+**Objectif** : Favoriser les individus génétiquement isolés au sein du secteur (peu apparentés aux autres), et éviter la redondance génétique.
 
 **Calcul** :
 1. Calculer la matrice de parenté pairwise **au sein du secteur** avec PLINK/KING
-2. Score IBD : Utilisé lors de la sélection greedy (voir section 3.3)
+2. Pour chaque individu i, calculer son IBD moyen avec les autres membres du secteur :
    ```
-   IBD_threshold = 0.125  (cousins 1er degré)
+   IBD_raw(i) = moyenne(IBD(i, j)) pour tout j ≠ i dans le secteur
    ```
-   On sélectionne uniquement si IBD < 0.125 avec tous les individus déjà sélectionnés
+3. Score IBD (individus les plus isolés = score le plus élevé) :
+   ```
+   IBD_score(i) = 1 - (IBD_raw(i) - min) / (max - min)
+   ```
+4. **Contrainte dure** lors de la sélection greedy (en supplément du score) :
+   ```
+   IBD_threshold = 0.125  (seuil cousins 1er degré)
+   ```
+   Un candidat est éliminé si IBD(candidat, tout individu déjà sélectionné) ≥ 0.125
+
+**Interprétation** :
+- IBD_score proche de 1 → individu peu apparenté aux autres → apporte information génétique nouvelle ✓
+- IBD_score proche de 0 → individu fortement apparenté à d'autres → information redondante ✗
 
 ---
 
@@ -178,13 +192,14 @@ S_div(i) = w1 × PCA_score(i)
 
 avec contraintes :
 - w1 + w2 + w3 + w4 = 1
+- IBD_threshold = 0.125 s'applique en **contrainte dure supplémentaire** lors de la sélection greedy (voir §3.3)
 - **Valeurs par défaut (pré-validation)** :
   - w1 = 0.30 (diversité position génétique)
   - w2 = 0.30 (diversité ancestrale)
   - w3 = 0.25 (indépendance génétique)
   - w4 = 0.15 (qualité générale / effet fondateur)
 
-*(Les poids seront optimisés et validés par l'étude préalable sur données 1000 Genomes)*
+*(Les poids seront optimisés et validés par l'étude préalable sur données 1000 Genomes — l'analyse de sensibilité déterminera si ces valeurs par défaut sont robustes ou si d'autres pondérations produisent systématiquement de meilleurs résultats)*
 
 ---
 
@@ -341,21 +356,43 @@ return selected_total  # 350 individus total, stratifiés géographiquement + op
 
 ### 4.1 Objectif
 
-**Valider que S_div produit une sélection meilleure qu'une approche naïve**, avant de la déployer sur la vraie cohorte réunionnaise.
+**Démontrer que la logique de sélection S_div est mathématiquement fondée**, indépendamment de la structure ancestrale spécifique d'une population.
+
+L'argument est le suivant : si S_div (diversité positionnelle + diversité ancestrale + indépendance génétique + qualité générale) surpasse systématiquement les approches naïves **sur des populations admixées de structures différentes**, alors sa logique est **robuste et transférable** — y compris à La Réunion. Ce n'est pas la population proxy qui doit "ressembler" à La Réunion, c'est la **logique du score** qui doit se montrer supérieure quelle que soit la structure d'admixture testée.
 
 ### 4.2 Protocole sur données publiques (1000 Genomes)
 
-#### **4.2.1 Dataset proxy**
+#### **4.2.1 Datasets de validation — trois structures d'admixture distinctes**
 
-Utiliser deux populations admixées publiques du projet 1000 Genomes comme proxy de La Réunion :
+Pour démontrer la généralisabilité de la logique S_div, utiliser **trois groupes de populations admixées** du projet 1000 Genomes, couvrant des structures ancestrales différentes :
+
+**Groupe 1 — Admixture africain/européen (N=157)**
 
 | Population | Code | N | Profil |
 |---|---|---|---|
-| African Caribbeans (Barbados) | ACB | 96 | Africain + Européen (comme Réunion) |
+| African Caribbeans (Barbados) | ACB | 96 | Africain + Européen |
 | African Americans (SW USA) | ASW | 61 | Africain + Européen + Amérindien |
-| **Total** | — | **157** | **Proxy de cohorte mixte** |
+| **Total** | — | **157** | |
 
-*(Limité mais suffisant pour proof-of-concept)*
+**Groupe 2 — Admixture sud-asiatique/européen (N≈200)**
+
+| Population | Code | N | Profil |
+|---|---|---|---|
+| Gujarati Indians (Texas) | GIH | ~103 | Sud-asiatique + Européen (proche ancêtrie indienne réunionnaise) |
+| Bengali (Bangladesh) | BEB | ~86 | Sud-asiatique (structure différente de GIH) |
+| **Total** | — | **~189** | |
+
+**Groupe 3 — Admixture tri-ancestrale simulée (N=150)**
+
+Construire un dataset synthétique à 3 ancêtries à partir de populations parentales 1000G (YRI + CEU + CHB) par simulation de croisements (outil `AdmixSim` ou simulation PLINK) :
+
+| Profil simulé | Proportions | N |
+|---|---|---|
+| Très mélangé | YRI 33% / CEU 33% / CHB 33% | 50 |
+| Bimétis | YRI 50% / CEU 50% | 50 |
+| Partial | YRI 70% / CEU 20% / CHB 10% | 50 |
+
+**Argumentaire** : si S_div stratifié surpasse les alternatives sur les 3 groupes (structures africain/européen, sud-asiatique, et tri-ancestrale simulée), la logique est démontrée indépendamment de la structure spécifique réunionnaise.
 
 #### **4.2.2 Scénarios testés**
 
@@ -388,29 +425,51 @@ Pour chaque sélection, mesurer :
 | **Couverture PCA** | Variance expliquée dans l'espace sélectionné vs total | Capture-t-on la diversité positionnelle ? |
 | **Biais directionnel** | Kolmogorov-Smirnov : distribution S_div(sélection) vs S_div(total) | La sélection reflète-t-elle la population ou les extrêmes ? |
 
-#### **4.2.4 Résultats attendus**
+**Critère de succès (logique confirmée)** : S_div stratifié doit obtenir un KS < 0.10 (biais faible) ET une couverture allélique supérieure au tirage aléatoire **sur les 3 groupes de populations**. La cohérence entre groupes prime sur la performance absolue sur un seul groupe.
 
-**Tableau illustratif — cas 50/157 (32% sélection)**
+#### **4.2.4 Résultats attendus (qualitatifs)**
 
-| Stratégie | Couverture allélique | Variants rares | KL ancestral | IBD redondant | Couverture PCA | Biais direction |
-|---|---|---|---|---|---|---|
-| **S_div naïf** | 91% | 70% | 0.05 | 1% | 91% | **0.34*** |
-| **S_div stratifié** | **88%** | **66%** | **0.08** | **3%** | **85%** | **0.05** ✓ |
-| Random | 76% | 45% | 0.18 | 15% | 72% | 0.12 |
-| PCA-only | 87% | 51% | 0.13 | 9% | 95%* | 0.28* |
-| Maximin IBD | 82% | 58% | 0.15 | 0%* | 78% | 0.18 |
+Les chiffres ci-dessous sont **purement hypothétiques**, destinés à illustrer la logique des comparaisons. Aucune valeur numérique ne sera retenue avant l'exécution réelle du script sur les données 1000G.
 
-*PCA-only excelle sur PCA mais crée biais directionnel, rate variants rares ; Maximin IBD élimine toute parenté mais perd diversité*
-***S_div naïf capture plus de variants rares mais crée fort biais directionnel (Kolmogorov-Smirnov = 0.34)*
+**Comportements attendus par stratégie (logique qualitative) :**
 
-**Conclusion clé** : 
-- **S_div naïf** : Meilleure couverture allélique MAIS fort biais directionnel → introduit artefacts scientifiques
-- **S_div stratifié** : Couverture légèrement inférieure (88% vs 91%) MAIS biais minimal (0.05) → représentation honnête
-- **S_div stratifié offre le meilleur compromis** : perte de 3% de couverture allélique pour éliminer biais directionnel
+| Stratégie | Couverture allélique | Biais directionnel (KS) | Comportement attendu |
+|---|---|---|---|
+| **S_div naïf** | Élevée | **Élevé** | Capture l'information maximimale mais sur-représente les profils extrêmes |
+| **S_div stratifié** | Légèrement inférieure | **Faible** | Compromis optimal : couverture solide + représentation honnête de la distribution |
+| Random | Basse | Neutre | Baseline de référence ; ne maximise rien mais ne biaise pas |
+| PCA-only | Haute sur PC | Élevé | Excelle sur variance positionnelle, rate les variants ancestraux rares |
+| Maximin IBD | Modérée | Modéré | Élimine la parenté mais peut perdre des profils ancestraux rares |
+
+**Logique à valider** : S_div stratifié doit présenter un **KS significativement inférieur** à S_div naïf (confirmation que la stratification quintile élimine le biais directionnel), et une **couverture allélique significativement supérieure** au tirage aléatoire (confirmation que S_div maximise l'information).
+
+Si ce profil de résultats se reproduit sur les 3 groupes 1000G (africain/européen, sud-asiatique, tri-ancestral), la logique S_div est **démontrée indépendamment de la population cible**.
 
 ---
 
-### 4.3 Analyse de sensibilité des poids
+### 4.3 Généralisabilité de la méthode S_div
+
+**Argument central** : S_div n'est pas une méthode "pour La Réunion" — c'est un **cadre générique de sélection optimale** pour toute cohorte d'individus admixés sous contrainte budgétaire. Ses 4 composantes (position génétique, composition ancestrale, indépendance, qualité) sont universellement applicables.
+
+| Propriété de S_div | Justification universelle |
+|---|---|
+| PCA intra-secteur | Capture la diversité positionnelle quelle que soit la structure ancestrale |
+| Entropie ancestrale | Mesure le degré d'admixture sans supposer d'ancêtries spécifiques |
+| Indépendance IBD | Maximise l'information non-redondante dans tout groupe |
+| ROH score | Pénalise la consanguinité, universellement indésirable |
+| Stratification quintile | Évite le biais directionnel dans toute distribution |
+
+**Populations pour lesquelles la même logique s'appliquerait** :
+- Brésil : admixture africain/européen/amérindien (Naslavsky 2022 → structure différente mais même logique)
+- Antilles : admixture similaire à ACB/ASW
+- Afrique du Sud : Coloured population (africain/européen/malais)
+- Maurice : admixture indien/africain/européen (très proche de La Réunion)
+
+**Implication pour la validation** : tester S_div sur ACB/ASW (africain/européen) ET sur GIH/BEB (sud-asiatique) constitue une preuve de concept multistructurale suffisante pour justifier son application réunionnaise, même sans proxy parfait incluant des Malgaches ou des Indiens océaniens.
+
+---
+
+### 4.4 Analyse de sensibilité des poids
 
 Pour garantir que S_div n'est pas arbitraire, tester sa robustesse :
 
@@ -423,6 +482,8 @@ Pour chaque poids w ∈ {w1, w2, w3, w4} :
 
 **Résultat attendu** : Si variance < 5% → poids robustes → méthodologie défendable.
 
+**Interprétation** : une faible sensibilité aux poids est une **preuve indirecte de la cohérence des 4 composantes** — elles mesurent des dimensions réellement indépendantes et complémentaires. Si la variance est élevée (>10%), les composantes sont redondantes et le score doit être revu.
+
 ---
 
 ## 5. Considérations pratiques — Réunion
@@ -431,12 +492,12 @@ Pour chaque poids w ∈ {w1, w2, w3, w4} :
 
 Une fois validé sur 1000G, les paramètres suivants devront être finalisés pour La Réunion :
 
-| Paramètre | Valeur 1000G | À affiner Réunion |
+| Paramètre | Approche validation 1000G | À finaliser Réunion |
 |---|---|---|
-| K (ADMIXTURE) | 3 | Possiblement 4-5 pour sous-structure locale |
+| K (ADMIXTURE) | Déterminé par CV-error par groupe | CV-error sur les 2500 (attendu K=4) |
 | IBD seuil | 0.125 (cousins) | Adapter si effet fondateur extrême |
 | ROH seuil | 100 Mb | À valider sur cohorte réelle |
-| Poids w1..w4 | 0.3, 0.3, 0.25, 0.15 | À re-optimiser si résultats 1000G divergent |
+| Poids w1..w4 | 0.3, 0.3, 0.25, 0.15 → optimiser si sensibilité > 5% | À re-calibrer sur résultats 1000G |
 | Seuil quintile | 20 individus | Adapter selon secteurs avec < 20 |
 
 ### 5.2 Interactions avec partenaires
@@ -469,18 +530,20 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 
 ## 7. Livrables et timeline
 
-### 7.1 Phase 1 : Validation (6 semaines)
+### 7.1 Phase 1 : Validation (8 semaines)
 
 | Semaine | Tâche | Livrable |
 |---|---|---|
-| 1 | Téléchargement 1000G + preprocessing | Dataset 1000G QC |
-| 2 | Calcul PCA + ADMIXTURE | Scores PCA/ADMIX |
-| 3 | Calcul IBD + ROH | Scores IBD/ROH |
-| 4 | Agrégation S_div + simulations | Sélections testées |
-| 5 | Benchmark vs alternatives | Tableau métriques |
-| 6 | Analyse sensibilité + rapport | Rapport de validation |
+| 1 | Téléchargement 1000G (ACB/ASW + GIH/BEB) + preprocessing | Datasets 1000G QC |
+| 2 | Simulation dataset tri-ancestral (YRI+CEU+CHB) | Dataset synthétique |
+| 3 | PCA + ADMIXTURE (CV-error → K optimal par groupe) | Scores PCA/ADMIX par groupe |
+| 4 | IBD + ROH par groupe | Scores IBD/ROH par groupe |
+| 5 | Agrégation S_div + 5 stratégies de sélection | Sélections testées (3 groupes × 3 budgets × 5 stratégies) |
+| 6 | Benchmark vs alternatives — métriques | Tableau métriques réel |
+| 7 | Analyse sensibilité des poids | Rapport sensibilité |
+| 8 | Synthèse : cohérence inter-groupes + rapport final | Rapport de validation + recommandations K/poids |
 
-**Livrable final** : Document validant S_div sur 1000G + rapport de sensibilité → prêt pour déploiement Réunion
+**Livrable final** : Rapport démontrant que la logique S_div est robuste sur 3 structures d'admixture différentes → justification scientifique pour déploiement Réunion
 
 ### 7.2 Phase 2 : Déploiement Réunion (8-10 semaines)
 
@@ -522,6 +585,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 |---|---|---|---|
 | 1.0 | 2026-04-21 | Équipe Génome Réunion | Document initial |
 | 2.0 | 2026-04-21 | Révision | Réarchitecture complète : stratification géographique + S_div par secteur |
+| 3.0 | 2026-04-21 | Révision | Correction formule IBD_score ; K ADMIXTURE générique (CV) ; tables illustratives labelisées ; proxy 1000G étendu à 3 groupes ; ajout argument généralisabilité |
 
 ---
 
@@ -557,8 +621,15 @@ plink --bfile data_qc \
   --homozyg-kb 1000 \
   --out roh_sector_A
 
-# ADMIXTURE (par secteur si applicable)
-admixture data_qc.bed 3 --cv=5  # K=3 populations
+# ADMIXTURE — déterminer K optimal par cross-validation (K=2 à 6)
+for K in 2 3 4 5 6; do
+    admixture --cv data_qc.bed $K | tee admixture_K${K}.log
+done
+# Sélectionner K avec CV-error minimal
+grep "CV error" admixture_K*.log
+
+# Puis lancer avec K optimal (ex: K=4 pour La Réunion)
+admixture data_qc.bed 4 --cv=5
 ```
 
 ---
