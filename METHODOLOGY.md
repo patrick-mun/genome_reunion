@@ -80,26 +80,43 @@ AU SEIN DE CHAQUE SECTEUR :
 
 ---
 
-### 2.2 Étape 2 : Calcul du score S_div (au sein de chaque secteur)
+### 2.2 Étape 2 : Calcul du score S_div
 
-Le score S_div agrège **4 dimensions indépendantes** de la diversité génétique. **Important** : S_div est calculé sur **chaque secteur indépendamment**.
+Le score S_div agrège **4 dimensions indépendantes** de la diversité génétique.
+
+**Principe clé — global vs par secteur** :
+
+| Composante | Calculée sur | Raison |
+|---|---|---|
+| PCA | **2500 individus (global)** | Espace commun = scores comparables entre secteurs |
+| ADMIXTURE | **2500 individus (global)** | Modèle ancestral unique = q_k comparables entre secteurs |
+| IBD | Par secteur | Parenté évaluée dans le contexte local de sélection |
+| ROH | **2500 individus (global)** | Métrique individuelle, non affectée par le groupe de calcul |
+
+PCA et ADMIXTURE calculés globalement garantissent que le score d'un individu du Nord est **dans le même référentiel** que celui d'un individu du Sud. La sélection et la stratification quintile restent faites **par secteur** — seules les métriques sous-jacentes sont globales.
 
 #### **Composante 1 : PCA — Position dans l'espace génétique**
 
 **Objectif** : Capturer les individus qui occupent des positions extrêmes ou peu fréquentes dans l'espace génétique du secteur.
 
 **Calcul** :
-1. Réaliser une Analyse en Composantes Principales (PCA) **au sein du secteur** sur les SNPs
-2. Pour chaque individu i du secteur, calculer sa distance euclidienne au centroïde du secteur dans l'espace PC1-PC5 :
+1. Réaliser une PCA **globale sur les 2500 individus** (espace génétique commun)
+2. Pour chaque secteur, calculer le centroïde du secteur dans l'espace global PC1-PC5 :
    ```
-   PCA_distance(i) = √(PC1(i)² + PC2(i)² + PC3(i)² + PC4(i)² + PC5(i)²)
+   centroïde_secteur = (mean(PC1), mean(PC2), ..., mean(PC5))  pour tous i du secteur
    ```
-3. Normaliser entre 0 et 1 :
+3. Pour chaque individu i, calculer sa distance euclidienne au centroïde de **son secteur** :
    ```
-   PCA_score(i) = (PCA_distance(i) - min) / (max - min)
+   PCA_distance(i) = √((PC1(i)-c1)² + (PC2(i)-c2)² + ... + (PC5(i)-c5)²)
+   ```
+4. Normaliser **au sein du secteur** entre 0 et 1 :
+   ```
+   PCA_score(i) = (PCA_distance(i) - min_secteur) / (max_secteur - min_secteur)
    ```
 
-**Interprétation** : Individus avec PCA_score proche de 1 occupent les "marges" génétiques du secteur et capturent de la variabilité nouvelle.
+**Pourquoi global** : une PCA par secteur produit des axes propres à chaque sous-groupe, rendant les scores incomparables. Une PCA globale place tous les individus dans le même espace — la distance au centroïde du secteur mesure alors réellement qui est "marginal" dans sa région par rapport à la structure génétique de l'île entière.
+
+**Interprétation** : PCA_score proche de 1 → individu aux marges génétiques de son secteur, dans l'espace de référence commun à toute la cohorte.
 
 ---
 
@@ -108,19 +125,22 @@ Le score S_div agrège **4 dimensions indépendantes** de la diversité généti
 **Objectif** : Favoriser les individus avec des profils d'admixture rares ou bien mélangés au sein du secteur.
 
 **Calcul** :
-1. Déterminer K optimal par cross-validation (CV-error ADMIXTURE, K testé de 2 à 6) **sur l'ensemble de la cohorte**
+1. Déterminer K optimal par cross-validation (CV-error ADMIXTURE, K testé de 2 à 6) **sur les 2500 individus**
    - Pour La Réunion : K attendu = 4 (africain, indien, européen, malgache) — à confirmer empiriquement
    - Pour la validation 1000G : K déterminé selon la population proxy utilisée
-2. Pour chaque individu i, calculer l'entropie de Shannon de son profil ancestral :
+2. Lancer ADMIXTURE **globalement sur les 2500** avec le K optimal → proportions q_k(i) pour chaque individu
+3. Pour chaque individu i, calculer l'entropie de Shannon de son profil ancestral :
    ```
    ADMIX_score(i) = -Σ(k=1 à K) q_k(i) × log(q_k(i))
    ```
-   où q_k(i) = proportion de l'ancêtrie k chez l'individu i, K = valeur optimale déterminée par CV
+   où q_k(i) = proportion de l'ancêtrie k chez l'individu i dans le modèle global
 
-3. Normaliser entre 0 et 1 :
+4. Normaliser **au sein du secteur** entre 0 et 1 :
    ```
-   ADMIX_score(i) = (entropie(i) - min) / (max - min)
+   ADMIX_score(i) = (entropie(i) - min_secteur) / (max_secteur - min_secteur)
    ```
+
+**Pourquoi global** : ADMIXTURE par secteur produit un modèle ancestral propre à chaque sous-groupe. Un secteur à majorité africaine et un secteur à majorité indienne auraient des axes k différents, rendant les q_k incomparables. Un modèle global garantit que q_1 (ex: africain) signifie la même chose pour tous les 2500 individus.
 
 **Interprétation** : 
 - ADMIX_score = 1 → individu avec K ancêtries à parts égales (profil maximalement mélangé)
@@ -159,7 +179,7 @@ Le score S_div agrège **4 dimensions indépendantes** de la diversité généti
 **Objectif** : Favoriser les individus avec peu de segments homozygotes longs, indicateurs d'une faible consanguinité locale. La diversité locale (peu de ROH) est préférable.
 
 **Calcul** :
-1. Calculer les ROH **au sein du secteur** avec PLINK (`--homozyg`)
+1. Calculer les ROH **sur les 2500 individus** avec PLINK (`--homozyg`) — métrique individuelle, le groupe de calcul n'affecte pas le résultat
    - Longueur minimale : 1 Mb
    - Densité SNP : 1 SNP par 10 kb
 
@@ -272,27 +292,36 @@ QC individu :
 
 ---
 
-### 3.2 Étape 2 : Calcul des composantes (par secteur)
+### 3.2 Étape 2 : Calcul des composantes
 
-**Parallélisable — durée estimée : 3-4 jours**
+**Deux niveaux de calcul — durée estimée : 3-4 jours**
 
 ```
-Pour chaque secteur géographique :
-    
-    ├─ PCA (plink --pca)
-    │  → PCA_score(i) pour tous i du secteur
+NIVEAU 1 — GLOBAL (sur les 2500 individus, une seule fois) :
+
+    ├─ PCA globale (plink --pca)
+    │  → Coordonnées PC1-PC5 pour tous les 2500
     │
-    ├─ ADMIXTURE K=3 (5 répétitions CV)
-    │  → ADMIX_score(i) pour tous i du secteur
-    │
-    ├─ IBD pairwise (plink --king)
-    │  → Matrice IBD pour sélection
+    ├─ ADMIXTURE K optimal (CV-error, K=2..6)
+    │  → Proportions q_k(i) pour tous les 2500 (modèle ancestral commun)
     │
     └─ ROH (plink --homozyg)
-       → ROH_score(i) pour tous i du secteur
+       → ROH_score(i) pour tous les 2500
 
-Agrégation S_div = w1×PCA + w2×ADMIX + w3×IBD + w4×ROH
-                → S_div(i) pour tous i du secteur (classement)
+NIVEAU 2 — PAR SECTEUR (parallélisable sur 7-8 secteurs) :
+
+    Pour chaque secteur géographique :
+        ├─ PCA_score : distance au centroïde du secteur dans l'espace PCA global
+        │  → PCA_score(i) normalisé dans le secteur
+        │
+        ├─ ADMIX_score : entropie de Shannon des q_k globaux
+        │  → ADMIX_score(i) normalisé dans le secteur
+        │
+        ├─ IBD pairwise intra-secteur (plink --king)
+        │  → IBD_score(i) = 1 - max_j IBD(i,j) dans le secteur
+        │
+        └─ Agrégation S_div = w1×PCA + w2×ADMIX + w3×IBD + w4×ROH
+           → S_div(i) pour tous i du secteur (classement local)
 ```
 
 ---
@@ -624,6 +653,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | 2.0 | 2026-04-21 | Révision | Réarchitecture complète : stratification géographique + S_div par secteur |
 | 3.0 | 2026-04-21 | Révision | Correction formule IBD_score ; K ADMIXTURE générique (CV) ; tables illustratives labelisées ; proxy 1000G étendu à 3 groupes ; ajout argument généralisabilité |
 | 3.1 | 2026-04-21 | Révision | IBD_score = 1 - max_j IBD(i,j) ; stratification binaire (60/40) pour N_WGS 6–19 ; cohérence anti-biais directionnel tous secteurs |
+| 3.2 | 2026-04-21 | Révision | PCA et ADMIXTURE calculés globalement sur les 2500 → métriques comparables inter-secteurs ; IBD reste intra-secteur ; pipeline niveau 1/2 |
 
 ---
 
@@ -638,26 +668,20 @@ plink2 --vcf data.vcf.gz \
   --make-pgen \
   --out data_qc
 
-# PCA (par secteur si applicable)
+# ── NIVEAU 1 : calculs GLOBAUX sur les 2500 ──────────────────
+
+# PCA globale
 plink2 --pfile data_qc \
-  --keep sector_A.txt \
   --pca 10 \
-  --out pca_sector_A
+  --out pca_global
 
-# IBD (par secteur si applicable)
+# ROH global
 plink --bfile data_qc \
-  --keep sector_A.txt \
-  --king-cutoff 0.125 \
-  --out ibd_sector_A
-
-# ROH (par secteur si applicable)
-plink --bfile data_qc \
-  --keep sector_A.txt \
   --homozyg \
   --homozyg-window-snp 50 \
   --homozyg-snp 50 \
   --homozyg-kb 1000 \
-  --out roh_sector_A
+  --out roh_global
 
 # ADMIXTURE — déterminer K optimal par cross-validation (K=2 à 6)
 for K in 2 3 4 5 6; do
@@ -667,7 +691,19 @@ done
 grep "CV error" admixture_K*.log
 
 # Puis lancer avec K optimal (ex: K=4 pour La Réunion)
-admixture data_qc.bed 4 --cv=5
+admixture data_qc.bed 4
+
+# ── NIVEAU 2 : calculs PAR SECTEUR ───────────────────────────
+
+# IBD intra-secteur (parallélisable)
+plink --bfile data_qc \
+  --keep sector_A.txt \
+  --king-cutoff 0.125 \
+  --out ibd_sector_A
+
+# PCA_score et ADMIX_score calculés en Python à partir des
+# fichiers globaux (pca_global.eigenvec, admixture_K4.Q)
+# en filtrant par secteur → normalisation locale
 ```
 
 ---
