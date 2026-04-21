@@ -537,12 +537,108 @@
 /* Limite la hauteur max du radar (slide 24) */
 #radarChart { max-height: 320px; }
 
+/* ── Architecture deux niveaux (slide 18) ───────────────── */
+.arch-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(12px, 2vh, 24px);
+  margin-bottom: clamp(8px, 1.5vh, 18px);
+}
+
+.arch-constraint-box {
+  padding: clamp(14px, 2vh, 26px);
+  border-radius: 10px;
+}
+.arch-constraint-box--geo { border-top: 4px solid var(--blue);   background: #EFF6FF; }
+.arch-constraint-box--gen { border-top: 4px solid var(--teal);   background: #F0FDFA; }
+
+.arch-constraint-label {
+  font-size: clamp(11px, 1.1vw, 14px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+.arch-constraint-label--geo { color: var(--blue); }
+.arch-constraint-label--gen { color: var(--teal); }
+
+.arch-constraint-title {
+  font-size: clamp(17px, 1.9vw, 27px);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.25;
+  margin-bottom: clamp(6px, 1.2vh, 14px);
+}
+
+.arch-constraint-copy {
+  font-size: clamp(13px, 1.5vw, 20px);
+  color: var(--muted);
+  margin-bottom: clamp(8px, 1.4vh, 16px);
+  line-height: 1.5;
+}
+
+.arch-constraint-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: clamp(11px, 1.2vw, 15px);
+  font-weight: 700;
+  background: var(--blue);
+  color: var(--white);
+}
+.arch-constraint-badge--gen { background: var(--teal); }
+
+.arch-flow-svg  { width: 100%; display: block; margin-top: clamp(4px, 1vh, 12px); }
+.geo-bars-svg   { width: 100%; display: block; }
+
+/* ── Grille 2×2 composantes S_div (slide 20) ────────────── */
+.comp-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(10px, 1.6vh, 18px);
+  margin-bottom: clamp(8px, 1.4vh, 16px);
+}
+
+.comp-card {
+  border-radius: 8px;
+  padding: clamp(10px, 1.6vh, 18px);
+}
+.comp-card--teal   { border-top: 3px solid var(--teal);   background: #F0FDFA; }
+.comp-card--purple { border-top: 3px solid var(--purple); background: #FAF5FF; }
+.comp-card--orange { border-top: 3px solid var(--orange); background: #FFF7ED; }
+.comp-card--amber  { border-top: 3px solid var(--amber);  background: #FFFBEB; }
+
+.comp-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: clamp(10px, 1.0vw, 13px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 5px;
+}
+.comp-badge--global  { background: #DBEAFE; color: #1D4ED8; }
+.comp-badge--secteur { background: #FED7AA; color: #C2410C; }
+
+.comp-card-title {
+  font-size: clamp(14px, 1.6vw, 22px);
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.comp-card-copy { font-size: clamp(12px, 1.3vw, 18px); color: var(--muted); line-height: 1.5; }
+
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 600px) {
   /* Arm-card */
   .arm-card    { flex-direction: column; }
   .arm-percent { min-width: auto; padding: 7px; font-size: 16px; }
   .arm-body    { border-left: none; border-top: 1px solid var(--border); }
+
+  /* Architecture + composantes → 1 colonne */
+  .arch-split          { grid-template-columns: 1fr; }
+  .comp-overview-grid  { grid-template-columns: 1fr; }
 
   /* Grille score → 1 colonne */
   .special-score-grid { grid-template-columns: 1fr; }
