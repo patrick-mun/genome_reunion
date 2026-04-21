@@ -588,7 +588,8 @@
 }
 .arch-constraint-badge--gen { background: var(--teal); }
 
-.arch-flow-svg  { width: 100%; display: block; margin-top: clamp(4px, 1vh, 12px); }
+.arch-flow-svg--horizontal { width: 100%; display: block; margin-top: clamp(4px, 1vh, 12px); }
+.arch-flow-svg--vertical   { display: none; }
 .geo-bars-svg   { width: 100%; display: block; }
 
 /* ── Grille 2×2 composantes S_div (slide 20) ────────────── */
@@ -635,6 +636,10 @@
   .arm-card    { flex-direction: column; }
   .arm-percent { min-width: auto; padding: 7px; font-size: 16px; }
   .arm-body    { border-left: none; border-top: 1px solid var(--border); }
+
+  /* Architecture flowchart: swap horizontal ↔ vertical */
+  .arch-flow-svg--horizontal { display: none; }
+  .arch-flow-svg--vertical   { display: block; width: 100%; max-width: 260px; margin: clamp(12px, 2vh, 20px) auto; }
 
   /* Architecture + composantes → 1 colonne */
   .arch-split          { grid-template-columns: 1fr; }
