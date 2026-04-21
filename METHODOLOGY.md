@@ -330,7 +330,7 @@ avec contraintes :
 Données brutes puce SNP (2500 individus, tous secteurs)
          ↓
 QC variant :
-- MAF ≥ 1%
+- MAF ≥ 1%  ← filtre sur les marqueurs PUCE utilisés pour S_div
 - Taux de manquants < 5%
 - HWE p > 1e-6
          ↓
@@ -338,8 +338,10 @@ QC individu :
 - Taux de manquants < 5%
 - Pas de contamination estimée
          ↓
-~2.5M SNP conservés
+~2.5M SNP conservés (marqueurs puce, pour calcul S_div uniquement)
 ```
+
+**Important — distinction puce vs WGS** : ce filtre MAF ≥ 1% s'applique exclusivement aux **marqueurs SNP de la puce** utilisés pour calculer les scores S_div (PCA, ADMIXTURE, IBD, ROH). Il est standard en génomique des populations pour éviter le bruit des variants très rares dans les analyses multivariées. Il ne concerne pas les variants que le **séquençage WGS** découvrira : le référentiel WGS final capturera des variants à n'importe quelle fréquence, y compris MAF < 1%, selon la couverture calculée en §1.2.
 
 ---
 
@@ -476,6 +478,8 @@ return selected_total  # 350 individus total, stratifiés géographiquement + op
 **Démontrer que la logique de sélection S_div est mathématiquement fondée**, indépendamment de la structure ancestrale spécifique d'une population.
 
 L'argument est le suivant : si S_div (diversité positionnelle + diversité ancestrale + indépendance génétique + qualité générale) surpasse systématiquement les approches naïves **sur des populations admixées de structures différentes**, alors sa logique est **robuste et transférable** — y compris à La Réunion. Ce n'est pas la population proxy qui doit "ressembler" à La Réunion, c'est la **logique du score** qui doit se montrer supérieure quelle que soit la structure d'admixture testée.
+
+**Périmètre de la validation** : cette étude valide les **4 composantes du score S_div** et leur capacité combinée à maximiser la diversité tout en minimisant le biais directionnel. Elle ne valide pas la **stratification géographique** (contrainte première de l'architecture), qui dépend de la distribution démographique réelle de la cohorte EFS réunionnaise et ne peut être testée sur des données publiques 1000G. La stratification géographique sera validée par le seul déploiement réel sur la cohorte.
 
 ### 4.2 Protocole sur données publiques (1000 Genomes)
 
@@ -709,6 +713,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | 3.2 | 2026-04-21 | Révision | PCA et ADMIXTURE calculés globalement sur les 2500 → métriques comparables inter-secteurs ; IBD reste intra-secteur ; pipeline niveau 1/2 |
 | 3.3 | 2026-04-21 | Révision | Cohérence complète : §7.2 corrigé (global vs par secteur) ; §4.3 label PCA corrigé ; label flip ADMIXTURE documenté (pong) ; --seed=42 Annexe A ; IBD cross-secteur explicité ; flowchart §1.3 mis à jour |
 | 3.4 | 2026-04-21 | Révision | Ajout §1.2 justification statistique N=350 : P(détection) = 1-(1-MAF)^700, seuil MAF≥1%, tableau comparatif bibliographique |
+| 3.5 | 2026-04-21 | Révision finale | §3.1 : clarification MAF puce SNP ≠ WGS output ; §4.1 : périmètre validation explicité (S_div validé, stratification géo hors portée 1000G) |
 
 ---
 
