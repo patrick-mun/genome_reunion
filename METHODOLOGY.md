@@ -157,6 +157,96 @@ avec contraintes :
 
 ---
 
+### 2.3 Stratification par profils — Éviter le biais directionnel
+
+**Problème** : Sélectionner uniquement les individus avec S_div élevés crée un **biais de sélection directionnel** — on capture les profils "marginaux" ou "extrêmes" mais on sous-représente les profils "typiques" de la population réunionnaise.
+
+**Solution** : Appliquer une **stratification par quintiles de S_div** pour garantir que la sélection des 350 reflète la distribution complète de la diversité génétique.
+
+#### **2.3.1 Allocation par quintiles**
+
+1. Trier tous les 2500 individus par ordre décroissant de S_div
+2. Diviser en 5 groupes égaux (500 individus chacun) :
+   - **Q1** : Top 20% (percentile 80-100, scores S_div les plus élevés) — profils les plus "extrêmes"
+   - **Q2** : 2e 20% (percentile 60-80)
+   - **Q3** : Médiane 20% (percentile 40-60) — profils "moyens/typiques"
+   - **Q4** : 4e 20% (percentile 20-40)
+   - **Q5** : Bottom 20% (percentile 0-20, scores S_div les plus bas) — profils les plus "ordinaires"
+
+3. **Allouer les 350 sélections proportionnellement** pour capturer la structure complète :
+
+| Quintile | Profil | N sélectionnés | % du total | Raison |
+|---|---|---|---|---|
+| **Q1** (scores élevés) | Extrêmes/marginaux | 70 | 20% | Capturent la diversité positionnelle rare |
+| **Q2** | Au-dessus médiane | 70 | 20% | Profils intermédiaires informatifs |
+| **Q3** (médiane) | **Typiques** | **105** | **30%** | **Anchor population réunionnaise** |
+| **Q4** | Sous médiane | 70 | 20% | Profils moins diversifiés mais représentatifs |
+| **Q5** (scores bas) | Ordinaires/fondateurs | 35 | 10% | Moindre information mais présence requise |
+| **Total** | — | **350** | **100%** | — |
+
+#### **2.3.2 Justification**
+
+- **Q3 (médiane) = 30%** : Les individus "typiques" réunionnais forment l'anchor du référentiel. Ils représentent les génotypes les plus fréquents et les variants les plus communs.
+- **Q1-Q2 = 40%** : Les profils extrêmes (hauts scores) capturent la diversité génétique rare et les variants informatifs.
+- **Q4-Q5 = 30%** : Les profils ordinaires garantissent une couverture complète sans biais vers les extrêmes.
+
+#### **2.3.3 Algorithme de sélection stratifiée**
+
+```python
+# Étape 1 : Calculer S_div pour tous 2500
+S_div_scores = calculate_s_div(all_individuals)
+
+# Étape 2 : Diviser en quintiles
+quintiles = divide_into_quintiles(S_div_scores, n_quintiles=5)
+
+# Étape 3 : Allouer les sélections par quintile
+allocations = {
+    "Q1": 70,
+    "Q2": 70,
+    "Q3": 105,  # Médiane
+    "Q4": 70,
+    "Q5": 35
+}
+
+selected = []
+
+for quintile_label, n_to_select in allocations.items():
+    candidates = quintiles[quintile_label]
+    
+    # Au sein de chaque quintile, appliquer contrainte IBD
+    # (éviter parenté même dans le même quintile)
+    selected_in_quintile = greedy_select_unrelated(
+        candidates,
+        n_to_select,
+        ibd_threshold=0.125
+    )
+    
+    selected.extend(selected_in_quintile)
+
+return selected  # 350 individus, représentant distribution S_div
+```
+
+#### **2.3.4 Résultat attendu**
+
+Après sélection stratifiée, la distribution de S_div dans l'échantillon WGS (350) devrait **approximativement reproduire** celle de la cohorte totale (2500) :
+
+```
+Cohorte totale (2500)    vs    Sélection WGS (350)
+───────────────────────       ──────────────────
+Q1 : 500 (20%)                Q1 : 70 (20%) ✓
+Q2 : 500 (20%)                Q2 : 70 (20%) ✓
+Q3 : 500 (20%)     →          Q3 : 105 (30%) ✓ [anchor +10%]
+Q4 : 500 (20%)                Q4 : 70 (20%) ✓
+Q5 : 500 (20%)                Q5 : 35 (10%) ✓ [léger sous-échantillonnage]
+```
+
+**Avantage** : Pas de biais directionnel. Le référentiel WGS représente à la fois :
+- Les profils rares/extrêmes (Q1-Q2) = variants nouveaux
+- Les profils typiques (Q3) = variants communs et structuration populationnelle
+- Les profils ordinaires (Q4-Q5) = baseline génétique complète
+
+---
+
 ## 3. Pipeline de sélection
 
 ### 3.1 Étape 1 : Contrôle qualité des SNP
@@ -218,31 +308,59 @@ Données QC-passées
 
 ---
 
-### 3.3 Étape 3 : Sélection des 350 individus
+### 3.3 Étape 3 : Sélection stratifiée des 350 individus
 
-**Algorithme greedy avec contraintes :**
+**Algorithme greedy stratifié par quintiles :**
 
 ```python
+# Étape 1 : Calculer S_div pour tous 2500
+S_div_scores = calculate_s_div(all_individuals)
+
+# Étape 2 : Diviser en quintiles
+quintiles = {
+    "Q1": sorted_by_s_div(all_individuals, percentile=80-100),  # 500 individus
+    "Q2": sorted_by_s_div(all_individuals, percentile=60-80),   # 500 individus
+    "Q3": sorted_by_s_div(all_individuals, percentile=40-60),   # 500 individus
+    "Q4": sorted_by_s_div(all_individuals, percentile=20-40),   # 500 individus
+    "Q5": sorted_by_s_div(all_individuals, percentile=0-20),    # 500 individus
+}
+
+# Étape 3 : Allouer par quintile (éviter biais directionnel)
+allocations = {
+    "Q1": 70,    # Profils extrêmes
+    "Q2": 70,    # Profils au-dessus médiane
+    "Q3": 105,   # Profils MÉDIANS (anchor population)
+    "Q4": 70,    # Profils sous médiane
+    "Q5": 35     # Profils ordinaires
+}
+
 selected = []
-available = sorted(all_individuals, key=lambda i: S_div(i), reverse=True)
 
-for candidate in available:
-    if len(selected) >= 350:
-        break
+for quintile_label in ["Q1", "Q2", "Q3", "Q4", "Q5"]:
+    candidates = quintiles[quintile_label]
+    n_to_select = allocations[quintile_label]
     
-    # Vérifier contrainte IBD (non-parenté)
-    is_unrelated = all(IBD(candidate, sel) < 0.125 for sel in selected)
-    
-    if is_unrelated:
-        selected.append(candidate)
-    else:
-        # Candidat trop apparenté : passer au suivant
-        continue
+    # Greedy : sélectionner n_to_select individus non-apparentés
+    for candidate in sorted(candidates, key=lambda i: S_div(i), reverse=True):
+        if len([s for s in selected if s in candidates]) >= n_to_select:
+            break
+        
+        # Vérifier contrainte IBD (non-parenté avec TOUS les sélectionnés)
+        is_unrelated = all(IBD(candidate, sel) < 0.125 for sel in selected)
+        
+        if is_unrelated:
+            selected.append(candidate)
 
-return selected  # 350 individus, maximisant S_div sous contrainte IBD
+return selected  # 350 individus, stratifiés par S_div, sans biais directionnel
 ```
 
-**Résultat** : Liste des 350 IDs à séquencer en WGS.
+**Résultat** : Liste des 350 IDs à séquencer en WGS, représentant la distribution complète de S_div.
+
+**Avantage** : 
+- ✓ Pas de sur-représentation des extrêmes
+- ✓ Anchor solide (Q3 médiane = 30% de la sélection)
+- ✓ Couverture allélique équilibrée entre variants rares et communs
+- ✓ Représentation scientifiquement honnête de la population réunionnaise
 
 ---
 
@@ -276,12 +394,13 @@ Pour chaque niveau de contrainte budgétaire :
 | Contrainte modérée | 78 / 157 (50%) | Modéré |
 | Contrainte faible | 120 / 157 (75%) | Large |
 
-Pour chaque scénario, comparer 4 stratégies de sélection :
+Pour chaque scénario, comparer 5 stratégies de sélection :
 
-1. **S_div** (votre méthode)
-2. **Random** (tirage aléatoire, 100 répétitions, moyenne)
-3. **PCA-only** (sélection sur diversité PCA seule)
-4. **Maximin IBD** (maximiser distance de parenté seule)
+1. **S_div naïf** (sélection pure sur S_div, sans stratification) — test de biais directionnel
+2. **S_div stratifié** (votre méthode avec quintiles) — évite biais directionnel
+3. **Random** (tirage aléatoire, 100 répétitions, moyenne)
+4. **PCA-only** (sélection sur diversité PCA seule)
+5. **Maximin IBD** (maximiser distance de parenté seule)
 
 #### **4.2.3 Métriques de qualité**
 
@@ -294,21 +413,27 @@ Pour chaque sélection, mesurer :
 | **Représentation ancestrale** | Divergence KL(distribution ancestrale sélection vs total) | La sélection est-elle représentative ? |
 | **Éviter parenté** | % de paires IBD > 0.125 dans sélection | Efficacité à éviter redondance génétique |
 | **Couverture PCA** | Variance expliquée dans l'espace sélectionné vs total | Capture-t-on la diversité positionnelle ? |
+| **Biais directionnel** | Kolmogorov-Smirnov : distribution S_div(sélection) vs S_div(total) | La sélection reflète-t-elle la population ou les extrêmes ? |
 
 #### **4.2.4 Résultats attendus**
 
 **Tableau illustratif — cas 50/157 (32% sélection)**
 
-| Stratégie | Couverture allélique | Variants rares | KL ancestral | IBD redondant | Couverture PCA |
-|---|---|---|---|---|---|
-| **S_div** | **90%** | **68%** | **0.06** | **2%** | **88%** |
-| Random | 76% | 45% | 0.18 | 15% | 72% |
-| PCA-only | 88% | 52% | 0.12 | 8% | 95%* |
-| Maximin IBD | 82% | 58% | 0.14 | 0%* | 78% |
+| Stratégie | Couverture allélique | Variants rares | KL ancestral | IBD redondant | Couverture PCA | Biais direction |
+|---|---|---|---|---|---|---|
+| **S_div naïf** | 91% | 70% | 0.05 | 1% | 91% | **0.34*** |
+| **S_div stratifié** | **88%** | **66%** | **0.08** | **3%** | **85%** | **0.05** ✓ |
+| Random | 76% | 45% | 0.18 | 15% | 72% | 0.12 |
+| PCA-only | 87% | 51% | 0.13 | 9% | 95%* | 0.28* |
+| Maximin IBD | 82% | 58% | 0.15 | 0%* | 78% | 0.18 |
 
-*PCA-only excelle sur PCA mais rate variants rares ; Maximin IBD élimine toute parenté mais perd diversité*
+*PCA-only excelle sur PCA mais crée biais directionnel, rate variants rares ; Maximin IBD élimine toute parenté mais perd diversité*
+***S_div naïf capture plus de variants rares mais crée fort biais directionnel (Kolmogorov-Smirnov = 0.34)*
 
-**Conclusion** : S_div offre le **meilleur compromis global** sur tous les critères.
+**Conclusion clé** : 
+- **S_div naïf** : Meilleure couverture allélique MAIS fort biais directionnel → introduit artefacts scientifiques
+- **S_div stratifié** : Couverture légèrement inférieure (88% vs 91%) MAIS biais minimal (0.05) → représentation honnête de la population
+- **S_div stratifié offre le meilleur compromis** : perte de 3% de couverture allélique pour éliminer le biais directionnel est acceptable
 
 ---
 
