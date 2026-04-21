@@ -125,7 +125,7 @@ AU SEIN DE CHAQUE SECTEUR (en parallèle) :
    | Nord-Ouest | 250 | 10.0% | 35 |
    | **Total** | **2500** | **100%** | **350** |
 
-2. **Allocation irrevocable** : Chaque secteur reçoit exactement `N_secteur_WGS = round(proportion_secteur × 350)`
+2. **Allocation** : Chaque secteur reçoit `N_secteur_WGS = round(proportion_secteur × 350)`. En cas de désaccord d'arrondi (somme ≠ 350), les écarts sont corrigés en ajoutant ou retirant 1 WGS au(x) secteur(s) dont la proportion est la plus proche du demi-entier — garantissant que le total reste exactement 350.
 
 **Résultat** : 350 WGS distribués géographiquement, garantissant que la sélection reflète la structure démographique réelle de La Réunion.
 
@@ -133,14 +133,14 @@ AU SEIN DE CHAQUE SECTEUR (en parallèle) :
 
 ### 2.2 Étape 2 : Calcul du score S_div
 
-Le score S_div agrège **4 dimensions indépendantes** de la diversité génétique.
+Le score S_div agrège **4 dimensions complémentaires** de la diversité génétique. Ces dimensions peuvent présenter des corrélations partielles (ex : PCA et ADMIXTURE reflètent toutes deux la structure ancestrale ; IBD et ROH co-varient dans les populations fondatrices) — l'analyse de sensibilité des poids (§4.4) testera empiriquement leur redondance effective et déterminera si certaines composantes sont substituables.
 
 **Principe clé — global vs par secteur** :
 
 | Composante | Calculée sur | Raison |
 |---|---|---|
-| PCA | **2500 individus (global)** | Espace commun = scores comparables entre secteurs |
-| ADMIXTURE | **2500 individus (global)** | Modèle ancestral unique = q_k comparables entre secteurs |
+| PCA | **2500 individus (global)** | Centroïdes secteurs correctement positionnés dans un espace commun non déformé |
+| ADMIXTURE | **2500 individus (global)** | Modèle ancestral unique = q_k interprétables de façon identique dans tous les secteurs |
 | IBD | Par secteur | Parenté évaluée dans le contexte local de sélection |
 | ROH | **2500 individus (global)** | Métrique individuelle, non affectée par le groupe de calcul |
 
@@ -466,6 +466,8 @@ return selected_total  # 350 individus total, stratifiés géographiquement + op
 
 **Résultat** : Liste des 350 IDs à séquencer en WGS.
 
+**Note — ordre de traitement des secteurs** : la contrainte IBD étant vérifiée contre `selected_total` (qui grandit à chaque secteur), les secteurs traités en fin de liste font face à plus d'exclusions cross-secteur potentielles que les premiers. Pour limiter cet effet, traiter les secteurs **par ordre décroissant de taille** (les grands secteurs en premier) afin que les contraintes IBD les plus structurantes soient établies tôt. L'ordre exact doit être documenté dans le rapport de sélection.
+
 **Avantages** :
 - ✓ Représentativité géographique garantie (100%)
 - ✓ Métriques PCA/ADMIXTURE globales → S_div comparables entre secteurs
@@ -523,13 +525,13 @@ Construire un dataset synthétique à 3 ancêtries à partir de populations pare
 
 #### **4.2.2 Scénarios testés**
 
-Pour chaque niveau de contrainte budgétaire :
+Pour chaque niveau de contrainte budgétaire (appliqué proportionnellement à chaque groupe) :
 
-| Scénario | Sélection | Budget |
-|---|---|---|
-| Contrainte forte | 40 / 157 (25%) | Très limité |
-| Contrainte modérée | 78 / 157 (50%) | Modéré |
-| Contrainte faible | 120 / 157 (75%) | Large |
+| Scénario | Proportion | Groupe 1 (N=157) | Groupe 2 (N=189) | Groupe 3 (N=150) |
+|---|---|---|---|---|
+| Contrainte forte | 25% | 39 | 47 | 38 |
+| Contrainte modérée | 50% | 79 | 95 | 75 |
+| Contrainte faible | 75% | 118 | 142 | 113 |
 
 Pour chaque scénario, comparer 5 stratégies de sélection :
 
@@ -719,6 +721,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | 3.4 | 2026-04-21 | Révision | Ajout §1.2 justification statistique N=350 : P(détection) = 1-(1-MAF)^700, seuil MAF≥1%, tableau comparatif bibliographique |
 | 3.5 | 2026-04-21 | Révision finale | §3.1 : clarification MAF puce SNP ≠ WGS output ; §4.1 : périmètre validation explicité (S_div validé, stratification géo hors portée 1000G) |
 | 3.6 | 2026-04-21 | Correction critique | Bug algorithmique §3.3 : ajout compteur selected_in_quintile (n_to_select jamais vérifié) ; reformulation comparabilité §2.2 (normalization locale ≠ comparabilité inter-secteurs) ; garantie algorithmique documentée §2.4.2 |
+| 3.7 | 2026-04-21 | Corrections finales | "indépendantes" → "complémentaires" + note corrélation ; table §2.2 header corrigé ; ordre secteurs décroissant documenté ; rounding arrondi géré ; scénarios §4.2.2 en proportions par groupe |
 
 ---
 
