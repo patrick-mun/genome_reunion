@@ -470,7 +470,7 @@ return selected_total  # 350 individus total, stratifiés géographiquement + op
 
 **Avantages** :
 - ✓ Représentativité géographique garantie (100%)
-- ✓ Métriques PCA/ADMIXTURE globales → S_div comparables entre secteurs
+- ✓ Métriques PCA/ADMIXTURE globales → centroïdes correctement positionnés, q_k interprétables de façon identique dans tous les secteurs (la normalisation locale rend les scores absolus non comparables entre secteurs, ce qui est sans conséquence : classement et stratification n'opèrent qu'au sein de chaque secteur)
 - ✓ Pas de biais directionnel : quintile (N≥20), binaire 60/40 (N 6–19), greedy seul (<6)
 - ✓ Contrainte IBD vérifiée cross-secteur (IBD(candidat, tous les déjà sélectionnés)) — évite la parenté entre secteurs également
 - ✓ Exception greedy-seul documentée et limitée à < 1.7% de la cohorte
@@ -611,7 +611,7 @@ Pour chaque poids w ∈ {w1, w2, w3, w4} :
 
 **Résultat attendu** : Si variance < 5% → poids robustes → méthodologie défendable.
 
-**Interprétation** : une faible sensibilité aux poids est une **preuve indirecte de la cohérence des 4 composantes** — elles mesurent des dimensions réellement indépendantes et complémentaires. Si la variance est élevée (>10%), les composantes sont redondantes et le score doit être revu.
+**Interprétation** : une faible sensibilité aux poids signifie que le classement final est stable quelle que soit la pondération exacte — les composantes se renforcent mutuellement. Si la variance est élevée (>10%), le résultat dépend fortement du choix des poids : les composantes capturent des dimensions vraiment distinctes mais leur calibration relative est critique → les poids devront être optimisés sur les résultats 1000G avant déploiement réunionnais. Dans les deux cas, le score reste défendable ; c'est la précision requise sur les poids qui diffère.
 
 ---
 
@@ -722,6 +722,7 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 | 3.5 | 2026-04-21 | Révision finale | §3.1 : clarification MAF puce SNP ≠ WGS output ; §4.1 : périmètre validation explicité (S_div validé, stratification géo hors portée 1000G) |
 | 3.6 | 2026-04-21 | Correction critique | Bug algorithmique §3.3 : ajout compteur selected_in_quintile (n_to_select jamais vérifié) ; reformulation comparabilité §2.2 (normalization locale ≠ comparabilité inter-secteurs) ; garantie algorithmique documentée §2.4.2 |
 | 3.7 | 2026-04-21 | Corrections finales | "indépendantes" → "complémentaires" + note corrélation ; table §2.2 header corrigé ; ordre secteurs décroissant documenté ; rounding arrondi géré ; scénarios §4.2.2 en proportions par groupe |
+| 3.8 | 2026-04-21 | Corrections finales | §3.3 bullet "comparables entre secteurs" corrigé (normalisation locale ≠ comparabilité) ; §4.4 interprétation variance corrigée (haute variance = calibration critique, non redondance) |
 
 ---
 
