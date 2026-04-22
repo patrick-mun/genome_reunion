@@ -31,7 +31,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s01-angle-mort.css` | 2–8 | 330 | `.ai-* .clinical-* .bias-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 9–14 | 360 | `.history-* .s2-* .timeline-*` | ✓ extrait |
 | `s03-design.css` | 15–17 | 158 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
-| `s04-algorithme.css` | 18–27 | 664 | `.algo-* .special-* .arm-* .arch-* .comp-* .geo-bars-svg .chromosome-* .chart-wrapper* #radarChart` | ✓ extrait |
+| `s04-algorithme.css` | 18–27 | 774 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .comp-* .geo-bars-svg .chromosome-* .chart-wrapper* #radarChart` | ✓ refactorisé |
 | `s05-wgs.css` | 28–30 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
 | **main.css** | — | **803** | Voir section "CSS – main.css" |  ✓ structuré |
 
