@@ -27,7 +27,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s01-angle-mort.css` | 2–7 | `.bias-* .ai-* .clinical-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 8–13 | `.s2-* .history-quote* .timeline-*` | ✓ extrait |
 | `s03-design.css` | 14–16 | `.design-* .pipeline-* .funnel-*` | ✓ extrait |
-| `s04-algorithme.css` | 17–26 | `.algo-* .special-* .arm-card* .arm-percent--* .chromosome-* .chart-wrapper* #radarChart` | ✓ extrait |
+| `s04-algorithme.css` | 17–26 | `.algo-* .special-* .arm-card* .arm-percent--* .arch-* .comp-* .geo-bars-svg .chromosome-* .chart-wrapper* #radarChart` | ✓ extrait |
 | `s05-wgs.css` | 27–29 | `.impact-card* .conclusion-*` | ✓ extrait |
 
 ## CSS — Sections (main.css)

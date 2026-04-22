@@ -590,7 +590,7 @@
 
 .arch-flow-svg--horizontal { width: 100%; display: block; margin-top: clamp(4px, 1vh, 12px); }
 .arch-flow-svg--vertical   { display: none; }
-.geo-bars-svg   { width: 100%; display: block; }
+.geo-bars-svg   { width: 100%; display: block; height: auto; margin-top: clamp(20px, 3vh, 40px); }
 
 /* ── Grille 2×2 composantes S_div (slide 20) ────────────── */
 .comp-overview-grid {
