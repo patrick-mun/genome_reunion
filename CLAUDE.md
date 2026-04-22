@@ -2,22 +2,22 @@
 
 ## Vue d'ensemble
 
-Présentation HTML/CSS/JS statique — **32 slides** (0–31), zéro build tool, zéro CDN à l'exécution.
-Fichiers sources : `index.html` (~128 KB), 7 fichiers CSS (2 630 lignes), 3 fichiers JS (465 lignes).
+Présentation HTML/CSS/JS statique — **33 slides** (0–32), zéro build tool, zéro CDN à l'exécution.
+Fichiers sources : `index.html` (~135 KB), 7 fichiers CSS (2 630 lignes), 3 fichiers JS (465 lignes).
 Règles de travail détaillées dans `AGENTS.md`.
 
 ## Fichiers principaux
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | Toutes les 32 slides (source unique de vérité) |
+| `index.html` | Toutes les 33 slides (source unique de vérité) |
 | `css/main.css` | Styles transversaux : variables de couleur, reset, nav fixe, deck, typo, grilles, composants génériques, responsive (900px / 600px / 380px) |
 | `css/slides/s00-hero.css` | Slide 0 — hero, auteurs, animation admixture, légende ancêtrale |
 | `css/slides/s01-angle-mort.css` | Slides 2–8 — biais IA, clinique, pharmacogénétique |
 | `css/slides/s02-singularite.css` | Slides 9–14 — histoire, peuplement, métissage, effet fondateur, singularité |
 | `css/slides/s03-design.css` | Slides 15–17 — pipeline SNP→WGS, entonnoir d'optimisation, mini-figures |
-| `css/slides/s04-algorithme.css` | Slides 18–28 — algorithme de sélection, ROH/IBD, score, stratification, validation, 1000G |
-| `css/slides/s05-wgs.css` | Slides 29–31 — WGS, impacts, conclusion |
+| `css/slides/s04-algorithme.css` | Slides 18–29 — algorithme de sélection, ROH/IBD, score, stratification, validation, 1000G, EPIGEN |
+| `css/slides/s05-wgs.css` | Slides 30–32 — WGS, impacts, conclusion |
 | `js/app.js` | Navigation, accessibilité, Chart.js (score + radar), animations SVG (pipeline, ROH) |
 | `data/admixture.js` | Données + générateur DOM pour animation admixture (slide 0 : 60 barres animées) |
 | `js/vendor/chart.umd.js` | Chart.js 4.4.1 vendorisé (pas de CDN) |
@@ -31,8 +31,8 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s01-angle-mort.css` | 2–8 | 330 | `.ai-* .clinical-* .bias-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 9–14 | 360 | `.history-* .s2-* .timeline-*` | ✓ extrait |
 | `s03-design.css` | 15–17 | 158 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
-| `s04-algorithme.css` | 18–28 | 774 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .comp-* .geo-bars-svg .chromosome-* .chart-wrapper* #radarChart` | ✓ refactorisé |
-| `s05-wgs.css` | 29–31 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
+| `s04-algorithme.css` | 18–29 | 774 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .comp-* .geo-bars-svg .chromosome-* .chart-wrapper* #radarChart` | ✓ refactorisé |
+| `s05-wgs.css` | 30–32 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
 | **main.css** | — | **803** | Voir section "CSS – main.css" |  ✓ structuré |
 
 ## CSS — Sections principales (main.css)
@@ -99,9 +99,10 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 26 | EXEMPLE CONCRET : CALCUL DU SCORE | 1763 | 4 | `radar` | `slide--cream` |
 | 27 | AVANTAGES ET LIMITATIONS ACCEPTABLES | 1810 | 4 | — | `slide--cream` |
 | 28 | VALIDATION 1000 GENOMES AVANT DÉPLOIEMENT | 1860 | 4 | — | `slide--cream` |
-| 29 | INTRO S05 — WGS | 1900 | 5 | — | `slide--s05` |
-| 30 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1920 | 5 | — | `slide--cream` |
-| 31 | CONCLUSION | 1960 | 5 | — | `slide--navy` |
+| 29 | VALIDATION COMPLÉMENTAIRE : EPIGEN-BRASIL | 1910 | 4 | — | `slide--cream` |
+| 30 | INTRO S05 — WGS | 1950 | 5 | — | `slide--s05` |
+| 31 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1970 | 5 | — | `slide--cream` |
+| 32 | CONCLUSION | 2010 | 5 | — | `slide--navy` |
 
 ### Navigation pills → slides d'entrée de section
 
@@ -112,15 +113,15 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 02 · Singularité | 8 | 8 — INTRO S02 |
 | 03 · Méthodo | 14 | 14 — INTRO S03 |
 | 04 · Algorithme | 17 | 17 — INTRO S04 |
-| 05 · WGS | 29 | 29 — INTRO S05 |
+| 05 · WGS | 30 | 30 — INTRO S05 |
 
 ## IDs DOM utilisés par app.js
 
 | ID | Rôle |
 |---|---|
-| `#deck` | Conteneur des 32 slides (transform translateX) |
+| `#deck` | Conteneur des 33 slides (transform translateX) |
 | `#bp` / `#bn` | Boutons Préc. / Suiv. |
-| `#ctr` | Compteur "N / 32" (aria-live) |
+| `#ctr` | Compteur "N / 33" (aria-live) |
 | `#pf` | Barre de progression (width %) |
 | `#admix-bg` | Conteneur 60 barres admixture (injecté par data/admixture.js, slide 0) |
 | `#pipeFlow` | Animation pipeline (slide 15, data-animate="pipeline") |
