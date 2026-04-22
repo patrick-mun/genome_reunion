@@ -83,15 +83,17 @@
 }
 
 .algo-badge {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  color: var(--white);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 4px 12px;
+  min-width: 48px;
+  border-radius: 999px;
+  color: var(--white);
   font-weight: 700;
-  font-size: clamp(16px, 1.8vw, 26px);
+  font-size: clamp(13px, 1.4vw, 18px);
+  line-height: 1;
+  white-space: nowrap;
   margin-bottom: clamp(5px, 1vh, 14px);
 }
 
