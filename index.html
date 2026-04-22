@@ -1329,7 +1329,7 @@
             <div class="card arch-constraint-box arch-constraint-box--geo">
               <div class="arch-constraint-label arch-constraint-label--geo">Niveau 1 — Fondation</div>
               <h3 class="arch-constraint-title">Représentativité<br>géographique</h3>
-              <p class="text-body arch-constraint-copy">Chaque secteur contribue <strong>proportionnellement</strong> à sa part de la cohorte. Sans cette garantie, le panel reflète les zones sur-recrutées.</p>
+              <p class="text-body arch-constraint-copy">Chaque secteur contribue <strong>proportionnellement</strong> à sa part de la cohorte. Sans cette garantie, le panel reflète les zones sur-recrutées. <em style="font-size:0.9em;color:#6B7280">(Variante : pool libre 5-10% testée en sensibilité)</em></p>
               <div class="arch-constraint-badge">100 % non négociable</div>
             </div>
             <div class="card arch-constraint-box arch-constraint-box--gen">
@@ -1786,7 +1786,7 @@
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">
-          <h2 class="slide-title">Ce qui rend la méthode défendable</h2>
+          <h2 class="slide-title">Avantages et limitations acceptables de la méthode</h2>
           <div class="slide-rule slide-rule--teal"></div>
           <div class="algo-validation-list">
             <div class="card algo-validation-item algo-validation-item--teal">
@@ -1817,6 +1817,13 @@
                 <p class="text-body algo-validation-copy">3 groupes admixés × 3 budgets × 5 stratégies. Critère : KS &lt; 0.10 ET couverture allélique &gt; aléatoire sur les 3 groupes — robustesse multi-structurale requise.</p>
               </div>
             </div>
+            <div class="card algo-validation-item algo-validation-item--coral">
+              <div class="algo-validation-mark algo-validation-mark--coral">⚠</div>
+              <div>
+                <h3 class="algo-validation-title">Limitations acceptables et documentées</h3>
+                <p class="text-body algo-validation-copy">Variants MAF &lt; 1% moins fiables (N=350 &lt; résolutions d'études plus larges). Non-optimisation mathématique : S_div est une heuristique paramétrée validée empiriquement, pas une solution algébrique optimale.</p>
+              </div>
+            </div>
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
@@ -1825,7 +1832,43 @@
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 28 — INTRO SECTION 05 : WGS
+     SLIDE 28 — VALIDATION 1000G (ÉTAPE CRITIQUE)
+     Résumé de la validation avant déploiement sur cohorte réunionnaise.
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Validation sur 1000 Genomes avant déploiement</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+          <div class="grid-2">
+            <div>
+              <p class="text-body" style="margin-bottom:clamp(8px,1.5vh,16px)"><strong>3 populations admixées</strong> servant de proxy à la structure génétique réunionnaise :</p>
+              <table style="font-size:clamp(11px,1vw,13px)">
+                <tr><th>Groupe 1000G</th><th>Code</th><th>Rôle</th></tr>
+                <tr><td>ACB / ASW</td><td>Afrique</td><td>Ancestral africain</td></tr>
+                <tr><td>GIH / BEB</td><td>Inde</td><td>Ancestral indien</td></tr>
+                <tr><td>Tri-ancestral</td><td>Mix</td><td>Métissage 3+ apports</td></tr>
+              </table>
+              <p class="caption" style="margin-top:12px;font-style:italic">Chaque groupe testé en 3 budgets (N = 100, 200, 350) × 5 stratégies (S_div stratifié, S_div naïf, random, PCA-only, maximin-IBD).</p>
+            </div>
+            <div>
+              <p class="text-body" style="margin-bottom:clamp(8px,1.5vh,16px)"><strong>Critères de succès</strong> :</p>
+              <ul style="list-style:none;padding:0;font-size:clamp(11px,1vw,13px)">
+                <li style="margin-bottom:10px"><strong>KS-test</strong> &lt; 0.10 (distribution allélique concordante)</li>
+                <li style="margin-bottom:10px"><strong>Couverture allélique</strong> &gt; contrôle aléatoire sur 3 groupes</li>
+                <li style="margin-bottom:10px"><strong>Robustesse</strong> : ≥ 80% des 5 stratégies passent les critères</li>
+                <li><strong>Reproductibilité</strong> : résultats identiques avec --seed différents</li>
+              </ul>
+              <p class="design-note design-note--blue" style="margin-top:12px">✓ Succès 1000G → Déploiement sur cohorte EFS réunionnaise.<br/>✗ Échec → Révision des poids S_div ou stratégie quintile.</p>
+            </div>
+          </div>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">29</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 29 — INTRO SECTION 05 : WGS
      Slide d'intro pleine couleur var(--s05) = vert.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--s05" data-section="5">
@@ -1879,12 +1922,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">30</span>
+            <span class="caption">31</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 30 — CONCLUSION
+     SLIDE 31 — CONCLUSION
      Fond navy comme la slide titre, .accent-bar teal.
      4 points de conclusion + encadré récapitulatif.
      ═══════════════════════════════════════════════════════ -->
