@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Génome Réunion — Mode Présentation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f5;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 16px;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .presenter-main {
+      background: #fff;
+      border: 3px solid #0B1F3A;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .presenter-sidebar {
+      background: #fff;
+      border: 3px solid #0D7377;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .presenter-header {
+      background: #0B1F3A;
+      color: white;
+      padding: 12px 16px;
+      border-bottom: 2px solid #0D7377;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .presenter-header h2 {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .presenter-timer {
+      font-size: 24px;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      color: #14B8A6;
+    }
+
+    .presenter-slide-number {
+      background: #0D7377;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .presenter-content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #current-slide-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f9f9f9;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    #current-slide-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .slide-snapshot {
+      font-size: 11px;
+      color: #999;
+      background: #f0f0f0;
+      padding: 12px;
+      border-radius: 4px;
+      text-align: center;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .slide-snapshot-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: #0B1F3A;
+      margin-bottom: 8px;
+    }
+
+    .notes-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      background: #fafafa;
+    }
+
+    .notes-header {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0B1F3A;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #0D7377;
+      padding-bottom: 8px;
+    }
+
+    #notes-content {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .next-slide-section {
+      border-top: 2px solid #ddd;
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    .next-slide-header {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0B1F3A;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      opacity: 0.7;
+    }
+
+    #next-slide-preview {
+      font-size: 11px;
+      color: #666;
+      background: #f0f0f0;
+      padding: 8px;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .connection-lost {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #E05A4B;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      z-index: 9999;
+      display: none;
+    }
+
+    .connection-lost.show {
+      display: block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Scrollbar styling */
+    .notes-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .notes-container::-webkit-scrollbar-track {
+      background: #f0f0f0;
+    }
+
+    .notes-container::-webkit-scrollbar-thumb {
+      background: #0D7377;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 900px) {
+      body { grid-template-columns: 1fr; }
+      .presenter-sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="connection-lost" id="connection-lost">⚠ Connexion perdue avec l'audience</div>
+
+  <!-- Panneau gauche : slide actuelle -->
+  <div class="presenter-main">
+    <div class="presenter-header">
+      <h2>Slide Actuelle</h2>
+      <div class="presenter-slide-number" id="slide-number-main">1 / 33</div>
+    </div>
+    <div class="presenter-content">
+      <div id="current-slide-container">
+        <div class="slide-snapshot">
+          <div class="slide-snapshot-title">Aperçu de slide</div>
+          <div>(Chargement depuis l'audience...)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panneau droit : notes + preview -->
+  <div class="presenter-sidebar">
+    <div class="presenter-header">
+      <h2>Notes du Speaker</h2>
+      <div class="presenter-timer" id="timer">00:00</div>
+    </div>
+    <div class="notes-container">
+      <div class="notes-header">Slide actuelle</div>
+      <div id="notes-content">
+        <p>En attente de connexion avec l'audience...</p>
+      </div>
+
+      <div class="next-slide-section">
+        <div class="next-slide-header">Slide suivante (preview)</div>
+        <div id="next-slide-preview">
+          <p>Aperçu de la slide N+1</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Données de notes pour chaque slide (placeholder lorem ipsum)
+    const SLIDE_NOTES = {
+      0: "Bienvenue aux participants. Cette présentation couvre une approche innovante du séquençage génomique pour la population réunionnaise. Nous allons explorer comment transformer la diversité génétique en une ressource de référence clinique.",
+
+      1: "Sommaire et structure générale. Six sections couvrant le contexte, la méthodologie, et les impacts attendus. Prise de temps estimée : 45–60 minutes pour la présentation complète avec questions.",
+
+      2: "Introduction de la section 1 : L'angle mort de la médecine de précision. Focus sur les biais structurels dans les bases génomiques mondiales et l'impact clinique réel en populations non-européennes.",
+
+      3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Les bases génomiques mondiales (1000G, gnomAD) reflètent principalement des populations européennes. Cette représentation déséquilibrée crée des biais dans les algorithmes de diagnostic et imputation.",
+
+      4: "Point clé : le mur clinique. Les variants rares de populations locales ne sont pas détectables dans les panneaux SNP conçus sur 1000G. Exemple : variants réunionnais d'intérêt clinique sont invisibles aux dépistages standard.",
+
+      5: "Pharmacogénétique : les variants CYP (métabolisme des médicaments) varient fortement par population. Sans une base locale, les dosages prescits sont calibrés sur données européennes, créant des risques de sous/surdosage.",
+
+      6: "L'IA amplifie ces biais. Les modèles d'apprentissage entraînés sur données déséquilibrées reproduisent et amplifient les biais de représentation. 'Garbage in, garbage out' — entrées biaisées → prédictions biaisées.",
+
+      7: "Comment ce projet corrige le biais IA. En créant un référentiel local pangénomique, on alimente les futurs modèles avec une diversité génétique représentative de la population réunionnaise, brisant le cycle du biais.",
+
+      8: "Introduction de la section 2 : Singularité Réunionnaise. La Réunion offre une opportunité scientifique unique : admixture moderne (3-4 siècles) + effet fondateur + isolement relatif.",
+
+      9: "Histoire du peuplement réunionnais. 1665 : arrivée des Français, esclavagisme africain, immigration indienne. Résultat : population triancestrale avec proportions bien documentées (~45% Afrique, ~25% Inde, ~20% Européen, ~10% autre).",
+
+      10: "Du peuplement au métissage. Contrairement aux populations stratifiées (Europe, Afrique), la Réunion est massivement métissée à tous les niveaux. Cela crée une structure génétique unique : peu de 'clusters' génétiques purs.",
+
+      11: "Population homogène vs la Réunion. Une population européenne typique (1000G CEU) est ~98% génétiquement 'pure' européenne. La Réunion : chaque individu porte des branchements de 3-4 continents. C'est la différence clé.",
+
+      12: "Effet fondateur : alcuni variants très rares globalement sont fixés localement. Exemples : Larsen-Bourbon, Syndrome de Ravine. Ces variants réunionnais sont invisibles à 1000G, créant une opportunité de découverte scientifique.",
+
+      13: "Double singularité résumée. (1) Admixture moderne continue + bien documentée. (2) Effet fondateur créant variants locaux rares. Combinées, ces deux forces rendent la Réunion unique et scientifiquement précieuse pour séquençage.",
+
+      14: "Introduction section 3 : Design Méthodologique. Nous passons maintenant de la motivation (pourquoi) au design technique (comment).",
+
+      15: "Le pipeline d'optimisation : 5 étapes de la donnée brute au panel de 350 WGS. (1) Échantillonnage EFS, (2) Extraction & stockage ADN, (3) Génotypage SNP, (4) Sélection via algo, (5) WGS ciblé. Chaque étape a un rôle critique.",
+
+      16: "L'entonnoir d'optimisation. À chaque étape, on maximise l'information capturée. SNP → données génétiques de base. Algo de sélection → choix des 350 individus optimisant diversité génétique. WGS → séquence complète des 350 sélectionnés.",
+
+      17: "Introduction section 4 : L'Algorithme de Sélection. Core du projet : comment choisir 350 individus parmi 2500 pour maximiser l'information génétique sous contrainte budgétaire.",
+
+      18: "Deux niveaux, une contrainte principale. Niveau 1 (Fondation) : représentativité géographique 100% non-négociable — chaque secteur contribue proportionnellement. Niveau 2 (Optimisation) : diversité génétique locale via score multicritère S_div.",
+
+      19: "Représentativité géographique — la contrainte première. Exemple : si secteur Nord = 12% de la cohorte, alors N_WGS_Nord = round(0.12 × 350) = 42 WGS. Cela garantit que le panel réfléchit la géographie réunionnaise, pas les artefacts de recrutement.",
+
+      20: "Les 4 composantes de S_div. Un score multicritère pondéré : PCA_score (30%) + ADMIX_score (30%) + IBD_score (25%) + ROH_score (15%). Chaque composante capture une dimension différente de la diversité génétique.",
+
+      21: "PCA_score + ADMIX_score. PCA_score : distance euclidienne dans espace PCA global → capture la position dans le cloud de variation. ADMIX_score : diversité des proportions ancestrales → max entropy quand contributions équilibrées.",
+
+      22: "IBD_score + ROH_score. IBD_score : partage de segments d'identité → minimise la redondance génétique. ROH_score : pénalise les individus avec homozygotie par descent → favorise la diversité allélique.",
+
+      23: "Agrégation S_div. Les 4 composantes sont normalisées puis pondérées. Résultat : chaque individu a un score S_div entre 0–1. Scores plus élevés = plus de diversité génétique apportée.",
+
+      24: "Stratification quintile. S_div divisé en 5 niveaux (Q1 à Q5). Allocation : Q1–Q4 reçoivent 20% des slots chacun, Q5 reçoit 10% (réduit pour éviter surpondérer les extrêmes). Cela balance diversité et robustesse.",
+
+      25: "Algorithme greedy stratifié. Processus : (1) Pour chaque secteur, (2) Pour chaque quintile, (3) Sélectionner greedily l'individu avec meilleur S_div restant, (4) Vérifier la contrainte IBD cross-secteur (0.125). Vérification à chaque ajout.",
+
+      26: "Exemple concret : calcul du score. Individu synthétique avec PCA=0.38, ADMIX=0.65, IBD=0.72, ROH=0.81. S_div = 0.30×0.38 + 0.30×0.65 + 0.25×0.72 + 0.15×0.81 = 0.59. Score modéré, sélectionnable dans Q3.",
+
+      27: "Avantages et limitations acceptables. Avantages : transparent, multicritère, stratifié. Limitations : heuristique greedy (pas optimal global), pas account non-genetic covariates. Acceptables car validation empirique sur 1000G le confirme.",
+
+      28: "Validation 1000 Genomes avant déploiement. Tester l'algo sur 3 populations proxy (ACB/ASW, GIH/BEB, tri-ancestral). Critères succès : KS-test < 0.10, couverture allélique > random, robustesse ≥ 80% stratégies passent.",
+
+      29: "Validation complémentaire : EPIGEN-Brasil. 6487 individus, structure génétique réelle admixée. Tester sur vrais données, évaluer couverture rare variants (MAF 0.1–1%), cross-validation SNP vs 30 WGS. Plus réaliste que 1000G.",
+
+      30: "Introduction section 5 : WGS & Impacts. Nous arrivons à la fin : qu'est-ce que le séquençage whole-genome produit concrètement pour la clinique réunionnaise.",
+
+      31: "Les impacts attendus du référentiel réunionnais. (1) Reclasser les VUS (variants d'incertitude). (2) Pharmacogénomique locale (dosages CYP adaptés). (3) Améliorer l'imputation SNP. (4) Découvrir effet fondateur. (5) Corriger biais IA. (6) Équité en santé.",
+
+      32: "Conclusion. Un design rigoureux au service de l'équité en santé. La Réunion est absente des bases mondiales — avec conséquences cliniques réelles. Sa singularité (admixture + effet fondateur) en fait une opportunité unique. Le pipeline SNP → score → WGS ciblé maximise l'info sous contrainte. Le référentiel local bénéficiera diagnostics, traitements, et lutte contre biais IA."
+    };
+
+    let currentSlideIndex = 0;
+    let startTime = null;
+    let timerInterval = null;
+    let parentWindow = null;
+
+    // Initialiser le timer
+    function startTimer() {
+      startTime = Date.now();
+      if (timerInterval) clearInterval(timerInterval);
+
+      timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const mins = Math.floor(elapsed / 60);
+        const secs = elapsed % 60;
+        document.getElementById('timer').textContent =
+          String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+      }, 1000);
+    }
+
+    // Mettre à jour l'affichage du presenter
+    function updatePresenterView(slideIndex) {
+      currentSlideIndex = slideIndex;
+
+      // Mise à jour numéro slide
+      const slideNumber = slideIndex + 1;
+      document.getElementById('slide-number-main').textContent = slideNumber + ' / 33';
+
+      // Mise à jour notes
+      const notes = SLIDE_NOTES[slideIndex] || 'Notes non disponibles.';
+      document.getElementById('notes-content').innerHTML = '<p>' + notes + '</p>';
+
+      // Mise à jour preview slide suivante
+      if (slideIndex < 32) {
+        const nextNotes = SLIDE_NOTES[slideIndex + 1] || 'Dernière slide.';
+        document.getElementById('next-slide-preview').innerHTML =
+          '<strong>Slide ' + (slideIndex + 2) + ':</strong> ' + nextNotes.substring(0, 120) + '...';
+      } else {
+        document.getElementById('next-slide-preview').innerHTML = '<em>Fin de présentation</em>';
+      }
+
+      // Snapshot slide actuelle
+      updateSlideSnapshot(slideIndex);
+
+      // Lancer le timer au première slide
+      if (!startTime) {
+        startTimer();
+      }
+    }
+
+    // Créer un snapshot texte de la slide (placeholder)
+    function updateSlideSnapshot(slideIndex) {
+      const container = document.getElementById('current-slide-container');
+      const titles = [
+        'Génomes Réunion',
+        'Sommaire',
+        'L\'angle mort de la médecine',
+        'Biais structurel mondial',
+        'Le mur clinique',
+        'Pharmacogénétique',
+        'IA : garbage in, garbage out',
+        'Comment le projet corrige le biais',
+        'Singularité réunionnaise',
+        'Histoire du peuplement',
+        'Du peuplement au métissage',
+        'Population homogène vs Réunion',
+        'Effet fondateur',
+        'Double singularité',
+        'Design méthodologique',
+        'Le pipeline d\'optimisation',
+        'L\'entonnoir d\'optimisation',
+        'L\'algorithme de sélection',
+        'Deux niveaux, une contrainte',
+        'Représentativité géographique',
+        'Les 4 composantes de S_div',
+        'PCA_score + ADMIX_score',
+        'IBD_score + ROH_score',
+        'Agrégation S_div',
+        'Stratification quintile',
+        'Algorithme greedy stratifié',
+        'Exemple concret : calcul du score',
+        'Avantages et limitations',
+        'Validation 1000 Genomes',
+        'Validation EPIGEN-Brasil',
+        'WGS & Impacts',
+        'Les impacts attendus',
+        'Conclusion'
+      ];
+
+      const title = titles[slideIndex] || 'Slide ' + (slideIndex + 1);
+      container.innerHTML = '<div class="slide-snapshot"><div class="slide-snapshot-title">' + title + '</div><div>Slide ' + (slideIndex + 1) + ' / 33</div></div>';
+    }
+
+    // Écouter les messages depuis la fenêtre audience
+    window.addEventListener('message', (event) => {
+      // Vérifier que le message provient d'une source fiable (même origine)
+      if (event.source === window) return; // Ignorer les messages de soi-même
+
+      if (event.data && event.data.type === 'SLIDE_CHANGE') {
+        updatePresenterView(event.data.slideIndex);
+        document.getElementById('connection-lost').classList.remove('show');
+      }
+    });
+
+    // Garder une référence à la fenêtre audience
+    window.addEventListener('load', () => {
+      // La fenêtre audience appellera window.presenterWindow = window lors de son ouverture
+      // Pour tester : mettre à jour la première slide
+      updatePresenterView(0);
+      startTimer();
+    });
+
+    // Heartbeat : si pas de message depuis 3s, afficher "connexion perdue"
+    let lastMessageTime = Date.now();
+    window.addEventListener('message', () => {
+      lastMessageTime = Date.now();
+    });
+
+    setInterval(() => {
+      if (Date.now() - lastMessageTime > 3000) {
+        document.getElementById('connection-lost').classList.add('show');
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
