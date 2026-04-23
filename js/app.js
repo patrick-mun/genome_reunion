@@ -31,6 +31,7 @@ const SECTION_MAP = Array.from(allSlides).map(function(slide) {
 
 let currentSlide = 0;
 let presenterWindow = null;
+let isSlavePresenter = window.parent !== window; // true si dans un iframe
 
 // ── Instances Chart.js (null = pas encore initialisé) ─────────
 
@@ -166,9 +167,14 @@ function goToSlide(targetIndex, options) {
     focusCurrentSlideTitle();
   }
 
-  // Envoyer un message à la fenêtre presenter si elle est ouverte
-  if (presenterWindow && !presenterWindow.closed) {
+  // Envoyer un message à la fenêtre presenter si elle est ouverte (sauf si on est en mode slave)
+  if (!isSlavePresenter && presenterWindow && !presenterWindow.closed) {
     presenterWindow.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
+  }
+
+  // Si en mode slave (iframe), broadcaster à la fenêtre parent
+  if (isSlavePresenter && window.parent) {
+    window.parent.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
   }
 }
 
@@ -448,6 +454,14 @@ var presenterBtn = document.getElementById('presenter-btn');
 if (presenterBtn) {
   presenterBtn.addEventListener('click', openPresenterMode);
 }
+
+// Écouter les messages depuis presenter.html (pour l'iframe slave)
+window.addEventListener('message', function(event) {
+  if (event.data && event.data.type === 'IFRAME_SYNC') {
+    // Naviguer vers la slide sans broadcaster (on est en slave mode)
+    goToSlide(event.data.slideIndex, { skipFocus: true });
+  }
+});
 
 // ── Démarrage ─────────────────────────────────────────────────
 console.assert(allSlides.length > 0, '[app.js] Aucune .slide trouvée — vérifier le HTML.');
