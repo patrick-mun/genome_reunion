@@ -122,7 +122,10 @@ html, body {
   text-transform: uppercase;
   color: var(--navy);
   white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
 }
+#nav-logo:hover { opacity: .7; }
 
 /* Zone centrale : pills de navigation par section.
    Masquée sous 900px (trop étroite pour afficher toutes les pills). */

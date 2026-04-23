@@ -481,6 +481,12 @@ if (burgerBtn && navCenter) {
   });
 }
 
+// ── Logo cliquable → slide 0 ─────────────────────────────────
+var navLogo = document.getElementById('nav-logo');
+if (navLogo) {
+  navLogo.addEventListener('click', function() { goToSlide(0); });
+}
+
 // Écouter les messages depuis presenter.html (pour l'iframe slave et requêtes presenter)
 window.addEventListener('message', function(event) {
   if (event.data && event.data.type === 'IFRAME_SYNC') {
