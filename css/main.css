@@ -771,6 +771,7 @@ tr:last-child td { border: none; }
 @media (max-width: 900px) {
   #burger-btn                       { display: flex; }
   #nav-center                       { display: none; }
+  #presenter-btn                    { display: none; }
   #nav-center.open {
     display: flex;
     flex-direction: column;
