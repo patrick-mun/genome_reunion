@@ -268,7 +268,7 @@
     </div>
     <div class="presenter-content">
       <div id="current-slide-container">
-        <iframe id="slide-preview-iframe" src="index.html"></iframe>
+        <iframe id="slide-preview-iframe"></iframe>
       </div>
     </div>
   </div>
@@ -288,13 +288,25 @@
       <div class="next-slide-section">
         <div class="next-slide-header">Slide suivante (preview)</div>
         <div id="next-slide-preview">
-          <iframe id="next-slide-preview-iframe" src="index.html"></iframe>
+          <iframe id="next-slide-preview-iframe"></iframe>
         </div>
       </div>
     </div>
   </div>
 
   <script>
+    // Set iframe src to absolute URL
+    document.addEventListener('DOMContentLoaded', function() {
+      const indexUrl = window.location.origin + '/index.html';
+      const mainIframe = document.getElementById('slide-preview-iframe');
+      const nextIframe = document.getElementById('next-slide-preview-iframe');
+
+      if (mainIframe) mainIframe.src = indexUrl;
+      if (nextIframe) nextIframe.src = indexUrl;
+
+      console.log('[presenter] Setting iframe src to:', indexUrl);
+    });
+
     // Debug status helper
     function updateDebugStatus(message) {
       const debugEl = document.getElementById('debug-status');
