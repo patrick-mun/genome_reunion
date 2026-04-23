@@ -388,6 +388,8 @@
     let slidePreviewIframe = null;
     let nextSlidePreviewIframe = null;
     let nextSlidePreviewReady = false;
+    let mainIframeReady = false;
+    let nextSyncAttempts = 0;
 
     // Initialiser le timer
     function startTimer() {
@@ -401,6 +403,36 @@
         document.getElementById('timer').textContent =
           String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
       }, 1000);
+    }
+
+    // Wait for iframe contentWindow to be accessible, with max retries
+    function waitForIframeReady(iframe, name, maxRetries) {
+      maxRetries = maxRetries || 50;
+      let attempts = 0;
+
+      function checkReady() {
+        attempts++;
+        if (iframe && iframe.contentWindow) {
+          updateDebugStatus('✓ ' + name + ' iframe ready after ' + attempts + ' attempts');
+          return true;
+        }
+        if (attempts >= maxRetries) {
+          updateDebugStatus('⚠ ' + name + ' iframe never became ready after ' + maxRetries + ' attempts');
+          return false;
+        }
+        return false;
+      }
+
+      if (checkReady()) return Promise.resolve();
+
+      return new Promise((resolve) => {
+        const interval = setInterval(() => {
+          if (checkReady()) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 50);
+      });
     }
 
     // Synchroniser l'iframe avec la slide actuelle
@@ -465,8 +497,10 @@
       // Synchroniser l'iframe principal
       syncIframeSlide(slideIndex);
 
-      // Synchroniser l'iframe de preview slide suivante
-      syncNextSlidePreview(slideIndex);
+      // Wait for next iframe and sync it
+      waitForIframeReady(nextSlidePreviewIframe, 'Next').then(() => {
+        syncNextSlidePreview(slideIndex);
+      });
 
       // Lancer le timer au première slide
       if (!startTime) {
@@ -540,20 +574,23 @@
 
     // Demander la slide actuelle à la fenêtre audience
     function requestCurrentSlideFromAudience() {
-      updateDebugStatus('Requesting current slide from audience...');
-      if (window.opener && !window.opener.closed) {
-        window.opener.postMessage({ type: 'GET_CURRENT_SLIDE' }, '*');
-        // Fallback si pas de réponse rapide
-        setTimeout(() => {
-          if (!startTime) {
-            updateDebugStatus('No response from audience, starting at slide 0');
-            updatePresenterView(0);
-          }
-        }, 500);
-      } else {
-        updateDebugStatus('No audience window, starting at slide 0');
-        updatePresenterView(0);
-      }
+      updateDebugStatus('Waiting for main iframe to be ready...');
+      waitForIframeReady(slidePreviewIframe, 'Main').then(() => {
+        updateDebugStatus('Requesting current slide from audience...');
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage({ type: 'GET_CURRENT_SLIDE' }, '*');
+          // Fallback si pas de réponse rapide
+          setTimeout(() => {
+            if (!startTime) {
+              updateDebugStatus('No response from audience, starting at slide 0');
+              updatePresenterView(0);
+            }
+          }, 1000);
+        } else {
+          updateDebugStatus('No audience window, starting at slide 0');
+          updatePresenterView(0);
+        }
+      });
     }
 
     // Initialiser les iframes et synchroniser avec la slide actuelle de l'audience
