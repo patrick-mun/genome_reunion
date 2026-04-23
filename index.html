@@ -23,7 +23,7 @@
         <button class="sec-pill js-slide-jump" data-target-slide="8">02 · Singularité</button>
         <button class="sec-pill js-slide-jump" data-target-slide="14">03 · Méthodo</button>
         <button class="sec-pill js-slide-jump" data-target-slide="17">04 · Algorithme</button>
-        <button class="sec-pill js-slide-jump" data-target-slide="28">05 · WGS</button>
+        <button class="sec-pill js-slide-jump" data-target-slide="30">05 · WGS</button>
       </div>
       <div id="nav-right">
         <button class="nbtn" id="presenter-btn" title="Ouvrir le mode présentation (2 écrans)">📺 Présentation</button>
@@ -34,6 +34,56 @@
     </nav>
     <div id="prog"><div id="pf"></div></div>
     <main id="deck" aria-label="Présentation Génome Réunion">
+      <!-- ═══════════════════════════════════════════════════════
+           INDEX DES 33 SLIDES — Navigation rapide (Ctrl+G → line)
+           ═══════════════════════════════════════════════════════
+
+           SECTION 00 — ACCUEIL
+           L.37    : Slide 00 — TITRE HERO
+           L.118   : Slide 01 — SOMMAIRE
+
+           SECTION 01 — ANGLE MORT (Slides 02-08)
+           L.172   : Slide 02 — INTRO S01 : L'ANGLE MORT
+           L.297   : Slide 03 — BIAIS STRUCTUREL MONDIAL
+           L.378   : Slide 04 — LE MUR CLINIQUE
+           L.433   : Slide 05 — PHARMACOGÉNÉTIQUE
+           L.525   : Slide 06 — IA : GARBAGE IN, GARBAGE OUT
+           L.592   : Slide 07 — COMMENT LE PROJET CORRIGE LE BIAIS IA
+           L.634   : Slide 08 — INTRO S02 : SINGULARITÉ RÉUNIONNAISE
+
+           SECTION 02 — SINGULARITÉ (Slides 09-14)
+           L.741   : Slide 09 — HISTOIRE DU PEUPLEMENT
+           L.837   : Slide 10 — DU PEUPLEMENT AU MÉTISSAGE
+           L.924   : Slide 11 — POPULATION HOMOGÈNE VS LA RÉUNION
+           L.1017  : Slide 12 — EFFET FONDATEUR
+           L.1095  : Slide 13 — DOUBLE SINGULARITÉ
+           L.1128  : Slide 14 — INTRO S03 : DESIGN
+
+           SECTION 03 — MÉTHODOLOGIE (Slides 15-17)
+           L.1146  : Slide 15 — LE PIPELINE D'OPTIMISATION
+           L.1233  : Slide 16 — L'ENTONNOIR D'OPTIMISATION
+           L.1302  : Slide 17 — INTRO S04 : ALGORITHME
+
+           SECTION 04 — ALGORITHME (Slides 18-29)
+           L.1320  : Slide 18 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
+           L.1410  : Slide 19 — REPRÉSENTATIVITÉ GÉOGRAPHIQUE
+           L.1467  : Slide 20 — LES 4 COMPOSANTES DE S_DIV
+           L.1503  : Slide 21 — PCA_SCORE + ADMIX_SCORE
+           L.1560  : Slide 22 — IBD_SCORE + ROH_SCORE
+           L.1638  : Slide 23 — AGRÉGATION S_DIV
+           L.1658  : Slide 24 — STRATIFICATION QUINTILE
+           L.1709  : Slide 25 — ALGORITHME GREEDY STRATIFIÉ
+           L.1763  : Slide 26 — EXEMPLE CONCRET : CALCUL DU SCORE
+           L.1810  : Slide 27 — AVANTAGES ET LIMITATIONS ACCEPTABLES
+           L.1860  : Slide 28 — VALIDATION 1000 GENOMES
+           L.1910  : Slide 29 — VALIDATION EPIGEN-BRASIL
+
+           SECTION 05 — WGS (Slides 30-32)
+           L.1950  : Slide 30 — INTRO S05 : WGS ET IMPACTS
+           L.1970  : Slide 31 — IMPACTS ATTENDUS DU RÉFÉRENTIEL
+           L.2010  : Slide 32 — CONCLUSION
+
+           ═══════════════════════════════════════════════════════ -->
       <!-- ═══════════════════════════════════════════════════════
      SLIDE 01 — TITRE HERO
      Fond navy + barre accent teal + animation admixture à droite.
@@ -158,7 +208,7 @@
               <span class="text-body toc-desc">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span>
             </div>
           </div>
-          <div class="toc-row js-slide-jump" data-target-slide="28">
+          <div class="toc-row js-slide-jump" data-target-slide="30">
             <div class="toc-number toc-number--s05">05</div>
             <div>
               <strong class="toc-title">Ce que le WGS va Produire</strong>
@@ -1430,6 +1480,105 @@
               de Sélection
             </h2>
             <p class="section-subtitle">Comment choisir, sous contrainte budgétaire, les individus qui maximisent l'information utile du futur panel réunionnais.</p>
+            <!-- Section 04 graphic: selection algorithm network
+         Concentric circles with nodes representing genetic diversity optimization -->
+            <div class="section-graphic" aria-hidden="true">
+              <svg viewBox="0 0 900 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="section04Glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(450 350) rotate(90) scale(320 350)">
+                    <stop stop-color="white" stop-opacity=".10" />
+                    <stop offset=".5" stop-color="white" stop-opacity=".02" />
+                    <stop offset="1" stop-color="white" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <rect x="50" y="30" width="800" height="640" fill="url(#section04Glow)" />
+
+                <!-- Concentric rings -->
+                <circle cx="450" cy="350" r="280" stroke="rgba(255,255,255,.12)" stroke-width="1.5" />
+                <circle cx="450" cy="350" r="200" stroke="rgba(255,255,255,.15)" stroke-width="1.5" />
+                <circle cx="450" cy="350" r="120" stroke="rgba(255,255,255,.18)" stroke-width="1.5" />
+                <circle cx="450" cy="350" r="60" stroke="rgba(255,255,255,.20)" stroke-width="2" />
+
+                <!-- Central core (selected individuals) -->
+                <circle cx="450" cy="350" r="35" fill="rgba(255,255,255,.15)" />
+                <circle cx="450" cy="350" r="30" stroke="rgba(255,255,255,.25)" stroke-width="2" />
+
+                <!-- Outer ring nodes (candidates) -->
+                <g fill="rgba(255,255,255,.24)" stroke="rgba(255,255,255,.20)" stroke-width="1.5">
+                  <circle cx="450" cy="70" r="7" />
+                  <circle cx="630" cy="130" r="7" />
+                  <circle cx="710" cy="270" r="7" />
+                  <circle cx="650" cy="430" r="7" />
+                  <circle cx="450" cy="630" r="7" />
+                  <circle cx="250" cy="430" r="7" />
+                  <circle cx="190" cy="270" r="7" />
+                  <circle cx="270" cy="130" r="7" />
+                </g>
+
+                <!-- Middle ring nodes (filtered candidates) -->
+                <g fill="rgba(255,255,255,.20)" stroke="rgba(255,255,255,.18)" stroke-width="1">
+                  <circle cx="550" cy="150" r="6" />
+                  <circle cx="670" cy="280" r="6" />
+                  <circle cx="620" cy="450" r="6" />
+                  <circle cx="450" cy="550" r="6" />
+                  <circle cx="280" cy="450" r="6" />
+                  <circle cx="230" cy="280" r="6" />
+                  <circle cx="350" cy="150" r="6" />
+                  <circle cx="570" cy="380" r="6" />
+                  <circle cx="330" cy="380" r="6" />
+                </g>
+
+                <!-- Inner ring nodes (pre-selected) -->
+                <g fill="rgba(255,255,255,.28)" stroke="rgba(255,255,255,.22)" stroke-width="1">
+                  <circle cx="510" cy="270" r="5" />
+                  <circle cx="570" cy="290" r="5" />
+                  <circle cx="520" cy="420" r="5" />
+                  <circle cx="450" cy="460" r="5" />
+                  <circle cx="380" cy="420" r="5" />
+                  <circle cx="330" cy="290" r="5" />
+                  <circle cx="390" cy="270" r="5" />
+                </g>
+
+                <!-- Central selected nodes -->
+                <g fill="rgba(255,255,255,.36)">
+                  <circle cx="480" cy="335" r="4" />
+                  <circle cx="450" cy="320" r="4" />
+                  <circle cx="420" cy="335" r="4" />
+                  <circle cx="450" cy="365" r="4" />
+                </g>
+
+                <!-- Connection lines from outer to middle rings -->
+                <g stroke="rgba(255,255,255,.12)" stroke-width="1" stroke-linecap="round">
+                  <path d="M450 77 L450 150" />
+                  <path d="M630 130 L670 280" />
+                  <path d="M710 270 L620 450" />
+                  <path d="M650 430 L520 420" />
+                  <path d="M450 630 L450 550" />
+                  <path d="M250 430 L280 450" />
+                  <path d="M190 270 L230 280" />
+                  <path d="M270 130 L350 150" />
+                </g>
+
+                <!-- Connection lines from middle to inner rings -->
+                <g stroke="rgba(255,255,255,.10)" stroke-width="1" stroke-linecap="round">
+                  <path d="M550 150 L510 270" />
+                  <path d="M670 280 L570 290" />
+                  <path d="M620 450 L520 420" />
+                  <path d="M450 550 L450 460" />
+                  <path d="M280 450 L380 420" />
+                  <path d="M230 280 L330 290" />
+                  <path d="M350 150 L390 270" />
+                  <path d="M570 380 Q540 360 510 340" />
+                  <path d="M330 380 Q390 360 420 340" />
+                </g>
+
+                <!-- Cross connections (IBD constraints) -->
+                <g stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="2,3">
+                  <path d="M540 280 Q500 330 480 350" />
+                  <path d="M360 280 Q400 330 420 350" />
+                </g>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
@@ -1969,7 +2118,7 @@
             </div>
             <div>
               <p class="text-body" style="margin-bottom:clamp(8px,1.5vh,16px)"><strong>Critères de succès</strong> :</p>
-              <ul style="list-style:none;padding:0;font-size:clamp(11px,1vw,13px)">
+              <ul style="list-style:none;padding:0;font-size:clamp(11px,1vw,13px);line-height:1.6">
                 <li style="margin-bottom:10px"><strong>KS-test</strong> &lt; 0.10 (distribution allélique concordante)</li>
                 <li style="margin-bottom:10px"><strong>Couverture allélique</strong> &gt; contrôle aléatoire sur 3 groupes</li>
                 <li style="margin-bottom:10px"><strong>Robustesse</strong> : ≥ 80% des 5 stratégies passent les critères</li>
@@ -2037,6 +2186,98 @@
               va Produire
             </h2>
             <p class="section-subtitle">Du séquençage à une ressource clinique concrète pour les patients réunionnais.</p>
+            <!-- Section 05 graphic: WGS impacts hub
+         Central sequencer with 6 impact radiants: VUS, pharmacogenomics, imputation, founder effect, AI bias, health equity -->
+            <div class="section-graphic" aria-hidden="true">
+              <svg viewBox="0 0 900 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="section05Glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(450 350) rotate(90) scale(310 340)">
+                    <stop stop-color="white" stop-opacity=".10" />
+                    <stop offset=".5" stop-color="white" stop-opacity=".02" />
+                    <stop offset="1" stop-color="white" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <rect x="50" y="30" width="800" height="640" fill="url(#section05Glow)" />
+
+                <!-- Central hub (genome/sequencer) -->
+                <circle cx="450" cy="350" r="50" stroke="rgba(255,255,255,.25)" stroke-width="2" />
+                <circle cx="450" cy="350" r="45" fill="rgba(255,255,255,.08)" />
+                <!-- DNA helix representation -->
+                <g stroke="rgba(255,255,255,.30)" stroke-width="2" stroke-linecap="round">
+                  <path d="M440 320 Q445 330 450 320 Q455 330 460 320" />
+                  <path d="M440 340 Q445 350 450 340 Q455 350 460 340" />
+                  <path d="M440 360 Q445 370 450 360 Q455 370 460 360" />
+                </g>
+
+                <!-- Connection lines to impact nodes -->
+                <g stroke="rgba(255,255,255,.14)" stroke-width="2" stroke-linecap="round">
+                  <path d="M450 410 L450 560" />
+                  <path d="M510 375 L600 460" />
+                  <path d="M510 325 L600 240" />
+                  <path d="M390 325 L300 240" />
+                  <path d="M390 375 L300 460" />
+                  <path d="M450 290 L450 140" />
+                </g>
+
+                <!-- Impact node 1: VUS (Variants of Uncertain Significance) - bottom -->
+                <g>
+                  <circle cx="450" cy="580" r="36" stroke="rgba(255,255,255,.22)" stroke-width="1.5" fill="rgba(255,255,255,.05)" />
+                  <!-- Question mark icon -->
+                  <text x="450" y="592" font-size="42" font-weight="300" text-anchor="middle" fill="rgba(255,255,255,.35)">?</text>
+                </g>
+
+                <!-- Impact node 2: Pharmacogenomics - bottom-right -->
+                <g>
+                  <circle cx="620" cy="480" r="36" stroke="rgba(255,255,255,.22)" stroke-width="1.5" fill="rgba(255,255,255,.05)" />
+                  <!-- Pill/capsule icon -->
+                  <ellipse cx="620" cy="478" rx="18" ry="10" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2" />
+                  <line x1="620" y1="468" x2="620" y2="488" stroke="rgba(255,255,255,.35)" stroke-width="1.5" />
+                </g>
+
+                <!-- Impact node 3: Imputation - top-right -->
+                <g>
+                  <circle cx="620" cy="220" r="36" stroke="rgba(255,255,255,.22)" stroke-width="1.5" fill="rgba(255,255,255,.05)" />
+                  <!-- Imputation/filling icon (grid with arrow) -->
+                  <rect x="607" y="208" width="26" height="20" rx="2" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5" />
+                  <line x1="620" y1="208" x2="620" y2="228" stroke="rgba(255,255,255,.28)" stroke-width="1" />
+                </g>
+
+                <!-- Impact node 4: Founder effect - top-left -->
+                <g>
+                  <circle cx="280" cy="220" r="36" stroke="rgba(255,255,255,.22)" stroke-width="1.5" fill="rgba(255,255,255,.05)" />
+                  <!-- Population/family icon -->
+                  <circle cx="273" cy="210" r="5" fill="rgba(255,255,255,.35)" />
+                  <circle cx="287" cy="210" r="5" fill="rgba(255,255,255,.35)" />
+                  <circle cx="280" cy="224" r="5" fill="rgba(255,255,255,.35)" />
+                  <path d="M273 215 L273 220 M287 215 L287 220 M280 219 L280 227" stroke="rgba(255,255,255,.25)" stroke-width="1" />
+                </g>
+
+                <!-- Impact node 5: AI Bias - bottom-left -->
+                <g>
+                  <circle cx="280" cy="480" r="36" stroke="rgba(255,255,255,.22)" stroke-width="1.5" fill="rgba(255,255,255,.05)" />
+                  <!-- Brain/AI icon -->
+                  <path d="M268 468 Q268 461 275 458 Q280 456 285 458 Q292 461 292 468" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5" />
+                  <ellipse cx="280" cy="478" rx="12" ry="10" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1" />
+                </g>
+
+                <!-- Impact node 6: Health equity - top -->
+                <g>
+                  <circle cx="450" cy="100" r="36" stroke="rgba(255,255,255,.22)" stroke-width="1.5" fill="rgba(255,255,255,.05)" />
+                  <!-- Heart/health icon -->
+                  <path d="M440 88 Q440 80 446 80 Q450 83 450 88 Q450 83 454 80 Q460 80 460 88 Q460 100 450 110 Q440 100 440 88" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5" stroke-linejoin="miter" />
+                </g>
+
+                <!-- Decorative accent circles on impact nodes -->
+                <g fill="rgba(255,255,255,.08)">
+                  <circle cx="450" cy="580" r="52" />
+                  <circle cx="620" cy="480" r="52" />
+                  <circle cx="620" cy="220" r="52" />
+                  <circle cx="280" cy="220" r="52" />
+                  <circle cx="280" cy="480" r="52" />
+                  <circle cx="450" cy="100" r="52" />
+                </g>
+              </svg>
+            </div>
           </div>
         </div>
       </div>

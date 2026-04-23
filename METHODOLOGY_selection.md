@@ -715,10 +715,10 @@ Une fois validé sur 1000G, les paramètres suivants devront être finalisés po
 
 ### 5.2 Interactions avec partenaires
 
-- **EFS** : fournit les 2500 génotypes SNP, informations secteur/région
-- **CHU Réunion** : identification individus, logistique, consentement
-- **Epitech / partenaires bio** : extraction ADN, QC
-- **Illumina / plateforme séquençage** : WGS des 350 sélectionnés
+- **EFS** : échantillonnage, informations secteur/région, consentement
+- **CHU Réunion** : fournit les 2500 génotypes SNP, logistique, extraction ADN, QC
+- **Epitech / partenaires bio** : informatique, bioinformatique
+- **Illumina / plateforme séquençage, POPgen** : WGS des 350 sélectionnés
 
 ---
 
