@@ -80,12 +80,28 @@
 
     #current-slide-container {
       flex: 1;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       background: #1a1a2e;
       overflow: hidden;
       padding: 8px;
+    }
+
+    .slide-overlay-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(11, 31, 58, 0.85);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      z-index: 10;
+      pointer-events: none;
+      backdrop-filter: blur(2px);
     }
 
     .iframe-scale-wrapper {
@@ -289,15 +305,12 @@
 
   <!-- Panneau gauche : slide actuelle -->
   <div class="presenter-main">
-    <div class="presenter-header">
-      <h2>Slide Actuelle</h2>
-      <div class="presenter-slide-number" id="slide-number-main">1 / 33</div>
-    </div>
     <div class="presenter-content">
       <div id="current-slide-container">
         <div class="iframe-scale-wrapper" id="main-scale-wrapper">
           <iframe id="slide-preview-iframe"></iframe>
         </div>
+        <div class="slide-overlay-badge" id="slide-number-main">1 / 33</div>
       </div>
     </div>
   </div>
