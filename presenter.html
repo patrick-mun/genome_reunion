@@ -88,10 +88,15 @@
       overflow: hidden;
     }
 
-    #current-slide-container img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    #current-slide-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 4px;
+      background: white;
+      transform: scale(0.5);
+      transform-origin: top center;
+      margin-bottom: -50%;
     }
 
     .slide-snapshot {
@@ -220,10 +225,7 @@
     </div>
     <div class="presenter-content">
       <div id="current-slide-container">
-        <div class="slide-snapshot">
-          <div class="slide-snapshot-title">Aperçu de slide</div>
-          <div>(Chargement depuis l'audience...)</div>
-        </div>
+        <iframe id="slide-preview-iframe" src="index.html"></iframe>
       </div>
     </div>
   </div>
@@ -323,6 +325,7 @@
     let startTime = null;
     let timerInterval = null;
     let parentWindow = null;
+    let slidePreviewIframe = null;
 
     // Initialiser le timer
     function startTimer() {
@@ -336,6 +339,16 @@
         document.getElementById('timer').textContent =
           String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
       }, 1000);
+    }
+
+    // Synchroniser l'iframe avec la slide actuelle
+    function syncIframeSlide(slideIndex) {
+      if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
+        slidePreviewIframe.contentWindow.postMessage({
+          type: 'IFRAME_SYNC',
+          slideIndex: slideIndex
+        }, '*');
+      }
     }
 
     // Mettre à jour l'affichage du presenter
@@ -359,8 +372,8 @@
         document.getElementById('next-slide-preview').innerHTML = '<em>Fin de présentation</em>';
       }
 
-      // Snapshot slide actuelle
-      updateSlideSnapshot(slideIndex);
+      // Synchroniser l'iframe
+      syncIframeSlide(slideIndex);
 
       // Lancer le timer au première slide
       if (!startTime) {
@@ -368,8 +381,10 @@
       }
     }
 
-    // Créer un snapshot texte de la slide (placeholder)
+    // Créer un snapshot texte de la slide (fallback si iframe ne charge pas)
     function updateSlideSnapshot(slideIndex) {
+      // Ce snapshot n'est plus utilisé car l'iframe montre le vrai contenu
+      // Mais on le garde comme fallback
       const container = document.getElementById('current-slide-container');
       const titles = [
         'Génomes Réunion',
@@ -422,12 +437,24 @@
       }
     });
 
-    // Garder une référence à la fenêtre audience
+    // Initialiser l'iframe et la première slide
     window.addEventListener('load', () => {
-      // La fenêtre audience appellera window.presenterWindow = window lors de son ouverture
-      // Pour tester : mettre à jour la première slide
-      updatePresenterView(0);
-      startTimer();
+      slidePreviewIframe = document.getElementById('slide-preview-iframe');
+
+      // Attendre que l'iframe charge, puis mettre à jour la première slide
+      if (slidePreviewIframe) {
+        slidePreviewIframe.addEventListener('load', () => {
+          // L'iframe est chargé, mettre à jour la slide
+          updatePresenterView(0);
+        });
+
+        // Fallback si load ne déclenche pas
+        setTimeout(() => {
+          if (!startTime) {
+            updatePresenterView(0);
+          }
+        }, 1000);
+      }
     });
 
     // Heartbeat : si pas de message depuis 3s, afficher "connexion perdue"
