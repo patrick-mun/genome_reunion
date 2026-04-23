@@ -601,39 +601,53 @@
       updateDebugStatus('Iframes found: main=' + !!slidePreviewIframe + ', next=' + !!nextSlidePreviewIframe);
 
       if (slidePreviewIframe) {
-        // Utiliser onload plutôt que addEventListener pour éviter les race conditions
-        slidePreviewIframe.onload = function() {
-          updateDebugStatus('Main slide iframe loaded');
-          requestCurrentSlideFromAudience();
-        };
-
-        // Fallback si l'iframe charge rapidement ou si onload ne déclenche pas
-        setTimeout(() => {
-          if (slidePreviewIframe.contentWindow && !startTime) {
-            updateDebugStatus('Main slide iframe ready (timeout fallback)');
+        // Check if already loaded
+        if (slidePreviewIframe.contentWindow) {
+          updateDebugStatus('Main slide iframe already loaded');
+          mainIframeReady = true;
+          // Delay slightly to ensure app.js has initialized
+          setTimeout(requestCurrentSlideFromAudience, 100);
+        } else {
+          // Set onload handler for when it loads
+          slidePreviewIframe.onload = function() {
+            updateDebugStatus('Main slide iframe onload fired');
+            mainIframeReady = true;
             requestCurrentSlideFromAudience();
-          }
-        }, 1500);
+          };
+
+          // Fallback timeout
+          setTimeout(() => {
+            if (slidePreviewIframe.contentWindow && !mainIframeReady) {
+              updateDebugStatus('Main slide iframe ready (timeout fallback)');
+              mainIframeReady = true;
+              requestCurrentSlideFromAudience();
+            }
+          }, 2000);
+        }
       }
 
       if (nextSlidePreviewIframe) {
         updateDebugStatus('Next slide preview iframe found');
 
-        // Marquer comme prêt dès que contentWindow est accessible
-        nextSlidePreviewIframe.onload = function() {
-          updateDebugStatus('Next slide preview iframe onload triggered');
+        // Check if already loaded
+        if (nextSlidePreviewIframe.contentWindow) {
+          updateDebugStatus('Next slide iframe already loaded');
           nextSlidePreviewReady = true;
-        };
-
-        // Vérifier immédiatement et après délai
-        setTimeout(() => {
-          if (nextSlidePreviewIframe.contentWindow) {
-            updateDebugStatus('Next slide preview iframe contentWindow ready (timeout)');
+        } else {
+          // Set onload handler
+          nextSlidePreviewIframe.onload = function() {
+            updateDebugStatus('Next slide preview iframe onload triggered');
             nextSlidePreviewReady = true;
-          } else {
-            updateDebugStatus('⚠ Next slide preview iframe contentWindow NOT ready after timeout');
-          }
-        }, 2000);
+          };
+
+          // Fallback timeout
+          setTimeout(() => {
+            if (nextSlidePreviewIframe.contentWindow && !nextSlidePreviewReady) {
+              updateDebugStatus('Next slide preview iframe ready (timeout)');
+              nextSlidePreviewReady = true;
+            }
+          }, 3000);
+        }
       }
     });
 
