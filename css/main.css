@@ -742,10 +742,11 @@ tr:last-child td { border: none; }
   .grid-4                           { grid-template-columns: 1fr 1fr; }
   .grid-3                           { grid-template-columns: 1fr 1fr; }
   .grid-3 > *:last-child:nth-child(odd) { grid-column: span 2; }  /* Dernier élément impair = pleine largeur */
-  .inner                            { padding: 20px 22px; }
+  .inner                            { padding: 20px 22px; justify-content: flex-start; } /* flex-start évite le clip du titre quand le contenu déborde */
   .section-slide                    { padding: 24px 26px 36px; }
   .progress-desc                    { display: none; }             /* Description trop large */
   .section-graphic                  { display: none; }             /* SVG décoratif masqué sur mobile */
+  table                             { display: block; overflow-x: auto; max-width: 100%; }
 }
 
 @media (max-width: 600px) {
