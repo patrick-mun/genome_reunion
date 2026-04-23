@@ -455,11 +455,18 @@ if (presenterBtn) {
   presenterBtn.addEventListener('click', openPresenterMode);
 }
 
-// Écouter les messages depuis presenter.html (pour l'iframe slave)
+// Écouter les messages depuis presenter.html (pour l'iframe slave et requêtes presenter)
 window.addEventListener('message', function(event) {
   if (event.data && event.data.type === 'IFRAME_SYNC') {
     // Naviguer vers la slide sans broadcaster (on est en slave mode)
     goToSlide(event.data.slideIndex, { skipFocus: true });
+  }
+
+  if (event.data && event.data.type === 'GET_CURRENT_SLIDE') {
+    // Presenter.html demande quelle slide on regarde — répondre avec l'index actuel
+    if (event.source) {
+      event.source.postMessage({ type: 'CURRENT_SLIDE_INDEX', slideIndex: currentSlide }, '*');
+    }
   }
 });
 
