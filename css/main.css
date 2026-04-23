@@ -186,6 +186,34 @@ html, body {
 }
 
 
+/* ── Burger button (visible < 900px) ─────────────────────── */
+#burger-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 5px;
+  padding: 6px 8px;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+#burger-btn span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: white;
+  border-radius: 1px;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+#burger-btn.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+#burger-btn.open span:nth-child(2) { opacity: 0; }
+#burger-btn.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
 /* ============================================================
    4. BARRE DE PROGRESSION
    Fine ligne de 3px sous la nav, mise à jour en temps réel
@@ -735,7 +763,28 @@ tr:last-child td { border: none; }
              → grid-4 passe en colonne unique
    ============================================================ */
 @media (max-width: 900px) {
-  #nav-center                       { display: none; }             /* Pills masquées */
+  #burger-btn                       { display: flex; }             /* Burger visible */
+  #nav-center                       { display: none; }             /* Pills masquées par défaut */
+  #nav-center.open {                                               /* Dropdown ouvert */
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 44px;
+    left: 0; right: 0;
+    background: var(--navy);
+    border-top: 2px solid var(--teal);
+    padding: 10px 14px 14px;
+    gap: 4px;
+    z-index: 998;
+    box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  }
+  #nav-center.open .sec-pill {
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
   .section-slide                    { grid-template-columns: 1fr !important; }
   .section-slide-left               { display: none; }             /* Grand numéro masqué */
   .section-slide-right              { padding: clamp(28px, 5vw, 48px); }
