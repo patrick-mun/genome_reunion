@@ -340,6 +340,7 @@
     let parentWindow = null;
     let slidePreviewIframe = null;
     let nextSlidePreviewIframe = null;
+    let nextSlidePreviewReady = false;
 
     // Initialiser le timer
     function startTimer() {
@@ -368,11 +369,23 @@
     // Synchroniser l'iframe de preview avec la slide suivante
     function syncNextSlidePreview(slideIndex) {
       const nextIndex = Math.min(slideIndex + 1, 32);
-      if (nextSlidePreviewIframe && nextSlidePreviewIframe.contentWindow) {
+
+      // Attendre que le deuxième iframe soit prêt
+      if (!nextSlidePreviewReady || !nextSlidePreviewIframe || !nextSlidePreviewIframe.contentWindow) {
+        // Réessayer après 100ms si pas prêt
+        setTimeout(() => {
+          syncNextSlidePreview(slideIndex);
+        }, 100);
+        return;
+      }
+
+      try {
         nextSlidePreviewIframe.contentWindow.postMessage({
           type: 'IFRAME_SYNC',
           slideIndex: nextIndex
         }, '*');
+      } catch (e) {
+        console.warn('Erreur envoi message iframe preview:', e);
       }
     }
 
@@ -492,6 +505,20 @@
         setTimeout(() => {
           if (slidePreviewIframe.contentWindow && !startTime) {
             requestCurrentSlideFromAudience();
+          }
+        }, 1500);
+      }
+
+      if (nextSlidePreviewIframe) {
+        // Marquer le deuxième iframe comme prêt quand il charge
+        nextSlidePreviewIframe.onload = function() {
+          nextSlidePreviewReady = true;
+        };
+
+        // Fallback si l'iframe charge rapidement
+        setTimeout(() => {
+          if (nextSlidePreviewIframe.contentWindow) {
+            nextSlidePreviewReady = true;
           }
         }, 1500);
       }
