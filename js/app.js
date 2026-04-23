@@ -168,13 +168,9 @@ function goToSlide(targetIndex, options) {
   }
 
   // Envoyer un message à la fenêtre presenter si elle est ouverte (sauf si on est en mode slave)
+  // NB: L'iframe (slave mode) ne doit PAS broadcaster pour éviter une boucle infinie
   if (!isSlavePresenter && presenterWindow && !presenterWindow.closed) {
     presenterWindow.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
-  }
-
-  // Si en mode slave (iframe), broadcaster à la fenêtre parent
-  if (isSlavePresenter && window.parent) {
-    window.parent.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
   }
 }
 
