@@ -435,25 +435,45 @@
         updatePresenterView(event.data.slideIndex);
         document.getElementById('connection-lost').classList.remove('show');
       }
+
+      if (event.data && event.data.type === 'CURRENT_SLIDE_INDEX') {
+        // Réponse de la fenêtre audience : quelle slide elle regarde
+        updatePresenterView(event.data.slideIndex);
+        document.getElementById('connection-lost').classList.remove('show');
+      }
     });
 
-    // Initialiser l'iframe et la première slide
-    window.addEventListener('load', () => {
-      slidePreviewIframe = document.getElementById('slide-preview-iframe');
-
-      // Attendre que l'iframe charge, puis mettre à jour la première slide
-      if (slidePreviewIframe) {
-        slidePreviewIframe.addEventListener('load', () => {
-          // L'iframe est chargé, mettre à jour la slide
-          updatePresenterView(0);
-        });
-
-        // Fallback si load ne déclenche pas
+    // Demander la slide actuelle à la fenêtre audience
+    function requestCurrentSlideFromAudience() {
+      if (window.opener && !window.opener.closed) {
+        window.opener.postMessage({ type: 'GET_CURRENT_SLIDE' }, '*');
+        // Fallback si pas de réponse rapide
         setTimeout(() => {
           if (!startTime) {
             updatePresenterView(0);
           }
-        }, 1000);
+        }, 500);
+      } else {
+        updatePresenterView(0);
+      }
+    }
+
+    // Initialiser l'iframe et synchroniser avec la slide actuelle de l'audience
+    window.addEventListener('load', () => {
+      slidePreviewIframe = document.getElementById('slide-preview-iframe');
+
+      if (slidePreviewIframe) {
+        // Utiliser onload plutôt que addEventListener pour éviter les race conditions
+        slidePreviewIframe.onload = function() {
+          requestCurrentSlideFromAudience();
+        };
+
+        // Fallback si l'iframe charge rapidement ou si onload ne déclenche pas
+        setTimeout(() => {
+          if (slidePreviewIframe.contentWindow && !startTime) {
+            requestCurrentSlideFromAudience();
+          }
+        }, 1500);
       }
     });
 
