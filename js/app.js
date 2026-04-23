@@ -30,6 +30,7 @@ const SECTION_MAP = Array.from(allSlides).map(function(slide) {
 // ── État ──────────────────────────────────────────────────────
 
 let currentSlide = 0;
+let presenterWindow = null;
 
 // ── Instances Chart.js (null = pas encore initialisé) ─────────
 
@@ -163,6 +164,11 @@ function goToSlide(targetIndex, options) {
 
   if (!options.skipFocus) {
     focusCurrentSlideTitle();
+  }
+
+  // Envoyer un message à la fenêtre presenter si elle est ouverte
+  if (presenterWindow && !presenterWindow.closed) {
+    presenterWindow.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
   }
 }
 
@@ -399,6 +405,48 @@ function resetROHAnimation() {
     .forEach(function(segment) {
       segment.classList.remove('roh-visible');
     });
+}
+
+// ══════════════════════════════════════════════════════════════
+//   MODE PRÉSENTATION (DEUX ÉCRANS)
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * Ouvre la fenêtre presenter.html dans une nouvelle fenêtre
+ * et synchronise la navigation via postMessage
+ */
+function openPresenterMode() {
+  // Ouvrir presenter.html dans une nouvelle fenêtre
+  // Dimensions : 1400×900 (ou dimension de l'écran disponible)
+  const width = Math.min(1400, window.screen.availWidth - 50);
+  const height = Math.min(900, window.screen.availHeight - 50);
+  const left = window.screen.availWidth - width - 10;
+  const top = 10;
+
+  presenterWindow = window.open(
+    'presenter.html',
+    'GenomeReunion_Presenter',
+    'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top +
+    ',toolbar=0,menubar=0,location=0,scrollbars=1'
+  );
+
+  if (!presenterWindow) {
+    alert('Impossible d\'ouvrir la fenêtre presenter. Vérifiez que les pop-ups ne sont pas bloqués.');
+    return;
+  }
+
+  // Envoyer la slide actuelle à presenter au démarrage
+  setTimeout(function() {
+    if (presenterWindow && !presenterWindow.closed) {
+      presenterWindow.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
+    }
+  }, 500);
+}
+
+// Événement du bouton presenter
+var presenterBtn = document.getElementById('presenter-btn');
+if (presenterBtn) {
+  presenterBtn.addEventListener('click', openPresenterMode);
 }
 
 // ── Démarrage ─────────────────────────────────────────────────
