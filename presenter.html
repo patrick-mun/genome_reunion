@@ -165,9 +165,22 @@
       font-size: 11px;
       color: #666;
       background: #f0f0f0;
-      padding: 8px;
       border-radius: 4px;
       text-align: center;
+      height: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #next-slide-preview-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 4px;
+      background: white;
+      transform: scale(0.15);
+      transform-origin: top center;
+      margin-bottom: -85%;
     }
 
     .connection-lost {
@@ -245,7 +258,7 @@
       <div class="next-slide-section">
         <div class="next-slide-header">Slide suivante (preview)</div>
         <div id="next-slide-preview">
-          <p>Aperçu de la slide N+1</p>
+          <iframe id="next-slide-preview-iframe" src="index.html"></iframe>
         </div>
       </div>
     </div>
@@ -326,6 +339,7 @@
     let timerInterval = null;
     let parentWindow = null;
     let slidePreviewIframe = null;
+    let nextSlidePreviewIframe = null;
 
     // Initialiser le timer
     function startTimer() {
@@ -351,6 +365,17 @@
       }
     }
 
+    // Synchroniser l'iframe de preview avec la slide suivante
+    function syncNextSlidePreview(slideIndex) {
+      const nextIndex = Math.min(slideIndex + 1, 32);
+      if (nextSlidePreviewIframe && nextSlidePreviewIframe.contentWindow) {
+        nextSlidePreviewIframe.contentWindow.postMessage({
+          type: 'IFRAME_SYNC',
+          slideIndex: nextIndex
+        }, '*');
+      }
+    }
+
     // Mettre à jour l'affichage du presenter
     function updatePresenterView(slideIndex) {
       currentSlideIndex = slideIndex;
@@ -363,17 +388,11 @@
       const notes = SLIDE_NOTES[slideIndex] || 'Notes non disponibles.';
       document.getElementById('notes-content').innerHTML = '<p>' + notes + '</p>';
 
-      // Mise à jour preview slide suivante
-      if (slideIndex < 32) {
-        const nextNotes = SLIDE_NOTES[slideIndex + 1] || 'Dernière slide.';
-        document.getElementById('next-slide-preview').innerHTML =
-          '<strong>Slide ' + (slideIndex + 2) + ':</strong> ' + nextNotes.substring(0, 120) + '...';
-      } else {
-        document.getElementById('next-slide-preview').innerHTML = '<em>Fin de présentation</em>';
-      }
-
-      // Synchroniser l'iframe
+      // Synchroniser l'iframe principal
       syncIframeSlide(slideIndex);
+
+      // Synchroniser l'iframe de preview slide suivante
+      syncNextSlidePreview(slideIndex);
 
       // Lancer le timer au première slide
       if (!startTime) {
@@ -458,9 +477,10 @@
       }
     }
 
-    // Initialiser l'iframe et synchroniser avec la slide actuelle de l'audience
+    // Initialiser les iframes et synchroniser avec la slide actuelle de l'audience
     window.addEventListener('load', () => {
       slidePreviewIframe = document.getElementById('slide-preview-iframe');
+      nextSlidePreviewIframe = document.getElementById('next-slide-preview-iframe');
 
       if (slidePreviewIframe) {
         // Utiliser onload plutôt que addEventListener pour éviter les race conditions
