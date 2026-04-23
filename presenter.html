@@ -225,10 +225,40 @@
       body { grid-template-columns: 1fr; }
       .presenter-sidebar { display: none; }
     }
+
+    .debug-status {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: #0B1F3A;
+      color: #14B8A6;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: monospace;
+      z-index: 9998;
+      max-width: 300px;
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid #0D7377;
+    }
+
+    .debug-status-line {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+
+    .debug-status-ok { color: #059669; }
+    .debug-status-warn { color: #D97706; }
   </style>
 </head>
 <body>
   <div class="connection-lost" id="connection-lost">⚠ Connexion perdue avec l'audience</div>
+  <div class="debug-status" id="debug-status">
+    <div class="debug-status-line">Initialisation...</div>
+  </div>
 
   <!-- Panneau gauche : slide actuelle -->
   <div class="presenter-main">
@@ -265,6 +295,23 @@
   </div>
 
   <script>
+    // Debug status helper
+    function updateDebugStatus(message) {
+      const debugEl = document.getElementById('debug-status');
+      if (debugEl) {
+        const line = document.createElement('div');
+        line.className = 'debug-status-line';
+        line.textContent = new Date().toLocaleTimeString() + ' — ' + message;
+        debugEl.appendChild(line);
+        // Keep only last 10 lines
+        while (debugEl.children.length > 10) {
+          debugEl.removeChild(debugEl.firstChild);
+        }
+        debugEl.scrollTop = debugEl.scrollHeight;
+      }
+      console.log('[presenter]', message);
+    }
+
     // Données de notes pour chaque slide (placeholder lorem ipsum)
     const SLIDE_NOTES = {
       0: "Bienvenue aux participants. Cette présentation couvre une approche innovante du séquençage génomique pour la population réunionnaise. Nous allons explorer comment transformer la diversité génétique en une ressource de référence clinique.",
@@ -341,6 +388,8 @@
     let slidePreviewIframe = null;
     let nextSlidePreviewIframe = null;
     let nextSlidePreviewReady = false;
+    let mainIframeReady = false;
+    let nextSyncAttempts = 0;
 
     // Initialiser le timer
     function startTimer() {
@@ -356,13 +405,50 @@
       }, 1000);
     }
 
+    // Wait for iframe contentWindow to be accessible, with max retries
+    function waitForIframeReady(iframe, name, maxRetries) {
+      maxRetries = maxRetries || 50;
+      let attempts = 0;
+
+      function checkReady() {
+        attempts++;
+        if (iframe && iframe.contentWindow) {
+          updateDebugStatus('✓ ' + name + ' iframe ready after ' + attempts + ' attempts');
+          return true;
+        }
+        if (attempts >= maxRetries) {
+          updateDebugStatus('⚠ ' + name + ' iframe never became ready after ' + maxRetries + ' attempts');
+          return false;
+        }
+        return false;
+      }
+
+      if (checkReady()) return Promise.resolve();
+
+      return new Promise((resolve) => {
+        const interval = setInterval(() => {
+          if (checkReady()) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 50);
+      });
+    }
+
     // Synchroniser l'iframe avec la slide actuelle
     function syncIframeSlide(slideIndex) {
       if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
-        slidePreviewIframe.contentWindow.postMessage({
-          type: 'IFRAME_SYNC',
-          slideIndex: slideIndex
-        }, '*');
+        try {
+          slidePreviewIframe.contentWindow.postMessage({
+            type: 'IFRAME_SYNC',
+            slideIndex: slideIndex
+          }, '*');
+          updateDebugStatus('→ Syncing main preview to slide ' + slideIndex);
+        } catch (e) {
+          updateDebugStatus('⚠ Error syncing main preview: ' + e.message);
+        }
+      } else {
+        updateDebugStatus('⚠ Main iframe not ready');
       }
     }
 
@@ -370,22 +456,29 @@
     function syncNextSlidePreview(slideIndex) {
       const nextIndex = Math.min(slideIndex + 1, 32);
 
-      // Attendre que le deuxième iframe soit prêt
-      if (!nextSlidePreviewReady || !nextSlidePreviewIframe || !nextSlidePreviewIframe.contentWindow) {
-        // Réessayer après 100ms si pas prêt
-        setTimeout(() => {
-          syncNextSlidePreview(slideIndex);
-        }, 100);
+      if (!nextSlidePreviewIframe) {
+        updateDebugStatus('⚠ nextSlidePreviewIframe is null');
+        return;
+      }
+
+      // Vérifier directement si contentWindow est accessible
+      if (!nextSlidePreviewIframe.contentWindow) {
+        updateDebugStatus('⏳ Next iframe contentWindow not accessible, retrying...');
+        setTimeout(() => { syncNextSlidePreview(slideIndex); }, 100);
         return;
       }
 
       try {
+        updateDebugStatus('→ Syncing next slide preview to slide ' + nextIndex);
         nextSlidePreviewIframe.contentWindow.postMessage({
           type: 'IFRAME_SYNC',
           slideIndex: nextIndex
         }, '*');
+        updateDebugStatus('✓ Next slide preview message sent');
       } catch (e) {
-        console.warn('Erreur envoi message iframe preview:', e);
+        updateDebugStatus('⚠ Error sending next preview message: ' + e.message);
+        // Retry on error
+        setTimeout(() => { syncNextSlidePreview(slideIndex); }, 100);
       }
     }
 
@@ -404,8 +497,10 @@
       // Synchroniser l'iframe principal
       syncIframeSlide(slideIndex);
 
-      // Synchroniser l'iframe de preview slide suivante
-      syncNextSlidePreview(slideIndex);
+      // Wait for next iframe and sync it
+      waitForIframeReady(nextSlidePreviewIframe, 'Next').then(() => {
+        syncNextSlidePreview(slideIndex);
+      });
 
       // Lancer le timer au première slide
       if (!startTime) {
@@ -464,12 +559,14 @@
       if (event.source === window) return; // Ignorer les messages de soi-même
 
       if (event.data && event.data.type === 'SLIDE_CHANGE') {
+        updateDebugStatus('📡 SLIDE_CHANGE received: slide ' + event.data.slideIndex);
         updatePresenterView(event.data.slideIndex);
         document.getElementById('connection-lost').classList.remove('show');
       }
 
       if (event.data && event.data.type === 'CURRENT_SLIDE_INDEX') {
         // Réponse de la fenêtre audience : quelle slide elle regarde
+        updateDebugStatus('📡 CURRENT_SLIDE_INDEX received: slide ' + event.data.slideIndex);
         updatePresenterView(event.data.slideIndex);
         document.getElementById('connection-lost').classList.remove('show');
       }
@@ -477,17 +574,23 @@
 
     // Demander la slide actuelle à la fenêtre audience
     function requestCurrentSlideFromAudience() {
-      if (window.opener && !window.opener.closed) {
-        window.opener.postMessage({ type: 'GET_CURRENT_SLIDE' }, '*');
-        // Fallback si pas de réponse rapide
-        setTimeout(() => {
-          if (!startTime) {
-            updatePresenterView(0);
-          }
-        }, 500);
-      } else {
-        updatePresenterView(0);
-      }
+      updateDebugStatus('Waiting for main iframe to be ready...');
+      waitForIframeReady(slidePreviewIframe, 'Main').then(() => {
+        updateDebugStatus('Requesting current slide from audience...');
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage({ type: 'GET_CURRENT_SLIDE' }, '*');
+          // Fallback si pas de réponse rapide
+          setTimeout(() => {
+            if (!startTime) {
+              updateDebugStatus('No response from audience, starting at slide 0');
+              updatePresenterView(0);
+            }
+          }, 1000);
+        } else {
+          updateDebugStatus('No audience window, starting at slide 0');
+          updatePresenterView(0);
+        }
+      });
     }
 
     // Initialiser les iframes et synchroniser avec la slide actuelle de l'audience
@@ -495,32 +598,56 @@
       slidePreviewIframe = document.getElementById('slide-preview-iframe');
       nextSlidePreviewIframe = document.getElementById('next-slide-preview-iframe');
 
-      if (slidePreviewIframe) {
-        // Utiliser onload plutôt que addEventListener pour éviter les race conditions
-        slidePreviewIframe.onload = function() {
-          requestCurrentSlideFromAudience();
-        };
+      updateDebugStatus('Iframes found: main=' + !!slidePreviewIframe + ', next=' + !!nextSlidePreviewIframe);
 
-        // Fallback si l'iframe charge rapidement ou si onload ne déclenche pas
-        setTimeout(() => {
-          if (slidePreviewIframe.contentWindow && !startTime) {
+      if (slidePreviewIframe) {
+        // Check if already loaded
+        if (slidePreviewIframe.contentWindow) {
+          updateDebugStatus('Main slide iframe already loaded');
+          mainIframeReady = true;
+          // Delay slightly to ensure app.js has initialized
+          setTimeout(requestCurrentSlideFromAudience, 100);
+        } else {
+          // Set onload handler for when it loads
+          slidePreviewIframe.onload = function() {
+            updateDebugStatus('Main slide iframe onload fired');
+            mainIframeReady = true;
             requestCurrentSlideFromAudience();
-          }
-        }, 1500);
+          };
+
+          // Fallback timeout
+          setTimeout(() => {
+            if (slidePreviewIframe.contentWindow && !mainIframeReady) {
+              updateDebugStatus('Main slide iframe ready (timeout fallback)');
+              mainIframeReady = true;
+              requestCurrentSlideFromAudience();
+            }
+          }, 2000);
+        }
       }
 
       if (nextSlidePreviewIframe) {
-        // Marquer le deuxième iframe comme prêt quand il charge
-        nextSlidePreviewIframe.onload = function() {
-          nextSlidePreviewReady = true;
-        };
+        updateDebugStatus('Next slide preview iframe found');
 
-        // Fallback si l'iframe charge rapidement
-        setTimeout(() => {
-          if (nextSlidePreviewIframe.contentWindow) {
+        // Check if already loaded
+        if (nextSlidePreviewIframe.contentWindow) {
+          updateDebugStatus('Next slide iframe already loaded');
+          nextSlidePreviewReady = true;
+        } else {
+          // Set onload handler
+          nextSlidePreviewIframe.onload = function() {
+            updateDebugStatus('Next slide preview iframe onload triggered');
             nextSlidePreviewReady = true;
-          }
-        }, 1500);
+          };
+
+          // Fallback timeout
+          setTimeout(() => {
+            if (nextSlidePreviewIframe.contentWindow && !nextSlidePreviewReady) {
+              updateDebugStatus('Next slide preview iframe ready (timeout)');
+              nextSlidePreviewReady = true;
+            }
+          }, 3000);
+        }
       }
     });
 
