@@ -451,6 +451,36 @@ if (presenterBtn) {
   presenterBtn.addEventListener('click', openPresenterMode);
 }
 
+// ── Burger menu (< 900px) ────────────────────────────────────
+var burgerBtn  = document.getElementById('burger-btn');
+var navCenter  = document.getElementById('nav-center');
+
+if (burgerBtn && navCenter) {
+  burgerBtn.addEventListener('click', function() {
+    var isOpen = navCenter.classList.toggle('open');
+    burgerBtn.classList.toggle('open', isOpen);
+    burgerBtn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Fermer le menu quand on clique sur une pill
+  navPills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      navCenter.classList.remove('open');
+      burgerBtn.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Fermer si clic en dehors du menu
+  document.addEventListener('click', function(e) {
+    if (!navCenter.contains(e.target) && e.target !== burgerBtn && !burgerBtn.contains(e.target)) {
+      navCenter.classList.remove('open');
+      burgerBtn.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
 // Écouter les messages depuis presenter.html (pour l'iframe slave et requêtes presenter)
 window.addEventListener('message', function(event) {
   if (event.data && event.data.type === 'IFRAME_SYNC') {
