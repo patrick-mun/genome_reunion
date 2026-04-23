@@ -54,7 +54,7 @@ P(détection) = 1 - (1 - MAF)^700
 - **Estimation de fréquence acceptable** (IC95 < facteur 2) pour MAF ≥ 1%
 - **Couverture pharmacogénomique** : la majorité des variants cliniquement actionnables (pharmacogènes CYP, transporteurs) ont une MAF > 1%
 
-**Au-delà de la limite MAF ≥ 1% :**
+**En-deçà de la limite MAF ≥ 1% :**
 - Variants à MAF 0.5–1% : détectables dans ~97% des cas mais fréquences non estimables → à documenter
 - Variants à MAF < 0.5% : nécessitent N >> 1000 WGS — hors portée de ce projet
 - **Compensation** : les 2150 individus génotypés SNP (non séquencés) permettront l'imputation depuis le référentiel WGS, enrichissant partiellement la couverture des variants rares
