@@ -636,40 +636,6 @@
   text-align: center;
 }
 
-/* Mobile responsive — vertical layout */
-@media (max-width: 900px) {
-  .arch-flow {
-    flex-direction: column;
-    gap: clamp(20px, 3vh, 32px);
-    align-items: stretch;
-  }
-
-  .arch-flow-item {
-    width: 100%;
-    min-width: unset;
-  }
-
-  .arch-flow-arrow {
-    width: 2px;
-    height: clamp(20px, 3vh, 32px);
-    margin: clamp(4px, 1vh, 8px) auto;
-  }
-
-  .arch-flow-arrow::after {
-    right: auto;
-    bottom: -4px;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-top: 6px solid #0369A1;
-  }
-
-  .arch-flow-arrow-label {
-    top: auto;
-    left: clamp(8px, 2vw, 12px);
-    position: relative;
-    text-align: left;
-  }
-}
 
 .arch-constraint-box {
   padding: clamp(14px, 2vh, 26px);
@@ -762,6 +728,13 @@
   .arm-card    { flex-direction: column; }
   .arm-percent { min-width: auto; padding: 7px; font-size: 16px; }
   .arm-body    { border-left: none; border-top: 1px solid var(--border); }
+
+  /* Arch-flow → vertical (déplacé de 900px car le flow horizontal tient jusqu'à 600px) */
+  .arch-flow { flex-direction: column; gap: clamp(20px, 3vh, 32px); align-items: stretch; }
+  .arch-flow-item { width: 100%; min-width: unset; }
+  .arch-flow-arrow { width: 2px; height: clamp(20px, 3vh, 32px); margin: clamp(4px, 1vh, 8px) auto; }
+  .arch-flow-arrow::after { right: auto; bottom: -4px; border-left: 3px solid transparent; border-right: 3px solid transparent; border-top: 6px solid #0369A1; }
+  .arch-flow-arrow-label { top: auto; left: clamp(8px, 2vw, 12px); position: relative; text-align: left; }
 
   /* Architecture flowchart: swap horizontal ↔ vertical */
   .arch-flow-svg--horizontal { display: none; }
