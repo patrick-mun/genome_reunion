@@ -325,10 +325,8 @@
       const scale   = Math.min(availW / nativeW, availH / nativeH);
       const displayW = Math.floor(nativeW * scale);
       const displayH = Math.floor(nativeH * scale);
-      // Le wrapper a la taille réellement occupée à l'écran
       wrapper.style.width  = displayW + 'px';
       wrapper.style.height = displayH + 'px';
-      // L'iframe native est positionnée en absolu et scalée
       const iframe = wrapper.querySelector('iframe');
       if (iframe) iframe.style.transform = 'scale(' + scale + ')';
     }
@@ -348,7 +346,6 @@
       if (mainIframe) mainIframe.src = indexUrl;
       if (nextIframe) nextIframe.src = indexUrl;
 
-      // Appliquer le scale initial après un court délai
       setTimeout(applyAllScales, 50);
     });
 
