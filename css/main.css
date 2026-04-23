@@ -108,6 +108,13 @@ html, body {
   gap: 10px;
 }
 
+#nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
 #nav-logo {
   font-size: 11px;
   font-weight: 700;
@@ -115,7 +122,6 @@ html, body {
   text-transform: uppercase;
   color: var(--navy);
   white-space: nowrap;
-  flex-shrink: 0;
 }
 
 /* Zone centrale : pills de navigation par section.
@@ -763,28 +769,37 @@ tr:last-child td { border: none; }
              → grid-4 passe en colonne unique
    ============================================================ */
 @media (max-width: 900px) {
-  #burger-btn                       { display: flex; }             /* Burger visible */
-  #nav-center                       { display: none; }             /* Pills masquées par défaut */
-  #nav-center.open {                                               /* Dropdown ouvert */
+  #burger-btn                       { display: flex; }
+  #nav-center                       { display: none; }
+  #nav-center.open {
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: 44px;
-    left: 0; right: 0;
-    background: var(--navy);
+    top: 46px;
+    left: 0;
+    width: 260px;                        /* Largeur limitée, aligné à gauche */
+    background: var(--cream);
     border-top: 2px solid var(--teal);
-    padding: 10px 14px 14px;
-    gap: 4px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    gap: 0;
     z-index: 998;
-    box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    box-shadow: 4px 6px 16px rgba(0,0,0,.15);
+    border-radius: 0 0 8px 0;
   }
   #nav-center.open .sec-pill {
     width: 100%;
     text-align: left;
-    padding: 10px 14px;
+    padding: 12px 18px;
     font-size: 13px;
-    border-radius: 6px;
+    border-radius: 0;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
   }
+  #nav-center.open .sec-pill:last-child { border-bottom: none; }
+  #nav-center.open .sec-pill:hover,
+  #nav-center.open .sec-pill.on        { background: var(--navy); color: var(--white); }
   .section-slide                    { grid-template-columns: 1fr !important; }
   .section-slide-left               { display: none; }             /* Grand numéro masqué */
   .section-slide-right              { padding: clamp(28px, 5vw, 48px); }
