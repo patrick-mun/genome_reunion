@@ -190,7 +190,7 @@ html, body {
 #burger-btn {
   display: none;
   background: transparent;
-  border: 1px solid rgba(255,255,255,.35);
+  border: 1px solid rgba(11,31,58,.35);
   border-radius: 5px;
   padding: 6px 8px;
   cursor: pointer;
@@ -205,7 +205,7 @@ html, body {
   display: block;
   width: 18px;
   height: 2px;
-  background: white;
+  background: var(--navy);
   border-radius: 1px;
   transition: transform .2s ease, opacity .2s ease;
 }
