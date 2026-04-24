@@ -135,7 +135,9 @@ function goToSlide(targetIndex, options) {
   var innerEl = allSlides[currentSlide].querySelector('.inner');
   if (innerEl) innerEl.scrollTop = 0;
 
-  slideDeck.style.transform = `translateX(-${currentSlide * 100}vw)`;
+  // Calculer translateX en fonction des slides visibles
+  var visibleIdx = getVisibleIndexFromRealIndex(currentSlide);
+  slideDeck.style.transform = `translateX(-${visibleIdx * 100}vw)`;
   slideCounter.textContent  = `${currentSlide + 1} / ${TOTAL_SLIDES}`;
   progressBar.style.width   = `${((currentSlide + 1) / TOTAL_SLIDES) * 100}%`;
 
@@ -654,7 +656,9 @@ function goToSlide(targetIndex, options) {
   var innerEl = allSlides[currentSlide].querySelector('.inner');
   if (innerEl) innerEl.scrollTop = 0;
 
-  slideDeck.style.transform = `translateX(-${currentSlide * 100}vw)`;
+  // Calculer translateX en fonction des slides visibles
+  var visibleIdx = getVisibleIndexFromRealIndex(currentSlide);
+  slideDeck.style.transform = `translateX(-${visibleIdx * 100}vw)`;
 
   // Compter les slides visibles
   var visibleCount = getVisibleSlideCount();
@@ -725,11 +729,8 @@ if (s04ToggleBtn) {
     s04ToggleBtn.textContent = s04ExpertMode ? 'Expert' : 'Résumé';
     s04ToggleBtn.setAttribute('aria-pressed', String(s04ExpertMode));
 
-    // Masquer/afficher les slides selon le mode
-    var vis = getVisibleSlides();
-    allSlides.forEach(function(slide, index) {
-      slide.style.display = vis.indexOf(index) !== -1 ? '' : 'none';
-    });
+    // Les slides masqués restent dans le DOM mais la navigation les saute
+    // grâce à goToSlide() qui utilise getVisibleSlides()
 
     // Naviguer intelligemment
     // Naviguer vers le slide visible le plus proche du slide actuel
