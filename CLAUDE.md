@@ -2,15 +2,16 @@
 
 ## Vue d'ensemble
 
-Présentation HTML/CSS/JS statique — **33 slides** (0–32), zéro build tool, zéro CDN à l'exécution.
-Fichiers sources : `index.html` (~135 KB), 7 fichiers CSS (2 630 lignes), 3 fichiers JS (465 lignes).
+Présentation HTML/CSS/JS statique — **35 slides** (0–34, dont 2 résumés S04 optionnels), zéro build tool, zéro CDN à l'exécution.
+Fichiers sources : `index.html` (~140 KB), 7 fichiers CSS (2 630 lignes), 3 fichiers JS (665 lignes).
+Système adaptatif : toggle Expert/Résumé pour la section S04 (Algorithme) — les 2 slides de résumé remplacent les 12 détaillées.
 Règles de travail détaillées dans `AGENTS.md`.
 
 ## Fichiers principaux
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | Toutes les 33 slides (source unique de vérité) |
+| `index.html` | Toutes les 35 slides (source unique de vérité) : 33 principales + 2 résumés S04 adaptés |
 | `presenter.html` | Mode présentation deux-écrans : slide actuelle (gauche) + notes + preview (droite), synchro par postMessage |
 | `css/main.css` | Styles transversaux : variables de couleur, reset, nav fixe, deck, typo, grilles, composants génériques, responsive (900px / 600px / 380px), burger menu mobile, logo stylisé |
 | `css/slides/s00-hero.css` | Slide 0 — hero, auteurs, animation admixture, légende ancêtrale |
@@ -106,6 +107,8 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 30 | INTRO S05 — WGS | 1950 | 5 | — | `slide--s05` |
 | 31 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1970 | 5 | — | `slide--cream` |
 | 32 | CONCLUSION | 2010 | 5 | — | `slide--navy` |
+| 33 | **S04 RÉSUMÉ 1** — Vue d'ensemble | new | 4 | — | `s04-summary` |
+| 34 | **S04 RÉSUMÉ 2** — Validation & Déploiement | new | 4 | — | `s04-summary` |
 
 ### Navigation pills → slides d'entrée de section
 
@@ -122,9 +125,10 @@ Règles de travail détaillées dans `AGENTS.md`.
 
 | ID | Rôle |
 |---|---|
-| `#deck` | Conteneur des 33 slides (transform translateX) |
-| `#bp` / `#bn` | Boutons Préc. / Suiv. |
-| `#ctr` | Compteur "N / 33" (aria-live) |
+| `#deck` | Conteneur des 35 slides (transform translateX) |
+| `#bp` / `#bn` | Boutons Préc. / Suiv. (gèrent navigation visible uniquement) |
+| `#ctr` | Compteur "N / visible-count" (aria-live, ajusté dynamiquement) |
+| `#s04-toggle-btn` | Bouton toggle Expert/Résumé pour section S04 (aria-pressed) |
 | `#pf` | Barre de progression (width %) |
 | `#admix-bg` | Conteneur 60 barres admixture (injecté par data/admixture.js, slide 0) |
 | `#pipeFlow` | Animation pipeline (slide 15, data-animate="pipeline") |
@@ -166,6 +170,24 @@ sont conservés volontairement comme géométrie locale d'un dessin unique.
 | `--green` | #059669 | Accent S05 (WGS, réussite) |
 | `--orange` | #EA580C | Accent S04 (IBD) |
 | `--gray` | #6B7280 | Texte muted, disabled |
+
+## Mode Adaptatif S04 (Expert/Résumé)
+
+**Objectif** : Permettre à la présentation de s'adapter au niveau d'expertise de l'audience.
+
+| Aspect | Expert Mode (ON) | Résumé Mode (OFF) |
+|---|---|---|
+| Slides visibles S04 | 19–30 (12 slides détaillés) | 33–34 (2 résumés concis) |
+| Autres slides | Toutes visibles | Slides 19–30 masqués, autres visibles |
+| Compteur | Affiche le total des slides visibles | Affiche le total des slides visibles |
+| Navigation | Saute les slides masqués automatiquement | Saute les slides masqués automatiquement |
+| Bouton toggle | `S04: Expert` (aria-pressed="true") | `S04: Résumé` (aria-pressed="false") |
+
+**Implémentation JS** :
+- `s04ExpertMode` : variable d'état globale (pas de localStorage, réinitialise à rechargement)
+- `getVisibleSlides()` : retourne l'array des indices de slides visibles
+- `goToSlide(targetIndex)` : modifié pour chercher le slide visible le plus proche
+- Bouton `#s04-toggle-btn` : bascule le mode et met à jour l'affichage dynamiquement
 
 ## Systèmes d'animation
 

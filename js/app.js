@@ -180,13 +180,7 @@ window.go = goToSlide;
 
 // ── Navigation par boutons et cibles data-target-slide ───────
 
-buttonPrevious.addEventListener('click', function() {
-  goToSlide(currentSlide - 1);
-});
-
-buttonNext.addEventListener('click', function() {
-  goToSlide(currentSlide + 1);
-});
+// Les event listeners des boutons sont redéfinis dans la section MODE ADAPTATIF
 
 slideJumpTargets.forEach(function(target) {
   target.addEventListener('click', function() {
@@ -547,6 +541,205 @@ window.addEventListener('message', function(event) {
     }
   }
 });
+
+// ══════════════════════════════════════════════════════════════
+//   MODE ADAPTATIF — S04 (EXPERT / RÉSUMÉ)
+// ══════════════════════════════════════════════════════════════
+
+let s04ExpertMode = true; // true = detailed slides, false = summary only
+
+// Indices des slides S04
+const S04_INTRO_SLIDE = 17;          // Slide 18 (INTRO S04)
+const S04_DETAILED_START = 18;       // Slide 19 (first detailed)
+const S04_DETAILED_END = 30;         // Slide 31 (last detailed)
+const S04_SUMMARY_START = 33;        // New summary slide 1
+const S04_SUMMARY_END = 34;          // New summary slide 2
+const S05_INTRO_SLIDE = 31;          // Slide 32 (INTRO S05)
+
+// Retourne les slides visibles en fonction du mode
+function getVisibleSlides() {
+  var visible = [];
+  for (var i = 0; i < TOTAL_SLIDES; i++) {
+    if (s04ExpertMode) {
+      // Expert mode: afficher tous les slides
+      visible.push(i);
+    } else {
+      // Summary mode: masquer les slides S04 détaillés (18-30), montrer les résumés (33-34)
+      if (i < S04_DETAILED_START || (i > S04_DETAILED_END && i < S04_SUMMARY_START) || i >= S04_SUMMARY_START) {
+        visible.push(i);
+      }
+    }
+  }
+  return visible;
+}
+
+// Retourne le nombre total de slides visibles
+function getVisibleSlideCount() {
+  return getVisibleSlides().length;
+}
+
+// Retourne l'index réel (DOM) d'après le numéro visible
+function getRealIndexFromVisibleIndex(visibleIndex) {
+  var visible = getVisibleSlides();
+  if (visibleIndex >= 0 && visibleIndex < visible.length) {
+    return visible[visibleIndex];
+  }
+  return 0;
+}
+
+// Retourne le numéro visible d'après l'index réel
+function getVisibleIndexFromRealIndex(realIndex) {
+  var visible = getVisibleSlides();
+  return visible.indexOf(realIndex);
+}
+
+// Cherche le prochain slide visible à partir de targetIndex
+function getNextVisibleSlide(targetIndex) {
+  var visible = getVisibleSlides();
+  for (var i = 0; i < visible.length; i++) {
+    if (visible[i] >= targetIndex) {
+      return visible[i];
+    }
+  }
+  return visible[visible.length - 1];
+}
+
+// Cherche le slide visible précédent à partir de targetIndex
+function getPrevVisibleSlide(targetIndex) {
+  var visible = getVisibleSlides();
+  for (var i = visible.length - 1; i >= 0; i--) {
+    if (visible[i] <= targetIndex) {
+      return visible[i];
+    }
+  }
+  return visible[0];
+}
+
+// Sauvegarde la fonction goToSlide originale
+const originalGoToSlide = goToSlide;
+
+// Fonction goToSlide modifiée pour gérer les slides masqués
+function goToSlide(targetIndex, options) {
+  options = options || {};
+
+  // Déterminer la direction (forward/backward) pour naviguer correctement
+  var clampedTarget = Math.max(0, Math.min(TOTAL_SLIDES - 1, targetIndex));
+  var realIndex;
+
+  if (clampedTarget > currentSlide) {
+    // Navigation forward: chercher le prochain visible >= target
+    realIndex = getNextVisibleSlide(clampedTarget);
+  } else if (clampedTarget < currentSlide) {
+    // Navigation backward: chercher le précédent visible <= target
+    realIndex = getPrevVisibleSlide(clampedTarget);
+  } else {
+    // Même slide, ne rien faire
+    realIndex = currentSlide;
+  }
+
+  allSlides[currentSlide].classList.remove('on');
+  currentSlide = realIndex;
+  allSlides[currentSlide].classList.add('on');
+
+  var innerEl = allSlides[currentSlide].querySelector('.inner');
+  if (innerEl) innerEl.scrollTop = 0;
+
+  slideDeck.style.transform = `translateX(-${currentSlide * 100}vw)`;
+
+  // Compter les slides visibles
+  var visibleCount = getVisibleSlideCount();
+  var visibleIndex = getVisibleIndexFromRealIndex(currentSlide) + 1; // +1 pour affichage
+
+  slideCounter.textContent  = `${visibleIndex} / ${visibleCount}`;
+  progressBar.style.width   = `${((visibleIndex) / visibleCount) * 100}%`;
+
+  // Mettre à jour les boutons
+  var visibleSlides = getVisibleSlides();
+  var currentVisiblePos = getVisibleIndexFromRealIndex(currentSlide);
+  buttonPrevious.disabled = currentVisiblePos === 0;
+  buttonNext.disabled     = currentVisiblePos === visibleSlides.length - 1;
+
+  navPills.forEach(function(pill, index) {
+    var isActive = index === (SECTION_MAP[currentSlide] || 0);
+    pill.classList.toggle('on', isActive);
+    if (isActive) {
+      pill.setAttribute('aria-current', 'true');
+    } else {
+      pill.removeAttribute('aria-current');
+    }
+  });
+
+  updateSlideAccessibility();
+
+  // Animations
+  var animate = allSlides[currentSlide].dataset.animate;
+  if (animate === 'pipeline') { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
+  if (animate === 'score')    { setTimeout(initScoreChart,  200); }
+  if (animate === 'roh')      { resetROHAnimation(); setTimeout(animateROH, 300); }
+  if (animate === 'radar')    { setTimeout(initRadarChart,  200); }
+
+  if (!options.skipFocus) {
+    focusCurrentSlideTitle();
+  }
+
+  // Envoyer à presenter si ouvert
+  if (!isSlavePresenter && presenterWindow && !presenterWindow.closed) {
+    presenterWindow.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
+  }
+}
+
+// Gère la navigation avec les boutons (pour sauter les slides masqués)
+buttonPrevious.addEventListener('click', function() {
+  var visible = getVisibleSlides();
+  var currentPos = getVisibleIndexFromRealIndex(currentSlide);
+  if (currentPos > 0) {
+    goToSlide(visible[currentPos - 1]);
+  }
+});
+
+buttonNext.addEventListener('click', function() {
+  var visible = getVisibleSlides();
+  var currentPos = getVisibleIndexFromRealIndex(currentSlide);
+  if (currentPos < visible.length - 1) {
+    goToSlide(visible[currentPos + 1]);
+  }
+});
+
+// Toggle S04 mode
+var s04ToggleBtn = document.getElementById('s04-toggle-btn');
+if (s04ToggleBtn) {
+  s04ToggleBtn.addEventListener('click', function() {
+    s04ExpertMode = !s04ExpertMode;
+
+    // Mettre à jour le texte du bouton
+    s04ToggleBtn.textContent = s04ExpertMode ? 'S04: Expert' : 'S04: Résumé';
+    s04ToggleBtn.setAttribute('aria-pressed', String(s04ExpertMode));
+
+    // Masquer/afficher les slides
+    allSlides.forEach(function(slide, index) {
+      var isVisible = true;
+      if (!s04ExpertMode) {
+        // En mode résumé, masquer les slides détaillés
+        if (index >= S04_DETAILED_START && index <= S04_DETAILED_END) {
+          isVisible = false;
+        }
+      }
+      slide.style.display = isVisible ? '' : 'none';
+    });
+
+    // Naviguer intelligemment
+    if (currentSlide >= S04_DETAILED_START && currentSlide <= S04_DETAILED_END && !s04ExpertMode) {
+      // Si on était dans les slides détaillés et on passe en résumé, aller au premier résumé
+      goToSlide(S04_SUMMARY_START);
+    } else if (currentSlide >= S04_SUMMARY_START && currentSlide <= S04_SUMMARY_END && s04ExpertMode) {
+      // Si on était dans les résumés et on passe en expert, aller aux slides détaillés
+      goToSlide(S04_DETAILED_START);
+    } else {
+      // Sinon, actualiser l'affichage avec la nouvelle visibilité
+      goToSlide(currentSlide);
+    }
+  });
+}
 
 // ── Démarrage ─────────────────────────────────────────────────
 console.assert(allSlides.length > 0, '[app.js] Aucune .slide trouvée — vérifier le HTML.');
