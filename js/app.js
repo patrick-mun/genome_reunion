@@ -556,20 +556,30 @@ const S04_SUMMARY_START = 33;        // New summary slide 1
 const S04_SUMMARY_END = 34;          // New summary slide 2
 const S05_INTRO_SLIDE = 31;          // Slide 32 (INTRO S05)
 
-// Retourne les slides visibles en fonction du mode
+// Retourne les slides visibles en fonction du mode (ordre logique)
 function getVisibleSlides() {
   var visible = [];
-  for (var i = 0; i < TOTAL_SLIDES; i++) {
-    if (s04ExpertMode) {
-      // Expert mode: afficher tous les slides
+
+  if (s04ExpertMode) {
+    // Expert mode: tous les slides dans l'ordre
+    for (var i = 0; i < TOTAL_SLIDES; i++) {
       visible.push(i);
-    } else {
-      // Summary mode: masquer les slides S04 détaillés (18-30), montrer les résumés (33-34)
-      if (i < S04_DETAILED_START || (i > S04_DETAILED_END && i < S04_SUMMARY_START) || i >= S04_SUMMARY_START) {
-        visible.push(i);
-      }
+    }
+  } else {
+    // Summary mode: avant S04 détaillé → résumés S04 → S05 et après
+    // Slides 0-17 (avant S04 détaillé)
+    for (var i = 0; i < S04_DETAILED_START; i++) {
+      visible.push(i);
+    }
+    // Résumés S04 (33-34) au lieu de détaillés (18-30)
+    visible.push(S04_SUMMARY_START);
+    visible.push(S04_SUMMARY_END);
+    // S05 et après (31-32)
+    for (var i = S04_DETAILED_END + 1; i < S04_SUMMARY_START; i++) {
+      visible.push(i);
     }
   }
+
   return visible;
 }
 
