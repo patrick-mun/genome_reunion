@@ -28,11 +28,10 @@
         <button class="sec-pill js-slide-jump" data-target-slide="8">02 · Singularité</button>
         <button class="sec-pill js-slide-jump" data-target-slide="14">03 · Méthodo</button>
         <button class="sec-pill js-slide-jump" data-target-slide="17">04 · Algorithme</button>
-        <button class="sec-pill js-slide-jump" data-target-slide="30">05 · WGS</button>
+        <button class="sec-pill js-slide-jump" data-target-slide="32">05 · WGS</button>
       </div>
       <div id="nav-right">
         <button class="nbtn" id="presenter-btn" title="Ouvrir le mode présentation (2 écrans)">Présentation</button>
-        <button class="nbtn" id="s04-toggle-btn" title="Basculer entre mode Expert (détaillé) et Résumé pour la section Algorithme" aria-pressed="true">S04: Expert</button>
         <button class="nbtn" id="bp" aria-controls="deck">← Préc.</button>
         <output id="ctr" aria-live="polite" aria-atomic="true">1 / 29</output>
         <button class="nbtn" id="bn" aria-controls="deck">Suiv. →</button>
@@ -217,7 +216,7 @@
             </div>
             <button id="s04-toggle-btn" title="Basculer entre mode Expert (détaillé) et Résumé pour la section Algorithme" aria-pressed="true" style="background:#f3f0ff;border:1px solid #e9d5ff;border-radius:6px;padding:6px 12px;font-size:13px;font-weight:600;color:#7c3aed;white-space:nowrap;cursor:pointer;flex-shrink:0">Expert</button>
           </div>
-          <div class="toc-row js-slide-jump" data-target-slide="30">
+          <div class="toc-row js-slide-jump" data-target-slide="32">
             <div class="toc-number toc-number--s05">05</div>
             <div>
               <strong class="toc-title">Ce que le WGS va Produire</strong>
@@ -1592,7 +1591,84 @@
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 18 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
+     SLIDE 19 — S04 RÉSUMÉ 1 — Vue d'ensemble (visible en mode Résumé)
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream s04-summary" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Algorithme de Sélection — Vue d'ensemble</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+          <div class="grid-2">
+            <div>
+              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">Le défi</h3>
+              <p class="text-body" style="margin-bottom:12px"><strong>2 500 individus génotypés</strong>, budget limité pour WGS → <strong>sélectionner 350</strong> maximisant l'information utile I(S) sous contrainte budgétaire.</p>
+              <p class="text-body" style="margin-bottom:12px">Deux niveaux indissociables :</p>
+              <ul style="list-style:none;padding:0;font-size:clamp(13px,1.4vw,16px);line-height:1.8">
+                <li style="margin-bottom:8px">✓ <strong>Représentativité géographique</strong> — chaque secteur proportionnel</li>
+                <li>✓ <strong>Diversité génétique locale</strong> — maximiser l'information par secteur</li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">La solution : S_div</h3>
+              <div class="formula" style="background:#f0f9ff;padding:12px;border-radius:6px;margin-bottom:12px;text-align:center">S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH</div>
+              <p class="text-body" style="margin-bottom:8px">4 dimensions complémentaires :</p>
+              <ul style="list-style:none;padding:0;font-size:clamp(13px,1.4vw,16px);line-height:1.8">
+                <li style="margin-bottom:4px"><strong style="color:#0D7377">PCA_score</strong> — position génétique</li>
+                <li style="margin-bottom:4px"><strong style="color:#7C3AED">ADMIX_score</strong> — ancestralité diverse</li>
+                <li style="margin-bottom:4px"><strong style="color:#EA580C">IBD_score</strong> — indépendance génétique</li>
+                <li><strong style="color:#D97706">ROH_score</strong> — peu de consanguinité</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout">
+            <strong>Algorithme :</strong> Greedy stratifié par secteur (quintiles, binaire ou libre selon N) + contrainte IBD cross-secteur. Validation sur 1000G puis EPIGEN-Brasil avant déploiement.
+          </div>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">S04-1</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 20 — S04 RÉSUMÉ 2 — Validation & Déploiement (visible en mode Résumé)
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream s04-summary" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Validation & Déploiement</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+          <div class="grid-2">
+            <div>
+              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">1000 Genomes (proxy)</h3>
+              <p class="text-body" style="margin-bottom:8px"><strong>3 populations admixées</strong> (Afrique, Inde, tri-ancestral) × 3 budgets (N = 100, 200, 350) × 5 stratégies.</p>
+              <p class="text-body" style="margin-bottom:8px"><strong>Critères succès :</strong></p>
+              <ul style="list-style:none;padding:0;font-size:clamp(12px,1.3vw,15px);line-height:1.6">
+                <li>• KS-test &lt; 0.10</li>
+                <li>• Couverture allélique &gt; random</li>
+                <li>• ≥ 80% des stratégies robustes</li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">EPIGEN-Brasil (réel)</h3>
+              <p class="text-body" style="margin-bottom:8px"><strong>6 487 individus</strong> — admixture réelle africain/européen/amérindien, 30 WGS séquencés.</p>
+              <p class="text-body" style="margin-bottom:8px"><strong>Validation croisée :</strong></p>
+              <ul style="list-style:none;padding:0;font-size:clamp(12px,1.3vw,15px);line-height:1.6">
+                <li>• Sélection S_div vs random</li>
+                <li>• Couverture rare variants</li>
+                <li>• SNP score vs WGS réel</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout" style="background:#fef3c7;border-color:#f59e0b">
+            ✓ <strong>Succès 1000G + EPIGEN</strong> → Confiance avant déploiement sur cohorte EFS réunionnaise<br/>
+            ⚠ <strong>Limitations acceptables</strong> : variants rares MAF &lt; 1% moins fiables · heuristique paramétrée (non optimale mathématiquement)
+          </div>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">S04-2</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 21 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
      Architecture générale : géographique (fondation) puis
      génétique (optimisation S_div au sein de chaque secteur).
      ═══════════════════════════════════════════════════════ -->
@@ -2381,85 +2457,6 @@
               <strong class="conclusion-band-label">Bon design =</strong>
               variables définies · poids annoncés · algorithme reproductible · validation finale
             </p>
-          </div>
-        </div>
-      </div>
-      <!-- ═══════════════════════════════════════════════════════
-     S04 SUMMARY — SLIDE 33 (Hidden by default, shown when toggle is OFF)
-     Résumé expert : problématique et approche générale
-     ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream s04-summary" data-section="4" style="display: none">
-        <div class="inner">
-          <h2 class="slide-title">Algorithme de Sélection — Vue d'ensemble</h2>
-          <div class="slide-rule slide-rule--blue"></div>
-          <div class="grid-2">
-            <div>
-              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">Le défi</h3>
-              <p class="text-body" style="margin-bottom:12px"><strong>2 500 individus génotypés</strong>, budget limité pour WGS → <strong>sélectionner 350</strong> maximisant l'information utile I(S) sous contrainte budgétaire.</p>
-              <p class="text-body" style="margin-bottom:12px">Deux niveaux indissociables :</p>
-              <ul style="list-style:none;padding:0;font-size:clamp(13px,1.4vw,16px);line-height:1.8">
-                <li style="margin-bottom:8px">✓ <strong>Représentativité géographique</strong> — chaque secteur proportionnel</li>
-                <li>✓ <strong>Diversité génétique locale</strong> — maximiser l'information par secteur</li>
-              </ul>
-            </div>
-            <div>
-              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">La solution : S_div</h3>
-              <div class="formula" style="background:#f0f9ff;padding:12px;border-radius:6px;margin-bottom:12px;text-align:center">S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH</div>
-              <p class="text-body" style="margin-bottom:8px">4 dimensions complémentaires :</p>
-              <ul style="list-style:none;padding:0;font-size:clamp(13px,1.4vw,16px);line-height:1.8">
-                <li style="margin-bottom:4px"><strong style="color:#0D7377">PCA_score</strong> — position génétique</li>
-                <li style="margin-bottom:4px"><strong style="color:#7C3AED">ADMIX_score</strong> — ancestralité diverse</li>
-                <li style="margin-bottom:4px"><strong style="color:#EA580C">IBD_score</strong> — indépendance génétique</li>
-                <li><strong style="color:#D97706">ROH_score</strong> — peu de consanguinité</li>
-              </ul>
-            </div>
-          </div>
-          <div class="callout">
-            <strong>Algorithme :</strong> Greedy stratifié par secteur (quintiles, binaire ou libre selon N) + contrainte IBD cross-secteur. Validation sur 1000G puis EPIGEN-Brasil avant déploiement.
-          </div>
-          <div class="slide-footer">
-            <span class="caption">Génome Réunion</span>
-            <span class="caption">S04-1</span>
-          </div>
-        </div>
-      </div>
-      <!-- ═══════════════════════════════════════════════════════
-     S04 SUMMARY — SLIDE 34 (Hidden by default, shown when toggle is OFF)
-     Résumé expert : résultats et validation
-     ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream s04-summary" data-section="4" style="display: none">
-        <div class="inner">
-          <h2 class="slide-title">Validation & Déploiement</h2>
-          <div class="slide-rule slide-rule--blue"></div>
-          <div class="grid-2">
-            <div>
-              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">1000 Genomes (proxy)</h3>
-              <p class="text-body" style="margin-bottom:8px"><strong>3 populations admixées</strong> (Afrique, Inde, tri-ancestral) × 3 budgets (N = 100, 200, 350) × 5 stratégies.</p>
-              <p class="text-body" style="margin-bottom:8px"><strong>Critères succès :</strong></p>
-              <ul style="list-style:none;padding:0;font-size:clamp(12px,1.3vw,15px);line-height:1.6">
-                <li>• KS-test &lt; 0.10</li>
-                <li>• Couverture allélique &gt; random</li>
-                <li>• ≥ 80% des stratégies robustes</li>
-              </ul>
-            </div>
-            <div>
-              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">EPIGEN-Brasil (réel)</h3>
-              <p class="text-body" style="margin-bottom:8px"><strong>6 487 individus</strong> — admixture réelle africain/européen/amérindien, 30 WGS séquencés.</p>
-              <p class="text-body" style="margin-bottom:8px"><strong>Validation croisée :</strong></p>
-              <ul style="list-style:none;padding:0;font-size:clamp(12px,1.3vw,15px);line-height:1.6">
-                <li>• Sélection S_div vs random</li>
-                <li>• Couverture rare variants</li>
-                <li>• SNP score vs WGS réel</li>
-              </ul>
-            </div>
-          </div>
-          <div class="callout" style="background:#fef3c7;border-color:#f59e0b">
-            ✓ <strong>Succès 1000G + EPIGEN</strong> → Confiance avant déploiement sur cohorte EFS réunionnaise<br/>
-            ⚠ <strong>Limitations acceptables</strong> : variants rares MAF &lt; 1% moins fiables · heuristique paramétrée (non optimale mathématiquement)
-          </div>
-          <div class="slide-footer">
-            <span class="caption">Génome Réunion</span>
-            <span class="caption">S04-2</span>
           </div>
         </div>
       </div>

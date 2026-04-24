@@ -548,38 +548,34 @@ window.addEventListener('message', function(event) {
 
 let s04ExpertMode = true; // true = detailed slides, false = summary only
 
-// Indices des slides S04
+// Indices des slides S04 — ordre DOM après repositionnement des résumés
 const S04_INTRO_SLIDE    = 17;
-const S04_DETAILED_START = 18;
-const S04_DETAILED_END   = 29;
-const S05_INTRO_SLIDE    = 30;
-const S04_SUMMARY_START  = 33;
-const S04_SUMMARY_END    = 34;
+const S04_SUMMARY_START  = 18;
+const S04_SUMMARY_END    = 19;
+const S04_DETAILED_START = 20;
+const S04_DETAILED_END   = 31;
+const S05_INTRO_SLIDE    = 32;
 
-// Retourne les slides visibles en fonction du mode (ordre logique)
+// Applique display:none sur les slides cachés, retire-le sur les visibles.
+// Indispensable pour que visibleIdx × 100vw corresponde à la position flex réelle.
+function updateSlideVisibility() {
+  allSlides.forEach(function(slide, index) {
+    var hidden;
+    if (s04ExpertMode) {
+      hidden = index >= S04_SUMMARY_START && index <= S04_SUMMARY_END;
+    } else {
+      hidden = index >= S04_DETAILED_START && index <= S04_DETAILED_END;
+    }
+    slide.style.display = hidden ? 'none' : '';
+  });
+}
+
+// Retourne les indices des slides affichés dans l'ordre courant
 function getVisibleSlides() {
   var visible = [];
-
-  if (s04ExpertMode) {
-    // Expert mode: 0-17, 18-29 (détaillés S04), 30-32 (S05)
-    // Résumés 33-34 totalement exclus
-    for (var i = 0; i <= S04_DETAILED_END; i++) {
-      visible.push(i);
-    }
-    for (var i = S05_INTRO_SLIDE; i < S04_SUMMARY_START; i++) {
-      visible.push(i);
-    }
-  } else {
-    // ÉTAPE 1 — Summary mode: 0-17 (intro S04), 30-32 (S05)
-    // Détaillés 18-29 et résumés 33-34 exclus
-    for (var i = 0; i <= S04_INTRO_SLIDE; i++) {
-      visible.push(i);
-    }
-    for (var i = S05_INTRO_SLIDE; i < S04_SUMMARY_START; i++) {
-      visible.push(i);
-    }
-  }
-
+  allSlides.forEach(function(slide, index) {
+    if (slide.style.display !== 'none') visible.push(index);
+  });
   return visible;
 }
 
@@ -654,7 +650,8 @@ function goToSlide(targetIndex, options) {
   var innerEl = allSlides[currentSlide].querySelector('.inner');
   if (innerEl) innerEl.scrollTop = 0;
 
-  slideDeck.style.transform = `translateX(-${currentSlide * 100}vw)`;
+  var visibleIdx = getVisibleIndexFromRealIndex(currentSlide);
+  slideDeck.style.transform = `translateX(-${visibleIdx * 100}vw)`;
 
   // Compter les slides visibles
   var visibleCount = getVisibleSlideCount();
@@ -683,10 +680,11 @@ function goToSlide(targetIndex, options) {
 
   // Animations
   var animate = allSlides[currentSlide].dataset.animate;
-  if (animate === 'pipeline') { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
-  if (animate === 'score')    { setTimeout(initScoreChart,  200); }
-  if (animate === 'roh')      { resetROHAnimation(); setTimeout(animateROH, 300); }
-  if (animate === 'radar')    { setTimeout(initRadarChart,  200); }
+  if (animate === 'pipeline')  { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
+  if (animate === 'archflow')  { initArchFlowCarousel(); }
+  if (animate === 'score')     { setTimeout(initScoreChart,  200); }
+  if (animate === 'roh')       { resetROHAnimation(); setTimeout(animateROH, 300); }
+  if (animate === 'radar')     { setTimeout(initRadarChart,  200); }
 
   if (!options.skipFocus) {
     focusCurrentSlideTitle();
@@ -721,19 +719,15 @@ if (s04ToggleBtn) {
   s04ToggleBtn.addEventListener('click', function() {
     s04ExpertMode = !s04ExpertMode;
 
-    // Mettre à jour le texte du bouton
     s04ToggleBtn.textContent = s04ExpertMode ? 'Expert' : 'Résumé';
     s04ToggleBtn.setAttribute('aria-pressed', String(s04ExpertMode));
 
-    // Les slides masqués restent dans le DOM mais la navigation les saute
-    // grâce à goToSlide() qui utilise getVisibleSlides()
+    updateSlideVisibility();
 
-    // Naviguer intelligemment
-    // Naviguer vers le slide visible le plus proche du slide actuel
+    // Si la slide actuelle est maintenant cachée, reculer jusqu'à la dernière visible
     var vis = getVisibleSlides();
     var target = currentSlide;
     if (vis.indexOf(target) === -1) {
-      // Slide actuel masqué — aller au plus proche visible avant
       for (var j = target - 1; j >= 0; j--) {
         if (vis.indexOf(j) !== -1) { target = j; break; }
       }
@@ -745,4 +739,5 @@ if (s04ToggleBtn) {
 // ── Démarrage ─────────────────────────────────────────────────
 console.assert(allSlides.length > 0, '[app.js] Aucune .slide trouvée — vérifier le HTML.');
 setupDeckAccessibility();
+updateSlideVisibility();
 goToSlide(0, { skipFocus: true });
