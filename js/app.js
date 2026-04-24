@@ -549,32 +549,33 @@ window.addEventListener('message', function(event) {
 let s04ExpertMode = true; // true = detailed slides, false = summary only
 
 // Indices des slides S04
-const S04_INTRO_SLIDE = 17;          // Slide 18 (INTRO S04)
-const S04_DETAILED_START = 18;       // Slide 19 (first detailed)
-const S04_DETAILED_END = 30;         // Slide 31 (last detailed)
-const S04_SUMMARY_START = 33;        // New summary slide 1
-const S04_SUMMARY_END = 34;          // New summary slide 2
-const S05_INTRO_SLIDE = 31;          // Slide 32 (INTRO S05)
+const S04_INTRO_SLIDE    = 17;
+const S04_DETAILED_START = 18;
+const S04_DETAILED_END   = 29;
+const S05_INTRO_SLIDE    = 30;
+const S04_SUMMARY_START  = 33;
+const S04_SUMMARY_END    = 34;
 
 // Retourne les slides visibles en fonction du mode (ordre logique)
 function getVisibleSlides() {
   var visible = [];
 
   if (s04ExpertMode) {
-    // Expert mode: 0-17, 18-30 (détaillés), 31-32
-    // Résumés 33-34 totalement masqués
-    for (var i = 0; i < S04_SUMMARY_START; i++) {
+    // Expert mode: 0-17, 18-29 (détaillés S04), 30-32 (S05)
+    // Résumés 33-34 totalement exclus
+    for (var i = 0; i <= S04_DETAILED_END; i++) {
+      visible.push(i);
+    }
+    for (var i = S05_INTRO_SLIDE; i < S04_SUMMARY_START; i++) {
       visible.push(i);
     }
   } else {
-    // Summary mode: 0-17, 33-34 (résumés), 31-32
-    // Détaillés 18-30 totalement masqués
-    for (var i = 0; i < S04_DETAILED_START; i++) {
+    // ÉTAPE 1 — Summary mode: 0-17 (intro S04), 30-32 (S05)
+    // Détaillés 18-29 et résumés 33-34 exclus
+    for (var i = 0; i <= S04_INTRO_SLIDE; i++) {
       visible.push(i);
     }
-    visible.push(S04_SUMMARY_START);
-    visible.push(S04_SUMMARY_END);
-    for (var i = S04_DETAILED_END + 1; i < S04_SUMMARY_START; i++) {
+    for (var i = S05_INTRO_SLIDE; i < S04_SUMMARY_START; i++) {
       visible.push(i);
     }
   }
@@ -724,34 +725,23 @@ if (s04ToggleBtn) {
     s04ToggleBtn.textContent = s04ExpertMode ? 'Expert' : 'Résumé';
     s04ToggleBtn.setAttribute('aria-pressed', String(s04ExpertMode));
 
-    // Masquer/afficher les slides
+    // Masquer/afficher les slides selon le mode
+    var vis = getVisibleSlides();
     allSlides.forEach(function(slide, index) {
-      var isVisible = true;
-      if (s04ExpertMode) {
-        // En mode expert, masquer les résumés S04
-        if (index === S04_SUMMARY_START || index === S04_SUMMARY_END) {
-          isVisible = false;
-        }
-      } else {
-        // En mode résumé, masquer les slides détaillés S04
-        if (index >= S04_DETAILED_START && index <= S04_DETAILED_END) {
-          isVisible = false;
-        }
-      }
-      slide.style.display = isVisible ? '' : 'none';
+      slide.style.display = vis.indexOf(index) !== -1 ? '' : 'none';
     });
 
     // Naviguer intelligemment
-    if (currentSlide >= S04_DETAILED_START && currentSlide <= S04_DETAILED_END && !s04ExpertMode) {
-      // Si on était dans les slides détaillés et on passe en résumé, aller au premier résumé
-      goToSlide(S04_SUMMARY_START);
-    } else if (currentSlide >= S04_SUMMARY_START && currentSlide <= S04_SUMMARY_END && s04ExpertMode) {
-      // Si on était dans les résumés et on passe en expert, aller aux slides détaillés
-      goToSlide(S04_DETAILED_START);
-    } else {
-      // Sinon, actualiser l'affichage avec la nouvelle visibilité
-      goToSlide(currentSlide);
+    // Naviguer vers le slide visible le plus proche du slide actuel
+    var vis = getVisibleSlides();
+    var target = currentSlide;
+    if (vis.indexOf(target) === -1) {
+      // Slide actuel masqué — aller au plus proche visible avant
+      for (var j = target - 1; j >= 0; j--) {
+        if (vis.indexOf(j) !== -1) { target = j; break; }
+      }
     }
+    goToSlide(target);
   });
 }
 
