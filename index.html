@@ -27,12 +27,14 @@
         <button class="sec-pill js-slide-jump" data-target-slide="2">01 · Angle mort</button>
         <button class="sec-pill js-slide-jump" data-target-slide="8">02 · Singularité</button>
         <button class="sec-pill js-slide-jump" data-target-slide="14">03 · Méthodo</button>
-        <button class="sec-pill js-slide-jump" data-target-slide="17">04 · Algorithme</button>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button class="sec-pill js-slide-jump" data-target-slide="17">04 · Algorithme</button>
+          <button class="nbtn" id="s04-toggle-btn" title="Basculer entre mode Expert (détaillé) et Résumé pour la section Algorithme" aria-pressed="true" style="font-size:12px;padding:4px 8px">Expert</button>
+        </div>
         <button class="sec-pill js-slide-jump" data-target-slide="30">05 · WGS</button>
       </div>
       <div id="nav-right">
         <button class="nbtn" id="presenter-btn" title="Ouvrir le mode présentation (2 écrans)">Présentation</button>
-        <button class="nbtn" id="s04-toggle-btn" title="Basculer entre mode Expert (détaillé) et Résumé pour la section Algorithme" aria-pressed="true">S04: Expert</button>
         <button class="nbtn" id="bp" aria-controls="deck">← Préc.</button>
         <output id="ctr" aria-live="polite" aria-atomic="true">1 / 29</output>
         <button class="nbtn" id="bn" aria-controls="deck">Suiv. →</button>
