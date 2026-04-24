@@ -561,20 +561,19 @@ function getVisibleSlides() {
   var visible = [];
 
   if (s04ExpertMode) {
-    // Expert mode: tous les slides dans l'ordre
-    for (var i = 0; i < TOTAL_SLIDES; i++) {
+    // Expert mode: 0-17, 18-30 (détaillés), 31-32
+    // Résumés 33-34 totalement masqués
+    for (var i = 0; i < S04_SUMMARY_START; i++) {
       visible.push(i);
     }
   } else {
-    // Summary mode: avant S04 détaillé → résumés S04 → S05 et après
-    // Slides 0-17 (avant S04 détaillé)
+    // Summary mode: 0-17, 33-34 (résumés), 31-32
+    // Détaillés 18-30 totalement masqués
     for (var i = 0; i < S04_DETAILED_START; i++) {
       visible.push(i);
     }
-    // Résumés S04 (33-34) au lieu de détaillés (18-30)
     visible.push(S04_SUMMARY_START);
     visible.push(S04_SUMMARY_END);
-    // S05 et après (31-32)
     for (var i = S04_DETAILED_END + 1; i < S04_SUMMARY_START; i++) {
       visible.push(i);
     }
@@ -722,14 +721,19 @@ if (s04ToggleBtn) {
     s04ExpertMode = !s04ExpertMode;
 
     // Mettre à jour le texte du bouton
-    s04ToggleBtn.textContent = s04ExpertMode ? 'S04: Expert' : 'S04: Résumé';
+    s04ToggleBtn.textContent = s04ExpertMode ? 'Expert' : 'Résumé';
     s04ToggleBtn.setAttribute('aria-pressed', String(s04ExpertMode));
 
     // Masquer/afficher les slides
     allSlides.forEach(function(slide, index) {
       var isVisible = true;
-      if (!s04ExpertMode) {
-        // En mode résumé, masquer les slides détaillés
+      if (s04ExpertMode) {
+        // En mode expert, masquer les résumés S04
+        if (index === S04_SUMMARY_START || index === S04_SUMMARY_END) {
+          isVisible = false;
+        }
+      } else {
+        // En mode résumé, masquer les slides détaillés S04
         if (index >= S04_DETAILED_START && index <= S04_DETAILED_END) {
           isVisible = false;
         }
