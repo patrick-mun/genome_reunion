@@ -721,15 +721,7 @@ if (s04ToggleBtn) {
 
     s04ToggleBtn.textContent = s04ExpertMode ? 'Expert' : 'Résumé';
     s04ToggleBtn.setAttribute('aria-pressed', String(s04ExpertMode));
-    if (s04ExpertMode) {
-      s04ToggleBtn.style.background = '#0369A1';
-      s04ToggleBtn.style.color = '#fff';
-      s04ToggleBtn.style.border = '2px solid #0369A1';
-    } else {
-      s04ToggleBtn.style.background = '#fff';
-      s04ToggleBtn.style.color = '#0369A1';
-      s04ToggleBtn.style.border = '2px solid #0369A1';
-    }
+    s04ToggleBtn.classList.toggle('is-resume', !s04ExpertMode);
 
     updateSlideVisibility();
 
