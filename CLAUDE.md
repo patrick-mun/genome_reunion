@@ -11,17 +11,20 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Fichier | Rôle |
 |---|---|
 | `index.html` | Toutes les 33 slides (source unique de vérité) |
-| `css/main.css` | Styles transversaux : variables de couleur, reset, nav fixe, deck, typo, grilles, composants génériques, responsive (900px / 600px / 380px) |
+| `presenter.html` | Mode présentation deux-écrans : slide actuelle (gauche) + notes + preview (droite), synchro par postMessage |
+| `css/main.css` | Styles transversaux : variables de couleur, reset, nav fixe, deck, typo, grilles, composants génériques, responsive (900px / 600px / 380px), burger menu mobile, logo stylisé |
 | `css/slides/s00-hero.css` | Slide 0 — hero, auteurs, animation admixture, légende ancêtrale |
 | `css/slides/s01-angle-mort.css` | Slides 2–8 — biais IA, clinique, pharmacogénétique |
 | `css/slides/s02-singularite.css` | Slides 9–14 — histoire, peuplement, métissage, effet fondateur, singularité |
 | `css/slides/s03-design.css` | Slides 15–17 — pipeline SNP→WGS, entonnoir d'optimisation, mini-figures |
 | `css/slides/s04-algorithme.css` | Slides 18–29 — algorithme de sélection, ROH/IBD, score, stratification, validation, 1000G, EPIGEN |
 | `css/slides/s05-wgs.css` | Slides 30–32 — WGS, impacts, conclusion |
-| `js/app.js` | Navigation, accessibilité, Chart.js (score + radar), animations SVG (pipeline, ROH) |
+| `js/app.js` | Navigation, accessibilité, Chart.js (score + radar), animations SVG (pipeline, ROH), speaker mode, logo click handler |
 | `data/admixture.js` | Données + générateur DOM pour animation admixture (slide 0 : 60 barres animées) |
 | `js/vendor/chart.umd.js` | Chart.js 4.4.1 vendorisé (pas de CDN) |
 | `AGENTS.md` | Règles de travail (contenu, commits, conventions CSS) |
+| `CLAUDE.md` | Index technique du projet (ce fichier) |
+| `README.md` | Guide utilisateur et architecture |
 
 ## CSS — Fichiers slides
 
@@ -173,6 +176,18 @@ sont conservés volontairement comme géométrie locale d'un dessin unique.
 | **ROH diagram** | 24 | JS .roh-visible transition, animateROH() | ~1.3s |
 | **Score chart** | 21 | Chart.js bar chart, initScoreChart() | instant |
 | **Radar chart** | 26 | Chart.js radar, initRadarChart() | instant |
+
+## Fonctionnalités récentes (2026-04)
+
+| Fonctionnalité | Détail |
+|---|---|
+| **Mode Présentation** | Deux-écrans : `presenter.html` affiche slide gauche + notes/preview droite, synchro via postMessage |
+| **Navigation Mobile** | Burger menu (< 900px) : nav pills à gauche, cream bg, dark text, séparateurs, 260px width |
+| **Logo interactif** | Logo "Génome Réunion" cliquable → retour slide 0, style navy bg / white text, tab shape border-radius |
+| **Corrections contenu** | Slide 5: "variant de signification inconnue" • Slide 10: "Colonisation / Esclavage" • Slide 14: "WGS (Whole Genome Sequencing)" |
+| **Distribution labels** | Slide 24: labels "scores élevés" (gauche) et "scores bas" (droite) alignés avec méthodologie |
+| **Notes presenter** | Notes font-size 36px, colonne 50/50 split (texte | next-slide preview) |
+| **Emoji removal** | Présentation button : 📺 emoji retiré |
 
 ## Règle de mise à jour
 
