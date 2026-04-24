@@ -937,16 +937,16 @@ ul.validation-list li {
 }
 
 /* ============================================================
-   13c. TOC ROW LAYOUT
+   13c. TOC ROW WITH BUTTON (S04 toggle Expert/Résumé)
    ============================================================ */
-.toc-row {
+.toc-row--with-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
 }
 
-.js-slide-jump {
+.toc-row--with-button .js-slide-jump {
   display: flex;
   gap: 16px;
   flex: 1;
