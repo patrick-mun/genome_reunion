@@ -3,7 +3,7 @@
 Présentation HTML/CSS/JS statique du projet de référentiel génomique réunionnais.
 
 Le deck est composé de **35 slides** (index 0–34, dont 2 résumés optionnels pour la section S04), sans build tool et sans dépendance CDN à l’exécution.
-**Mode adaptatif** : basculez entre "Expert" (tous les détails) et "Résumé" (synthèse) pour la section Algorithme via le bouton `S04` en haut à droite.
+**Mode adaptatif** : basculez entre "Expert" (tous les détails) et "Résumé" (synthèse) pour la section Algorithme via le bouton `Expert`/`Résumé` dans le sommaire (slide 2, ligne "04 · L’Algorithme de Sélection").
 
 ## Accès en ligne
 
