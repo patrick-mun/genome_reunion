@@ -269,6 +269,47 @@
       .presenter-sidebar { display: none; }
     }
 
+    /* ── Barre de navigation presenter ── */
+    .presenter-nav-bar {
+      background: #0B1F3A;
+      border-top: 1px solid #0D7377;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      flex-shrink: 0;
+    }
+
+    .presenter-nav-btn {
+      background: transparent;
+      color: #14B8A6;
+      border: 1px solid #14B8A6;
+      padding: 6px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      transition: background .2s, color .2s;
+    }
+
+    .presenter-nav-btn:hover:not(:disabled) {
+      background: #14B8A6;
+      color: #0B1F3A;
+    }
+
+    .presenter-nav-btn:disabled {
+      opacity: .3;
+      cursor: default;
+    }
+
+    #presenter-slide-counter {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+    }
+
   </style>
 </head>
 <body>
@@ -283,6 +324,11 @@
         </div>
         <div class="slide-overlay-badge" id="slide-number-main">1 / 33</div>
       </div>
+    </div>
+    <div class="presenter-nav-bar">
+      <button id="presenter-prev-btn" class="presenter-nav-btn" disabled>← Préc.</button>
+      <span id="presenter-slide-counter">1 / 33</span>
+      <button id="presenter-next-btn" class="presenter-nav-btn">Suiv. →</button>
     </div>
   </div>
 
@@ -419,6 +465,8 @@
     };
 
     let currentSlideIndex = 0;
+    let currentVisibleIndex = 0;
+    let totalVisibleCount = 33;
     let startTime = null;
     let timerInterval = null;
     let parentWindow = null;
@@ -427,6 +475,13 @@
     let nextSlidePreviewReady = false;
     let mainIframeReady = false;
     let nextSyncAttempts = 0;
+
+    // Envoyer une commande de navigation à la fenêtre audience (index.html)
+    function sendNavCommand(direction) {
+      if (window.opener && !window.opener.closed) {
+        window.opener.postMessage({ type: 'NAV_COMMAND', direction: direction }, '*');
+      }
+    }
 
     // Initialiser le timer
     function startTimer() {
@@ -520,12 +575,22 @@
     }
 
     // Mettre à jour l'affichage du presenter
-    function updatePresenterView(slideIndex) {
+    function updatePresenterView(slideIndex, visIdx, totalVis) {
       currentSlideIndex = slideIndex;
+      if (visIdx !== undefined) currentVisibleIndex = visIdx;
+      if (totalVis !== undefined) totalVisibleCount = totalVis;
 
-      // Mise à jour numéro slide
-      const slideNumber = slideIndex + 1;
-      document.getElementById('slide-number-main').textContent = slideNumber + ' / 33';
+      // Mise à jour numéro slide (badge overlay + barre de nav)
+      const displayPos = currentVisibleIndex + 1;
+      document.getElementById('slide-number-main').textContent = displayPos + ' / ' + totalVisibleCount;
+      const counter = document.getElementById('presenter-slide-counter');
+      if (counter) counter.textContent = displayPos + ' / ' + totalVisibleCount;
+
+      // Mise à jour état des boutons nav
+      const prevBtn = document.getElementById('presenter-prev-btn');
+      const nextBtn = document.getElementById('presenter-next-btn');
+      if (prevBtn) prevBtn.disabled = currentVisibleIndex === 0;
+      if (nextBtn) nextBtn.disabled = currentVisibleIndex >= totalVisibleCount - 1;
 
       // Mise à jour notes
       const notes = SLIDE_NOTES[slideIndex] || 'Notes non disponibles.';
@@ -597,14 +662,14 @@
 
       if (event.data && event.data.type === 'SLIDE_CHANGE') {
         console.log('[presenter]', '📡 SLIDE_CHANGE received: slide ' + event.data.slideIndex);
-        updatePresenterView(event.data.slideIndex);
+        updatePresenterView(event.data.slideIndex, event.data.visibleIndex, event.data.totalVisible);
         document.getElementById('connection-lost').classList.remove('show');
       }
 
       if (event.data && event.data.type === 'CURRENT_SLIDE_INDEX') {
         // Réponse de la fenêtre audience : quelle slide elle regarde
         console.log('[presenter]', '📡 CURRENT_SLIDE_INDEX received: slide ' + event.data.slideIndex);
-        updatePresenterView(event.data.slideIndex);
+        updatePresenterView(event.data.slideIndex, event.data.visibleIndex, event.data.totalVisible);
         document.getElementById('connection-lost').classList.remove('show');
       }
     });
@@ -685,6 +750,26 @@
             }
           }, 3000);
         }
+      }
+    });
+
+    // Boutons de navigation presenter → index.html
+    document.getElementById('presenter-prev-btn').addEventListener('click', function() {
+      sendNavCommand('prev');
+    });
+    document.getElementById('presenter-next-btn').addEventListener('click', function() {
+      sendNavCommand('next');
+    });
+
+    // Raccourcis clavier dans la fenêtre presenter
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+        e.preventDefault();
+        sendNavCommand('next');
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        sendNavCommand('prev');
       }
     });
 
