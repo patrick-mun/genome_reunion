@@ -537,8 +537,19 @@ window.addEventListener('message', function(event) {
   if (event.data && event.data.type === 'GET_CURRENT_SLIDE') {
     // Presenter.html demande quelle slide on regarde — répondre avec l'index actuel
     if (event.source) {
-      event.source.postMessage({ type: 'CURRENT_SLIDE_INDEX', slideIndex: currentSlide }, '*');
+      event.source.postMessage({
+        type: 'CURRENT_SLIDE_INDEX',
+        slideIndex: currentSlide,
+        visibleIndex: getVisibleIndexFromRealIndex(currentSlide),
+        totalVisible: getVisibleSlideCount()
+      }, '*');
     }
+  }
+
+  if (event.data && event.data.type === 'NAV_COMMAND') {
+    // Commande de navigation depuis presenter.html — simuler clic bouton
+    if (event.data.direction === 'next') buttonNext.click();
+    else if (event.data.direction === 'prev') buttonPrevious.click();
   }
 });
 
@@ -692,7 +703,12 @@ function goToSlide(targetIndex, options) {
 
   // Envoyer à presenter si ouvert
   if (!isSlavePresenter && presenterWindow && !presenterWindow.closed) {
-    presenterWindow.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
+    presenterWindow.postMessage({
+      type: 'SLIDE_CHANGE',
+      slideIndex: currentSlide,
+      visibleIndex: getVisibleIndexFromRealIndex(currentSlide),
+      totalVisible: getVisibleSlideCount()
+    }, '*');
   }
 }
 
