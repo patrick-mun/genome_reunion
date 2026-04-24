@@ -14,9 +14,10 @@ Le site est publié via GitHub Pages :
 
 ```text
 genome_reunion/
-├── index.html                    # Source unique de vérité : toutes les slides
+├── index.html                    # Source unique de vérité : toutes les slides (33)
+├── presenter.html                # Mode présentation deux-écrans (slide + notes + preview)
 ├── css/
-│   ├── main.css                  # Variables, reset, nav, deck, composants génériques, responsive, accessibilité
+│   ├── main.css                  # Variables, reset, nav, deck, composants, responsive, burger menu, logo
 │   └── slides/
 │       ├── s00-hero.css          # Slide 0 — hero, admixture, auteurs
 │       ├── s01-angle-mort.css    # Slides 2–8 — biais, IA, clinique, pharmacogénétique
@@ -25,13 +26,14 @@ genome_reunion/
 │       ├── s04-algorithme.css    # Slides 18–29 — algorithme, score, ROH/IBD, validation
 │       └── s05-wgs.css           # Slides 30–32 — impacts, conclusion
 ├── js/
-│   ├── app.js                    # Navigation, accessibilité, animations, Chart.js
+│   ├── app.js                    # Navigation, accessibilité, animations, Chart.js, speaker mode
 │   └── vendor/
-│       └── chart.umd.js          # Chart.js vendorisé localement
+│       └── chart.umd.js          # Chart.js 4.4.1 vendorisé localement
 ├── data/
-│   └── admixture.js              # Injection DOM du fond admixture (slide hero)
-├── AGENTS.md                     # Règles de travail pour contribuer au dépôt
-├── CLAUDE.md                     # Index technique structuré du projet (slides, CSS, IDs DOM)
+│   └── admixture.js              # Animation admixture (slide 0)
+├── AGENTS.md                     # Règles de contribution
+├── CLAUDE.md                     # Index technique (slides, CSS, IDs, conventions)
+├── README.md                     # Ce fichier
 └── SECURITY.md                   # Politique de sécurité
 ```
 
@@ -74,6 +76,19 @@ Le style est réparti en deux niveaux :
 | Tactile | swipe gauche / droite |
 | Section | pills de navigation en haut |
 | Sommaire | lignes cliquables vers chaque bloc |
+| Logo | clic sur "Génome Réunion" → retour à slide 0 |
+| Burger menu (mobile) | clic sur ≡ (< 900px) pour section nav |
+
+## Mode Présentation (deux-écrans)
+
+Clic sur bouton **Présentation** en haut à droite ouvre `presenter.html` :
+
+- **Panneau gauche** : slide actuelle en aperçu full-height
+- **Panneau droit** : notes du speaker (36px) + preview de la slide suivante
+- **Synchro** : communication bidirectionnelle via `postMessage`
+- **Navigation** : clavier / boutons / pills synchronisés entre deux windows
+
+Les notes sont prédéfinies pour chaque slide (index.html : `SLIDE_NOTES`)
 
 ## Lancer le projet en local
 
@@ -105,6 +120,18 @@ git pull origin main
 | Index technique / carte des slides | `CLAUDE.md` |
 | Règles de contribution | `AGENTS.md` |
 
+## Responsive Design
+
+Le deck s'adapte automatiquement :
+
+| Écran | Breakpoint | Adaptations |
+|---|---|---|
+| Desktop | `> 900px` | Navigation pills visible, présentation button visible |
+| Tablette | `601–900px` | Burger menu actif, présentation button caché |
+| Mobile | `≤ 600px` | Burger menu, nav pills dans dropdown, présentation button caché, layout vertical |
+
+**Burger Menu** : nav pills (section 0–5) dans dropdown à gauche, cream bg, dark text, séparateurs, 260px width
+
 ## Conventions importantes
 
 - Garder `index.html` comme **source unique de vérité** pour le contenu du deck
@@ -113,6 +140,7 @@ git pull origin main
 - Mettre à jour `CLAUDE.md` après toute modification qui change une slide, une classe CSS ou un ID DOM
 - Ne pas modifier le fond scientifique sans validation
 - Éviter les styles inline sauf nécessité locale de géométrie ou de démonstration visuelle
+- Utiliser les breakpoints `900px` et `600px` pour la responsivité
 
 ## Documents de référence internes
 
