@@ -867,6 +867,47 @@ tr:last-child td { border: none; }
 .card        { min-height: clamp(100px, 12vh, 180px); }
 .level-card  { min-height: clamp(180px, 22vh, 320px); }
 
+/* ============================================================
+   13b. TOGGLE BUTTON S04
+   ============================================================ */
+#s04-toggle-btn {
+  background: var(--blue);
+  border: 2px solid var(--blue);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+#s04-toggle-btn.is-resume {
+  background: #fff;
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+/* ============================================================
+   13c. TOC ROW LAYOUT
+   ============================================================ */
+.toc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.js-slide-jump {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  cursor: pointer;
+}
+
 
 /* ============================================================
    14. ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS

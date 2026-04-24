@@ -205,8 +205,8 @@
               <span class="text-body toc-desc">De la puce SNP au séquençage ciblé (WGS)</span>
             </div>
           </div>
-          <div class="toc-row" style="display:flex;justify-content:space-between;align-items:center;gap:16px">
-            <div class="js-slide-jump" data-target-slide="17" style="display:flex;gap:16px;flex:1;cursor:pointer">
+          <div class="toc-row">
+            <div class="js-slide-jump" data-target-slide="17">
               <div class="toc-number toc-number--s04">04</div>
               <div>
                 <strong class="toc-title">L'Algorithme de Sélection</strong>
@@ -214,7 +214,7 @@
                 <span class="text-body toc-desc">Score composite, 4 bras, biais IA et exemple concret — 10 slides</span>
               </div>
             </div>
-            <button id="s04-toggle-btn" title="Basculer entre mode Expert (détaillé) et Résumé pour la section Algorithme" aria-pressed="true" style="background:#0369A1;border:2px solid #0369A1;border-radius:8px;padding:10px 20px;font-size:15px;font-weight:700;color:#fff;white-space:nowrap;cursor:pointer;flex-shrink:0;letter-spacing:0.02em">Expert</button>
+            <button id="s04-toggle-btn" title="Basculer entre mode Expert (détaillé) et Résumé pour la section Algorithme" aria-pressed="true">Expert</button>
           </div>
           <div class="toc-row js-slide-jump" data-target-slide="32">
             <div class="toc-number toc-number--s05">05</div>
@@ -1444,18 +1444,18 @@
               <text x="140" y="348" text-anchor="middle" font-size="11" font-weight="700" fill="#0B1F3A" font-family="Georgia,serif">WGS Panel</text>
             </svg>
             <!-- Étapes -->
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <div class="card" style="display:flex;gap:14px;align-items:flex-start;">
-                <div style="width:28px;height:28px;border-radius:50%;background:#0B1F3A;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;">1</div>
-                <div><strong>Puce SNP — Économique &amp; Exhaustif</strong><br/><span class="text-body" style="font-size:clamp(13px,1.4vw,16px);">Génotypage de toute la cohorte EFS pour cartographier la structure génétique globale à moindre coût.</span></div>
+            <div class="design-steps">
+              <div class="card">
+                <div class="numbered-badge num-1">1</div>
+                <div><strong>Puce SNP — Économique &amp; Exhaustif</strong><br/><span class="text-body">Génotypage de toute la cohorte EFS pour cartographier la structure génétique globale à moindre coût.</span></div>
               </div>
-              <div class="card" style="display:flex;gap:14px;align-items:flex-start;">
-                <div style="width:28px;height:28px;border-radius:50%;background:#0D7377;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;">2</div>
-                <div><strong>Score Multicritère S_div — Le Filtre</strong><br/><span class="text-body" style="font-size:clamp(13px,1.4vw,16px);">Calcul de S_div pour identifier les profils maximisant l'information nouvelle I(S) sous contrainte budgétaire.</span></div>
+              <div class="card">
+                <div class="numbered-badge num-2">2</div>
+                <div><strong>Score Multicritère S_div — Le Filtre</strong><br/><span class="text-body">Calcul de S_div pour identifier les profils maximisant l'information nouvelle I(S) sous contrainte budgétaire.</span></div>
               </div>
-              <div class="card" style="display:flex;gap:14px;align-items:flex-start;">
-                <div style="width:28px;height:28px;border-radius:50%;background:#E05A4B;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;">3</div>
-                <div><strong>WGS Panel — Coûteux &amp; Précis</strong><br/><span class="text-body" style="font-size:clamp(13px,1.4vw,16px);">Séquençage complet uniquement sur le sous-ensemble S optimisé.</span></div>
+              <div class="card">
+                <div class="numbered-badge num-3">3</div>
+                <div><strong>WGS Panel — Coûteux &amp; Précis</strong><br/><span class="text-body">Séquençage complet uniquement sur le sous-ensemble S optimisé.</span></div>
               </div>
               <div class="design-pipeline-note">
                 <strong>Conclusion :</strong> Ce n'est pas un échantillonnage aléatoire, mais une <strong>optimisation dirigée par la donnée observable</strong>.
@@ -1599,23 +1599,23 @@
           <div class="slide-rule slide-rule--blue"></div>
           <div class="grid-2">
             <div>
-              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">Le défi</h3>
-              <p class="text-body" style="margin-bottom:12px"><strong>2 500 individus génotypés</strong>, budget limité pour WGS → <strong>sélectionner 350</strong> maximisant l'information utile I(S) sous contrainte budgétaire.</p>
-              <p class="text-body" style="margin-bottom:12px">Deux niveaux indissociables :</p>
-              <ul style="list-style:none;padding:0;font-size:clamp(13px,1.4vw,16px);line-height:1.8">
-                <li style="margin-bottom:8px">✓ <strong>Représentativité géographique</strong> — chaque secteur proportionnel</li>
+              <h3>Le défi</h3>
+              <p class="text-body"><strong>2 500 individus génotypés</strong>, budget limité pour WGS → <strong>sélectionner 350</strong> maximisant l'information utile I(S) sous contrainte budgétaire.</p>
+              <p class="text-body">Deux niveaux indissociables :</p>
+              <ul>
+                <li>✓ <strong>Représentativité géographique</strong> — chaque secteur proportionnel</li>
                 <li>✓ <strong>Diversité génétique locale</strong> — maximiser l'information par secteur</li>
               </ul>
             </div>
             <div>
-              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">La solution : S_div</h3>
-              <div class="formula" style="background:#f0f9ff;padding:12px;border-radius:6px;margin-bottom:12px;text-align:center">S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH</div>
-              <p class="text-body" style="margin-bottom:8px">4 dimensions complémentaires :</p>
-              <ul style="list-style:none;padding:0;font-size:clamp(13px,1.4vw,16px);line-height:1.8">
-                <li style="margin-bottom:4px"><strong style="color:#0D7377">PCA_score</strong> — position génétique</li>
-                <li style="margin-bottom:4px"><strong style="color:#7C3AED">ADMIX_score</strong> — ancestralité diverse</li>
-                <li style="margin-bottom:4px"><strong style="color:#EA580C">IBD_score</strong> — indépendance génétique</li>
-                <li><strong style="color:#D97706">ROH_score</strong> — peu de consanguinité</li>
+              <h3>La solution : S_div</h3>
+              <div class="formula-box">S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH</div>
+              <p class="text-body">4 dimensions complémentaires :</p>
+              <ul>
+                <li><strong class="score-pca">PCA_score</strong> — position génétique</li>
+                <li><strong class="score-admix">ADMIX_score</strong> — ancestralité diverse</li>
+                <li><strong class="score-ibd">IBD_score</strong> — indépendance génétique</li>
+                <li><strong class="score-roh">ROH_score</strong> — peu de consanguinité</li>
               </ul>
             </div>
           </div>
@@ -1637,27 +1637,27 @@
           <div class="slide-rule slide-rule--blue"></div>
           <div class="grid-2">
             <div>
-              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">1000 Genomes (proxy)</h3>
-              <p class="text-body" style="margin-bottom:8px"><strong>3 populations admixées</strong> (Afrique, Inde, tri-ancestral) × 3 budgets (N = 100, 200, 350) × 5 stratégies.</p>
-              <p class="text-body" style="margin-bottom:8px"><strong>Critères succès :</strong></p>
-              <ul style="list-style:none;padding:0;font-size:clamp(12px,1.3vw,15px);line-height:1.6">
+              <h3>1000 Genomes (proxy)</h3>
+              <p class="text-body"><strong>3 populations admixées</strong> (Afrique, Inde, tri-ancestral) × 3 budgets (N = 100, 200, 350) × 5 stratégies.</p>
+              <p class="text-body"><strong>Critères succès :</strong></p>
+              <ul class="compact">
                 <li>• KS-test &lt; 0.10</li>
                 <li>• Couverture allélique &gt; random</li>
                 <li>• ≥ 80% des stratégies robustes</li>
               </ul>
             </div>
             <div>
-              <h3 style="font-weight:700;font-size:clamp(16px,1.8vw,22px);margin-bottom:12px">EPIGEN-Brasil (réel)</h3>
-              <p class="text-body" style="margin-bottom:8px"><strong>6 487 individus</strong> — admixture réelle africain/européen/amérindien, 30 WGS séquencés.</p>
-              <p class="text-body" style="margin-bottom:8px"><strong>Validation croisée :</strong></p>
-              <ul style="list-style:none;padding:0;font-size:clamp(12px,1.3vw,15px);line-height:1.6">
+              <h3>EPIGEN-Brasil (réel)</h3>
+              <p class="text-body"><strong>6 487 individus</strong> — admixture réelle africain/européen/amérindien, 30 WGS séquencés.</p>
+              <p class="text-body"><strong>Validation croisée :</strong></p>
+              <ul class="compact">
                 <li>• Sélection S_div vs random</li>
                 <li>• Couverture rare variants</li>
                 <li>• SNP score vs WGS réel</li>
               </ul>
             </div>
           </div>
-          <div class="callout" style="background:#fef3c7;border-color:#f59e0b">
+          <div class="callout callout--amber">
             ✓ <strong>Succès 1000G + EPIGEN</strong> → Confiance avant déploiement sur cohorte EFS réunionnaise<br/>
             ⚠ <strong>Limitations acceptables</strong> : variants rares MAF &lt; 1% moins fiables · heuristique paramétrée (non optimale mathématiquement)
           </div>

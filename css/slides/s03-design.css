@@ -164,3 +164,20 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Design Steps / Numbered Items ──────────────────────── */
+.design-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.design-steps .card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.design-steps .text-body {
+  font-size: clamp(13px, 1.4vw, 16px);
+}
