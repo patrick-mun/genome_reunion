@@ -1592,7 +1592,7 @@
      Architecture générale : géographique (fondation) puis
      génétique (optimisation S_div au sein de chaque secteur).
      ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-section="4">
+      <div class="slide slide--cream" data-section="4" data-animate="archflow">
         <div class="inner">
           <h2 class="slide-title">Deux niveaux, une contrainte principale</h2>
           <div class="slide-rule slide-rule--blue"></div>
@@ -1611,7 +1611,7 @@
             </div>
           </div>
           <!-- Architecture flow chart (HTML/CSS responsive) -->
-          <div class="arch-flow">
+          <div class="arch-flow" id="archFlow">
             <div class="arch-flow-item">
               <div class="arch-flow-box arch-flow-box--navy">
                 <div class="arch-flow-box-title">2 500 individus</div>
@@ -1645,6 +1645,21 @@
                 <div class="arch-flow-box-subtitle">Référentiel réunionnais</div>
               </div>
             </div>
+          </div>
+          <!-- Contrôles carousel (mobile uniquement) -->
+          <div class="arch-flow-carousel-controls" id="archFlowControls">
+            <button class="arch-flow-carousel-btn" id="archFlowPrev" aria-label="Étape précédente">
+              <svg fill="none" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/></svg>
+            </button>
+            <div class="arch-flow-carousel-dots">
+              <span class="arch-flow-carousel-dot active" data-step="0"></span>
+              <span class="arch-flow-carousel-dot" data-step="1"></span>
+              <span class="arch-flow-carousel-dot" data-step="2"></span>
+              <span class="arch-flow-carousel-dot" data-step="3"></span>
+            </div>
+            <button class="arch-flow-carousel-btn" id="archFlowNext" aria-label="Étape suivante">
+              <svg fill="none" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/></svg>
+            </button>
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>

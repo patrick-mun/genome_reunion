@@ -158,10 +158,11 @@ function goToSlide(targetIndex, options) {
   // Animations déclenchées à l'arrivée sur certaines slides.
   // La slide active est identifiée via data-animate (plus d'indices hardcodés).
   var animate = allSlides[currentSlide].dataset.animate;
-  if (animate === 'pipeline') { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
-  if (animate === 'score')    { setTimeout(initScoreChart,  200); }
-  if (animate === 'roh')      { resetROHAnimation(); setTimeout(animateROH, 300); }
-  if (animate === 'radar')    { setTimeout(initRadarChart,  200); }
+  if (animate === 'pipeline')  { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
+  if (animate === 'archflow')  { initArchFlowCarousel(); }
+  if (animate === 'score')     { setTimeout(initScoreChart,  200); }
+  if (animate === 'roh')       { resetROHAnimation(); setTimeout(animateROH, 300); }
+  if (animate === 'radar')     { setTimeout(initRadarChart,  200); }
 
   if (!options.skipFocus) {
     focusCurrentSlideTitle();
@@ -372,6 +373,51 @@ function initRadarChart() {
 /**
  * Slide 12 — Pipeline SNP → WGS : apparition séquentielle des étapes
  */
+// ── Carousel arch-flow (slide 19 mobile) ──────────────────────
+// Actif uniquement sous 600px — desktop reste inchangé.
+var _archFlowCarouselInit = false;
+
+function initArchFlowCarousel() {
+  if (window.innerWidth > 600) return;
+
+  var items = document.querySelectorAll('#archFlow .arch-flow-item');
+  var dots  = document.querySelectorAll('.arch-flow-carousel-dot');
+  var btnPrev = document.getElementById('archFlowPrev');
+  var btnNext = document.getElementById('archFlowNext');
+  if (!items.length) return;
+
+  var step = 0;
+
+  function showStep(n) {
+    items.forEach(function(item, i) {
+      item.classList.remove('arch-flow-active', 'arch-flow-prev');
+      if (i === n) item.classList.add('arch-flow-active');
+      else if (i < n) item.classList.add('arch-flow-prev');
+    });
+    dots.forEach(function(dot, i) { dot.classList.toggle('active', i === n); });
+    step = n;
+  }
+
+  showStep(0);
+
+  if (_archFlowCarouselInit) return;
+  _archFlowCarouselInit = true;
+
+  if (btnPrev) btnPrev.addEventListener('click', function() { if (step > 0) showStep(step - 1); });
+  if (btnNext) btnNext.addEventListener('click', function() { if (step < items.length - 1) showStep(step + 1); });
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() { showStep(parseInt(dot.dataset.step, 10)); });
+  });
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 600) {
+      items.forEach(function(item) { item.classList.remove('arch-flow-active', 'arch-flow-prev'); });
+    } else {
+      showStep(step);
+    }
+  });
+}
+
 function animatePipeline() {
   const pipeFlow = document.getElementById('pipeFlow');
   if (!pipeFlow) { console.warn('[app.js] #pipeFlow introuvable — animatePipeline annulé.'); return; }
