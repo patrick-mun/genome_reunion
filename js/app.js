@@ -654,9 +654,7 @@ function goToSlide(targetIndex, options) {
   var innerEl = allSlides[currentSlide].querySelector('.inner');
   if (innerEl) innerEl.scrollTop = 0;
 
-  // Calculer translateX en fonction des slides visibles
-  var visibleIdx = getVisibleIndexFromRealIndex(currentSlide);
-  slideDeck.style.transform = `translateX(-${visibleIdx * 100}vw)`;
+  slideDeck.style.transform = `translateX(-${currentSlide * 100}vw)`;
 
   // Compter les slides visibles
   var visibleCount = getVisibleSlideCount();
