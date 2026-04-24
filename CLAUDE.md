@@ -151,9 +151,11 @@ Règles de travail détaillées dans `AGENTS.md`.
 
 ## Récapitulatif des éléments DOM inline style
 
-Il reste **9** `style=""` inline dans `index.html`, tous sur la slide 26 (ROH diagram).
-Ils servent uniquement à placer les segments du schéma ROH (`left` / `width`), donc
-sont conservés volontairement comme géométrie locale d'un dessin unique.
+Il reste **13** `style=""` inline dans `index.html` (tous justifiés) :
+- **4** : SVG display standard (`width:100%;display:block`) — elément racine SVG, responsive
+- **9** : ROH chromosome segments (`left`/`width` positioning) — géométrie unique du diagramme slide 24
+
+Conservés volontairement pour des raisons de responsivité (SVG) et de géométrie locale unique (ROH).
 
 ## Palette de couleurs (variables CSS)
 
@@ -210,6 +212,9 @@ sont conservés volontairement comme géométrie locale d'un dessin unique.
 | **Distribution labels** | Slide 24: labels "scores élevés" (gauche) et "scores bas" (droite) alignés avec méthodologie |
 | **Notes presenter** | Notes font-size 36px, colonne 50/50 split (texte | next-slide preview) |
 | **Emoji removal** | Présentation button : 📺 emoji retiré |
+| **CSS Cleanup** | Nettoyage complet : 83→13 inline styles (-84%), 9 s04 summary slides repositionnées, classes utilitaires responsives |
+| **Classe .toc-row--with-button** | Dédiée au toggle Expert/Résumé S04 en slide 2, élimine redéfinition globale de `.toc-row` |
+| **Texte TOC S04 actualisé** | "Comment choisir les individus qui maximisent l'information génétique" (description plus pertinente) |
 
 ## Règle de mise à jour
 
