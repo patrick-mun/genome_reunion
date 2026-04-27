@@ -1,1 +1,1 @@
-{ "notes": "Le pipeline d'optimisation : 5 étapes de la donnée brute au panel de 350 WGS. (1) Échantillonnage EFS, (2) Extraction & stockage ADN, (3) Génotypage SNP, (4) Sélection via algo, (5) WGS ciblé. Chaque étape a un rôle critique." }
+{ "notes": "" }

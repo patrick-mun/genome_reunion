@@ -1,1 +1,1 @@
-{ "notes": "PCA_score + ADMIX_score. PCA_score : distance euclidienne dans espace PCA global → capture la position dans le cloud de variation. ADMIX_score : diversité des proportions ancestrales → max entropy quand contributions équilibrées." }
+{ "notes": "" }

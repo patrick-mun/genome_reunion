@@ -1,1 +1,1 @@
-{ "notes": "Algorithme greedy stratifié. Processus : (1) Pour chaque secteur, (2) Pour chaque quintile, (3) Sélectionner greedily l'individu avec meilleur S_div restant, (4) Vérifier la contrainte IBD cross-secteur (0.125). Vérification à chaque ajout." }
+{ "notes": "" }

@@ -1,1 +1,1 @@
-{ "notes": "Représentativité géographique — la contrainte première. Exemple : si secteur Nord = 12% de la cohorte, alors N_WGS_Nord = round(0.12 × 350) = 42 WGS. Cela garantit que le panel réfléchit la géographie réunionnaise, pas les artefacts de recrutement." }
+{ "notes": "" }

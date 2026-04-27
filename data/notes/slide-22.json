@@ -1,1 +1,1 @@
-{ "notes": "IBD_score + ROH_score. IBD_score : partage de segments d'identité → minimise la redondance génétique. ROH_score : pénalise les individus avec homozygotie par descent → favorise la diversité allélique." }
+{ "notes": "" }
