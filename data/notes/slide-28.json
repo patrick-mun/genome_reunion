@@ -1,0 +1,1 @@
+{ "notes": "Validation 1000 Genomes avant déploiement. Tester l'algo sur 3 populations proxy (ACB/ASW, GIH/BEB, tri-ancestral). Critères succès : KS-test < 0.10, couverture allélique > random, robustesse ≥ 80% stratégies passent." }

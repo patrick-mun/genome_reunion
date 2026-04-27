@@ -395,74 +395,25 @@
       setTimeout(applyAllScales, 50);
     });
 
-    // Données de notes pour chaque slide (placeholder lorem ipsum)
-    const SLIDE_NOTES = {
-      0: "Bienvenue aux participants. Cette présentation couvre une approche innovante du séquençage génomique pour la population réunionnaise. Nous allons explorer comment transformer la diversité génétique en une ressource de référence clinique.",
+    // Cache des notes chargées depuis data/notes/slide-XX.json
+    const notesCache = {};
 
-      1: "Sommaire et structure générale. Six sections couvrant le contexte, la méthodologie, et les impacts attendus. Prise de temps estimée : 45–60 minutes pour la présentation complète avec questions.",
-
-      2: "Introduction de la section 1 : L'angle mort de la médecine de précision. Focus sur les biais structurels dans les bases génomiques mondiales et l'impact clinique réel en populations non-européennes.",
-
-      3: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Les bases génomiques mondiales (1000G, gnomAD) reflètent principalement des populations européennes. Cette représentation déséquilibrée crée des biais dans les algorithmes de diagnostic et imputation.",
-
-      4: "Point clé : le mur clinique. Les variants rares de populations locales ne sont pas détectables dans les panneaux SNP conçus sur 1000G. Exemple : variants réunionnais d'intérêt clinique sont invisibles aux dépistages standard.",
-
-      5: "Pharmacogénétique : les variants CYP (métabolisme des médicaments) varient fortement par population. Sans une base locale, les dosages prescits sont calibrés sur données européennes, créant des risques de sous/surdosage.",
-
-      6: "L'IA amplifie ces biais. Les modèles d'apprentissage entraînés sur données déséquilibrées reproduisent et amplifient les biais de représentation. 'Garbage in, garbage out' — entrées biaisées → prédictions biaisées.",
-
-      7: "Comment ce projet corrige le biais IA. En créant un référentiel local pangénomique, on alimente les futurs modèles avec une diversité génétique représentative de la population réunionnaise, brisant le cycle du biais.",
-
-      8: "Introduction de la section 2 : Singularité Réunionnaise. La Réunion offre une opportunité scientifique unique : admixture moderne (3-4 siècles) + effet fondateur + isolement relatif.",
-
-      9: "Histoire du peuplement réunionnais. 1665 : arrivée des Français, esclavagisme africain, immigration indienne. Résultat : population triancestrale avec proportions bien documentées (~45% Afrique, ~25% Inde, ~20% Européen, ~10% autre).",
-
-      10: "Du peuplement au métissage. Contrairement aux populations stratifiées (Europe, Afrique), la Réunion est massivement métissée à tous les niveaux. Cela crée une structure génétique unique : peu de 'clusters' génétiques purs.",
-
-      11: "Population homogène vs la Réunion. Une population européenne typique (1000G CEU) est ~98% génétiquement 'pure' européenne. La Réunion : chaque individu porte des branchements de 3-4 continents. C'est la différence clé.",
-
-      12: "Effet fondateur : alcuni variants très rares globalement sont fixés localement. Exemples : Larsen-Bourbon, Syndrome de Ravine. Ces variants réunionnais sont invisibles à 1000G, créant une opportunité de découverte scientifique.",
-
-      13: "Double singularité résumée. (1) Admixture moderne continue + bien documentée. (2) Effet fondateur créant variants locaux rares. Combinées, ces deux forces rendent la Réunion unique et scientifiquement précieuse pour séquençage.",
-
-      14: "Introduction section 3 : Design Méthodologique. Nous passons maintenant de la motivation (pourquoi) au design technique (comment).",
-
-      15: "Le pipeline d'optimisation : 5 étapes de la donnée brute au panel de 350 WGS. (1) Échantillonnage EFS, (2) Extraction & stockage ADN, (3) Génotypage SNP, (4) Sélection via algo, (5) WGS ciblé. Chaque étape a un rôle critique.",
-
-      16: "L'entonnoir d'optimisation. À chaque étape, on maximise l'information capturée. SNP → données génétiques de base. Algo de sélection → choix des 350 individus optimisant diversité génétique. WGS → séquence complète des 350 sélectionnés.",
-
-      17: "Introduction section 4 : L'Algorithme de Sélection. Core du projet : comment choisir 350 individus parmi 2500 pour maximiser l'information génétique sous contrainte budgétaire.",
-
-      18: "Deux niveaux, une contrainte principale. Niveau 1 (Fondation) : représentativité géographique 100% non-négociable — chaque secteur contribue proportionnellement. Niveau 2 (Optimisation) : diversité génétique locale via score multicritère S_div.",
-
-      19: "Représentativité géographique — la contrainte première. Exemple : si secteur Nord = 12% de la cohorte, alors N_WGS_Nord = round(0.12 × 350) = 42 WGS. Cela garantit que le panel réfléchit la géographie réunionnaise, pas les artefacts de recrutement.",
-
-      20: "Les 4 composantes de S_div. Un score multicritère pondéré : PCA_score (30%) + ADMIX_score (30%) + IBD_score (25%) + ROH_score (15%). Chaque composante capture une dimension différente de la diversité génétique.",
-
-      21: "PCA_score + ADMIX_score. PCA_score : distance euclidienne dans espace PCA global → capture la position dans le cloud de variation. ADMIX_score : diversité des proportions ancestrales → max entropy quand contributions équilibrées.",
-
-      22: "IBD_score + ROH_score. IBD_score : partage de segments d'identité → minimise la redondance génétique. ROH_score : pénalise les individus avec homozygotie par descent → favorise la diversité allélique.",
-
-      23: "Agrégation S_div. Les 4 composantes sont normalisées puis pondérées. Résultat : chaque individu a un score S_div entre 0–1. Scores plus élevés = plus de diversité génétique apportée.",
-
-      24: "Stratification quintile. S_div divisé en 5 niveaux (Q1 à Q5). Allocation : Q1–Q4 reçoivent 20% des slots chacun, Q5 reçoit 10% (réduit pour éviter surpondérer les extrêmes). Cela balance diversité et robustesse.",
-
-      25: "Algorithme greedy stratifié. Processus : (1) Pour chaque secteur, (2) Pour chaque quintile, (3) Sélectionner greedily l'individu avec meilleur S_div restant, (4) Vérifier la contrainte IBD cross-secteur (0.125). Vérification à chaque ajout.",
-
-      26: "Exemple concret : calcul du score. Individu synthétique avec PCA=0.38, ADMIX=0.65, IBD=0.72, ROH=0.81. S_div = 0.30×0.38 + 0.30×0.65 + 0.25×0.72 + 0.15×0.81 = 0.59. Score modéré, sélectionnable dans Q3.",
-
-      27: "Avantages et limitations acceptables. Avantages : transparent, multicritère, stratifié. Limitations : heuristique greedy (pas optimal global), pas account non-genetic covariates. Acceptables car validation empirique sur 1000G le confirme.",
-
-      28: "Validation 1000 Genomes avant déploiement. Tester l'algo sur 3 populations proxy (ACB/ASW, GIH/BEB, tri-ancestral). Critères succès : KS-test < 0.10, couverture allélique > random, robustesse ≥ 80% stratégies passent.",
-
-      29: "Validation complémentaire : EPIGEN-Brasil. 6487 individus, structure génétique réelle admixée. Tester sur vrais données, évaluer couverture rare variants (MAF 0.1–1%), cross-validation SNP vs 30 WGS. Plus réaliste que 1000G.",
-
-      30: "Introduction section 5 : WGS & Impacts. Nous arrivons à la fin : qu'est-ce que le séquençage whole-genome produit concrètement pour la clinique réunionnaise.",
-
-      31: "Les impacts attendus du référentiel réunionnais. (1) Reclasser les VUS (variants d'incertitude). (2) Pharmacogénomique locale (dosages CYP adaptés). (3) Améliorer l'imputation SNP. (4) Découvrir effet fondateur. (5) Corriger biais IA. (6) Équité en santé.",
-
-      32: "Conclusion. Un design rigoureux au service de l'équité en santé. La Réunion est absente des bases mondiales — avec conséquences cliniques réelles. Sa singularité (admixture + effet fondateur) en fait une opportunité unique. Le pipeline SNP → score → WGS ciblé maximise l'info sous contrainte. Le référentiel local bénéficiera diagnostics, traitements, et lutte contre biais IA."
-    };
+    function loadSlideNotes(slideIndex) {
+      if (notesCache[slideIndex] !== undefined) {
+        return Promise.resolve(notesCache[slideIndex]);
+      }
+      const padded = String(slideIndex).padStart(2, '0');
+      return fetch('data/notes/slide-' + padded + '.json')
+        .then(res => res.ok ? res.json() : { notes: 'Notes non disponibles.' })
+        .then(data => {
+          notesCache[slideIndex] = data.notes || 'Notes non disponibles.';
+          return notesCache[slideIndex];
+        })
+        .catch(() => {
+          notesCache[slideIndex] = 'Notes non disponibles.';
+          return notesCache[slideIndex];
+        });
+    }
 
     let currentSlideIndex = 0;
     let currentVisibleIndex = 0;
@@ -592,9 +543,10 @@
       if (prevBtn) prevBtn.disabled = currentVisibleIndex === 0;
       if (nextBtn) nextBtn.disabled = currentVisibleIndex >= totalVisibleCount - 1;
 
-      // Mise à jour notes
-      const notes = SLIDE_NOTES[slideIndex] || 'Notes non disponibles.';
-      document.getElementById('notes-content').innerHTML = '<p>' + notes + '</p>';
+      // Chargement asynchrone des notes depuis data/notes/slide-XX.json
+      loadSlideNotes(slideIndex).then(notes => {
+        document.getElementById('notes-content').innerHTML = '<p>' + notes + '</p>';
+      });
 
       // Synchroniser l'iframe principal
       syncIframeSlide(slideIndex);
@@ -604,7 +556,7 @@
         syncNextSlidePreview(slideIndex);
       });
 
-      // Lancer le timer au première slide
+      // Lancer le timer à la première slide
       if (!startTime) {
         startTimer();
       }
