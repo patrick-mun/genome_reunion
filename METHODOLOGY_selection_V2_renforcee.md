@@ -1,4 +1,4 @@
-# Méthodologie de sélection optimale — Génome Réunion
+# Méthodologie de sélection optimale : Génome Réunion
 
 ## Vue d'ensemble
 
@@ -86,7 +86,7 @@ Il faut donc distinguer trois usages :
 | **Imputation / panel de référence** | 350 WGS + 2150 SNP | Objectif fort : projeter l'information WGS vers la cohorte complète |
 | **Fréquences populationnelles finales** | Cohorte SNP 2500 recalibrée | Ne pas utiliser les fréquences brutes des 350 WGS sans pondération |
 
-**Règle de prudence V2 :** les fréquences observées dans les 350 WGS seront considérées comme des **fréquences enrichies / panel-based**. Les fréquences populationnelles réunionnaises devront être estimées après recalibration :
+**Règle de prudence :** les fréquences observées dans les 350 WGS seront considérées comme des **fréquences enrichies / panel-based**. Les fréquences populationnelles réunionnaises devront être estimées après recalibration :
 - pondération selon les strates géographiques ;
 - pondération selon les strates génétiques lorsque nécessaire ;
 - imputation des variants WGS dans les 2150 génotypes SNP restants ;
@@ -164,7 +164,7 @@ AU SEIN DE CHAQUE SECTEUR (en parallèle) :
 
 **Résultat** : 350 WGS distribués géographiquement, garantissant que la sélection reflète la structure démographique réelle de La Réunion.
 
-#### **2.1.1 Variante V2 — noyau géographique + bras de découverte contrôlé**
+#### **2.1.1 Variante : noyau géographique + bras de découverte contrôlé**
 
 La version stricte impose une stratification géographique sur la totalité des 350 WGS. Cette stratégie est robuste pour la représentativité, mais elle peut sous-capturer certains profils génétiques informatifs, notamment :
 - profils d'ascendance minoritaire ou localement dominante mais peu mélangés ;
@@ -172,7 +172,7 @@ La version stricte impose une stratification géographique sur la totalité des 
 - profils ROH élevés évocateurs d'effet fondateur ;
 - segments ancestraux rares utiles pour le phasage, l'imputation ou la découverte de variants locaux.
 
-**Architecture V2 recommandée :**
+**Architecture recommandée :**
 
 | Composante du panel | Proportion | N approximatif | Objectif |
 |---|---:|---:|---|
@@ -243,7 +243,7 @@ PCA et ADMIXTURE calculés globalement apportent deux garanties concrètes : (1)
 
 **Objectif** : Favoriser les individus avec des profils d'admixture informatifs au sein du secteur, qu'ils soient **rares**, **extrêmes** ou **fortement mélangés**. L'entropie ne mesure pas la rareté au sens strict ; elle capture surtout l'équilibre du mélange. Sa contribution doit donc être interprétée conjointement avec PCA_score et avec l'analyse leave-one-component-out (§4.5).
 
-**Point critique V2 — entropie ≠ rareté :**
+**Point critique : entropie ≠ rareté :**
 
 L'entropie de Shannon favorise les profils très mélangés, mais elle peut sous-estimer des profils pourtant informatifs : par exemple un individu porteur d'une ascendance rare mais dominante, peu mélangé, peut avoir une entropie faible. Pour éviter cette limite, le bras découverte contrôlé peut intégrer une métrique complémentaire :
 
@@ -344,7 +344,7 @@ Cette composante n'est pas nécessairement intégrée au score principal `S_div`
    ROH_score_emp(i) = 1 - (total_ROH_length(i) - min_secteur) / (max_secteur - min_secteur)
    ```
 
-   **Version fondateur V2 (bras découverte uniquement)**
+   **Version fondateur (bras découverte uniquement)**
    ```
    ROH_founder_score(i) = rank_percentile(total_ROH_length(i), secteur)
    ```
@@ -388,7 +388,7 @@ avec contraintes :
 
 *(Les poids seront optimisés et validés par l'étude préalable sur données 1000 Genomes — l'analyse de sensibilité déterminera si ces valeurs par défaut sont robustes ou si d'autres pondérations produisent systématiquement de meilleurs résultats. À ce stade, ils doivent être présentés comme des **poids de travail** et non comme des constantes théoriquement optimales.)*
 
-**Clarification V2 :** `S_div` reste le score principal du noyau géographique. Le bras découverte contrôlé peut utiliser des scores additionnels ciblés (`ADMIX_rarity`, `ROH_founder_score`, utilité phasage/imputation). Ces scores ne doivent pas modifier silencieusement le panel principal : ils doivent produire une liste séparée, traçable, auditée, puis intégrée dans les 5–10% réservés.
+**Clarification  :** `S_div` reste le score principal du noyau géographique. Le bras découverte contrôlé peut utiliser des scores additionnels ciblés (`ADMIX_rarity`, `ROH_founder_score`, utilité phasage/imputation). Ces scores ne doivent pas modifier silencieusement le panel principal : ils doivent produire une liste séparée, traçable, auditée, puis intégrée dans les 5–10% réservés.
 
 ---
 
@@ -468,7 +468,7 @@ QC individu :
 ~2.5M SNP conservés (marqueurs puce, pour calcul S_div uniquement)
 ```
 
-**Point de vigilance V2 — HWE en population admixée :** un test HWE appliqué globalement à une population structurée peut retirer des marqueurs informatifs par effet Wahlund. Le filtre HWE doit donc être utilisé comme indicateur de qualité technique, et non comme critère aveugle d'exclusion biologique. Une analyse par strate ou après contrôle de structure est recommandée.
+**Point de vigilance : HWE en population admixée :** un test HWE appliqué globalement à une population structurée peut retirer des marqueurs informatifs par effet Wahlund. Le filtre HWE doit donc être utilisé comme indicateur de qualité technique, et non comme critère aveugle d'exclusion biologique. Une analyse par strate ou après contrôle de structure est recommandée.
 
 **Important — distinction puce vs WGS** : ce filtre MAF ≥ 1% s'applique exclusivement aux **marqueurs SNP de la puce** utilisés pour calculer les scores S_div (PCA, ADMIXTURE, IBD, ROH). Il est standard en génomique des populations pour éviter le bruit des variants très rares dans les analyses multivariées. Il ne concerne pas les variants que le **séquençage WGS** découvrira : le référentiel WGS final capturera des variants à n'importe quelle fréquence, y compris MAF < 1%, selon la couverture calculée en §1.2.
 
@@ -593,7 +593,7 @@ return selected_total  # 350 individus total, stratifiés géographiquement + op
 
 **Résultat** : Liste des 350 IDs à séquencer en WGS.
 
-#### **3.3.1 Procédure V2 de récupération des quotas**
+#### **3.3.1 Procédure de récupération des quotas**
 
 La version précédente indiquait qu'un quota vidé par la contrainte IBD pouvait être perdu. Cette règle est prudente, mais elle peut empêcher d'atteindre exactement 350 WGS. La V2 introduit donc une récupération contrôlée :
 
@@ -720,7 +720,7 @@ Pour chaque sélection, mesurer :
 
 **Critère de succès (logique confirmée)** : S_div stratifié doit obtenir un KS < 0.10 (biais faible) ET une couverture allélique supérieure au tirage aléatoire **sur les 3 groupes de populations**. La cohérence entre groupes prime sur la performance absolue sur un seul groupe.
 
-**Validation V2 spécifique au design puce → WGS :** comme la sélection réelle partira de marqueurs de puce SNP et non d'un WGS complet, il est recommandé d'ajouter une simulation de dégradation :
+**Validation spécifique au design puce → WGS :** comme la sélection réelle partira de marqueurs de puce SNP et non d'un WGS complet, il est recommandé d'ajouter une simulation de dégradation :
 1. partir de données WGS 1000G/EPIGEN ;
 2. restreindre artificiellement aux SNPs disponibles sur la puce envisagée ;
 3. calculer `S_div` sur la version puce ;
