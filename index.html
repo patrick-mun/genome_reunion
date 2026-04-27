@@ -2301,47 +2301,59 @@
      Transmission mendélienne, haplotypes locaux, ressource phasage.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
-        <div class="inner">
-          <h2 class="slide-title">Phasage réunionnais : 2500 SNP + 100 familles nucléaires</h2>
+        <div class="inner inner--top">
+          <h2 class="slide-title">Phasage réunionnais : 2 500 SNP + 100 familles nucléaires</h2>
           <div class="slide-rule slide-rule--teal"></div>
-          <div class="grid-2">
-            <div>
-              <p class="text-body mb-responsive-sm"><strong>Pourquoi 100 familles nucléaires ?</strong></p>
-              <ul class="compact">
+          <div class="grid-3">
+            <!-- Pourquoi 100 familles -->
+            <div class="card algo-card algo-card--top-teal">
+              <p class="algo-card-title">Pourquoi 100 familles nucléaires ?</p>
+              <ul class="criteria-list">
                 <li><strong>Transmission mendélienne</strong> : source validée de phases alléliques</li>
-                <li><strong>Haplotypes adaptés :</strong> population réunionnaise spécifique</li>
-                <li><strong>Améliore :</strong> imputation, Local Ancestry Inference (LAI), IBD, ROH</li>
-                <li><strong>Réduit erreurs</strong> de phase SNP seuls</li>
-              </ul>
-              <p class="text-body mt-responsive-lg"><strong>Garde-fous éthiques :</strong></p>
-              <ul class="compact">
-                <li>• Sélection : non-apparentés, filiation stable</li>
-                <li>• Séparation : données familiales isolées</li>
-                <li>• Protocole éthique dédié (consentement familial)</li>
+                <li><strong>Haplotypes adaptés</strong> : population réunionnaise spécifique</li>
+                <li><strong>Améliore</strong> : imputation, LAI, IBD, ROH</li>
+                <li><strong>Réduit les erreurs</strong> de phase SNP seuls</li>
               </ul>
             </div>
+            <!-- Pipeline phasage visuel -->
             <div>
-              <p class="text-body mb-responsive-sm"><strong>Pipeline phasage</strong> :</p>
-              <div style="background: #F4F1EC; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8; color: #0B1F3A;">
-                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">2 500 SNP populationnels</div>
-                <div style="text-align: center; margin-bottom: 12px;">+</div>
-                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">100 familles nucléaires SNP</div>
-                <div style="text-align: center; margin-bottom: 12px;">↓</div>
-                <div style="text-align: center; font-style: italic; margin-bottom: 12px;">phasage populationnel assisté par transmission mendélienne</div>
-                <div style="text-align: center; margin-bottom: 12px;">↓</div>
-                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">Haplotypes réunionnais</div>
-                <div style="text-align: center; margin-bottom: 12px;">↓</div>
-                <div style="text-align: center; font-weight: 700; color: #059669;">imputation · LAI · IBD · ROH</div>
+              <p class="phasage-flow-label">Pipeline phasage</p>
+              <div class="phasage-flow">
+                <div class="phasage-flow-box phasage-flow-box--navy">2 500 SNP populationnels</div>
+                <div class="phasage-flow-sep">+</div>
+                <div class="phasage-flow-box phasage-flow-box--blue">100 familles nucléaires</div>
+                <div class="phasage-flow-arrow">↓</div>
+                <div class="phasage-flow-box phasage-flow-box--teal">phasage assisté par transmission mendélienne</div>
+                <div class="phasage-flow-arrow">↓</div>
+                <div class="phasage-flow-box phasage-flow-box--navy">Haplotypes réunionnais</div>
+                <div class="phasage-flow-arrow">↓</div>
+                <div class="phasage-flow-tags">
+                  <span class="phasage-flow-tag">imputation</span>
+                  <span class="phasage-flow-tag">LAI</span>
+                  <span class="phasage-flow-tag">IBD</span>
+                  <span class="phasage-flow-tag">ROH</span>
+                </div>
               </div>
             </div>
+            <!-- Garde-fous éthiques -->
+            <div class="card algo-card algo-card--top-navy">
+              <p class="algo-card-title">Garde-fous éthiques</p>
+              <ul class="criteria-list">
+                <li><strong>Sélection</strong> : non-apparentés, filiation stable</li>
+                <li><strong>Séparation</strong> : données familiales isolées</li>
+                <li><strong>Protocole dédié</strong> : consentement familial spécifique</li>
+              </ul>
+            </div>
           </div>
-          <p class="design-note design-note--teal mt-responsive-lg"><strong>⚠️ Distinctions critiques :</strong></p>
-          <ul class="compact">
-            <li>• <strong>Phasage SNP :</strong> utiliser 100 familles ✓</li>
-            <li>• <strong>Estimations fréquence :</strong> jamais 100 familles (ressource technique, pas analytique)</li>
-            <li>• <strong>Analyses familiales :</strong> données séparées, méthodologie distincte</li>
-            <li>• <strong>Annotations :</strong> séparation stricte technique vs analytique</li>
-          </ul>
+          <div class="callout callout--amber">
+            <strong>⚠ Distinctions critiques</strong>
+            <ul class="criteria-list">
+              <li><strong>Phasage SNP</strong> : utiliser 100 familles ✓</li>
+              <li><strong>Estimations de fréquence</strong> : jamais 100 familles — ressource technique, pas analytique</li>
+              <li><strong>Analyses familiales</strong> : données séparées, méthodologie distincte</li>
+              <li><strong>Annotations</strong> : séparation stricte technique vs analytique</li>
+            </ul>
+          </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
             <span class="caption">31</span>
