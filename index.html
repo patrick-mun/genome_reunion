@@ -1680,14 +1680,14 @@
             <div class="card arch-constraint-box arch-constraint-box--geo">
               <div class="arch-constraint-label arch-constraint-label--geo">Niveau 1 — Fondation</div>
               <h3 class="arch-constraint-title">Représentativité<br>géographique</h3>
-              <p class="text-body arch-constraint-copy">Chaque secteur contribue <strong>proportionnellement</strong> à sa part de la cohorte. Sans cette garantie, le panel reflète les zones sur-recrutées. <em class="text-muted">(Variante : pool libre 5-10% testée en sensibilité)</em></p>
-              <div class="arch-constraint-badge">100 % non négociable</div>
+              <p class="text-body arch-constraint-copy"><strong>Noyau géographique strict :</strong> Chaque secteur contribue <strong>proportionnellement</strong> à sa part de la cohorte. Sans cette garantie, le panel reflète les zones sur-recrutées. <em class="text-muted">(Variante opérationnelle : noyau 322 indiv + bras découverte 28 indiv)</em></p>
+              <div class="arch-constraint-badge">Ancrage dominant</div>
             </div>
             <div class="card arch-constraint-box arch-constraint-box--gen">
               <div class="arch-constraint-label arch-constraint-label--gen">Niveau 2 — Optimisation</div>
-              <h3 class="arch-constraint-title">Diversité génétique<br>locale (S_div)</h3>
-              <p class="text-body arch-constraint-copy"><strong>Au sein</strong> de chaque secteur : maximiser l'information capturée via un score multicritère sur 4 dimensions complémentaires.</p>
-              <div class="arch-constraint-badge arch-constraint-badge--gen">Algorithme greedy stratifié</div>
+              <h3 class="arch-constraint-title">Diversité génétique<br>locale + découverte</h3>
+              <p class="text-body arch-constraint-copy"><strong>Au sein</strong> de chaque secteur : maximiser l'information via score S_div multicritère (4 dimensions). <strong>Bras découverte :</strong> score insulaire pour profils rares/fondateurs/informatifs après noyau géographique.</p>
+              <div class="arch-constraint-badge arch-constraint-badge--gen">Algo greedy + enrichissement</div>
             </div>
           </div>
           <!-- Architecture flow chart (HTML/CSS responsive) -->
@@ -1756,19 +1756,19 @@
           <div class="slide-rule slide-rule--blue"></div>
           <div class="grid-2">
             <div>
-              <p class="text-body mb-responsive-md">Chaque secteur reçoit <strong>N<sub>WGS</sub> = round(proportion × 350)</strong>. En cas de désaccord d'arrondi (somme ≠ 350), on ajuste ±1 WGS au secteur dont la proportion est la plus proche du demi-entier.</p>
+              <p class="text-body mb-responsive-md"><strong>Noyau géographique strict (N_core = 322) :</strong> Chaque secteur reçoit <strong>N<sub>core</sub> = round(proportion × 322)</strong>. En cas de désaccord d'arrondi (somme ≠ 322), ajuster ±1 au secteur plus proche du demi-entier.</p>
               <table>
-                <tr><th>Secteur</th><th>% cohorte</th><th>N WGS</th></tr>
-                <tr><td>Nord-Est</td><td>20.0 %</td><td class="hi">70</td></tr>
-                <tr><td>Sud-Est</td><td>16.0 %</td><td>56</td></tr>
-                <tr><td>Est</td><td>15.2 %</td><td>53</td></tr>
-                <tr><td>Sud</td><td>14.0 %</td><td>49</td></tr>
-                <tr><td>Nord</td><td>12.8 %</td><td>45</td></tr>
-                <tr><td>Ouest</td><td>12.0 %</td><td>42</td></tr>
-                <tr><td>Nord-Ouest</td><td>10.0 %</td><td>35</td></tr>
-                <tr><td><strong>Total</strong></td><td><strong>100 %</strong></td><td><strong>350</strong></td></tr>
+                <tr><th>Secteur</th><th>% cohorte</th><th>N_core</th></tr>
+                <tr><td>Nord-Est</td><td>20.0 %</td><td class="hi">64</td></tr>
+                <tr><td>Sud-Est</td><td>16.0 %</td><td>52</td></tr>
+                <tr><td>Est</td><td>15.2 %</td><td>49</td></tr>
+                <tr><td>Sud</td><td>14.0 %</td><td>45</td></tr>
+                <tr><td>Nord</td><td>12.8 %</td><td>41</td></tr>
+                <tr><td>Ouest</td><td>12.0 %</td><td>39</td></tr>
+                <tr><td>Nord-Ouest</td><td>10.0 %</td><td>32</td></tr>
+                <tr><td><strong>Total</strong></td><td><strong>100 %</strong></td><td><strong>322</strong></td></tr>
               </table>
-              <p class="caption mt-responsive-sm text-italic">Valeurs illustratives — les proportions réelles dépendent de la cohorte EFS</p>
+              <p class="caption mt-responsive-sm text-italic">Valeurs illustratives. Quotas réels dépendent de cohorte EFS observée.</p>
             </div>
             <svg class="geo-bars-svg" viewBox="0 0 240 215" aria-hidden="true">
               <text fill="#0B1F3A" font-size="11" font-weight="700" x="0" y="14">WGS alloués par secteur</text>
@@ -1797,6 +1797,9 @@
               <text fill="#0B1F3A" font-size="10" font-weight="700" text-anchor="end" x="72" y="202">Total</text>
               <text fill="#059669" font-size="12" font-weight="700" x="76" y="202">350 WGS</text>
             </svg>
+          </div>
+          <div class="callout">
+            <strong>Bras découverte (N_discovery = 28) :</strong> 28 individus sélectionnés après noyau géographique par score insulaire S_discovery_global. Profils rares, fondateurs, extrêmes ou utiles pour l'imputation. <strong>Non-redondance</strong> avec noyau vérifiée via IBD (kinship KING &lt; 0.0625).
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
@@ -1833,7 +1836,15 @@
               <p class="comp-card-copy">Inverse des segments homozygotes longs. Pénalise la <strong>consanguinité</strong> — signature de l'effet fondateur réunionnais.</p>
             </div>
           </div>
-          <div class="callout">Normalisation locale (min/max par secteur) pour PCA et ADMIX — les scores absolus ne sont pas comparables entre secteurs, ce qui est sans conséquence : classement et stratification n'opèrent qu'<strong>au sein de chaque secteur</strong>.</div>
+          <div class="callout"><strong>Pourquoi global vs par-secteur ?</strong><br>
+            <ul style="margin: 8px 0; padding-left: 20px;">
+              <li><strong>PCA (global)</strong> : centroïdes secteurs bien positionnés dans espace commun</li>
+              <li><strong>ADMIXTURE (global)</strong> : modèle ancestral unique → q_k identiques tous secteurs</li>
+              <li><strong>IBD (par-secteur)</strong> : parenté contexte local de sélection</li>
+              <li><strong>ROH (global)</strong> : métrique individuelle, non affectée par groupe</li>
+            </ul>
+            Normalisation locale (min/max par secteur) : scores absolus non comparables inter-secteurs, sans conséquence car sélection opère qu'au sein de chaque secteur.
+          </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
             <span class="caption">21</span>
@@ -1875,7 +1886,7 @@
               <div class="level-body">
                 <div class="formula">H(i) = −Σ qₖ × log(qₖ)</div>
                 <div class="formula">ADMIX_score = (H − min) / (max − min)</div>
-                <p class="text-body design-body mt-responsive-sm">Modèle global → q_k interprétables de façon identique dans tous les secteurs. K optimal déterminé par CV-error (K=2..6). Attendu K=4 pour La Réunion.</p>
+                <p class="text-body design-body mt-responsive-sm">Modèle global → q_k interprétables de façon identique dans tous les secteurs. K optimal déterminé par cross-validation (K testé 2–10 ; choix par CV-error, stabilité, interprétabilité). Attendu K=4 pour La Réunion (africain, indien, européen, malgache).</p>
                 <div class="mt-responsive-sm">
                 <svg viewBox="0 0 200 72" aria-hidden="true" style="width:100%;display:block;">
                   <text fill="#4A5568" font-size="8.5" x="4" y="14">Concentré (H ≈ 0)</text>
@@ -1891,6 +1902,9 @@
                   <rect fill="#059669" height="12" rx="2" width="28" x="110" y="56"></rect>
                   <text fill="#8896A5" font-size="8" x="145" y="68">H = 1.39</text>
                 </svg>
+                </div>
+                <div class="mt-responsive-sm callout">
+                  <strong>Note :</strong> L'entropie seule ne capture pas la rareté ancestrale. Le bras découverte utilisera une métrique complémentaire : ADMIX_rarity (distance au centroïde q du secteur). À valider en analyse de sensibilité.
                 </div>
               </div>
             </div>
@@ -1913,33 +1927,33 @@
             <div class="level-card">
               <div class="level-header level-header--coral">3 · IBD_score — Indépendance</div>
               <div class="level-body">
-                <div class="formula">IBD_score(i) = 1 − max_j IBD(i, j)</div>
-                <p class="text-body design-body mt-responsive-sm">Calculé <strong>au sein du secteur</strong>. Le <code>max</code> plutôt que la moyenne : un seul lien proche suffit à créer de la redondance génétique.</p>
+                <div class="formula">IBD_score(i) = 1 − max_j kinship_KING(i, j)</div>
+                <p class="text-body design-body mt-responsive-sm">Calculé <strong>au sein du secteur</strong> avec métrique <strong>KING kinship</strong> (robuste population admixée). Le <code>max</code> plutôt que moyenne : un seul lien proche suffit à créer redondance.</p>
                 <div class="algo-legend">
                   <div class="algo-legend-row">
                     <div class="algo-legend-swatch algo-legend-swatch--red"></div>
-                    <span class="algo-legend-value algo-legend-value--red">φ &gt; 0.25</span>
+                    <span class="algo-legend-value algo-legend-value--red">kinship &gt; 0.125</span>
                     <span class="algo-legend-label">1er degré — éliminé</span>
                   </div>
                   <div class="algo-legend-row">
                     <div class="algo-legend-swatch algo-legend-swatch--orange"></div>
-                    <span class="algo-legend-value algo-legend-value--orange">0.125–0.25</span>
+                    <span class="algo-legend-value algo-legend-value--orange">kinship 0.0625–0.125</span>
                     <span class="algo-legend-label">2e degré — seuil dur</span>
                   </div>
                   <div class="algo-legend-row">
                     <div class="algo-legend-swatch algo-legend-swatch--green"></div>
-                    <span class="algo-legend-value algo-legend-value--green">&lt; 0.125</span>
+                    <span class="algo-legend-value algo-legend-value--green">kinship &lt; 0.0625</span>
                     <span class="algo-legend-label">Non apparenté ✓</span>
                   </div>
                 </div>
-                <p class="design-note design-note--teal mt-responsive-sm">Contrainte dure cross-secteur : IBD(candidat, tous les déjà sélectionnés) &lt; 0.125</p>
+                <p class="design-note design-note--teal mt-responsive-sm">Contrainte dure cross-secteur : kinship_KING(candidat, tous déjà sélectionnés) &lt; 0.0625</p>
               </div>
             </div>
             <div class="level-card">
               <div class="level-header level-header--amber">4 · ROH_score — Effet fondateur</div>
               <div class="level-body">
                 <div class="formula">ROH_score(i) = max(0, 1 − ROH_total / 100 Mb)</div>
-                <p class="text-body design-body mt-responsive-sm">Calculé globalement sur les 2 500. Pénalise les individus avec de nombreux segments homozygotes longs — signature de consanguinité et d'effet fondateur.</p>
+                <p class="text-body design-body mt-responsive-sm">Calculé globalement sur les 2 500. Pénalise individus avec nombreux segments homozygotes longs — signature consanguinité et effet fondateur.<br><br><strong>Version simple</strong> (opérationnelle) : formule ci-dessus.<br><strong>Version empirique</strong> (sensibilité) : 1 - rank_percentile(ROH_total, secteur). À comparer en validation.</p>
                 <div class="chromosome-wrap" id="rohDiagram">
                   <div class="chromosome-row">
                     <span class="chromosome-label">Pop. générale</span>
@@ -1992,7 +2006,7 @@
           <div id="scoreChart" class="chart-wrapper chart-wrapper--score">
             <canvas id="scoreBarChart"></canvas>
           </div>
-          <div class="callout">IBD 0.125 = <strong>contrainte dure supplémentaire</strong> lors de la sélection greedy — elle élimine les candidats trop apparentés indépendamment de leur score S_div. Poids par défaut optimisés après validation 1000G.</div>
+          <div class="callout">Les poids 0.30 · 0.30 · 0.25 · 0.15 sont des <strong>valeurs de travail</strong> pré-validation. Ils seront testés par analyse de sensibilité (±10%) et analyse leave-one-component-out avant optimisation finale. IBD 0.125 = <strong>contrainte dure supplémentaire</strong> lors de la sélection greedy — elle élimine les candidats trop apparentés indépendamment de leur score S_div.</div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
             <span class="caption">24</span>
@@ -2036,9 +2050,12 @@
               <table>
                 <tr><th>N_WGS alloué</th><th>Stratégie</th><th>Distribution</th></tr>
                 <tr><td>≥ 20</td><td><strong>Quintile</strong></td><td>20–20–<span class="hi">30</span>–20–10 %</td></tr>
-                <tr><td>6 à 19</td><td><strong>Binaire</strong></td><td>Top 50% → 60 % · Bottom → 40 %</td></tr>
+                <tr><td>6 à 19</td><td><strong>Binaire 60/40</strong></td><td>Top 50% → 60% des WGS. Bottom 50% → 40% des WGS.</td></tr>
                 <tr><td>&lt; 6</td><td>Greedy seul</td><td>Documenté (&lt; 1.7 % cohorte)</td></tr>
               </table>
+              <div class="callout mt-responsive-sm">
+                <strong>Stratification binaire 60/40 :</strong> Le top 50% S_div apporte diversité ; le bottom 50% ancre dans les profils représentatifs du secteur. Ce ratio reproduit l'esprit des quintiles (Q1-Q2=40%, Q3=30%, Q4-Q5=30%) avec seulement 2 strates.
+              </div>
               <div class="callout mt-responsive-sm">
                 <strong>Garantie algorithmique</strong> : compteur <code>selected_in_quintile</code> indépendant par strate — le plafond est vérifié avant d'accepter un candidat. Q3 (médiane, 30 %) ancre le panel dans les profils <em>typiques</em> du secteur.
               </div>
@@ -2097,6 +2114,16 @@
                 <p class="algo-validation-copy">Si l'IBD bloque tous les candidats d'une strate, le quota manquant n'est pas reporté sur la strate suivante — documenté dans le rapport de sélection.</p>
               </div>
             </div>
+            <div class="card algo-validation-item algo-validation-item--purple">
+              <div class="algo-validation-mark algo-validation-mark--purple">④</div>
+              <div>
+                <h3 class="algo-validation-title">Bras découverte sélectionné après noyau</h3>
+                <p class="algo-validation-copy">Les 28 individus du bras découverte sont sélectionnés après constitution du noyau géographique, pour assurer la non-redondance avec les individus déjà retenus. Score S_discovery_global (insulaire) distinct de S_div_sector (local).</p>
+              </div>
+            </div>
+          </div>
+          <div class="callout mt-responsive-md">
+            <strong>Robustesse multi-ordre :</strong> Pour valider la stabilité du greedy, exécuter l'algorithme en plusieurs ordres de secteurs (décroissant de taille, aléatoires ≥100, extrêmes) et mesurer l'intersection des sélections (|A ∩ B| / 350). Cela quantifie la dépendance à l'ordre et la stabilité de la méthodologie.
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
@@ -2191,7 +2218,15 @@
               <div class="algo-validation-mark algo-validation-mark--coral">⚠</div>
               <div>
                 <h3 class="algo-validation-title">Limitations acceptables et documentées</h3>
-                <p class="text-body algo-validation-copy">Variants MAF &lt; 1% moins fiables (N=350 &lt; résolutions d'études plus larges). Non-optimisation mathématique : S_div est une heuristique paramétrée validée empiriquement, pas une solution algébrique optimale.</p>
+                <div class="text-body algo-validation-copy">
+                  <ul style="margin: 0; padding-left: 20px; font-size: 0.95em;">
+                    <li>✓ <strong>Heuristique paramétrée</strong>, non mathématiquement optimale</li>
+                    <li>✓ <strong>Référentiel première génération</strong> sous contrainte budgétaire</li>
+                    <li>✓ Variants MAF &lt; 1% : moins fiables avec 350 WGS</li>
+                    <li>✓ Fréquences WGS <strong>biaisées par sélection</strong> → recalibrage obligatoire sur 2500 SNP</li>
+                    <li>✓ Améliorable itérativement après validation</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -2228,6 +2263,7 @@
                 <li><strong>Robustesse</strong> : ≥ 80% des 5 stratégies passent les critères</li>
                 <li><strong>Reproductibilité</strong> : résultats identiques avec --seed différents</li>
               </ul>
+              <p class="design-note design-note--orange mt-responsive-lg"><strong>🎯 Robustesse multi-groupe :</strong> Performance cohérente sur tous les 3 groupes (africain/européen, sud-asiatique, tri-ancestral). Pas d'optimisation locale pour un groupe unique — validation inter-groupes garantit générisabilité à la Réunion.</p>
               <p class="design-note design-note--blue mt-responsive-lg">✓ Succès 1000G → Déploiement sur cohorte EFS réunionnaise.<br/>✗ Échec → Révision des poids S_div ou stratégie quintile.</p>
             </div>
           </div>
@@ -2250,7 +2286,7 @@
               <p class="text-body mb-responsive-sm"><strong>Pourquoi EPIGEN-Brasil ?</strong></p>
               <ul class="validation-list">
                 <li>✓ <strong>6 487 individus</strong> — cohorte admixée réelle (5-10× plus grande que 1000G)</li>
-                <li>✓ <strong>HumanOmni2.5 genotypes</strong> — même plateforme SNP que potentiel pré-screening</li>
+                <li>✓ <strong>HumanOmni2.5 genotypes</strong> — plateforme SNP <strong>compatible avec celle potentiellement utilisée à La Réunion</strong> (harmonisable build/strand)</li>
                 <li>✓ <strong>30 WGS sequencés</strong> — sous-ensemble pour validation croisée SNP↔WGS</li>
                 <li>✓ <strong>Structure admixée africaine/européenne/amérindienne</strong> — proxy proche de la Réunion</li>
                 <li>✓ <strong>Représente "la vraie vie"</strong> — pas une construction 1000G artificialisée</li>
