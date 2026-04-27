@@ -1668,7 +1668,125 @@
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 21 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
+     SLIDE 21 — JUSTIFICATION N=350 WGS (FONDATIONS SCIENTIFIQUES)
+     Formule P(détection), table MAF, seuil 1%, comparaison Naslavsky.
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Justification statistique : pourquoi 350 WGS = 700 haplotypes ?</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+          <div class="grid-2">
+            <div>
+              <p class="text-body mb-responsive-sm"><strong>Formule de détection</strong> :</p>
+              <div class="formula">P(détection variant) = 1 − (1 − MAF)<sup>700</sup></div>
+              <p class="text-body mb-responsive-lg">Avec 350 WGS (700 haplotypes), la probabilité de détecter au moins une copie d'un variant dépend directement de sa fréquence allélique (MAF).</p>
+              <p class="text-body"><strong>Seuil adopté : MAF ≥ 1%</strong></p>
+              <ul class="compact mb-responsive-lg">
+                <li>• Couverture fiable des variants communs</li>
+                <li>• Variants &lt; 1% : non fiables à ce panel</li>
+                <li>• Limit acceptée pour référentiel réunionnais</li>
+              </ul>
+            </div>
+            <div>
+              <p class="text-body mb-responsive-sm"><strong>Robustesse par MAF (tableau)</strong> :</p>
+              <table class="table-tiny">
+                <tr><th>MAF</th><th>Copies attendues</th><th>P(détection)</th><th>Fiabilité</th></tr>
+                <tr><td><strong>5%</strong></td><td>35</td><td>&gt;99.9%</td><td>✓ Très robuste</td></tr>
+                <tr><td><strong>2%</strong></td><td>14</td><td>&gt;99.9%</td><td>✓ Robuste</td></tr>
+                <tr class="highlight"><td><strong>1%</strong></td><td>7</td><td>&gt;99.9%</td><td>✓ Limite acceptable</td></tr>
+                <tr><td><strong>0.5%</strong></td><td>3.5</td><td>~97%</td><td>⚠ Fragile</td></tr>
+                <tr><td><strong>0.1%</strong></td><td>0.7</td><td>~50%</td><td>✗ Non fiable</td></tr>
+              </table>
+              <p class="design-note design-note--blue mt-responsive-lg"><strong>Comparaison :</strong> Naslavsky (Brasil, 1171 WGS, MAF ~0.1%) vs Génome Réunion (350 WGS, MAF ~1%). Le seuil 1% offre un équilibre rareté/robustesse adapté à notre effectif.</p>
+            </div>
+          </div>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">21</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 22 — ARCHITECTURE DU PROJET : TROIS PILIERS
+     2500 SNP populationnels + 350 WGS + 100 familles nucléaires.
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Architecture du projet : trois ressources complémentaires</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+          <div class="grid-1">
+            <table class="table-compact">
+              <tr>
+                <th>Ressource</th>
+                <th>Taille</th>
+                <th>Statut</th>
+                <th>Rôle principal</th>
+              </tr>
+              <tr>
+                <td><strong>Cohorte SNP populationnelle</strong></td>
+                <td>2 500 indiv</td>
+                <td>Base populationnelle</td>
+                <td>Structure génétique de référence, sélection WGS, recalibrage fréquences finales</td>
+              </tr>
+              <tr>
+                <td><strong>Panel WGS optimisé</strong></td>
+                <td>350 indiv (⊂ 2500)</td>
+                <td>Panel hybride</td>
+                <td>Découverte variants rares, imputation locale, référence pour clinique</td>
+              </tr>
+              <tr>
+                <td><strong>Familles nucléaires SNP</strong></td>
+                <td>100 familles (∉ 2500)</td>
+                <td>Ressource technique</td>
+                <td>Phasage transmission mendélienne, haplotypes population réunionnaise</td>
+              </tr>
+            </table>
+          </div>
+          <p class="design-note design-note--orange mt-responsive-lg"><strong>⚠️ Point critique :</strong> Les 100 familles <strong>ne sont pas incluses</strong> dans les 2500. C'est une ressource de <strong>phasage technique</strong>, pas une source d'observations indépendantes pour les fréquences.</p>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">22</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 23 — PANEL WGS HYBRIDE V3
+     Noyau géographique (322) + Bras découverte (28).
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Panel WGS hybride V3 : noyau géographique + découverte contrôlée</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+          <div class="grid-2">
+            <div>
+              <p class="text-body mb-responsive-sm"><strong>Pourquoi hybride ?</strong></p>
+              <ul class="compact mb-responsive-lg">
+                <li><strong>Noyau (322 indiv):</strong> Représentativité géographique dominante, ancrage démographique</li>
+                <li><strong>Découverte (28 indiv):</strong> Profils informatifs : rares, fondateurs, extrêmes, utiles pour imputation</li>
+                <li><strong>Recalibrage:</strong> Fréquences finales calculées sur les 2500 SNP, pas sur le panel WGS brut</li>
+              </ul>
+              <p class="text-body"><strong>Statut technique :</strong> Panel hybride validé 1000G avant déploiement sur Réunion.</p>
+            </div>
+            <div>
+              <p class="text-body mb-responsive-sm"><strong>Allocation V3 opérationnelle</strong> :</p>
+              <table class="table-tiny">
+                <tr><th>Composante</th><th>%</th><th>N approx</th><th>Objectif</th></tr>
+                <tr><td>Noyau géo strict</td><td>90–95%</td><td>315–332</td><td>Ancrage démo</td></tr>
+                <tr><td>Bras découverte</td><td>5–10%</td><td>18–35</td><td>Rareté/fondateurs</td></tr>
+                <tr><td><strong>Total</strong></td><td><strong>100%</strong></td><td><strong>350</strong></td><td><strong>Panel hybride</strong></td></tr>
+              </table>
+              <p class="design-note design-note--coral mt-responsive-lg"><strong>Par défaut opérationnel :</strong><br>N_core = 322 (92%)<br>N_discovery = 28 (8%)</p>
+            </div>
+          </div>
+          <p class="design-note design-note--orange mt-responsive-lg"><strong>🚨 Ne pas confondre :</strong> Découverte (richesse WGS capturée par le bras) ≠ Fréquence populationnelle (recalibrage obligatoire sur 2500 SNP pour tous les variants).</p>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">23</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 24 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
      Architecture générale : géographique (fondation) puis
      génétique (optimisation S_div au sein de chaque secteur).
      ═══════════════════════════════════════════════════════ -->
@@ -1847,12 +1965,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">21</span>
+            <span class="caption">24</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 21 — PCA_score + ADMIX_score
+     SLIDE 24 — PCA_score + ADMIX_score
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">
@@ -1911,12 +2029,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">22</span>
+            <span class="caption">25</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 22 — IBD_score + ROH_score
+     SLIDE 25 — IBD_score + ROH_score
      Anime #rohDiagram via animateROH() dans app.js.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4" data-animate="roh">
@@ -1989,12 +2107,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">23</span>
+            <span class="caption">26</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 23 — AGRÉGATION S_div
+     SLIDE 26 — AGRÉGATION S_div
      Poids : PCA 30% · ADMIX 30% · IBD 25% · ROH 15%
      Graphique barres (#scoreBarChart) via data-animate="score".
      ═══════════════════════════════════════════════════════ -->
@@ -2009,12 +2127,12 @@
           <div class="callout">Les poids 0.30 · 0.30 · 0.25 · 0.15 sont des <strong>valeurs de travail</strong> pré-validation. Ils seront testés par analyse de sensibilité (±10%) et analyse leave-one-component-out avant optimisation finale. IBD 0.125 = <strong>contrainte dure supplémentaire</strong> lors de la sélection greedy — elle élimine les candidats trop apparentés indépendamment de leur score S_div.</div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">24</span>
+            <span class="caption">27</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 24 — STRATIFICATION QUINTILE
+     SLIDE 27 — STRATIFICATION QUINTILE
      Anti-biais directionnel : Q1-Q5 + binaire + greedy.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2063,12 +2181,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">25</span>
+            <span class="caption">28</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 25 — ALGORITHME GREEDY STRATIFIÉ
+     SLIDE 28 — ALGORITHME GREEDY STRATIFIÉ
      Les trois branches selon la taille du secteur.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2127,12 +2245,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">26</span>
+            <span class="caption">29</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 26 — EXEMPLE CONCRET : CALCUL DU SCORE
+     SLIDE 29 — EXEMPLE CONCRET : CALCUL DU SCORE
      Radar Chart.js (#radarChart) — 4 axes alignés sur S_div v3.8.
      Scores : A=0.38 · B=0.59 · C=0.85
      ═══════════════════════════════════════════════════════ -->
@@ -2174,12 +2292,12 @@
           <p class="special-score-line special-copy-strong-green">— <strong>Patient C :</strong> marges maximales ET non apparenté → sélectionné en priorité.</p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">27</span>
+            <span class="caption">30</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 27 — CE QUI REND LA MÉTHODE DÉFENDABLE
+     SLIDE 30 — CE QUI REND LA MÉTHODE DÉFENDABLE
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">
@@ -2232,12 +2350,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">28</span>
+            <span class="caption">31</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 28 — VALIDATION 1000G (ÉTAPE CRITIQUE)
+     SLIDE 31 — VALIDATION 1000G (ÉTAPE CRITIQUE)
      Résumé de la validation avant déploiement sur cohorte réunionnaise.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2269,12 +2387,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">29</span>
+            <span class="caption">32</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 29 — VALIDATION COMPLÉMENTAIRE : COHORTE BRÉSILIENNE ADMIXÉE
+     SLIDE 32 — VALIDATION COMPLÉMENTAIRE : COHORTE BRÉSILIENNE ADMIXÉE
      EPIGEN-Brasil : 6 487 individus, structure génétique réelle admixée.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2307,12 +2425,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">30</span>
+            <span class="caption">33</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 30 — INTRO SECTION 05 : WGS
+     SLIDE 33 — INTRO SECTION 05 : WGS
      Slide d'intro pleine couleur var(--s05) = vert.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--s05" data-section="5">
@@ -2458,12 +2576,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">32</span>
+            <span class="caption">35</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 32 — CONCLUSION
+     SLIDE 36 — CONCLUSION
      Fond navy comme la slide titre, .accent-bar teal.
      4 points de conclusion + encadré récapitulatif.
      ═══════════════════════════════════════════════════════ -->
