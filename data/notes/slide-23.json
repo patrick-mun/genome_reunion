@@ -1,0 +1,1 @@
+{ "notes": "Agrégation S_div. Les 4 composantes sont normalisées puis pondérées. Résultat : chaque individu a un score S_div entre 0–1. Scores plus élevés = plus de diversité génétique apportée." }

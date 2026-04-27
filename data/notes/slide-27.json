@@ -1,0 +1,1 @@
+{ "notes": "Avantages et limitations acceptables. Avantages : transparent, multicritère, stratifié. Limitations : heuristique greedy (pas optimal global), pas account non-genetic covariates. Acceptables car validation empirique sur 1000G le confirme." }

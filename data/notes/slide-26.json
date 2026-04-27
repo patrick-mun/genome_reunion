@@ -1,0 +1,1 @@
+{ "notes": "Exemple concret : calcul du score. Individu synthétique avec PCA=0.38, ADMIX=0.65, IBD=0.72, ROH=0.81. S_div = 0.30×0.38 + 0.30×0.65 + 0.25×0.72 + 0.15×0.81 = 0.59. Score modéré, sélectionnable dans Q3." }

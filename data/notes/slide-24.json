@@ -1,0 +1,1 @@
+{ "notes": "Stratification quintile. S_div divisé en 5 niveaux (Q1 à Q5). Allocation : Q1–Q4 reçoivent 20% des slots chacun, Q5 reçoit 10% (réduit pour éviter surpondérer les extrêmes). Cela balance diversité et robustesse." }
