@@ -314,7 +314,7 @@ Cette composante n'est pas nécessairement intégrée au score principal `S_div`
 
 #### **Composante 4 : ROH — Runs of Homozygosity (effet fondateur local)**
 
-**Objectif** : Dans le noyau principal, favoriser les individus avec peu de segments homozygotes longs afin de limiter la redondance et la consanguinité récente. Cependant, les profils à ROH élevés ne doivent pas être éliminés totalement : ils peuvent être très informatifs pour l'étude des effets fondateurs réunionnais. La V2 distingue donc deux usages :
+**Objectif** : Dans le noyau principal, favoriser les individus avec peu de segments homozygotes longs afin de limiter la redondance et la consanguinité récente. Cependant, les profils à ROH élevés ne doivent pas être éliminés totalement : ils peuvent être très informatifs pour l'étude des effets fondateurs réunionnais. On distingue donc deux usages :
 - `ROH_score` dans le score principal : privilégie la diversité générale ;
 - `ROH_founder_score` dans le bras découverte : récupère des profils fondateurs ciblés.
 
