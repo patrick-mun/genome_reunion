@@ -290,6 +290,9 @@ html, body {
   overflow-y: auto;
 }
 
+/* Slides trop denses : alignement en haut pour éviter que le titre soit coupé */
+.inner--top { justify-content: flex-start; }
+
 /* Scrollbar discrète pour les slides dont le contenu dépasse */
 .inner::-webkit-scrollbar       { width: 3px; }
 .inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
