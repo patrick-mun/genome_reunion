@@ -1702,7 +1702,7 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">21</span>
+            <span class="caption">19</span>
           </div>
         </div>
       </div>
@@ -1745,7 +1745,7 @@
           <p class="design-note design-note--orange mt-responsive-lg"><strong>⚠️ Point critique :</strong> Les 100 familles <strong>ne sont pas incluses</strong> dans les 2500. C'est une ressource de <strong>phasage technique</strong>, pas une source d'observations indépendantes pour les fréquences.</p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">22</span>
+            <span class="caption">20</span>
           </div>
         </div>
       </div>
@@ -1781,7 +1781,7 @@
           <p class="design-note design-note--orange mt-responsive-lg"><strong>🚨 Ne pas confondre :</strong> Découverte (richesse WGS capturée par le bras) ≠ Fréquence populationnelle (recalibrage obligatoire sur 2500 SNP pour tous les variants).</p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">23</span>
+            <span class="caption">21</span>
           </div>
         </div>
       </div>
@@ -1861,7 +1861,7 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">19</span>
+            <span class="caption">22</span>
           </div>
         </div>
       </div>
@@ -1921,7 +1921,7 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">20</span>
+            <span class="caption">23</span>
           </div>
         </div>
       </div>
@@ -2297,7 +2297,102 @@
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 30 — CE QUI REND LA MÉTHODE DÉFENDABLE
+     SLIDE 31 — PHASAGE RÉUNIONNAIS + 100 FAMILLES NUCLÉAIRES
+     Transmission mendélienne, haplotypes locaux, ressource phasage.
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Phasage réunionnais : 2500 SNP + 100 familles nucléaires</h2>
+          <div class="slide-rule slide-rule--teal"></div>
+          <div class="grid-2">
+            <div>
+              <p class="text-body mb-responsive-sm"><strong>Pourquoi 100 familles nucléaires ?</strong></p>
+              <ul class="compact">
+                <li><strong>Transmission mendélienne</strong> : source validée de phases alléliques</li>
+                <li><strong>Haplotypes adaptés :</strong> population réunionnaise spécifique</li>
+                <li><strong>Améliore :</strong> imputation, Local Ancestry Inference (LAI), IBD, ROH</li>
+                <li><strong>Réduit erreurs</strong> de phase SNP seuls</li>
+              </ul>
+              <p class="text-body mt-responsive-lg"><strong>Garde-fous éthiques :</strong></p>
+              <ul class="compact">
+                <li>• Sélection : non-apparentés, filiation stable</li>
+                <li>• Séparation : données familiales isolées</li>
+                <li>• Protocole éthique dédié (consentement familial)</li>
+              </ul>
+            </div>
+            <div>
+              <p class="text-body mb-responsive-sm"><strong>Pipeline phasage</strong> :</p>
+              <div style="background: #F4F1EC; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8; color: #0B1F3A;">
+                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">2 500 SNP populationnels</div>
+                <div style="text-align: center; margin-bottom: 12px;">+</div>
+                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">100 familles nucléaires SNP</div>
+                <div style="text-align: center; margin-bottom: 12px;">↓</div>
+                <div style="text-align: center; font-style: italic; margin-bottom: 12px;">phasage populationnel assisté par transmission mendélienne</div>
+                <div style="text-align: center; margin-bottom: 12px;">↓</div>
+                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">Haplotypes réunionnais</div>
+                <div style="text-align: center; margin-bottom: 12px;">↓</div>
+                <div style="text-align: center; font-weight: 700; color: #059669;">imputation · LAI · IBD · ROH</div>
+              </div>
+            </div>
+          </div>
+          <p class="design-note design-note--teal mt-responsive-lg"><strong>⚠️ Distinctions critiques :</strong></p>
+          <ul class="compact">
+            <li>• <strong>Phasage SNP :</strong> utiliser 100 familles ✓</li>
+            <li>• <strong>Estimations fréquence :</strong> jamais 100 familles (ressource technique, pas analytique)</li>
+            <li>• <strong>Analyses familiales :</strong> données séparées, méthodologie distincte</li>
+            <li>• <strong>Annotations :</strong> séparation stricte technique vs analytique</li>
+          </ul>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">31</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 32 — RECALIBRAGE FRÉQUENCES : BRUTE → PONDÉRÉE → IMPUTÉE
+     Distinction critical: WGS brute vs populationnelle, pondération, imputation.
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Fréquences finales : brute → pondérée → imputée</h2>
+          <div class="slide-rule slide-rule--teal"></div>
+          <div class="grid-2">
+            <div>
+              <p class="text-body mb-responsive-sm"><strong>Ne pas confondre trois niveaux :</strong></p>
+              <div style="background: #FFF5F3; padding: 16px; border-left: 4px solid #E05A4B; border-radius: 4px; margin-bottom: 16px;">
+                <p style="margin: 0 0 8px 0; font-weight: 700; color: #E05A4B;">Fréquence WGS brute</p>
+                <p style="margin: 0; font-size: 13px;">← Observée dans 350 WGS<br>← <strong>Biaisée</strong> par sélection S_div<br>← ≠ populationnelle</p>
+              </div>
+              <div style="background: #FEF3C7; padding: 16px; border-left: 4px solid #D97706; border-radius: 4px; margin-bottom: 16px;">
+                <p style="margin: 0 0 8px 0; font-weight: 700; color: #D97706;">Fréquence populationnelle pondérée</p>
+                <p style="margin: 0; font-size: 13px;">← Ajustée par strate géographique<br>← Référentiel : 2500 SNP<br>← Représentative population Réunion</p>
+              </div>
+              <div style="background: #D1FAE5; padding: 16px; border-left: 4px solid #059669; border-radius: 4px;">
+                <p style="margin: 0 0 8px 0; font-weight: 700; color: #059669;">Fréquence imputée</p>
+                <p style="margin: 0; font-size: 13px;">← Projetée via panel WGS local<br>← Qualité = f(MAF, couverture)<br>← Utilisée pour variants ultra-rares</p>
+              </div>
+            </div>
+            <div>
+              <p class="text-body mb-responsive-sm"><strong>Tableau annotation finale</strong> :</p>
+              <table class="table-compact">
+                <tr><th>Variant</th><th>Fréq WGS</th><th>Fréq Pond.</th><th>Statut</th></tr>
+                <tr><td>Commun<br/>(MAF &gt;5%)</td><td>Observée</td><td>Pondérée</td><td><strong>Direct</strong><br/>Confiance ✓</td></tr>
+                <tr><td>Rare<br/>(1-5%)</td><td>Observée</td><td>Pondérée</td><td><strong>Direct</strong><br/>Confiance ✓</td></tr>
+                <tr><td>Très rare<br/>(0.5-1%)</td><td>Observée</td><td>Imputée</td><td><strong>HC imputation</strong><br/>Confiance ✓</td></tr>
+                <tr><td>Ultra-rare<br/>(&lt;0.5%)</td><td>—</td><td>Imputée</td><td><strong>MC imputation</strong><br/>Confiance ⚠</td></tr>
+              </table>
+              <p class="design-note design-note--blue mt-responsive-lg"><strong>Formule pondération simple :</strong><br><br><code style="font-size: 12px;">freq_pond(v) = Σ_secteur poids_secteur × freq_secteur(v)</code><br><br>où <code>poids_secteur = proportion_secteur / 2500</code></p>
+            </div>
+          </div>
+          <p class="design-note design-note--orange mt-responsive-lg"><strong>🔑 Règle systématique :</strong> Tous les outputs finaux doivent mentionner : variant MAF · statut (direct/imputé) · confiance (HC/MC) · effectif (WGS observé / SNP imputé).</p>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="caption">32</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 33 — CE QUI REND LA MÉTHODE DÉFENDABLE
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">
@@ -2350,7 +2445,7 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">31</span>
+            <span class="caption">33</span>
           </div>
         </div>
       </div>
@@ -2387,7 +2482,7 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">32</span>
+            <span class="caption">34</span>
           </div>
         </div>
       </div>
@@ -2423,101 +2518,6 @@
               <p class="design-note design-note--green mt-responsive-lg"><strong>✓ Succès EPIGEN</strong> → Confiance avant déploiement Réunion<br/><strong>✗ Écart</strong> → Ajuster critères rareté/stratification</p>
             </div>
           </div>
-          <div class="slide-footer">
-            <span class="caption">Génome Réunion</span>
-            <span class="caption">33</span>
-          </div>
-        </div>
-      </div>
-      <!-- ═══════════════════════════════════════════════════════
-     SLIDE 34 — PHASAGE RÉUNIONNAIS + 100 FAMILLES NUCLÉAIRES
-     Transmission mendélienne, haplotypes locaux, ressource phasage.
-     ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-section="4">
-        <div class="inner">
-          <h2 class="slide-title">Phasage réunionnais : 2500 SNP + 100 familles nucléaires</h2>
-          <div class="slide-rule slide-rule--teal"></div>
-          <div class="grid-2">
-            <div>
-              <p class="text-body mb-responsive-sm"><strong>Pourquoi 100 familles nucléaires ?</strong></p>
-              <ul class="compact">
-                <li><strong>Transmission mendélienne</strong> : source validée de phases alléliques</li>
-                <li><strong>Haplotypes adaptés :</strong> population réunionnaise spécifique</li>
-                <li><strong>Améliore :</strong> imputation, Local Ancestry Inference (LAI), IBD, ROH</li>
-                <li><strong>Réduit erreurs</strong> de phase SNP seuls</li>
-              </ul>
-              <p class="text-body mt-responsive-lg"><strong>Garde-fous éthiques :</strong></p>
-              <ul class="compact">
-                <li>• Sélection : non-apparentés, filiation stable</li>
-                <li>• Séparation : données familiales isolées</li>
-                <li>• Protocole éthique dédié (consentement familial)</li>
-              </ul>
-            </div>
-            <div>
-              <p class="text-body mb-responsive-sm"><strong>Pipeline phasage</strong> :</p>
-              <div style="background: #F4F1EC; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8; color: #0B1F3A;">
-                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">2 500 SNP populationnels</div>
-                <div style="text-align: center; margin-bottom: 12px;">+</div>
-                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">100 familles nucléaires SNP</div>
-                <div style="text-align: center; margin-bottom: 12px;">↓</div>
-                <div style="text-align: center; font-style: italic; margin-bottom: 12px;">phasage populationnel assisté par transmission mendélienne</div>
-                <div style="text-align: center; margin-bottom: 12px;">↓</div>
-                <div style="text-align: center; font-weight: 700; margin-bottom: 12px;">Haplotypes réunionnais</div>
-                <div style="text-align: center; margin-bottom: 12px;">↓</div>
-                <div style="text-align: center; font-weight: 700; color: #059669;">imputation · LAI · IBD · ROH</div>
-              </div>
-            </div>
-          </div>
-          <p class="design-note design-note--teal mt-responsive-lg"><strong>⚠️ Distinctions critiques :</strong></p>
-          <ul class="compact">
-            <li>• <strong>Phasage SNP :</strong> utiliser 100 familles ✓</li>
-            <li>• <strong>Estimations fréquence :</strong> jamais 100 familles (ressource technique, pas analytique)</li>
-            <li>• <strong>Analyses familiales :</strong> données séparées, méthodologie distincte</li>
-            <li>• <strong>Annotations :</strong> séparation stricte technique vs analytique</li>
-          </ul>
-          <div class="slide-footer">
-            <span class="caption">Génome Réunion</span>
-            <span class="caption">34</span>
-          </div>
-        </div>
-      </div>
-      <!-- ═══════════════════════════════════════════════════════
-     SLIDE 35 — RECALIBRAGE FRÉQUENCES : BRUTE → PONDÉRÉE → IMPUTÉE
-     Distinction critical: WGS brute vs populationnelle, pondération, imputation.
-     ═══════════════════════════════════════════════════════ -->
-      <div class="slide slide--cream" data-section="4">
-        <div class="inner">
-          <h2 class="slide-title">Fréquences finales : brute → pondérée → imputée</h2>
-          <div class="slide-rule slide-rule--teal"></div>
-          <div class="grid-2">
-            <div>
-              <p class="text-body mb-responsive-sm"><strong>Ne pas confondre trois niveaux :</strong></p>
-              <div style="background: #FFF5F3; padding: 16px; border-left: 4px solid #E05A4B; border-radius: 4px; margin-bottom: 16px;">
-                <p style="margin: 0 0 8px 0; font-weight: 700; color: #E05A4B;">Fréquence WGS brute</p>
-                <p style="margin: 0; font-size: 13px;">← Observée dans 350 WGS<br>← <strong>Biaisée</strong> par sélection S_div<br>← ≠ populationnelle</p>
-              </div>
-              <div style="background: #FEF3C7; padding: 16px; border-left: 4px solid #D97706; border-radius: 4px; margin-bottom: 16px;">
-                <p style="margin: 0 0 8px 0; font-weight: 700; color: #D97706;">Fréquence populationnelle pondérée</p>
-                <p style="margin: 0; font-size: 13px;">← Ajustée par strate géographique<br>← Référentiel : 2500 SNP<br>← Représentative population Réunion</p>
-              </div>
-              <div style="background: #D1FAE5; padding: 16px; border-left: 4px solid #059669; border-radius: 4px;">
-                <p style="margin: 0 0 8px 0; font-weight: 700; color: #059669;">Fréquence imputée</p>
-                <p style="margin: 0; font-size: 13px;">← Projetée via panel WGS local<br>← Qualité = f(MAF, couverture)<br>← Utilisée pour variants ultra-rares</p>
-              </div>
-            </div>
-            <div>
-              <p class="text-body mb-responsive-sm"><strong>Tableau annotation finale</strong> :</p>
-              <table class="table-compact">
-                <tr><th>Variant</th><th>Fréq WGS</th><th>Fréq Pond.</th><th>Statut</th></tr>
-                <tr><td>Commun<br/>(MAF &gt;5%)</td><td>Observée</td><td>Pondérée</td><td><strong>Direct</strong><br/>Confiance ✓</td></tr>
-                <tr><td>Rare<br/>(1-5%)</td><td>Observée</td><td>Pondérée</td><td><strong>Direct</strong><br/>Confiance ✓</td></tr>
-                <tr><td>Très rare<br/>(0.5-1%)</td><td>Observée</td><td>Imputée</td><td><strong>HC imputation</strong><br/>Confiance ✓</td></tr>
-                <tr><td>Ultra-rare<br/>(&lt;0.5%)</td><td>—</td><td>Imputée</td><td><strong>MC imputation</strong><br/>Confiance ⚠</td></tr>
-              </table>
-              <p class="design-note design-note--blue mt-responsive-lg"><strong>Formule pondération simple :</strong><br><br><code style="font-size: 12px;">freq_pond(v) = Σ_secteur poids_secteur × freq_secteur(v)</code><br><br>où <code>poids_secteur = proportion_secteur / 2500</code></p>
-            </div>
-          </div>
-          <p class="design-note design-note--orange mt-responsive-lg"><strong>🔑 Règle systématique :</strong> Tous les outputs finaux doivent mentionner : variant MAF · statut (direct/imputé) · confiance (HC/MC) · effectif (WGS observé / SNP imputé).</p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
             <span class="caption">35</span>
