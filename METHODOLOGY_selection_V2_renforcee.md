@@ -10,7 +10,7 @@ Cette approche repose sur deux principes :
 
 Résultat : **350 individus représentatifs + informatifs**, avec un biais directionnel **contrôlé, mesuré et documenté**.
 
-**Clarification V2 — nature du panel WGS :** le panel WGS n'est pas uniquement un échantillon aléatoire destiné à estimer directement des fréquences. Il s'agit d'un **panel hybride** :
+**Nature du panel WGS :** le panel WGS n'est pas uniquement un échantillon aléatoire destiné à estimer directement des fréquences. Il s'agit d'un **panel hybride** :
 - un **noyau représentatif** géographiquement majoritaire, garantissant l'ancrage démographique ;
 - un **bras de découverte contrôlé** (5–10%) destiné à récupérer les profils génétiques très informatifs, notamment profils d'ascendance minoritaire/dominante, profils sous-capturés par la stratification stricte, et profils ROH/fondateurs.
 Les fréquences populationnelles finales devront donc être **recalibrées sur la cohorte SNP complète de 2500 individus** par imputation, pondération ou stratification, et non interprétées naïvement à partir des seuls 350 WGS bruts.
