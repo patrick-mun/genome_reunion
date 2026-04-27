@@ -2,9 +2,9 @@
 
 ## Vue d'ensemble
 
-Présentation HTML/CSS/JS statique — **35 slides** (0–34, dont 2 résumés S04 optionnels), zéro build tool, zéro CDN à l'exécution.
-Fichiers sources : `index.html` (~140 KB), 7 fichiers CSS (2 630 lignes), 3 fichiers JS (665 lignes).
-Système adaptatif : toggle Expert/Résumé pour la section S04 (Algorithme) — les 2 slides de résumé remplacent les 12 détaillées.
+Présentation HTML/CSS/JS statique — **40 slides** (0–39, dont 2 résumés S04 optionnels), zéro build tool, zéro CDN à l'exécution.
+Fichiers sources : `index.html` (~160 KB), 7 fichiers CSS (3 096 lignes), 3 fichiers JS (665 lignes).
+Système adaptatif : toggle Expert/Résumé pour la section S04 (Algorithme) — les 2 slides de résumé remplacent les 12 slides expert détaillées.
 Règles de travail détaillées dans `AGENTS.md`.
 
 ## Fichiers principaux
@@ -18,8 +18,8 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `css/slides/s01-angle-mort.css` | Slides 2–8 — biais IA, clinique, pharmacogénétique |
 | `css/slides/s02-singularite.css` | Slides 9–14 — histoire, peuplement, métissage, effet fondateur, singularité |
 | `css/slides/s03-design.css` | Slides 15–17 — pipeline SNP→WGS, entonnoir d'optimisation, mini-figures |
-| `css/slides/s04-algorithme.css` | Slides 18–29 — algorithme de sélection, ROH/IBD, score, stratification, validation, 1000G, EPIGEN |
-| `css/slides/s05-wgs.css` | Slides 30–32 — WGS, impacts, conclusion |
+| `css/slides/s04-algorithme.css` | Slides 18–36 — résumés, fondations, algorithme détaillé, ROH/IBD, score, phasage, recalibrage, validation |
+| `css/slides/s05-wgs.css` | Slides 37–39 — intro S05, impacts, conclusion |
 | `js/app.js` | Navigation, accessibilité, Chart.js (score + radar), animations SVG (pipeline, ROH), speaker mode, logo click handler |
 | `data/admixture.js` | Données + générateur DOM pour animation admixture (slide 0 : 60 barres animées) |
 | `js/vendor/chart.umd.js` | Chart.js 4.4.1 vendorisé (pas de CDN) |
@@ -34,10 +34,10 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s00-hero.css` | 0 | 219 | `.hero-* .accent-bar .admix-* .adm-legend-*` | ✓ extrait |
 | `s01-angle-mort.css` | 2–8 | 330 | `.ai-* .clinical-* .bias-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 9–14 | 360 | `.history-* .s2-* .timeline-*` | ✓ extrait |
-| `s03-design.css` | 15–17 | 158 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
-| `s04-algorithme.css` | 18–29 | 774 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .comp-* .geo-bars-svg .chromosome-* .chart-wrapper* #radarChart` | ✓ refactorisé |
-| `s05-wgs.css` | 30–32 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
-| **main.css** | — | **803** | Voir section "CSS – main.css" |  ✓ structuré |
+| `s03-design.css` | 15–16 | 183 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
+| `s04-algorithme.css` | 18–36 | 938 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .phasage-* .comp-* .geo-bars-svg .chromosome-*` | ✓ V3 complet |
+| `s05-wgs.css` | 37–39 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
+| **main.css** | — | **970** | Voir section "CSS – main.css" |  ✓ structuré |
 
 ## CSS — Sections principales (main.css)
 
@@ -67,48 +67,45 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Formule | 622 | `.formula .formula--score` |
 | Barres de progression | 642 | `.progress-bar .progress-label .progress-track .progress-fill` |
 | Tableau | 687 | `table th td .hi` |
-| Callout | 696 | `.callout` |
+| Callout | 696 | `.callout .callout--amber` |
+| Layout modifier | 291 | `.inner--top` |
 | Level-card | 709 | `.level-card .level-header .level-body` |
 
 ## index.html — Carte des slides
 
-| Idx | Titre (commentaire HTML) | L. HTML | Section | Anim | Classe slide |
-|---|---|---|---|---|---|
-| 0 | TITRE HERO | 37 | 0 | — | `slide--hero` |
-| 1 | SOMMAIRE | 118 | 0 | — | `slide--cream` |
-| 2 | INTRO S01 — L'ANGLE MORT | 172 | 1 | — | `slide--s01` |
-| 3 | BIAIS STRUCTUREL MONDIAL | 297 | 1 | — | `slide--cream` |
-| 4 | LE MUR CLINIQUE | 378 | 1 | — | `slide--cream` |
-| 5 | PHARMACOGÉNÉTIQUE | 433 | 1 | — | `slide--cream` |
-| 6 | IA : GARBAGE IN, GARBAGE OUT | 525 | 1 | — | `slide--cream` |
-| 7 | COMMENT LE PROJET CORRIGE LE BIAIS IA | 592 | 1 | — | `slide--cream` |
-| 8 | INTRO S02 — SINGULARITÉ RÉUNIONNAISE | 634 | 2 | — | `slide--s02` |
-| 9 | HISTOIRE DU PEUPLEMENT | 741 | 2 | — | `slide--cream` |
-| 10 | DU PEUPLEMENT AU MÉTISSAGE | 837 | 2 | — | `slide--cream` |
-| 11 | POPULATION HOMOGÈNE VS LA RÉUNION | 924 | 2 | — | `slide--cream` |
-| 12 | EFFET FONDATEUR | 1017 | 2 | — | `slide--cream` |
-| 13 | DOUBLE SINGULARITÉ | 1095 | 2 | — | `slide--cream` |
-| 14 | INTRO S03 — DESIGN | 1128 | 3 | — | `slide--s03` |
-| 15 | LE PIPELINE D'OPTIMISATION | 1146 | 3 | `pipeline` | `slide--cream` |
-| 16 | L'ENTONNOIR D'OPTIMISATION | 1233 | 3 | — | `slide--cream` |
-| 17 | INTRO S04 — ALGORITHME | 1302 | 4 | — | `slide--s04` |
-| 18 | DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE | 1320 | 4 | — | `slide--cream` |
-| 19 | STRATIFICATION GÉOGRAPHIQUE | 1410 | 4 | — | `slide--cream` |
-| 20 | LES 4 COMPOSANTES DE S_div | 1467 | 4 | — | `slide--cream` |
-| 21 | PCA_score + ADMIX_score | 1503 | 4 | — | `slide--cream` |
-| 22 | IBD_score + ROH_score | 1560 | 4 | — | `slide--cream` |
-| 23 | AGRÉGATION S_div | 1638 | 4 | — | `slide--cream` |
-| 24 | STRATIFICATION QUINTILE | 1658 | 4 | — | `slide--cream` |
-| 25 | ALGORITHME GREEDY STRATIFIÉ | 1709 | 4 | — | `slide--cream` |
-| 26 | EXEMPLE CONCRET : CALCUL DU SCORE | 1763 | 4 | `radar` | `slide--cream` |
-| 27 | AVANTAGES ET LIMITATIONS ACCEPTABLES | 1810 | 4 | — | `slide--cream` |
-| 28 | VALIDATION 1000 GENOMES AVANT DÉPLOIEMENT | 1860 | 4 | — | `slide--cream` |
-| 29 | VALIDATION COMPLÉMENTAIRE : EPIGEN-BRASIL | 1910 | 4 | — | `slide--cream` |
-| 30 | INTRO S05 — WGS | 1950 | 5 | — | `slide--s05` |
-| 31 | IMPACTS ATTENDUS DU RÉFÉRENTIEL | 1970 | 5 | — | `slide--cream` |
-| 32 | CONCLUSION | 2010 | 5 | — | `slide--navy` |
-| 33 | **S04 RÉSUMÉ 1** — Vue d'ensemble | new | 4 | — | `s04-summary` |
-| 34 | **S04 RÉSUMÉ 2** — Validation & Déploiement | new | 4 | — | `s04-summary` |
+| Idx | Titre | L. HTML | Sect | Anim | Classe | Notes |
+|---|---|---|---|---|---|---|
+| 0 | TITRE HERO | 100 | 0 | — | `slide--hero` | Auteurs, animation admixture |
+| 1 | Plan de la présentation | 180 | 0 | — | `slide--cream` | Sommaire, TOC, toggle S04 |
+| 2 | INTRO S01 — L'ANGLE MORT | 234 | 1 | — | `slide--s01` | Biais structurel, IA, clinique |
+| 3–7 | Biais (5 slides) | 364–655 | 1 | — | `slide--cream` | IA, pharmacogénétique, correction projet |
+| 8 | INTRO S02 — SINGULARITÉ | 696 | 2 | — | `slide--s02` | Histoire, peuplement, métissage |
+| 9–13 | Singularité (5 slides) | 805–1158 | 2 | — | `slide--cream` | Fondateur, double singularité |
+| 14 | INTRO S03 — DESIGN | 1190 | 3 | — | `slide--s03` | Pipeline, entonnoir |
+| 15 | Pipeline d'Optimisation | 1327 | 3 | `pipeline` | `slide--cream` | Animation SVG |
+| 16 | Entonnoir d'Optimisation | 1412 | 3 | — | `slide--cream` | SNP→WGS |
+| 17 | INTRO S04 — ALGORITHME | 1480 | 4 | — | `slide--s04` | S04 expert ou résumé |
+| **18–19** | **S04 RÉSUMÉ (2 slides)** | 1596–1634 | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
+| 20 | Justification N=350 (V3 fondation) | 1674 | 4 | — | `slide--cream` | MAF, robustesse |
+| 21 | Architecture 3 piliers | 1713 | 4 | — | `slide--cream` | Cohorte SNP, panel hybride, familles |
+| 22 | Panel WGS hybride V3 | 1756 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
+| 23 | Deux niveaux, contrainte | 1793 | 4 | `archflow` | `slide--cream` | Géo + découverte (carousel mobile) |
+| 24 | Représentativité géographique | 1871 | 4 | — | `slide--cream` | Stratification par secteur |
+| 25 | Quatre dimensions S_div | 1931 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH |
+| 26 | Composantes globales | 1975 | 4 | — | `slide--cream` | PCA + ADMIX score |
+| 27 | Composantes locales | 2040 | 4 | `roh` | `slide--cream` | IBD + ROH score, ROH diagram |
+| 28 | Score de Diversité | 2119 | 4 | `score` | `slide--cream` | Chart.js barres |
+| 29 | Anti-biais directionnel | 2138 | 4 | — | `slide--cream` | Quintile stratification |
+| 30 | Sélection greedy stratifiée | 2192 | 4 | — | `slide--cream` + `inner--top` | 3 branches, robustesse |
+| 31 | Exemple concret: calcul | 2257 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
+| 32 | Phasage réunionnais | 2303 | 4 | — | `slide--cream` + `inner--top` | 2500 SNP + 100 familles, pipeline visuel |
+| 33 | Recalibrage fréquences | 2367 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
+| 34 | Avantages et limitations | 2409 | 4 | — | `slide--cream` + `inner--top` | Robustesse multi-ordre, callout |
+| 35 | Validation 1000G | 2468 | 4 | — | `slide--cream` | Étape critique avant déploiement |
+| 36 | Validation EPIGEN-Brasil | 2505 | 4 | — | `slide--cream` | Cohorte brésilienne admixée |
+| 37 | INTRO S05 — WGS | 2543 | 5 | — | `slide--s05` | WGS, impacts, conclusion |
+| 38 | Impacts attendus | 2654 | 5 | — | `slide--cream` | Référentiel réunionnais |
+| 39 | CONCLUSION | 2695 | 5 | — | `slide--navy` | Fermeture |
 
 ### Navigation pills → slides d'entrée de section
 
@@ -125,16 +122,17 @@ Règles de travail détaillées dans `AGENTS.md`.
 
 | ID | Rôle |
 |---|---|
-| `#deck` | Conteneur des 35 slides (transform translateX) |
+| `#deck` | Conteneur des 40 slides (transform translateX) |
 | `#bp` / `#bn` | Boutons Préc. / Suiv. (gèrent navigation visible uniquement) |
 | `#ctr` | Compteur "N / visible-count" (aria-live, ajusté dynamiquement) |
 | `#s04-toggle-btn` | Bouton toggle Expert/Résumé pour section S04 (aria-pressed) |
 | `#pf` | Barre de progression (width %) |
 | `#admix-bg` | Conteneur 60 barres admixture (injecté par data/admixture.js, slide 0) |
 | `#pipeFlow` | Animation pipeline (slide 15, data-animate="pipeline") |
-| `#scoreBarChart` | Canvas Chart.js barres S_div (slide 21, data-animate="score") |
-| `#radarChart` | Canvas Chart.js radar (slide 26, data-animate="radar") |
-| `#rohDiagram` | SVG diagramme ROH (slide 24, data-animate="roh") |
+| `#archFlow` | Carousel arch-flow (slide 23, data-animate="archflow", mobile uniquement) |
+| `#scoreBarChart` | Canvas Chart.js barres S_div (slide 28, data-animate="score") |
+| `#radarChart` | Canvas Chart.js radar (slide 31, data-animate="radar") |
+| `#rohDiagram` | SVG diagramme ROH (slide 27, data-animate="roh") |
 
 ## Conventions de nommage CSS
 
@@ -151,11 +149,13 @@ Règles de travail détaillées dans `AGENTS.md`.
 
 ## Récapitulatif des éléments DOM inline style
 
-Il reste **13** `style=""` inline dans `index.html` (tous justifiés) :
-- **4** : SVG display standard (`width:100%;display:block`) — elément racine SVG, responsive
-- **9** : ROH chromosome segments (`left`/`width` positioning) — géométrie unique du diagramme slide 24
+Il reste **25** `style=""` inline dans `index.html` (tous justifiés) :
+- **4** : SVG display standard (`width:100%;display:block`) — élément racine SVG, responsive (slides 15, 26, 29)
+- **9** : ROH chromosome segments (`left`/`width` positioning) — géométrie unique du diagramme (slide 27)
+- **3** : Liste et code styling pour notes phasage/recalibrage (slides 30-31)
+- **9** : Callouts colorés recalibrage (slide 33: 3 boxes + style inline pour formule)
 
-Conservés volontairement pour des raisons de responsivité (SVG) et de géométrie locale unique (ROH).
+Conservés volontairement pour des raisons de responsivité (SVG), géométrie locale unique (ROH), et callouts spécialisés (recalibrage).
 
 ## Palette de couleurs (variables CSS)
 
@@ -179,17 +179,19 @@ Conservés volontairement pour des raisons de responsivité (SVG) et de géomét
 
 | Aspect | Expert Mode (ON) | Résumé Mode (OFF) |
 |---|---|---|
-| Slides visibles S04 | 19–30 (12 slides détaillés) | 33–34 (2 résumés concis) |
-| Autres slides | Toutes visibles | Slides 19–30 masqués, autres visibles |
+| Slides visibles S04 | 20–31 (12 slides détaillés) | 18–19 (2 résumés concis) |
+| Autres slides | Slides 18–19 masqués, autres visibles | Slides 20–31 masqués, autres visibles |
 | Compteur | Affiche le total des slides visibles | Affiche le total des slides visibles |
 | Navigation | Saute les slides masqués automatiquement | Saute les slides masqués automatiquement |
 | Bouton toggle | `S04: Expert` (aria-pressed="true") | `S04: Résumé` (aria-pressed="false") |
 
-**Implémentation JS** :
-- `s04ExpertMode` : variable d'état globale (pas de localStorage, réinitialise à rechargement)
-- `getVisibleSlides()` : retourne l'array des indices de slides visibles
-- `goToSlide(targetIndex)` : modifié pour chercher le slide visible le plus proche
-- Bouton `#s04-toggle-btn` : bascule le mode et met à jour l'affichage dynamiquement
+**Implémentation JS** (`js/app.js`) :
+- `s04ExpertMode` : variable globale (true = Expert, false = Résumé), pas de localStorage
+- `S04_SUMMARY_START=18, S04_SUMMARY_END=19` : slides résumé
+- `S04_DETAILED_START=20, S04_DETAILED_END=31` : slides expert détaillés
+- `updateSlideVisibility()` : applique `display:none` sur les slides cachés
+- `getVisibleSlides()` : retourne indices visibles selon le mode courant
+- Bouton `#s04-toggle-btn` : bascule le mode et redessine le deck
 
 ## Systèmes d'animation
 
@@ -197,9 +199,10 @@ Conservés volontairement pour des raisons de responsivité (SVG) et de géomét
 |---|---|---|---|
 | **Admixture** | 0 | CSS animation loop, 60 barres translateY(-50%) | 24s infinite |
 | **Pipeline** | 15 | JS .shown (opacity + transform), app.initDeck()/animatePipeline() | ~2.5s |
-| **ROH diagram** | 24 | JS .roh-visible transition, animateROH() | ~1.3s |
-| **Score chart** | 21 | Chart.js bar chart, initScoreChart() | instant |
-| **Radar chart** | 26 | Chart.js radar, initRadarChart() | instant |
+| **ROH diagram** | 27 | JS .roh-visible transition, animateROH() | ~1.3s |
+| **Archflow** | 23 | Carousel mobile, initArchFlowCarousel() | interactive |
+| **Score chart** | 28 | Chart.js bar chart, initScoreChart() | instant |
+| **Radar chart** | 31 | Chart.js radar, initRadarChart() | instant |
 
 ## Fonctionnalités récentes (2026-04)
 
@@ -215,13 +218,22 @@ Conservés volontairement pour des raisons de responsivité (SVG) et de géomét
 | **CSS Cleanup** | Nettoyage complet : 83→13 inline styles (-84%), 9 s04 summary slides repositionnées, classes utilitaires responsives |
 | **Classe .toc-row--with-button** | Dédiée au toggle Expert/Résumé S04 en slide 2, élimine redéfinition globale de `.toc-row` |
 | **Texte TOC S04 actualisé** | "Comment choisir les individus qui maximisent l'information génétique" (description plus pertinente) |
+| **S04 Méthodologie V3** | 5 nouvelles slides fondation : Justification N=350, Architecture 3 piliers, Panel hybride V3, Phasage, Recalibrage |
+| **Classe .inner--top** | `justify-content: flex-start` pour slides denses (29, 32, 34) évite que titre soit coupé par overflow |
+| **Callout --amber** | Variante `.callout--amber` pour distinctions critiques (border-left amber au lieu de teal) |
+| **Classe .algo-card--top-navy** | Nouvelle variante de couleur pour cards S04 (Garde-fous éthiques, slide 32) |
+| **Pipeline phasage V3** | Slide 32 redessinée : layout 3-col (cards + visual pipeline) + callout amber, élimine monospace ASCII |
+| **Classes .phasage-flow-*** | `.phasage-flow` `.phasage-flow-box--navy/.blue/.teal` `.phasage-flow-tag` pour pipeline visuel |
+| **Archflow carousel** | Nouveau système pour slides larges (slide 23) : carousel items avec dots navigation, mobile-friendly |
+| **Slide 30 + 32 + 34** | Appliqué `.inner--top` pour éviter titles cachés sur slides denses (greedy, phasage, avantages) |
+| **Total slides** | Augmenté de 35 → **40 slides** (5 nouvelles en S04) + 2 résumés optionnels = deck complet V3 |
 
 ## Règle de mise à jour
 
 > **Après toute modification qui change l'un des éléments ci-dessous, mettre à jour
 > la section correspondante de ce fichier ET du git commit :**
 >
-> - Modification du nombre de slides → "**31 slides**" en vue d'ensemble + tableau "Carte des slides"
+> - Modification du nombre de slides → "**40 slides**" en vue d'ensemble + tableau "Carte des slides"
 > - Ajout / suppression / déplacement d'une slide → tableau "Carte des slides"
 > - Ajout d'une classe CSS → tableau "Fichiers slides" (colonne classes clés)
 > - Modification de styles existants → indiquer le fichier affecté et la plage de lignes

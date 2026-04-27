@@ -2,7 +2,7 @@
 
 Présentation HTML/CSS/JS statique du projet de référentiel génomique réunionnais.
 
-Le deck est composé de **35 slides** (index 0–34, dont 2 résumés optionnels pour la section S04), sans build tool et sans dépendance CDN à l’exécution.
+Le deck est composé de **40 slides** (index 0–39, dont 2 résumés optionnels pour la section S04), sans build tool et sans dépendance CDN à l’exécution.
 **Mode adaptatif** : basculez entre "Expert" (tous les détails) et "Résumé" (synthèse) pour la section Algorithme via le bouton `Expert`/`Résumé` dans le sommaire (slide 2, ligne "04 · L’Algorithme de Sélection").
 
 ## Accès en ligne
@@ -15,17 +15,17 @@ Le site est publié via GitHub Pages :
 
 ```text
 genome_reunion/
-├── index.html                    # Source unique de vérité : toutes les slides (33)
+├── index.html                    # Source unique de vérité : toutes les 40 slides
 ├── presenter.html                # Mode présentation deux-écrans (slide + notes + preview)
 ├── css/
 │   ├── main.css                  # Variables, reset, nav, deck, composants, responsive, burger menu, logo
 │   └── slides/
 │       ├── s00-hero.css          # Slide 0 — hero, admixture, auteurs
-│       ├── s01-angle-mort.css    # Slides 2–8 — biais, IA, clinique, pharmacogénétique
-│       ├── s02-singularite.css   # Slides 9–14 — histoire, peuplement, métissage, effet fondateur
-│       ├── s03-design.css        # Slides 15–17 — pipeline, entonnoir d’optimisation
-│       ├── s04-algorithme.css    # Slides 18–30 — algorithme détaillé, score, ROH/IBD, validation
-│       └── s05-wgs.css           # Slides 31–34 — impacts, conclusion, résumés adaptés
+│       ├── s01-angle-mort.css    # Slides 2–7 — biais, IA, clinique, pharmacogénétique
+│       ├── s02-singularite.css   # Slides 8–13 — histoire, peuplement, métissage, effet fondateur
+│       ├── s03-design.css        # Slides 14–16 — pipeline, entonnoir d’optimisation
+│       ├── s04-algorithme.css    # Slides 17–36 — S04 intro, résumés, fondations, algo détaillé, validation
+│       └── s05-wgs.css           # Slides 37–39 — intro S05, impacts, conclusion
 ├── js/
 │   ├── app.js                    # Navigation, accessibilité, animations, Chart.js, speaker mode
 │   └── vendor/
@@ -43,13 +43,13 @@ genome_reunion/
 Le contenu est organisé en 6 blocs :
 
 - **0–1** : accueil et sommaire
-- **2–8** : angle mort de la médecine de précision
-- **9–14** : singularité réunionnaise
-- **15–17** : pipeline méthodologique
-- **18–30** : algorithme de sélection et validation (détaillé, ou résumé via toggle)
-  - Mode Expert (défaut) : 12 slides détaillés (19–30)
-  - Mode Résumé : 2 slides de synthèse (33–34), slides 19–30 masqués
-- **31–34** : WGS, impacts, conclusion, + 2 résumés adaptés
+- **2–7** : angle mort de la médecine de précision
+- **8–13** : singularité réunionnaise
+- **14–16** : pipeline méthodologique
+- **17–36** : algorithme de sélection et validation (détaillé, ou résumé via toggle)
+  - Mode Expert (défaut) : 20 slides visibles (17, 20–36, dont 12 détaillés 20–31, + 8 slides phasage/validation/avantages 32–36)
+  - Mode Résumé : 2 slides de synthèse (18–19), slides 20–31 masqués
+- **37–39** : WGS, impacts, conclusion
 
 ## Architecture CSS
 
