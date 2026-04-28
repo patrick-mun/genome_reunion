@@ -782,6 +782,38 @@ html, body {
 .toc-row:hover      { padding-left: 8px; }
 .toc-row:last-child { border: none; }
 
+/* Variante de .toc-row avec bouton toggle à droite (S04 Expert/Résumé).
+   La structure HTML est : .toc-row--with-button > (js-slide-jump + button).
+   Le js-slide-jump doit être flex pour aligner nombre + texte. */
+.toc-row--with-button {
+  justify-content: space-between;
+}
+
+.toc-row--with-button .js-slide-jump {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.toc-row--with-button button {
+  flex-shrink: 0;
+  padding: clamp(6px, 0.8vh, 10px) clamp(12px, 1.5vw, 16px);
+  border: 1px solid var(--navy);
+  background: var(--white);
+  color: var(--navy);
+  border-radius: 4px;
+  font-size: clamp(13px, 1.4vw, 16px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.toc-row--with-button button:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+
 /* Badge numéroté coloré à gauche de chaque entrée du sommaire.
    La couleur de fond est définie via .toc-number--s0X (voir variantes CSS). */
 .toc-number {
