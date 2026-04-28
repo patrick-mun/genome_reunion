@@ -1115,23 +1115,6 @@ ul.validation-list li {
 }
 
 /* ============================================================
-   13c. TOC ROW LAYOUT
-   ============================================================ */
-.toc-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
-.toc-row .js-slide-jump {
-  display: flex;
-  gap: 16px;
-  flex: 1;
-  cursor: pointer;
-}
-
-/* ============================================================
    13d. FOOTER RESPONSIVE ADAPTATIONS
    Adapte le layout du footer pour mobile et tablette.
    — 900px : réduit espacements et font sizes
