@@ -1132,17 +1132,22 @@ ul.validation-list li {
 }
 
 @media (max-width: 600px) {
-  /* Sur mobile, change le layout du .inner pour éviter que le contenu soit tassé:
-     - height: auto au lieu de calc(100vh - 68px) pour que le contenu prenne sa place naturelle
+  /* Sur mobile, permet au contenu de déborder naturellement:
+     - Le .slide doit permettre le débordement (overflow: auto)
+     - Le .inner prend height: auto pour que le contenu s'écoule naturellement
      - Pas de hauteur fixe = pas de compression du tableau
-     - justify-content: flex-start pour mettre le contenu en haut
-     - Le scroll vertical de la page/deck permettra de voir tout le contenu */
+     - Le scroll vertical du .slide affichera tout le contenu */
+  .slide {
+    overflow: auto;
+    align-items: flex-start;
+  }
+
   .inner {
     height: auto;
     min-height: auto;
     justify-content: flex-start;
     padding: clamp(12px, 2vh, 24px) clamp(16px, 2.5vw, 32px);
-    overflow-y: visible;
+    overflow: visible;
   }
 
   /* Passe la grille en colonne unique pour petit écran mobile */
