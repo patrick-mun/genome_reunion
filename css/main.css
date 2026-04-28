@@ -279,7 +279,8 @@ html, body {
 
 /* Conteneur de contenu centré, scrollable si nécessaire.
    clamp() adapte le padding selon la hauteur/largeur disponible
-   sans media queries supplémentaires. */
+   sans media queries supplémentaires.
+   overflow-x: hidden empêche les éléments larges (tableaux) de déborder. */
 .inner {
   width: min(1280px, 92vw);
   height: calc(100vh - 68px); /* 68px = nav 46px + barre 3px + marge 19px */
@@ -288,6 +289,7 @@ html, body {
   justify-content: center;
   padding: clamp(16px, 3vh, 48px) clamp(24px, 3.5vw, 56px);
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Slides trop denses : alignement en haut pour éviter que le titre soit coupé */
