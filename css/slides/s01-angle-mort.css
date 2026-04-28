@@ -317,14 +317,64 @@
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  /* Tablette : réduire le padding et les font-sizes */
+  .bias-table {
+    font-size: clamp(12px, 1.1vw, 14px);
+  }
+
+  .pharma-table {
+    font-size: clamp(11px, 1vw, 13px);
+  }
+
+  .pharma-highlight-copy {
+    font-size: clamp(14px, 1.5vw, 20px);
+  }
+}
+
 @media (max-width: 600px) {
-  /* Masque la colonne "Limite pour La Réunion" — le callout Conclusion
+  /* ── BIAS TABLE (slide 4) ──
+     Masque la colonne "Limite pour La Réunion" — le callout Conclusion
      en bas de slide conserve l'essentiel du message sur mobile */
+  .bias-table {
+    font-size: clamp(10px, 0.95vw, 11px);
+  }
+
   .bias-table th:last-child,
   .bias-table td:last-child { display: none; }
 
   /* Redistribue les 3 colonnes restantes sur toute la largeur */
-  .bias-col-resource  { width: 32%; }
-  .bias-col-key       { width: 38%; }
-  .bias-col-coverage  { width: 30%; }
+  .bias-col-resource  { width: 30%; }
+  .bias-col-key       { width: 35%; }
+  .bias-col-coverage  { width: 35%; }
+
+  .bias-resource-note {
+    font-size: clamp(10px, 0.9vw, 11px);
+  }
+
+  /* ── PHARMA TABLE (slide 6) ──
+     Garde les 3 colonnes, réduit juste les font-sizes et adaptations */
+  .pharma-table {
+    font-size: clamp(10px, 0.95vw, 11px);
+  }
+
+  .pharma-table td {
+    padding: clamp(6px, 1vh, 10px) 8px;
+  }
+
+  .pharma-highlight {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(8px, 1.2vh, 12px);
+    padding: clamp(10px, 1.4vh, 14px) 12px;
+  }
+
+  .pharma-highlight-value {
+    font-size: clamp(24px, 3vw, 32px);
+  }
+
+  .pharma-highlight-copy {
+    font-size: clamp(11px, 1vw, 12px);
+    line-height: 1.5;
+  }
 }
