@@ -2,24 +2,25 @@
 
 ## Vue d'ensemble
 
-Présentation HTML/CSS/JS statique — **40 slides** (0–39, dont 2 résumés S04 optionnels), zéro build tool, zéro CDN à l'exécution.
-Fichiers sources : `index.html` (~160 KB), 7 fichiers CSS (3 096 lignes), 3 fichiers JS (665 lignes).
-Système adaptatif : toggle Expert/Résumé pour la section S04 (Algorithme) — les 2 slides de résumé remplacent les 12 slides expert détaillées.
+Présentation HTML/CSS/JS statique — **41 slides** (0–40, dont 2 résumés S04 optionnels), zéro build tool, zéro CDN à l'exécution.
+Fichiers sources : `index.html` (~180 KB), 7 fichiers CSS (3 096 lignes), 3 fichiers JS (665 lignes).
+Système adaptatif : toggle Expert/Résumé pour la section S04 (Algorithme) — les 2 slides de résumé remplacent les 20 slides expert détaillées.
+**Révision S04 (2026-04)** : implémentation de 5 recommandations scientifiques + 75+ références bibliographiques intégrées.
 Règles de travail détaillées dans `AGENTS.md`.
 
 ## Fichiers principaux
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | Toutes les 35 slides (source unique de vérité) : 33 principales + 2 résumés S04 adaptés |
+| `index.html` | Toutes les 41 slides (source unique de vérité) : 39 principales + 2 résumés S04 adaptés |
 | `presenter.html` | Mode présentation deux-écrans : slide actuelle (gauche) + notes + preview (droite), synchro par postMessage |
 | `css/main.css` | Styles transversaux : variables de couleur, reset, nav fixe, deck, typo, grilles, composants génériques, responsive (900px / 600px / 380px), burger menu mobile, logo stylisé |
 | `css/slides/s00-hero.css` | Slide 0 — hero, auteurs, animation admixture, légende ancêtrale |
 | `css/slides/s01-angle-mort.css` | Slides 2–8 — biais IA, clinique, pharmacogénétique |
 | `css/slides/s02-singularite.css` | Slides 9–14 — histoire, peuplement, métissage, effet fondateur, singularité |
 | `css/slides/s03-design.css` | Slides 15–17 — pipeline SNP→WGS, entonnoir d'optimisation, mini-figures |
-| `css/slides/s04-algorithme.css` | Slides 18–36 — résumés, fondations, algorithme détaillé, ROH/IBD, score, phasage, recalibrage, validation |
-| `css/slides/s05-wgs.css` | Slides 37–39 — intro S05, impacts, conclusion |
+| `css/slides/s04-algorithme.css` | Slides 17–38 — intro, résumés, comparative (NEW), fondations, algorithme détaillé, ROH/IBD, score, phasage, recalibrage, validation |
+| `css/slides/s05-wgs.css` | Slides 39–40 — intro S05, impacts, conclusion |
 | `js/app.js` | Navigation, accessibilité, Chart.js (score + radar), animations SVG (pipeline, ROH), speaker mode, logo click handler |
 | `data/admixture.js` | Données + générateur DOM pour animation admixture (slide 0 : 60 barres animées) |
 | `js/vendor/chart.umd.js` | Chart.js 4.4.1 vendorisé (pas de CDN) |
@@ -35,8 +36,8 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s01-angle-mort.css` | 2–8 | 330 | `.ai-* .clinical-* .bias-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 9–14 | 360 | `.history-* .s2-* .timeline-*` | ✓ extrait |
 | `s03-design.css` | 15–16 | 183 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
-| `s04-algorithme.css` | 18–36 | 938 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .phasage-* .comp-* .geo-bars-svg .chromosome-*` | ✓ V3 complet |
-| `s05-wgs.css` | 37–39 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
+| `s04-algorithme.css` | 17–38 | 938 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .phasage-* .comp-* .geo-bars-svg .chromosome-*` | ✓ V3 révisé |
+| `s05-wgs.css` | 39–40 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
 | **main.css** | — | **970** | Voir section "CSS – main.css" |  ✓ structuré |
 
 ## CSS — Sections principales (main.css)
@@ -179,16 +180,16 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 
 | Aspect | Expert Mode (ON) | Résumé Mode (OFF) |
 |---|---|---|
-| Slides visibles S04 | 20–31 (12 slides détaillés) | 18–19 (2 résumés concis) |
-| Autres slides | Slides 18–19 masqués, autres visibles | Slides 20–31 masqués, autres visibles |
+| Slides visibles S04 | 17, 20–38 (21 slides détaillés) | 17–19 (3 slides : intro + 2 résumés) |
+| Autres slides | Slides 18–19 masqués, autres visibles | Slides 21–38 masqués, autres visibles |
 | Compteur | Affiche le total des slides visibles | Affiche le total des slides visibles |
 | Navigation | Saute les slides masqués automatiquement | Saute les slides masqués automatiquement |
 | Bouton toggle | `S04: Expert` (aria-pressed="true") | `S04: Résumé` (aria-pressed="false") |
 
 **Implémentation JS** (`js/app.js`) :
 - `s04ExpertMode` : variable globale (true = Expert, false = Résumé), pas de localStorage
-- `S04_SUMMARY_START=18, S04_SUMMARY_END=19` : slides résumé
-- `S04_DETAILED_START=20, S04_DETAILED_END=31` : slides expert détaillés
+- `S04_SUMMARY_START=18, S04_SUMMARY_END=19` : slides résumé (Algorithme vue d'ensemble + Validation)
+- `S04_DETAILED_START=21, S04_DETAILED_END=38` : slides expert détaillés (comparative + fondations + validation)
 - `updateSlideVisibility()` : applique `display:none` sur les slides cachés
 - `getVisibleSlides()` : retourne indices visibles selon le mode courant
 - Bouton `#s04-toggle-btn` : bascule le mode et redessine le deck
@@ -199,10 +200,10 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 |---|---|---|---|
 | **Admixture** | 0 | CSS animation loop, 60 barres translateY(-50%) | 24s infinite |
 | **Pipeline** | 15 | JS .shown (opacity + transform), app.initDeck()/animatePipeline() | ~2.5s |
-| **ROH diagram** | 27 | JS .roh-visible transition, animateROH() | ~1.3s |
-| **Archflow** | 23 | Carousel mobile, initArchFlowCarousel() | interactive |
-| **Score chart** | 28 | Chart.js bar chart, initScoreChart() | instant |
-| **Radar chart** | 31 | Chart.js radar, initRadarChart() | instant |
+| **Archflow** | 24 | Carousel mobile, initArchFlowCarousel() | interactive |
+| **ROH diagram** | 28 | JS .roh-visible transition, animateROH() | ~1.3s |
+| **Score chart** | 29 | Chart.js bar chart, initScoreChart() | instant |
+| **Radar chart** | 32 | Chart.js radar, initRadarChart() | instant |
 
 ## Fonctionnalités récentes (2026-04)
 
@@ -226,14 +227,15 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 | **Classes .phasage-flow-*** | `.phasage-flow` `.phasage-flow-box--navy/.blue/.teal` `.phasage-flow-tag` pour pipeline visuel |
 | **Archflow carousel** | Nouveau système pour slides larges (slide 23) : carousel items avec dots navigation, mobile-friendly |
 | **Slide 30 + 32 + 34** | Appliqué `.inner--top` pour éviter titles cachés sur slides denses (greedy, phasage, avantages) |
-| **Total slides** | Augmenté de 35 → **40 slides** (5 nouvelles en S04) + 2 résumés optionnels = deck complet V3 |
+| **S04 Révision (2026-04)** | ✅ 5 recommandations implémentées : (1) slide 21 comparative 6 stratégies, (2) clarifier ADMIX_rarity (slide 28), (3) quantifier robustesse multi-ordre (slide 32), (4) énumérer 6 stratégies (slides 18-19), (5) effectif observé (slide 35). ✅ 75+ références bibliographiques intégrées en pied de page |
+| **Total slides** | Augmenté de 40 → **41 slides** (1 nouvelle comparative S04) + 2 résumés optionnels = deck complet V3 révisé |
 
 ## Règle de mise à jour
 
 > **Après toute modification qui change l'un des éléments ci-dessous, mettre à jour
 > la section correspondante de ce fichier ET du git commit :**
 >
-> - Modification du nombre de slides → "**40 slides**" en vue d'ensemble + tableau "Carte des slides"
+> - Modification du nombre de slides → "**41 slides**" en vue d'ensemble + tableau "Carte des slides"
 > - Ajout / suppression / déplacement d'une slide → tableau "Carte des slides"
 > - Ajout d'une classe CSS → tableau "Fichiers slides" (colonne classes clés)
 > - Modification de styles existants → indiquer le fichier affecté et la plage de lignes
