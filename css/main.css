@@ -1130,6 +1130,14 @@ ul.validation-list li {
 }
 
 @media (max-width: 600px) {
+  /* Force le contenu à commencer en haut sur mobile pour permettre le scroll vertical
+     Au lieu de center le contenu (ce qui empêche le scroll), on le met en top.
+     Cela permet aux tableaux et contenu long de scroller verticalement. */
+  .inner {
+    justify-content: flex-start;
+    padding: clamp(12px, 2vh, 24px) clamp(16px, 2.5vw, 32px);
+  }
+
   /* Passe la grille en colonne unique pour petit écran mobile */
   .slide-footer {
     grid-template-columns: 1fr;
