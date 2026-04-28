@@ -38,7 +38,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s03-design.css` | 15–16 | 183 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
 | `s04-algorithme.css` | 17–38 | 938 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .phasage-* .comp-* .geo-bars-svg .chromosome-*` | ✓ V3 révisé |
 | `s05-wgs.css` | 39–40 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
-| **main.css** | — | **970** | Voir section "CSS – main.css" |  ✓ structuré |
+| **main.css** | — | **1112** | Voir section "CSS – main.css" |  ✓ structuré |
 
 ## CSS — Sections principales (main.css)
 
@@ -63,7 +63,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Grilles | 451 | `.grid-2 .grid-3 .grid-4` |
 | Cards | 459 | `.card .card-colored` |
 | Modificateurs de slides | 484 | `.slide--cream --navy --hero --s01…s05` `.slide-rule--*` `.toc-number--*` `.level-header--*` |
-| Footer | 523 | `.slide-footer .slide-footer-meta .slide-footer-sources` |
+| Footer (Option 5) | 571 | `.slide-footer .slide-footer-meta .slide-footer-sources .slide-footer-source .slide-footer-citations` |
 | Table des matières | 579 | `.toc-row .toc-number .toc-title .toc-desc` |
 | Formule | 622 | `.formula .formula--score` |
 | Barres de progression | 642 | `.progress-bar .progress-label .progress-track .progress-fill` |
@@ -228,6 +228,7 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 | **Archflow carousel** | Nouveau système pour slides larges (slide 23) : carousel items avec dots navigation, mobile-friendly |
 | **Slide 30 + 32 + 34** | Appliqué `.inner--top` pour éviter titles cachés sur slides denses (greedy, phasage, avantages) |
 | **S04 Révision (2026-04)** | ✅ 5 recommandations implémentées : (1) slide 21 comparative 6 stratégies, (2) clarifier ADMIX_rarity (slide 28), (3) quantifier robustesse multi-ordre (slide 32), (4) énumérer 6 stratégies (slides 18-19), (5) effectif observé (slide 35). ✅ 75+ références bibliographiques intégrées en pied de page |
+| **Footer Redesign (2026-04)** | ✅ Option 5 — Design Mixte Moderne : barre d'accent colorée (couleur de section), breadcrumb "Génome Réunion · <#>", badge de numéro (droite), section références avec icône 📚. CSS Grid 2×3 + pseudo-éléments ::before/::after. Support dual : simple (2 captions) + citations (via slide-footer-meta wrapper). Responsive clamp() typography. |
 | **Total slides** | Augmenté de 40 → **41 slides** (1 nouvelle comparative S04) + 2 résumés optionnels = deck complet V3 révisé |
 
 ## Règle de mise à jour
