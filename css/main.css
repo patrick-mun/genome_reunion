@@ -1132,25 +1132,19 @@ ul.validation-list li {
 }
 
 @media (max-width: 600px) {
-  /* Sur mobile, enlève les contraintes de hauteur pour permettre au contenu
-     de déborder naturellement sans compression:
-     - .slide height: 100% → height: auto pour que la hauteur suive le contenu
-     - .inner height: calc(...) → height: auto (pas de hauteur fixe)
-     - overflow: auto sur le conteneur parent pour scroller naturellement
-     - align-items: flex-start pour commencer en haut */
+  /* Sur mobile, permet au contenu de déborder sans compression du tableau:
+     Gardons le layout normal du .slide (justify-content: center)
+     Changeons seulement la hauteur et overflow pour permettre le scroll */
   .slide {
     height: auto;
     min-height: 100vh;
     overflow: auto;
-    align-items: flex-start;
-    justify-content: flex-start;
   }
 
   .inner {
     height: auto !important;
     min-height: auto;
-    width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
     padding: clamp(12px, 2vh, 24px) clamp(16px, 2.5vw, 32px);
     overflow: visible !important;
   }
