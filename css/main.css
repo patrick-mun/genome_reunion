@@ -1132,12 +1132,17 @@ ul.validation-list li {
 }
 
 @media (max-width: 600px) {
-  /* Force le contenu à commencer en haut sur mobile pour permettre le scroll vertical
-     Au lieu de center le contenu (ce qui empêche le scroll), on le met en top.
-     Cela permet aux tableaux et contenu long de scroller verticalement. */
+  /* Sur mobile, change le layout du .inner pour éviter que le contenu soit tassé:
+     - height: auto au lieu de calc(100vh - 68px) pour que le contenu prenne sa place naturelle
+     - Pas de hauteur fixe = pas de compression du tableau
+     - justify-content: flex-start pour mettre le contenu en haut
+     - Le scroll vertical de la page/deck permettra de voir tout le contenu */
   .inner {
+    height: auto;
+    min-height: auto;
     justify-content: flex-start;
     padding: clamp(12px, 2vh, 24px) clamp(16px, 2.5vw, 32px);
+    overflow-y: visible;
   }
 
   /* Passe la grille en colonne unique pour petit écran mobile */
