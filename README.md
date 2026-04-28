@@ -61,6 +61,26 @@ Le style est réparti en deux niveaux :
 - `css/main.css` — variables de design (`:root`), reset, navigation, deck, typographie, composants génériques (`card`, `callout`, `formula`, `level-card`, etc.), responsive et accessibilité.
 - `css/slides/s0X-*.css` — styles spécifiques à chaque section, chargés après `main.css` via `<link>` dans `<head>`.
 
+## Design du Pied de Page (Footer) — Option 5 Moderne
+
+Le pied de page de chaque slide utilise une **grille CSS 2×3 colonnes** avec pseudo-éléments pour une meilleure hiérarchie visuelle :
+
+- **Barre d'accent colorée** (ligne 1) : 2px, couleur adaptée par section (coral/S01, teal/S02, purple/S03, blue/S04, green/S05)
+- **Breadcrumb + Badge** (ligne 2) : Gauche « Génome Réunion · » | Droite : numéro de slide stylisé en badge coloré
+- **Section références** (ligne 3, citations uniquement) : 📚 RÉFÉRENCES + liste des sources
+
+**Structures HTML supportées** :
+- **Simple** : `<div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">35</span></div>`
+- **Avec citations** : `<div class="slide-footer slide-footer-citations"><div class="slide-footer-meta">...<div class="slide-footer-sources">...</div>...</div><span class="caption">35</span></div>`
+
+**Avantages** :
+- ✅ Meilleure séparation visuelle du contenu
+- ✅ Hiérarchie claire avec breadcrumb + badge
+- ✅ Couleurs adaptées par section (thématique cohérente)
+- ✅ Icon + label pour les références
+- ✅ Responsive : utilise `clamp()` pour tous les espacements et tailles de police
+- ✅ Zéro modification HTML : utilise CSS Grid + `::before` / `::after` exclusivement
+
 ## Architecture JS
 
 `js/app.js` pilote :
