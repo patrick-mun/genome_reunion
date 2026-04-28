@@ -568,55 +568,197 @@ html, body {
 
 
 
-/* ── Footer de slide ────────────────────────────────────────
-   Ligne séparatrice en bas de chaque slide de contenu,
-   affichant le nom du projet à gauche et le numéro à droite. */
+/* ── Footer de slide (OPTION 5 — Design Mixte Moderne) ──────────────
+   - Barre d'accent colorée en haut (couleur de section)
+   - Séparation claire du corps
+   - Hiérarchie : Projet · Numéro | Références
+   - Icônes aux couleurs du design
+   - Responsive et élégant
+
+   Structures HTML supportées :
+   1. Simple (pas de sources) :
+      <div class="slide-footer">
+        <span class="caption">Génome Réunion</span>
+        <span class="caption">35</span>
+      </div>
+
+   2. Avec citations (via slide-footer-meta) :
+      <div class="slide-footer slide-footer-citations">
+        <div class="slide-footer-meta">
+          <span class="caption">Génome Réunion</span>
+          <div class="slide-footer-sources">...</div>
+        </div>
+        <span class="caption">35</span>
+      </div> */
+
 .slide-footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 0;
+  margin-top: clamp(16px, 2.4vh, 32px);
+  padding: 0;
+  border: none;
+  width: 100%;
+  align-items: start;
+}
+
+/* Barre d'accent colorée — s'étend sur toute la largeur (haut) */
+.slide-footer::before {
+  content: '';
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: 100%;
+  height: 2px;
+  background: var(--teal);
+  margin-bottom: clamp(14px, 2vh, 20px);
+  border-radius: 1px;
+}
+
+/* Adaptation couleur barre par section */
+.slide.slide--s01 .slide-footer::before { background: var(--coral); }
+.slide.slide--s02 .slide-footer::before { background: var(--teal); }
+.slide.slide--s03 .slide-footer::before { background: var(--purple); }
+.slide.slide--s04 .slide-footer::before { background: var(--blue); }
+.slide.slide--s05 .slide-footer::before { background: var(--green); }
+
+/* ─ Structure simple (pas de sources) ─
+   Premier caption (Génome Réunion) — devient breadcrumb */
+.slide-footer:not(.slide-footer-citations) > .caption:first-of-type {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: clamp(10px, 0.95vw, 12px);
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.3px;
+  margin: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: clamp(6px, 1.2vh, 16px);
-  padding-top: clamp(4px, .8vh, 10px);
-  border-top: 1px solid var(--border);
-}
-
-/* Bloc gauche du footer quand une slide affiche des citations courtes.
-   Les références restent volontairement compactes pour ne pas surcharger
-   la slide, mais chaque ligne peut être reliée à une ligne de tableau. */
-.slide-footer-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  max-width: min(80%, 980px);
-}
-
-.slide-footer-sources {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.slide-footer-source {
-  font-size: clamp(9px, 1vw, 11px);
-  line-height: 1.45;
-  color: var(--light);
-}
-
-/* Variante plus aérée pour les slides qui portent plusieurs citations
-   en pied de page. On augmente l'espace avant le footer et on sépare
-   nettement le libellé du projet de la liste des sources. */
-.slide-footer-citations {
-  margin-top: clamp(16px, 2.8vh, 30px);
-  padding-top: clamp(10px, 1.6vh, 18px);
-  align-items: flex-end;
-}
-
-.slide-footer-citations .slide-footer-meta {
   gap: 8px;
 }
 
-.slide-footer-citations .slide-footer-sources {
-  gap: 4px;
+/* Ajouter le séparateur "·" après le projet (simple) */
+.slide-footer:not(.slide-footer-citations) > .caption:first-of-type::after {
+  content: '·';
+  margin-left: 8px;
+}
+
+/* Dernier caption (numéro de slide) — stylisé en badge (simple) */
+.slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: clamp(11px, 1.05vw, 13px);
+  font-weight: 600;
+  color: var(--white);
+  background: var(--teal);
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Adaptation couleur badge par section (simple) */
+.slide.slide--s01 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--coral); }
+.slide.slide--s02 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--teal); }
+.slide.slide--s03 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--purple); }
+.slide.slide--s04 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--blue); }
+.slide.slide--s05 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--green); }
+
+/* ─ Structure avec citations (slide-footer-meta wrapper) ─
+   Le meta wrapper contient breadcrumb + sources, occupe col 1 */
+.slide-footer-citations .slide-footer-meta {
+  grid-column: 1;
+  grid-row: 2 / 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Breadcrumb dans le meta wrapper (citations) */
+.slide-footer-citations .slide-footer-meta > .caption:first-of-type {
+  font-size: clamp(10px, 0.95vw, 12px);
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.3px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: clamp(8px, 1.2vh, 12px);
+}
+
+/* Ajouter le séparateur "·" (citations) */
+.slide-footer-citations .slide-footer-meta > .caption:first-of-type::after {
+  content: '·';
+  margin-left: 8px;
+}
+
+/* Dernier caption — numéro badge (citations, col 2) */
+.slide-footer-citations > .caption:last-of-type {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: clamp(11px, 1.05vw, 13px);
+  font-weight: 600;
+  color: var(--white);
+  background: var(--teal);
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin: 0;
+  line-height: 1;
+  align-self: start;
+}
+
+/* Adaptation couleur badge (citations) */
+.slide.slide--s01 .slide-footer-citations > .caption:last-of-type { background: var(--coral); }
+.slide.slide--s02 .slide-footer-citations > .caption:last-of-type { background: var(--teal); }
+.slide.slide--s03 .slide-footer-citations > .caption:last-of-type { background: var(--purple); }
+.slide.slide--s04 .slide-footer-citations > .caption:last-of-type { background: var(--blue); }
+.slide.slide--s05 .slide-footer-citations > .caption:last-of-type { background: var(--green); }
+
+/* ─ Bloc références (sources) ─
+   Affiche dans le meta ou directement dans footer selon structure */
+.slide-footer-sources {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3px, 0.6vh, 7px);
+}
+
+/* Label "RÉFÉRENCES" avec icône */
+.slide-footer-sources::before {
+  content: '📚 RÉFÉRENCES';
+  display: block;
+  font-size: clamp(8px, 0.88vw, 10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text);
+  margin-bottom: clamp(4px, 0.8vh, 8px);
+}
+
+/* Chaque source — compact mais lisible */
+.slide-footer-source {
+  font-size: clamp(8px, 0.92vw, 10px);
+  line-height: clamp(1.4, 1.5, 1.65);
+  color: var(--text-muted);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Journal en italique */
+.slide-footer-source em {
+  color: var(--text);
+  font-style: italic;
+}
+
+/* Variante citations — augmente l'espace vertical global */
+.slide-footer-citations {
+  margin-top: clamp(24px, 3.2vh, 40px) !important;
+}
+
+/* Ajuste spacing des sources dans le meta */
+.slide-footer-citations .slide-footer-meta .slide-footer-sources {
+  gap: clamp(4px, 0.8vh, 9px);
+  margin-top: clamp(8px, 1.2vh, 12px);
 }
 
 .slide-footer-citations .slide-footer-source {
