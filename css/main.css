@@ -1177,18 +1177,26 @@ ul.validation-list li {
     font-size: clamp(8px, 0.8vw, 10px);
   }
 
-  /* Badge — passe sous le breadcrumb en mobile — DISCRET (pas de fond) */
+  /* Badge — passe sous le breadcrumb en mobile — style compact coloré */
   .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
     grid-column: 1;
     grid-row: 3;
     font-size: clamp(8px, 0.8vw, 10px);
-    padding: 0;
-    border-radius: 0;
-    background: transparent !important;
-    color: var(--text-muted);
+    padding: 4px 8px;
+    border-radius: 3px;
+    background: var(--teal);
+    color: var(--white);
     margin-top: clamp(4px, 0.6vh, 6px);
     align-self: start;
+    width: fit-content;
+    font-weight: 600;
   }
+
+  .slide.slide--s01 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--coral); }
+  .slide.slide--s02 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--teal); }
+  .slide.slide--s03 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--purple); }
+  .slide.slide--s04 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--blue); }
+  .slide.slide--s05 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--green); }
 
   /* Breadcrumb + badge en line (citations) */
   .slide-footer-citations .slide-footer-meta {
@@ -1200,13 +1208,21 @@ ul.validation-list li {
     grid-column: 1;
     grid-row: 3;
     font-size: clamp(8px, 0.8vw, 10px);
-    padding: 0;
-    border-radius: 0;
-    background: transparent !important;
-    color: var(--text-muted);
+    padding: 4px 8px;
+    border-radius: 3px;
+    background: var(--teal);
+    color: var(--white);
     margin-top: clamp(4px, 0.6vh, 6px);
     align-self: start;
+    width: fit-content;
+    font-weight: 600;
   }
+
+  .slide.slide--s01 .slide-footer-citations > .caption:last-of-type { background: var(--coral); }
+  .slide.slide--s02 .slide-footer-citations > .caption:last-of-type { background: var(--teal); }
+  .slide.slide--s03 .slide-footer-citations > .caption:last-of-type { background: var(--purple); }
+  .slide.slide--s04 .slide-footer-citations > .caption:last-of-type { background: var(--blue); }
+  .slide.slide--s05 .slide-footer-citations > .caption:last-of-type { background: var(--green); }
 
   /* References — pleine largeur sous le contenu */
   .slide-footer-sources {
