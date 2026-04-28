@@ -1099,6 +1099,103 @@ ul.validation-list li {
   cursor: pointer;
 }
 
+/* ============================================================
+   13d. FOOTER RESPONSIVE ADAPTATIONS
+   Adapte le layout du footer pour mobile et tablette.
+   — 900px : réduit espacements et font sizes
+   — 600px : passe breadcrumb + badge en colonne, ou les empile
+   ============================================================ */
+@media (max-width: 900px) {
+  .slide-footer {
+    margin-top: clamp(12px, 1.8vh, 24px);
+  }
+
+  .slide-footer:not(.slide-footer-citations) > .caption:first-of-type {
+    font-size: clamp(9px, 0.85vw, 11px);
+  }
+
+  .slide-footer:not(.slide-footer-citations) > .caption:last-of-type,
+  .slide-footer-citations > .caption:last-of-type {
+    font-size: clamp(10px, 0.95vw, 12px);
+    padding: 5px 10px;
+  }
+
+  .slide-footer-sources::before {
+    font-size: clamp(7px, 0.75vw, 9px);
+  }
+
+  .slide-footer-source {
+    font-size: clamp(7px, 0.8vw, 9px);
+  }
+}
+
+@media (max-width: 600px) {
+  /* Passe la grille en colonne unique pour petit écran mobile */
+  .slide-footer {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    margin-top: clamp(10px, 1.4vh, 16px);
+  }
+
+  /* Barre d'accent — reste full-width */
+  .slide-footer::before {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: clamp(10px, 1.4vh, 14px);
+  }
+
+  /* Breadcrumb — colonne unique */
+  .slide-footer:not(.slide-footer-citations) > .caption:first-of-type {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: clamp(8px, 0.8vw, 10px);
+  }
+
+  /* Badge — passe sous le breadcrumb en mobile */
+  .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: clamp(9px, 0.9vw, 11px);
+    padding: 4px 8px;
+    align-self: start;
+  }
+
+  /* Breadcrumb + badge en line (citations) */
+  .slide-footer-citations .slide-footer-meta {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .slide-footer-citations > .caption:last-of-type {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: clamp(9px, 0.9vw, 11px);
+    padding: 4px 8px;
+    align-self: start;
+  }
+
+  /* References — pleine largeur sous le contenu */
+  .slide-footer-sources {
+    grid-column: 1;
+    grid-row: 4;
+    margin-top: clamp(8px, 1vh, 10px);
+  }
+
+  .slide-footer-sources::before {
+    font-size: clamp(7px, 0.7vw, 8px);
+    margin-bottom: clamp(3px, 0.6vh, 6px);
+  }
+
+  .slide-footer-source {
+    font-size: clamp(7px, 0.75vw, 8px);
+    line-height: 1.4;
+  }
+
+  .slide-footer-citations {
+    margin-top: clamp(16px, 2.2vh, 24px) !important;
+  }
+}
+
 
 /* ============================================================
    14. ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
