@@ -1624,6 +1624,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Price et al. 2006, <em>Nature Genetics</em>. Principal components analysis in GWAS.</span>
+              <span class="slide-footer-source">Alexander et al. 2009, <em>Genome Research</em>. Fast model-based ancestry estimation (ADMIXTURE).</span>
+              <span class="slide-footer-source">Manichaikul et al. 2010, <em>Bioinformatics</em>. Robust relationship inference (KING).</span>
+              <span class="slide-footer-source">Kirin et al. 2010, <em>PLoS ONE</em>. Genomic runs of homozygosity.</span>
+            </span>
             <span class="caption">S04-1</span>
           </div>
         </div>
@@ -1663,12 +1669,93 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Bergström et al. 2020, <em>Science</em>. Insights from 929 diverse genomes.</span>
+              <span class="slide-footer-source">Naslavsky et al. 2022, <em>Nature Communications</em>. Whole-genome sequencing of 1,171 elderly admixed individuals (EPIGEN-Brasil).</span>
+              <span class="slide-footer-source">Nunes et al. 2025, <em>Science</em>. Admixture's impact on Brazilian population evolution.</span>
+            </span>
             <span class="caption">S04-2</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 21 — JUSTIFICATION N=350 WGS (FONDATIONS SCIENTIFIQUES)
+     SLIDE 21 — COMPARAISON DES 6 STRATÉGIES DE SÉLECTION (RECOMMANDATION 1)
+     Tableau des 6 approches testées pendant validation.
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Comparaison des 6 stratégies de sélection testées</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+          <p class="text-body mb-responsive-md"><strong>Avant d'adopter S_div stratifié, six approches ont été évaluées</strong> sur critères de robustesse, couverture allélique, et stabilité inter-populations. Seule S_div géo-ancestral montre performance complète sur tous les domaines.</p>
+          <div class="grid-1">
+            <table class="table-compact">
+              <tr>
+                <th>Stratégie</th>
+                <th>Approche</th>
+                <th>Avantages</th>
+                <th>Limitation</th>
+                <th>Verdict</th>
+              </tr>
+              <tr>
+                <td><strong>1. Random sampling</strong></td>
+                <td>Tirage aléatoire</td>
+                <td>Pas de biais cognitif</td>
+                <td>Perte de diversité génétique, couverture rares faible</td>
+                <td>Benchmark</td>
+              </tr>
+              <tr>
+                <td><strong>2. PCA-only</strong></td>
+                <td>Position PCA maximale</td>
+                <td>Marginalité génétique</td>
+                <td>Ignore parenté IBD, sur-représente outliers</td>
+                <td>Rejeté</td>
+              </tr>
+              <tr>
+                <td><strong>3. Maximin IBD</strong></td>
+                <td>Maximiser distance IBD min</td>
+                <td>Indépendance génétique</td>
+                <td>Ignore structure géographique, biais géographique</td>
+                <td>Rejeté</td>
+              </tr>
+              <tr>
+                <td><strong>4. Géo + S_div naïf</strong></td>
+                <td>Secteur + S_div non pondéré</td>
+                <td>Représentativité démo</td>
+                <td>Poids non justifiés, sensibilité paramètre</td>
+                <td>Partiel</td>
+              </tr>
+              <tr class="highlight">
+                <td><strong>5. Géo-ancestral + S_div ✓</strong></td>
+                <td><strong>Secteur + S_div 4-composantes</strong></td>
+                <td><strong>Diversité complète, robustesse, inter-populations</strong></td>
+                <td><strong>Heuristique non optimale mathématiquement</strong></td>
+                <td><strong>RETENU</strong></td>
+              </tr>
+              <tr>
+                <td><strong>6. ADMIXTURE-only + greedy</strong></td>
+                <td>Inférence ancestralité + sélection</td>
+                <td>Capture ancestralité</td>
+                <td>Ignore PCA local, parenté non gérée</td>
+                <td>Rejeté</td>
+              </tr>
+            </table>
+          </div>
+          <div class="callout">
+            <strong>Critères d'évaluation :</strong> Couverture allélique (rares variants, MAF 0.1-1%), KS-test distribution (accord fréquences), stabilité inter-populations (African, South Asian, tri-ancestral), robustesse intra-seed (ordres aléatoires).
+          </div>
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Le & Durbin 2011, <em>Genome Research</em>. SNP detection from low-coverage sequencing.</span>
+              <span class="slide-footer-source">Pemberton et al. 2013, <em>G3</em>. Population structure in comprehensive genomic data.</span>
+              <span class="slide-footer-source">Auer & Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: considerations and opportunities.</span>
+            </span>
+          </div>
+          <span class="caption">21</span>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 22 — JUSTIFICATION N=350 WGS (FONDATIONS SCIENTIFIQUES)
      Formule P(détection), table MAF, seuil 1%, comparaison Naslavsky.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -1702,7 +1789,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">19</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Le & Durbin 2011, <em>Genome Research</em>. SNP detection and genotyping from low-coverage sequencing data.</span>
+              <span class="slide-footer-source">Auer & Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: considerations, challenges and opportunities.</span>
+              <span class="slide-footer-source">Naslavsky et al. 2022, <em>Nature Communications</em>. Whole-genome sequencing of 1,171 elderly admixed individuals from São Paulo, Brazil.</span>
+            </span>
+            <span class="caption">22</span>
           </div>
         </div>
       </div>
@@ -1745,12 +1837,17 @@
           <p class="design-note design-note--orange mt-responsive-lg"><strong>⚠️ Point critique :</strong> Les 100 familles <strong>ne sont pas incluses</strong> dans les 2500. C'est une ressource de <strong>phasage technique</strong>, pas une source d'observations indépendantes pour les fréquences.</p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">20</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Browning & Browning 2011, <em>Nature Reviews Genetics</em>. Haplotype phasing: existing methods and new developments.</span>
+              <span class="slide-footer-source">Delaneau et al. 2019, <em>Nature Communications</em>. Accurate, scalable and integrative haplotype estimation.</span>
+              <span class="slide-footer-source">Taliun et al. 2021, <em>Nature</em>. Sequencing of 53,831 diverse genomes from the NHLBI TOPMed Program.</span>
+            </span>
+            <span class="caption">23</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 23 — PANEL WGS HYBRIDE V3
+     SLIDE 24 — PANEL WGS HYBRIDE V3
      Noyau géographique (322) + Bras découverte (28).
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -1781,12 +1878,17 @@
           <p class="design-note design-note--orange mt-responsive-lg"><strong>🚨 Ne pas confondre :</strong> Découverte (richesse WGS capturée par le bras) ≠ Fréquence populationnelle (recalibrage obligatoire sur 2500 SNP pour tous les variants).</p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">21</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Rubinacci et al. 2021, <em>Nature Genetics</em>. Efficient phasing and imputation of low-coverage sequencing data using large reference panels.</span>
+              <span class="slide-footer-source">Browning et al. 2018, <em>AJHG</em>. A One-Penny Imputed Genome from Next-Generation Reference Panels.</span>
+              <span class="slide-footer-source">Auer & Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: considerations and opportunities.</span>
+            </span>
+            <span class="caption">24</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 24 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
+     SLIDE 25 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
      Architecture générale : géographique (fondation) puis
      génétique (optimisation S_div au sein de chaque secteur).
      ═══════════════════════════════════════════════════════ -->
@@ -1861,12 +1963,17 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">22</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Cardon & Palmer 2003, <em>The Lancet</em>. Population stratification and spurious allelic association.</span>
+              <span class="slide-footer-source">Wojcik et al. 2019, <em>Nature</em>. Genetic analyses of diverse populations improves discovery for complex traits.</span>
+              <span class="slide-footer-source">Sirugo et al. 2019, <em>Cell</em>. The Missing Diversity in Human Genetic Studies.</span>
+            </span>
+            <span class="caption">25</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 19 — STRATIFICATION GÉOGRAPHIQUE
+     SLIDE 26 — STRATIFICATION GÉOGRAPHIQUE
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">
@@ -1921,12 +2028,17 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">23</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Pemberton et al. 2013, <em>G3</em>. Population structure in a comprehensive genomic data set on human microsatellite variation.</span>
+              <span class="slide-footer-source">Choudhury et al. 2020, <em>Nature</em>. High-depth African genomes inform human migration and health.</span>
+              <span class="slide-footer-source">Cardon & Palmer 2003, <em>The Lancet</em>. Population stratification and spurious allelic association.</span>
+            </span>
+            <span class="caption">26</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 20 — LES 4 COMPOSANTES DE S_div
+     SLIDE 27 — LES 4 COMPOSANTES DE S_div
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">
@@ -1965,12 +2077,19 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">24</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Price et al. 2006, <em>Nature Genetics</em>. Principal components analysis corrects for stratification in GWAS.</span>
+              <span class="slide-footer-source">Patterson et al. 2006, <em>PLoS Genetics</em>. Population structure and eigenanalysis.</span>
+              <span class="slide-footer-source">Alexander et al. 2009, <em>Genome Research</em>. Fast model-based estimation of ancestry in unrelated individuals (ADMIXTURE).</span>
+              <span class="slide-footer-source">Conomos et al. 2016, <em>AJHG</em>. Model-free estimation of recent genetic relatedness (KING).</span>
+              <span class="slide-footer-source">Ceballos et al. 2018, <em>Nature Reviews Genetics</em>. Runs of homozygosity: windows into population history and trait architecture.</span>
+            </span>
+            <span class="caption">27</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 24 — PCA_score + ADMIX_score
+     SLIDE 28 — PCA_score + ADMIX_score
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">
@@ -2022,19 +2141,25 @@
                 </svg>
                 </div>
                 <div class="mt-responsive-sm callout">
-                  <strong>Note :</strong> L'entropie seule ne capture pas la rareté ancestrale. Le bras découverte utilisera une métrique complémentaire : ADMIX_rarity (distance au centroïde q du secteur). À valider en analyse de sensibilité.
+                  <strong>Note :</strong> L'entropie seule ne capture pas la rareté ancestrale. <strong>Le bras découverte (28 indiv) utilise S_discovery_rarity</strong> (distance au centroïde q_k du secteur ancestral) plutôt que l'entropie — capturant profils aux marges ancestrales. Noyau géographique (322) utilise entropie H(i) pour diversité globale. À valider par analyse de sensibilité.
                 </div>
               </div>
             </div>
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">25</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Price et al. 2006, <em>Nature Genetics</em>. Principal components analysis corrects for stratification in GWAS.</span>
+              <span class="slide-footer-source">Patterson et al. 2006, <em>PLoS Genetics</em>. Population structure and eigenanalysis.</span>
+              <span class="slide-footer-source">Alexander et al. 2009, <em>Genome Research</em>. Fast model-based estimation of ancestry (ADMIXTURE).</span>
+              <span class="slide-footer-source">Lawson et al. 2018, <em>Nature Communications</em>. A tutorial on how not to over-interpret STRUCTURE and ADMIXTURE bar plots.</span>
+            </span>
+            <span class="caption">28</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 25 — IBD_score + ROH_score
+     SLIDE 29 — IBD_score + ROH_score
      Anime #rohDiagram via animateROH() dans app.js.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4" data-animate="roh">
@@ -2107,12 +2232,20 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">26</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Manichaikul et al. 2010, <em>Bioinformatics</em>. Robust relationship inference in GWAS (KING).</span>
+              <span class="slide-footer-source">Thornton et al. 2012, <em>AJHG</em>. Estimating kinship in admixed populations.</span>
+              <span class="slide-footer-source">Conomos et al. 2016, <em>AJHG</em>. Model-free estimation of recent genetic relatedness.</span>
+              <span class="slide-footer-source">Kirin et al. 2010, <em>PLoS ONE</em>. Genomic runs of homozygosity record population history and consanguinity.</span>
+              <span class="slide-footer-source">Ceballos et al. 2018, <em>Nature Reviews Genetics</em>. Runs of homozygosity: windows into population history.</span>
+              <span class="slide-footer-source">McQuillan et al. 2008, <em>AJHG</em>. Runs of homozygosity in European populations.</span>
+            </span>
+            <span class="caption">29</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 26 — AGRÉGATION S_div
+     SLIDE 30 — AGRÉGATION S_div
      Poids : PCA 30% · ADMIX 30% · IBD 25% · ROH 15%
      Graphique barres (#scoreBarChart) via data-animate="score".
      ═══════════════════════════════════════════════════════ -->
@@ -2127,12 +2260,18 @@
           <div class="callout">Les poids 0.30 · 0.30 · 0.25 · 0.15 sont des <strong>valeurs de travail</strong> pré-validation. Ils seront testés par analyse de sensibilité (±10%) et analyse leave-one-component-out avant optimisation finale. IBD 0.125 = <strong>contrainte dure supplémentaire</strong> lors de la sélection greedy — elle élimine les candidats trop apparentés indépendamment de leur score S_div.</div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">27</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Price et al. 2006, <em>Nature Genetics</em>. Principal components analysis corrects for stratification.</span>
+              <span class="slide-footer-source">Alexander et al. 2009, <em>Genome Research</em>. Fast model-based estimation of ancestry (ADMIXTURE).</span>
+              <span class="slide-footer-source">Manichaikul et al. 2010, <em>Bioinformatics</em>. Robust relationship inference (KING).</span>
+              <span class="slide-footer-source">Ceballos et al. 2018, <em>Nature Reviews Genetics</em>. Runs of homozygosity diversity metrics.</span>
+            </span>
+            <span class="caption">30</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 27 — STRATIFICATION QUINTILE
+     SLIDE 31 — STRATIFICATION QUINTILE
      Anti-biais directionnel : Q1-Q5 + binaire + greedy.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2181,12 +2320,16 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">28</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Pemberton et al. 2013, <em>G3</em>. Population structure in genomic data sets.</span>
+              <span class="slide-footer-source">Auer & Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: strategies and constraints.</span>
+            </span>
+            <span class="caption">31</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 28 — ALGORITHME GREEDY STRATIFIÉ
+     SLIDE 32 — ALGORITHME GREEDY STRATIFIÉ
      Les trois branches selon la taille du secteur.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2241,16 +2384,21 @@
             </div>
           </div>
           <div class="callout mt-responsive-md">
-            <strong>Robustesse multi-ordre :</strong> Pour valider la stabilité du greedy, exécuter l'algorithme en plusieurs ordres de secteurs (décroissant de taille, aléatoires ≥100, extrêmes) et mesurer l'intersection des sélections (|A ∩ B| / 350). Cela quantifie la dépendance à l'ordre et la stabilité de la méthodologie.
+            <strong>Robustesse multi-ordre (Recommandation 3) :</strong> Pour valider la stabilité du greedy, exécuter l'algorithme en <strong>100+ ordres aléatoires</strong> de secteurs (décroissant de taille, aléatoires ≥100, extrêmes). Mesurer l'intersection des sélections : |A ∩ B| / 350. <strong>Cible de stabilité : > 95%</strong> (variabilité < 5% WGS sélectionnés entre ordres). Cela quantifie la dépendance à l'ordre et garantit la robustesse de la méthodologie avant déploiement.
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">29</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Le & Durbin 2011, <em>Genome Research</em>. SNP detection from low-coverage sequencing data.</span>
+              <span class="slide-footer-source">Pemberton et al. 2013, <em>G3</em>. Population structure in comprehensive genomic data.</span>
+              <span class="slide-footer-source">Auer & Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: strategies.</span>
+            </span>
+            <span class="caption">32</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 29 — EXEMPLE CONCRET : CALCUL DU SCORE
+     SLIDE 33 — EXEMPLE CONCRET : CALCUL DU SCORE
      Radar Chart.js (#radarChart) — 4 axes alignés sur S_div v3.8.
      Scores : A=0.38 · B=0.59 · C=0.85
      ═══════════════════════════════════════════════════════ -->
@@ -2292,12 +2440,18 @@
           <p class="special-score-line special-copy-strong-green">— <strong>Patient C :</strong> marges maximales ET non apparenté → sélectionné en priorité.</p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">30</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Price et al. 2006, <em>Nature Genetics</em>. PCA composite scoring framework.</span>
+              <span class="slide-footer-source">Alexander et al. 2009, <em>Genome Research</em>. ADMIXTURE scoring.</span>
+              <span class="slide-footer-source">Manichaikul et al. 2010, <em>Bioinformatics</em>. KING kinship scoring.</span>
+              <span class="slide-footer-source">Ceballos et al. 2018, <em>Nature Reviews Genetics</em>. ROH diversity metrics.</span>
+            </span>
+            <span class="caption">33</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 31 — PHASAGE RÉUNIONNAIS + 100 FAMILLES NUCLÉAIRES
+     SLIDE 34 — PHASAGE RÉUNIONNAIS + 100 FAMILLES NUCLÉAIRES
      Transmission mendélienne, haplotypes locaux, ressource phasage.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2356,12 +2510,21 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">31</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Browning & Browning 2011, <em>Nature Reviews Genetics</em>. Haplotype phasing: methods and developments.</span>
+              <span class="slide-footer-source">Browning & Browning 2012, <em>Annual Review of Genetics</em>. Identity by descent between distant relatives.</span>
+              <span class="slide-footer-source">Delaneau et al. 2019, <em>Nature Communications</em>. Accurate, scalable and integrative haplotype estimation (SHAPEIT4).</span>
+              <span class="slide-footer-source">Loh et al. 2016, <em>Nature Genetics</em>. Fast and accurate long-range phasing.</span>
+              <span class="slide-footer-source">Hofmeister et al. 2023, <em>Nature Genetics</em>. Accurate rare variant phasing of WGS data.</span>
+              <span class="slide-footer-source">Maples et al. 2013, <em>AJHG</em>. RFMix: rapid local-ancestry inference.</span>
+              <span class="slide-footer-source">Browning & Browning 2023, <em>AJHG</em>. Fast, accurate local ancestry inference with FLARE.</span>
+            </span>
+            <span class="caption">34</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 32 — RECALIBRAGE FRÉQUENCES : BRUTE → PONDÉRÉE → IMPUTÉE
+     SLIDE 35 — RECALIBRAGE FRÉQUENCES : BRUTE → PONDÉRÉE → IMPUTÉE
      Distinction critical: WGS brute vs populationnelle, pondération, imputation.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2385,21 +2548,30 @@
               </div>
             </div>
             <div>
-              <p class="text-body mb-responsive-sm"><strong>Tableau annotation finale</strong> :</p>
+              <p class="text-body mb-responsive-sm"><strong>Tableau annotation finale (Recommandation 5)</strong> :</p>
               <table class="table-compact">
-                <tr><th>Variant</th><th>Fréq WGS</th><th>Fréq Pond.</th><th>Statut</th></tr>
-                <tr><td>Commun<br/>(MAF &gt;5%)</td><td>Observée</td><td>Pondérée</td><td><strong>Direct</strong><br/>Confiance ✓</td></tr>
-                <tr><td>Rare<br/>(1-5%)</td><td>Observée</td><td>Pondérée</td><td><strong>Direct</strong><br/>Confiance ✓</td></tr>
-                <tr><td>Très rare<br/>(0.5-1%)</td><td>Observée</td><td>Imputée</td><td><strong>HC imputation</strong><br/>Confiance ✓</td></tr>
-                <tr><td>Ultra-rare<br/>(&lt;0.5%)</td><td>—</td><td>Imputée</td><td><strong>MC imputation</strong><br/>Confiance ⚠</td></tr>
+                <tr><th>Variant</th><th>Fréq WGS</th><th>Fréq Pond.</th><th>Statut</th><th>Effectif observé</th></tr>
+                <tr><td>Commun<br/>(MAF &gt;5%)</td><td>Observée</td><td>Pondérée</td><td><strong>Direct</strong><br/>Confiance ✓</td><td>&gt; 70 copies<br/>(350 WGS)</td></tr>
+                <tr><td>Rare<br/>(1-5%)</td><td>Observée</td><td>Pondérée</td><td><strong>Direct</strong><br/>Confiance ✓</td><td>7–70 copies<br/>(350 WGS)</td></tr>
+                <tr><td>Très rare<br/>(0.5-1%)</td><td>Observée</td><td>Imputée</td><td><strong>HC imputation</strong><br/>Confiance ✓</td><td>3–7 copies<br/>ou imputé</td></tr>
+                <tr><td>Ultra-rare<br/>(&lt;0.5%)</td><td>—</td><td>Imputée</td><td><strong>MC imputation</strong><br/>Confiance ⚠</td><td>&lt; 3 copies<br/>(imputé seul)</td></tr>
               </table>
               <p class="design-note design-note--blue mt-responsive-lg"><strong>Formule pondération simple :</strong><br><br><code style="font-size: 12px;">freq_pond(v) = Σ_secteur poids_secteur × freq_secteur(v)</code><br><br>où <code>poids_secteur = proportion_secteur / 2500</code></p>
             </div>
           </div>
-          <p class="design-note design-note--orange mt-responsive-lg"><strong>🔑 Règle systématique :</strong> Tous les outputs finaux doivent mentionner : variant MAF · statut (direct/imputé) · confiance (HC/MC) · effectif (WGS observé / SNP imputé).</p>
+          <p class="design-note design-note--orange mt-responsive-lg"><strong>🔑 Règle systématique :</strong> Tous les outputs finaux doivent mentionner : variant MAF · statut (direct/imputé) · confiance (HC/MC) · effectif observé (n haplotypes WGS ou imputé).</p>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">32</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Browning et al. 2018, <em>AJHG</em>. A One-Penny Imputed Genome from Next-Generation Reference Panels.</span>
+              <span class="slide-footer-source">Taliun et al. 2021, <em>Nature</em>. Sequencing of 53,831 diverse genomes from the NHLBI TOPMed Program.</span>
+              <span class="slide-footer-source">Kowalski et al. 2019, <em>PLoS Genetics</em>. Use of >100,000 NHLBI genomes improves imputation.</span>
+              <span class="slide-footer-source">Das et al. 2016, <em>Nature Genetics</em>. Next-generation genotype imputation service and methods.</span>
+              <span class="slide-footer-source">Rubinacci et al. 2021, <em>Nature Genetics</em>. Efficient phasing and imputation of low-coverage sequencing data.</span>
+              <span class="slide-footer-source">Rubinacci et al. 2023, <em>Nature Genetics</em>. Imputation of low-coverage sequencing data from 150,119 UK Biobank genomes.</span>
+              <span class="slide-footer-source">Marchini & Howie 2010, <em>Nature Reviews Genetics</em>. Genotype imputation for GWAS.</span>
+            </span>
+            <span class="caption">35</span>
           </div>
         </div>
       </div>
@@ -2457,12 +2629,17 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">33</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Richards et al. 2015, <em>Genetics in Medicine</em>. Standards and guidelines for interpretation of sequence variants.</span>
+              <span class="slide-footer-source">Chang et al. 2015, <em>GigaScience</em>. Second-generation PLINK: reproducible analysis tools.</span>
+              <span class="slide-footer-source">Purcell et al. 2007, <em>AJHG</em>. PLINK: a tool set for whole-genome association and population-based linkage analyses.</span>
+            </span>
+            <span class="caption">36</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 31 — VALIDATION 1000G (ÉTAPE CRITIQUE)
+     SLIDE 37 — VALIDATION 1000G (ÉTAPE CRITIQUE)
      Résumé de la validation avant déploiement sur cohorte réunionnaise.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2494,12 +2671,21 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">34</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Bergström et al. 2020, <em>Science</em>. Insights into human genetic variation and population history from 929 diverse genomes.</span>
+              <span class="slide-footer-source">Byrska-Bishop et al. 2022, <em>Cell</em>. High-coverage whole-genome sequencing of the expanded 1000 Genomes Project cohort.</span>
+              <span class="slide-footer-source">Choudhury et al. 2020, <em>Nature</em>. High-depth African genomes inform human migration and health.</span>
+              <span class="slide-footer-source">Gurdasani et al. 2015, <em>Nature</em>. The African Genome Variation Project shapes medical genetics in Africa.</span>
+              <span class="slide-footer-source">Nakatsuka et al. 2017, <em>Nature Genetics</em>. The promise of disease gene discovery in South Asia.</span>
+              <span class="slide-footer-source">Wall et al. 2019, <em>Nature</em>. The GenomeAsia 100K Project enables genetic discoveries across Asia.</span>
+              <span class="slide-footer-source">Wojcik et al. 2019, <em>Nature</em>. Genetic analyses of diverse populations improves discovery for complex traits.</span>
+            </span>
+            <span class="caption">37</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 32 — VALIDATION COMPLÉMENTAIRE : COHORTE BRÉSILIENNE ADMIXÉE
+     SLIDE 38 — VALIDATION COMPLÉMENTAIRE : COHORTE BRÉSILIENNE ADMIXÉE
      EPIGEN-Brasil : 6 487 individus, structure génétique réelle admixée.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
@@ -2532,12 +2718,17 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">35</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Naslavsky et al. 2022, <em>Nature Communications</em>. Whole-genome sequencing of 1,171 elderly admixed individuals from São Paulo, Brazil.</span>
+              <span class="slide-footer-source">Nunes et al. 2025, <em>Science</em>. Admixture's impact on Brazilian population evolution and health.</span>
+              <span class="slide-footer-source">Suarez-Kurtz 2010, <em>Frontiers in Pharmacology</em>. Pharmacogenetics in the Brazilian population.</span>
+            </span>
+            <span class="caption">38</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 36 — INTRO SECTION 05 : WGS
+     SLIDE 39 — INTRO SECTION 05 : WGS
      Slide d'intro pleine couleur var(--s05) = vert.
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--s05" data-section="5">
@@ -2683,12 +2874,12 @@
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
-            <span class="caption">37</span>
+            <span class="caption">40</span>
           </div>
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 38 — CONCLUSION
+     SLIDE 41 — CONCLUSION
      Fond navy comme la slide titre, .accent-bar teal.
      4 points de conclusion + encadré récapitulatif.
      ═══════════════════════════════════════════════════════ -->
