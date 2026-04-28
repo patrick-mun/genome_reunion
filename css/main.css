@@ -575,12 +575,21 @@ html, body {
    - Icônes aux couleurs du design
    - Responsive et élégant
 
-   Structure HTML existante réutilisée :
-   <div class="slide-footer">
-     <span class="caption">Génome Réunion</span>
-     <span class="slide-footer-sources">...</span>
-     <span class="caption">35</span>
-   </div> */
+   Structures HTML supportées :
+   1. Simple (pas de sources) :
+      <div class="slide-footer">
+        <span class="caption">Génome Réunion</span>
+        <span class="caption">35</span>
+      </div>
+
+   2. Avec citations (via slide-footer-meta) :
+      <div class="slide-footer slide-footer-citations">
+        <div class="slide-footer-meta">
+          <span class="caption">Génome Réunion</span>
+          <div class="slide-footer-sources">...</div>
+        </div>
+        <span class="caption">35</span>
+      </div> */
 
 .slide-footer {
   display: grid;
@@ -613,8 +622,9 @@ html, body {
 .slide.slide--s04 .slide-footer::before { background: var(--blue); }
 .slide.slide--s05 .slide-footer::before { background: var(--green); }
 
-/* Premier caption (Génome Réunion) — devient breadcrumb */
-.slide-footer > .caption:first-of-type {
+/* ─ Structure simple (pas de sources) ─
+   Premier caption (Génome Réunion) — devient breadcrumb */
+.slide-footer:not(.slide-footer-citations) > .caption:first-of-type {
   grid-column: 1;
   grid-row: 2;
   font-size: clamp(10px, 0.95vw, 12px);
@@ -627,14 +637,14 @@ html, body {
   gap: 8px;
 }
 
-/* Ajouter le séparateur "·" après le projet */
-.slide-footer > .caption:first-of-type::after {
+/* Ajouter le séparateur "·" après le projet (simple) */
+.slide-footer:not(.slide-footer-citations) > .caption:first-of-type::after {
   content: '·';
   margin-left: 8px;
 }
 
-/* Dernier caption (numéro de slide) — stylisé en badge */
-.slide-footer > .caption:last-of-type {
+/* Dernier caption (numéro de slide) — stylisé en badge (simple) */
+.slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
   grid-column: 2;
   grid-row: 2;
   font-size: clamp(11px, 1.05vw, 13px);
@@ -647,24 +657,73 @@ html, body {
   line-height: 1;
 }
 
-/* Adaptation couleur badge par section */
-.slide.slide--s01 .slide-footer > .caption:last-of-type { background: var(--coral); }
-.slide.slide--s02 .slide-footer > .caption:last-of-type { background: var(--teal); }
-.slide.slide--s03 .slide-footer > .caption:last-of-type { background: var(--purple); }
-.slide.slide--s04 .slide-footer > .caption:last-of-type { background: var(--blue); }
-.slide.slide--s05 .slide-footer > .caption:last-of-type { background: var(--green); }
+/* Adaptation couleur badge par section (simple) */
+.slide.slide--s01 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--coral); }
+.slide.slide--s02 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--teal); }
+.slide.slide--s03 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--purple); }
+.slide.slide--s04 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--blue); }
+.slide.slide--s05 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--green); }
 
-/* Bloc références — s'étend sur toute la largeur */
+/* ─ Structure avec citations (slide-footer-meta wrapper) ─
+   Le meta wrapper contient breadcrumb + sources, occupe col 1 */
+.slide-footer-citations .slide-footer-meta {
+  grid-column: 1;
+  grid-row: 2 / 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Breadcrumb dans le meta wrapper (citations) */
+.slide-footer-citations .slide-footer-meta > .caption:first-of-type {
+  font-size: clamp(10px, 0.95vw, 12px);
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.3px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: clamp(8px, 1.2vh, 12px);
+}
+
+/* Ajouter le séparateur "·" (citations) */
+.slide-footer-citations .slide-footer-meta > .caption:first-of-type::after {
+  content: '·';
+  margin-left: 8px;
+}
+
+/* Dernier caption — numéro badge (citations, col 2) */
+.slide-footer-citations > .caption:last-of-type {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: clamp(11px, 1.05vw, 13px);
+  font-weight: 600;
+  color: var(--white);
+  background: var(--teal);
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin: 0;
+  line-height: 1;
+  align-self: start;
+}
+
+/* Adaptation couleur badge (citations) */
+.slide.slide--s01 .slide-footer-citations > .caption:last-of-type { background: var(--coral); }
+.slide.slide--s02 .slide-footer-citations > .caption:last-of-type { background: var(--teal); }
+.slide.slide--s03 .slide-footer-citations > .caption:last-of-type { background: var(--purple); }
+.slide.slide--s04 .slide-footer-citations > .caption:last-of-type { background: var(--blue); }
+.slide.slide--s05 .slide-footer-citations > .caption:last-of-type { background: var(--green); }
+
+/* ─ Bloc références (sources) ─
+   Affiche dans le meta ou directement dans footer selon structure */
 .slide-footer-sources {
-  grid-column: 1 / -1;
-  grid-row: 3;
   display: flex;
   flex-direction: column;
   gap: clamp(3px, 0.6vh, 7px);
-  margin-top: clamp(10px, 1.4vh, 14px);
 }
 
-/* Label "RÉFÉRENCES" avec icône — avant les sources */
+/* Label "RÉFÉRENCES" avec icône */
 .slide-footer-sources::before {
   content: '📚 RÉFÉRENCES';
   display: block;
@@ -691,14 +750,15 @@ html, body {
   font-style: italic;
 }
 
-/* Variante citations — augmente l'espace vertical */
+/* Variante citations — augmente l'espace vertical global */
 .slide-footer-citations {
   margin-top: clamp(24px, 3.2vh, 40px) !important;
 }
 
-.slide-footer-citations .slide-footer-sources {
+/* Ajuste spacing des sources dans le meta */
+.slide-footer-citations .slide-footer-meta .slide-footer-sources {
   gap: clamp(4px, 0.8vh, 9px);
-  margin-top: clamp(12px, 1.6vh, 18px);
+  margin-top: clamp(8px, 1.2vh, 12px);
 }
 
 .slide-footer-citations .slide-footer-source {
