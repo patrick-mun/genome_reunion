@@ -353,19 +353,10 @@
   }
 
   /* ── PHARMA TABLE (slide 6) ──
-     Sur mobile, passe les 3 colonnes en display: block (vertical stacking)
-     ou cache les colonnes moins importantes */
+     Garde les 3 colonnes, réduit juste les font-sizes et adaptations */
   .pharma-table {
     font-size: clamp(10px, 0.95vw, 11px);
-    table-layout: auto;
   }
-
-  .pharma-col-drug     { width: 35%; }
-  .pharma-col-expected { width: 0; display: none; }
-  .pharma-col-risk     { width: 65%; }
-
-  .pharma-table th:nth-child(2),
-  .pharma-table td:nth-child(2) { display: none; }
 
   .pharma-table td {
     padding: clamp(6px, 1vh, 10px) 8px;
