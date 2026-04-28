@@ -1145,21 +1145,15 @@ ul.validation-list li {
 }
 
 @media (max-width: 600px) {
-  /* Sur mobile, permet au contenu de déborder sans compression du tableau:
-     Gardons le layout normal du .slide (justify-content: center)
-     Changeons seulement la hauteur et overflow pour permettre le scroll */
-  .slide {
-    height: auto;
-    min-height: 100vh;
-    overflow: auto;
-  }
-
+  /* Sur mobile, le deck reste en position fixed et horizontal.
+     On rend .inner scrollable verticalement avec le contenu aligné en haut,
+     ce qui garantit que le titre est toujours visible en premier. */
   .inner {
-    height: auto !important;
-    min-height: auto;
-    justify-content: center;
+    height: calc(100vh - 49px);
+    justify-content: flex-start;
     padding: clamp(12px, 2vh, 24px) clamp(16px, 2.5vw, 32px);
-    overflow: visible !important;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   /* Passe la grille en colonne unique pour petit écran mobile */
