@@ -310,6 +310,27 @@
       font-family: 'Courier New', monospace;
     }
 
+    /* ── Séparateur draggable notes/preview ── */
+    .notes-divider {
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(to bottom, #e0e0e0, #d0d0d0);
+      cursor: row-resize;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      flex-shrink: 0;
+      transition: background 0.2s;
+      user-select: none;
+    }
+
+    .notes-divider:hover {
+      background: linear-gradient(to bottom, #0D7377, #0a5a65);
+    }
+
+    .notes-divider.dragging {
+      background: linear-gradient(to bottom, #0D7377, #0a5a65);
+    }
+
   </style>
 </head>
 <body>
@@ -339,14 +360,16 @@
       <div class="presenter-timer" id="timer">00:00</div>
     </div>
     <div class="notes-container">
-      <div class="notes-text-section">
+      <div class="notes-text-section" id="notes-text-section">
         <div class="notes-header">Slide actuelle</div>
         <div id="notes-content">
           <p>En attente de connexion avec l'audience...</p>
         </div>
       </div>
 
-      <div class="next-slide-section">
+      <div class="notes-divider" id="notes-divider"></div>
+
+      <div class="next-slide-section" id="next-slide-section">
         <div class="next-slide-header">Slide suivante (preview)</div>
         <div id="next-slide-preview">
           <div class="next-iframe-scale-wrapper" id="next-scale-wrapper">
@@ -737,6 +760,66 @@
         }
       }
     });
+
+    // Draggable divider: notes/preview ratio control with localStorage
+    (function() {
+      const divider = document.getElementById('notes-divider');
+      const notesSection = document.getElementById('notes-text-section');
+      const previewSection = document.getElementById('next-slide-section');
+      const container = document.querySelector('.notes-container');
+
+      const STORAGE_KEY = 'presenter-notes-ratio';
+      const DEFAULT_RATIO = 0.5;
+      let isDragging = false;
+
+      function applyRatio(ratio) {
+        const clampedRatio = Math.max(0.2, Math.min(0.8, ratio));
+        notesSection.style.flex = clampedRatio + ' 1 auto';
+        previewSection.style.flex = (1 - clampedRatio) + ' 1 auto';
+        localStorage.setItem(STORAGE_KEY, clampedRatio);
+      }
+
+      function getRatioFromStorage() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? parseFloat(stored) : DEFAULT_RATIO;
+      }
+
+      function initializeRatio() {
+        applyRatio(getRatioFromStorage());
+      }
+
+      divider.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        divider.classList.add('dragging');
+        const containerHeight = container.clientHeight;
+        const startY = e.clientY;
+        const startNotesHeight = notesSection.clientHeight;
+
+        const onMouseMove = (e) => {
+          const deltaY = e.clientY - startY;
+          const newNotesHeight = startNotesHeight + deltaY;
+          const newRatio = newNotesHeight / containerHeight;
+          applyRatio(newRatio);
+        };
+
+        const onMouseUp = () => {
+          isDragging = false;
+          divider.classList.remove('dragging');
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+        };
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+
+      document.addEventListener('DOMContentLoaded', initializeRatio);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeRatio);
+      } else {
+        initializeRatio();
+      }
+    })();
 
     // Boutons de navigation presenter → index.html
     document.getElementById('presenter-prev-btn').addEventListener('click', function() {
