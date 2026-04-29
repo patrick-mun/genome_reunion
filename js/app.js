@@ -535,14 +535,23 @@ window.addEventListener('message', function(event) {
   }
 
   if (event.data && event.data.type === 'GET_CURRENT_SLIDE') {
-    // Presenter.html demande quelle slide on regarde — répondre avec l'index actuel
     if (event.source) {
       event.source.postMessage({
         type: 'CURRENT_SLIDE_INDEX',
         slideIndex: currentSlide,
         visibleIndex: getVisibleIndexFromRealIndex(currentSlide),
-        totalVisible: getVisibleSlideCount()
+        totalVisible: getVisibleSlideCount(),
+        expertMode: s04ExpertMode
       }, '*');
+    }
+  }
+
+  if (event.data && event.data.type === 'S04_MODE_CHANGE') {
+    // Iframe slave : appliquer le changement de mode reçu du presenter
+    if (isSlavePresenter && event.data.expertMode !== undefined) {
+      s04ExpertMode = event.data.expertMode;
+      updateSlideVisibility();
+      goToSlide(currentSlide, { skipFocus: true });
     }
   }
 
@@ -564,8 +573,8 @@ const S04_INTRO_SLIDE    = 17;
 const S04_SUMMARY_START  = 18;
 const S04_SUMMARY_END    = 19;
 const S04_DETAILED_START = 20;
-const S04_DETAILED_END   = 31;
-const S05_INTRO_SLIDE    = 32;
+const S04_DETAILED_END   = 37;
+const S05_INTRO_SLIDE    = 38;
 
 // Applique display:none sur les slides cachés, retire-le sur les visibles.
 // Indispensable pour que visibleIdx × 100vw corresponde à la position flex réelle.
@@ -750,6 +759,11 @@ if (s04ToggleBtn) {
       }
     }
     goToSlide(target);
+
+    // Notifier le presenter du changement de mode
+    if (!isSlavePresenter && presenterWindow && !presenterWindow.closed) {
+      presenterWindow.postMessage({ type: 'S04_MODE_CHANGE', expertMode: s04ExpertMode }, '*');
+    }
   });
 }
 
