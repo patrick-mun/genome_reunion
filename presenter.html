@@ -786,6 +786,7 @@
 
       function initializeRatio() {
         applyRatio(getRatioFromStorage());
+        setTimeout(() => applyAllScales(), 50);
       }
 
       divider.addEventListener('mousedown', (e) => {
@@ -800,6 +801,7 @@
           const newNotesHeight = startNotesHeight + deltaY;
           const newRatio = newNotesHeight / containerHeight;
           applyRatio(newRatio);
+          applyAllScales();
         };
 
         const onMouseUp = () => {
