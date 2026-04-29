@@ -771,6 +771,7 @@
       const STORAGE_KEY = 'presenter-notes-ratio';
       const DEFAULT_RATIO = 0.5;
       let isDragging = false;
+      let pendingScaleUpdate = false;
 
       function applyRatio(ratio) {
         const clampedRatio = Math.max(0.2, Math.min(0.8, ratio));
@@ -782,6 +783,16 @@
       function getRatioFromStorage() {
         const stored = localStorage.getItem(STORAGE_KEY);
         return stored ? parseFloat(stored) : DEFAULT_RATIO;
+      }
+
+      function scheduleScaleUpdate() {
+        if (!pendingScaleUpdate) {
+          pendingScaleUpdate = true;
+          requestAnimationFrame(() => {
+            applyAllScales();
+            pendingScaleUpdate = false;
+          });
+        }
       }
 
       function initializeRatio() {
@@ -801,7 +812,7 @@
           const newNotesHeight = startNotesHeight + deltaY;
           const newRatio = newNotesHeight / containerHeight;
           applyRatio(newRatio);
-          applyAllScales();
+          scheduleScaleUpdate();
         };
 
         const onMouseUp = () => {
