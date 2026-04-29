@@ -322,12 +322,12 @@
         <div class="iframe-scale-wrapper" id="main-scale-wrapper">
           <iframe id="slide-preview-iframe"></iframe>
         </div>
-        <div class="slide-overlay-badge" id="slide-number-main">1 / 33</div>
+        <div class="slide-overlay-badge" id="slide-number-main">--</div>
       </div>
     </div>
     <div class="presenter-nav-bar">
       <button id="presenter-prev-btn" class="presenter-nav-btn" disabled>← Préc.</button>
-      <span id="presenter-slide-counter">1 / 33</span>
+      <span id="presenter-slide-counter">--</span>
       <button id="presenter-next-btn" class="presenter-nav-btn">Suiv. →</button>
     </div>
   </div>
@@ -417,7 +417,7 @@
 
     let currentSlideIndex = 0;
     let currentVisibleIndex = 0;
-    let totalVisibleCount = 33;
+    let totalVisibleCount = 41;
     let startTime = null;
     let timerInterval = null;
     let parentWindow = null;
@@ -497,7 +497,7 @@
 
     // Synchroniser l'iframe de preview avec la slide suivante
     function syncNextSlidePreview(slideIndex) {
-      const nextIndex = Math.min(slideIndex + 1, 32);
+      const nextIndex = slideIndex + 1;
 
       if (!nextSlidePreviewIframe) {
         console.log('[presenter]', '⚠ nextSlidePreviewIframe is null');
@@ -568,9 +568,9 @@
       // Mais on le garde comme fallback
       const container = document.getElementById('current-slide-container');
       const titles = [
-        'Génomes Réunion',
+        'Génome Réunion — Hero',
         'Sommaire',
-        'L\'angle mort de la médecine',
+        'Angle mort de la médecine',
         'Biais structurel mondial',
         'Le mur clinique',
         'Pharmacogénétique',
@@ -585,26 +585,34 @@
         'Design méthodologique',
         'Le pipeline d\'optimisation',
         'L\'entonnoir d\'optimisation',
-        'L\'algorithme de sélection',
+        'Algorithme de sélection',
+        'S04 Résumé — Vue d\'ensemble',
+        'S04 Résumé — Validation',
+        'Comparaison 6 stratégies',
+        'Architecture 3 piliers',
+        'Panel WGS hybride V3',
         'Deux niveaux, une contrainte',
         'Représentativité géographique',
-        'Les 4 composantes de S_div',
-        'PCA_score + ADMIX_score',
-        'IBD_score + ROH_score',
-        'Agrégation S_div',
-        'Stratification quintile',
-        'Algorithme greedy stratifié',
-        'Exemple concret : calcul du score',
+        'Quatre dimensions S_div',
+        'Composantes globales',
+        'Composantes locales',
+        'Score de Diversité',
+        'Anti-biais directionnel',
+        'Sélection greedy stratifiée',
+        'Exemple concret : calcul',
+        'Phasage réunionnais',
+        'Recalibrage fréquences',
         'Avantages et limitations',
-        'Validation 1000 Genomes',
+        'Validation 1000G',
         'Validation EPIGEN-Brasil',
         'WGS & Impacts',
-        'Les impacts attendus',
+        'Impacts attendus',
         'Conclusion'
       ];
 
       const title = titles[slideIndex] || 'Slide ' + (slideIndex + 1);
-      container.innerHTML = '<div class="slide-snapshot"><div class="slide-snapshot-title">' + title + '</div><div>Slide ' + (slideIndex + 1) + ' / 33</div></div>';
+      const totalSlides = 41;
+      container.innerHTML = '<div class="slide-snapshot"><div class="slide-snapshot-title">' + title + '</div><div>Slide ' + (slideIndex + 1) + ' / ' + totalSlides + '</div></div>';
     }
 
     // Écouter les messages depuis la fenêtre audience
@@ -623,6 +631,31 @@
         console.log('[presenter]', '📡 CURRENT_SLIDE_INDEX received: slide ' + event.data.slideIndex);
         updatePresenterView(event.data.slideIndex, event.data.visibleIndex, event.data.totalVisible);
         document.getElementById('connection-lost').classList.remove('show');
+
+        // Synchroniser le mode S04 aux iframes si fourni
+        if (event.data.expertMode !== undefined) {
+          const modeMsg = { type: 'S04_MODE_CHANGE', expertMode: event.data.expertMode };
+          console.log('[presenter]', '→ Syncing S04 mode to iframes: ' + (event.data.expertMode ? 'Expert' : 'Résumé'));
+          setTimeout(() => {
+            if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
+              slidePreviewIframe.contentWindow.postMessage(modeMsg, '*');
+            }
+            if (nextSlidePreviewIframe && nextSlidePreviewIframe.contentWindow) {
+              nextSlidePreviewIframe.contentWindow.postMessage(modeMsg, '*');
+            }
+          }, 200);
+        }
+      }
+
+      if (event.data && event.data.type === 'S04_MODE_CHANGE') {
+        // Mode change depuis la fenêtre audience — transférer aux iframes
+        console.log('[presenter]', '📡 S04_MODE_CHANGE received: ' + (event.data.expertMode ? 'Expert' : 'Résumé'));
+        if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
+          slidePreviewIframe.contentWindow.postMessage(event.data, '*');
+        }
+        if (nextSlidePreviewIframe && nextSlidePreviewIframe.contentWindow) {
+          nextSlidePreviewIframe.contentWindow.postMessage(event.data, '*');
+        }
       }
     });
 
