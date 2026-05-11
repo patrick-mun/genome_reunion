@@ -982,44 +982,47 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(4px, 0.7vh, 8px);
+  gap: clamp(8px, 1.2vh, 14px);
   min-height: 0;
 }
 
 .pools-admix-indiv {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(8px, 1.2vw, 14px);
 }
 
 .pools-admix-indiv--ref {
-  margin-top: clamp(4px, 0.6vh, 8px);
-  padding-top: clamp(4px, 0.6vh, 8px);
+  margin-top: clamp(8px, 1vh, 12px);
+  padding-top: clamp(8px, 1vh, 12px);
   border-top: 1px solid rgba(11, 31, 58, 0.12);
 }
 
 .pools-admix-indiv--highlight .pools-admix-label {
   color: var(--coral);
+  font-weight: 800;
 }
 .pools-admix-indiv--highlight .pools-admix-bar {
-  box-shadow: 0 0 0 2px var(--coral), 0 1px 3px rgba(11, 31, 58, 0.1);
+  box-shadow: 0 0 0 3px var(--coral), 0 2px 4px rgba(11, 31, 58, 0.15);
 }
 
 .pools-admix-label {
-  font-size: clamp(9px, 0.9vw, 11px);
+  font-size: clamp(10px, 1.1vw, 13px);
   font-weight: 700;
   color: #4A5568;
-  min-width: clamp(54px, 6vw, 76px);
+  min-width: clamp(60px, 7vw, 86px);
   text-align: right;
+  flex-shrink: 0;
 }
 
 .pools-admix-bar {
   flex: 1 1 auto;
-  height: clamp(16px, 2.4vh, 24px);
+  height: clamp(20px, 3.2vh, 32px);
   display: flex;
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(11, 31, 58, 0.1);
+  box-shadow: 0 2px 4px rgba(11, 31, 58, 0.12);
+  min-height: 20px;
 }
 
 .pools-admix-seg {
@@ -1027,10 +1030,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(8px, 0.75vw, 10px);
+  font-size: clamp(9px, 0.95vw, 11px);
   font-weight: 700;
   color: #fff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  min-width: 30px;
 }
 
 .pools-admix-seg--afr { background: var(--teal); }
@@ -1040,24 +1044,26 @@
 
 .pools-admix-legend {
   display: flex;
-  gap: clamp(8px, 1.2vw, 14px);
+  gap: clamp(12px, 1.8vw, 18px);
   flex-wrap: wrap;
-  padding-top: clamp(6px, 0.8vh, 10px);
-  margin-top: clamp(4px, 0.6vh, 8px);
+  padding-top: clamp(10px, 1.2vh, 14px);
+  margin-top: clamp(8px, 1vh, 12px);
   border-top: 1px solid rgba(11, 31, 58, 0.1);
-  font-size: clamp(9px, 0.85vw, 11px);
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 500;
 }
 
 .pools-admix-leg-item {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 7px;
 }
 
 .pools-admix-leg-dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 2px;
+  flex-shrink: 0;
 }
 
 /* === PCA biplot === */
@@ -1108,16 +1114,16 @@
 /* === Callouts en bas de pane === */
 .pools-callout-foot {
   flex: 0 0 auto;
-  font-size: clamp(10px, 0.95vw, 12px);
+  font-size: clamp(11px, 1.05vw, 13px);
   background: #FEF3C7;
-  border-left: 3px solid var(--amber);
-  padding: clamp(7px, 1vh, 10px) clamp(10px, 1.2vw, 14px);
+  border-left: 4px solid var(--amber);
+  padding: clamp(10px, 1.4vh, 14px) clamp(12px, 1.5vw, 16px);
   color: var(--navy);
-  line-height: 1.35;
+  line-height: 1.5;
   border-radius: 4px;
-  margin-top: clamp(4px, 0.6vh, 8px);
+  margin-top: clamp(8px, 1vh, 12px);
 }
-.pools-callout-foot strong { color: #B45309; }
+.pools-callout-foot strong { color: #B45309; font-weight: 700; }
 
 /* === Media queries pour adaptation mobile === */
 @media (max-width: 900px) {
