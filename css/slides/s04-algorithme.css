@@ -1136,6 +1136,16 @@
     font-size: clamp(10px, 1.2vw, 13px);
   }
 
+  .pools-chart {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pools-admix-bars {
+    min-width: fit-content;
+    width: 100%;
+  }
+
   .pools-admix-label {
     min-width: clamp(48px, 5vw, 64px);
     font-size: clamp(8px, 1vw, 10px);
