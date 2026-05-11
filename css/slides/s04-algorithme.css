@@ -1126,20 +1126,46 @@
 .pools-callout-foot strong { color: #B45309; font-weight: 700; }
 
 /* === Media queries pour adaptation mobile ===
-   La slide 27 (.slide--mobile-scroll) permet le scroll naturel de page sur ≤900px,
-   donc les graphiques peuvent reprendre une taille confortable sans compression. */
+   La slide 27 (.slide--mobile-scroll) permet le scroll naturel de page sur ≤900px.
+   Comme .inner passe en height: auto, on doit neutraliser les flex: 1 1 auto et
+   min-height: 0 hérités du layout desktop, qui faisaient se superposer les éléments. */
 @media (max-width: 900px) {
   .pools-stacked-layout {
     grid-template-columns: 1fr;
     gap: clamp(20px, 2.5vh, 32px);
+    flex: 0 0 auto;
+  }
+
+  .pools-section {
+    flex: 0 0 auto;
+    min-height: auto;
+  }
+
+  .pools-chart {
+    flex: 0 0 auto;
+    min-height: auto;
+  }
+
+  .pools-admix-bars {
+    flex: 0 0 auto;
+    min-height: auto;
+    justify-content: flex-start;
+    gap: clamp(8px, 1.2vh, 12px);
+  }
+
+  .pools-pca-chart-inner {
+    flex: 0 0 auto;
+    min-height: auto;
+    height: 300px;
+  }
+
+  .pools-pca-chart-inner svg {
+    height: 100%;
+    max-height: 300px;
   }
 
   .pools-pane-title {
     font-size: clamp(12px, 1.4vw, 14px);
-  }
-
-  .pools-admix-bars {
-    gap: clamp(8px, 1.2vh, 12px);
   }
 
   .pools-admix-label {
@@ -1158,10 +1184,6 @@
   .pools-admix-legend {
     font-size: clamp(11px, 1.3vw, 13px);
     gap: clamp(10px, 1.6vw, 16px);
-  }
-
-  .pools-pca-chart-inner {
-    min-height: 280px;
   }
 
   .pools-pca-legend {
@@ -1195,6 +1217,10 @@
   }
 
   .pools-pca-chart-inner {
-    min-height: 240px;
+    height: 240px;
+  }
+
+  .pools-pca-chart-inner svg {
+    max-height: 240px;
   }
 }
