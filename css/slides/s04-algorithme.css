@@ -941,16 +941,16 @@
    Slide dual : ADMIXTURE supervisée (gauche) + PCA projetée (droite).
    Illustre l'ancrage des composantes ancestrales par pools témoins.
    ──────────────────────────────────────────────────────── */
-.pools-dual-layout {
+.pools-stacked-layout {
   flex: 1 1 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(14px, 1.8vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.2vh, 28px);
   min-height: 0;
   margin-top: clamp(8px, 1.2vh, 14px);
 }
 
-.pools-pane {
+.pools-section {
   display: flex;
   flex-direction: column;
   gap: clamp(6px, 0.8vh, 10px);
@@ -1121,9 +1121,8 @@
 
 /* === Media queries pour adaptation mobile === */
 @media (max-width: 900px) {
-  .pools-dual-layout {
-    grid-template-columns: 1fr;
-    gap: clamp(12px, 1.5vh, 20px);
+  .pools-stacked-layout {
+    gap: clamp(16px, 2vh, 22px);
   }
 
   .pools-pane-title {
@@ -1137,6 +1136,10 @@
 
   .pools-admix-seg {
     font-size: clamp(7px, 0.9vw, 9px);
+  }
+
+  .pools-pca-chart-inner {
+    min-height: 240px;
   }
 }
 
