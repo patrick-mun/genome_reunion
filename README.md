@@ -2,9 +2,9 @@
 
 Présentation HTML/CSS/JS statique du projet de référentiel génomique réunionnais.
 
-Le deck est composé de **41 slides** (index 0–40, dont 2 résumés optionnels pour la section S04), sans build tool et sans dépendance CDN à l’exécution.
-**Mode adaptatif** : basculez entre "Expert" (tous les détails) et "Résumé" (synthèse) pour la section Algorithme via le bouton `Expert`/`Résumé` dans le sommaire (slide 2, ligne "04 · L’Algorithme de Sélection").
-**Révision S04 (avril 2026)** : implémentation de 5 recommandations scientifiques + 75+ références bibliographiques intégrées en pied de page.
+Le deck est composé de **42 slides** (index 0–41, dont 2 résumés optionnels pour la section S04), sans build tool et sans dépendance CDN à l'exécution.
+**Mode adaptatif** : basculez entre "Expert" (tous les détails) et "Résumé" (synthèse) pour la section Algorithme via le bouton `Expert`/`Résumé` dans le sommaire (slide 2, ligne "04 · L'Algorithme de Sélection").
+**Révision V3.5 (mai 2026)** : intégration des pools témoins externes (1000G + EGA) pour ancrage PCA/ADMIXTURE — nouvelle slide 27 dual ADMIXTURE/PCA + implémentation de 5 recommandations scientifiques + 75+ références bibliographiques intégrées en pied de page.
 
 ## Accès en ligne
 
@@ -16,7 +16,7 @@ Le site est publié via GitHub Pages :
 
 ```text
 genome_reunion/
-├── index.html                    # Source unique de vérité : toutes les 41 slides
+├── index.html                    # Source unique de vérité : toutes les 42 slides
 ├── presenter.html                # Mode présentation deux-écrans (slide + notes + preview)
 ├── css/
 │   ├── main.css                  # Variables, reset, nav, deck, composants, responsive, burger menu, logo
@@ -24,9 +24,9 @@ genome_reunion/
 │       ├── s00-hero.css          # Slide 0 — hero, admixture, auteurs
 │       ├── s01-angle-mort.css    # Slides 2–8 — biais, IA, clinique, pharmacogénétique
 │       ├── s02-singularite.css   # Slides 9–14 — histoire, peuplement, métissage, effet fondateur
-│       ├── s03-design.css        # Slides 15–16 — pipeline, entonnoir d’optimisation
-│       ├── s04-algorithme.css    # Slides 17–38 — S04 intro, résumés, comparative (NEW), fondations, algo détaillé, validation
-│       └── s05-wgs.css           # Slides 39–40 — intro S05, impacts, conclusion
+│       ├── s03-design.css        # Slides 15–16 — pipeline, entonnoir d'optimisation
+│       ├── s04-algorithme.css    # Slides 17–39 — S04 intro, résumés, fondations, algo détaillé, pools témoins, validation
+│       └── s05-wgs.css           # Slides 40–41 — intro S05, impacts, conclusion
 ├── js/
 │   ├── app.js                    # Navigation, accessibilité, animations, Chart.js, speaker mode
 │   └── vendor/
@@ -36,8 +36,6 @@ genome_reunion/
 ├── AGENTS.md                     # Règles de contribution
 ├── CLAUDE.md                     # Index technique (slides, CSS, IDs, conventions)
 ├── README.md                     # Ce fichier
-├── S04_BIBLIOGRAPHY_MAPPING.md   # Mapping détaillé des références S04
-├── COHÉRENCE_S04_vs_METHODOLOGY.md # Analyse cohérence slides vs méthodologie
 └── SECURITY.md                   # Politique de sécurité
 ```
 
@@ -49,10 +47,10 @@ Le contenu est organisé en 6 blocs :
 - **2–8** : angle mort de la médecine de précision
 - **9–14** : singularité réunionnaise
 - **15–16** : pipeline méthodologique
-- **17–38** : algorithme de sélection et validation (détaillé, ou résumé via toggle)
-  - Mode Expert (défaut) : 21 slides visibles (17, 21–38, dont 1 comparative 21, 20 détaillés 22–38)
-  - Mode Résumé : 3 slides (17 intro + 18–19 synthèse), slides 21–38 masqués
-- **39–40** : WGS, impacts, conclusion
+- **17–39** : algorithme de sélection et validation (détaillé, ou résumé via toggle)
+  - Mode Expert (défaut) : slides 18–19 masqués — 40 slides visibles
+  - Mode Résumé : slides 20–39 masqués, résumés 18–19 affichés — 22 slides visibles
+- **40–41** : WGS, impacts, conclusion
 
 ## Architecture CSS
 
@@ -61,37 +59,17 @@ Le style est réparti en deux niveaux :
 - `css/main.css` — variables de design (`:root`), reset, navigation, deck, typographie, composants génériques (`card`, `callout`, `formula`, `level-card`, etc.), responsive et accessibilité.
 - `css/slides/s0X-*.css` — styles spécifiques à chaque section, chargés après `main.css` via `<link>` dans `<head>`.
 
-## Design du Pied de Page (Footer) — Option 5 Moderne
-
-Le pied de page de chaque slide utilise une **grille CSS 2×3 colonnes** avec pseudo-éléments pour une meilleure hiérarchie visuelle :
-
-- **Barre d'accent colorée** (ligne 1) : 2px, couleur adaptée par section (coral/S01, teal/S02, purple/S03, blue/S04, green/S05)
-- **Breadcrumb + Badge** (ligne 2) : Gauche « Génome Réunion · » | Droite : numéro de slide stylisé en badge coloré
-- **Section références** (ligne 3, citations uniquement) : 📚 RÉFÉRENCES + liste des sources
-
-**Structures HTML supportées** :
-- **Simple** : `<div class="slide-footer"><span class="caption">Génome Réunion</span><span class="caption">35</span></div>`
-- **Avec citations** : `<div class="slide-footer slide-footer-citations"><div class="slide-footer-meta">...<div class="slide-footer-sources">...</div>...</div><span class="caption">35</span></div>`
-
-**Avantages** :
-- ✅ Meilleure séparation visuelle du contenu
-- ✅ Hiérarchie claire avec breadcrumb + badge
-- ✅ Couleurs adaptées par section (thématique cohérente)
-- ✅ Icon + label pour les références
-- ✅ Responsive : utilise `clamp()` pour tous les espacements et tailles de police
-- ✅ Zéro modification HTML : utilise CSS Grid + `::before` / `::after` exclusivement
-
 ## Architecture JS
 
 `js/app.js` pilote :
 
 - la navigation clavier / boutons / swipe
 - le compteur de slides et la barre de progression
-- la logique d’accessibilité (`aria-*`, focus sur les titres, gestion des slides inactives)
+- la logique d'accessibilité (`aria-*`, focus sur les titres, gestion des slides inactives)
 - les animations SVG séquentielles (pipeline, ROH)
 - les graphiques Chart.js (barres score, radar)
 
-`data/admixture.js` maintient une seule source de vérité pour l’animation de la slide d’ouverture.
+`data/admixture.js` maintient une seule source de vérité pour l'animation de la slide d'ouverture.
 
 ## Navigation
 
@@ -114,7 +92,7 @@ Clic sur bouton **Présentation** en haut à droite ouvre `presenter.html` :
 - **Synchro** : communication bidirectionnelle via `postMessage`
 - **Navigation** : clavier / boutons / pills synchronisés entre deux windows
 
-Les notes sont prédéfinies pour chaque slide (index.html : `SLIDE_NOTES`)
+Les notes sont chargées depuis `data/notes/slide-XX.json` (fetch asynchrone dans `presenter.html`)
 
 ## Lancer le projet en local
 
@@ -140,7 +118,7 @@ git pull origin main
 |---|---|
 | Texte, ordre, structure des slides | `index.html` |
 | Variables de couleur, layout, composants globaux | `css/main.css` |
-| Styles d’une section spécifique | `css/slides/s0X-*.css` |
+| Styles d'une section spécifique | `css/slides/s0X-*.css` |
 | Navigation, accessibilité, animations, graphiques | `js/app.js` |
 | Animation admixture (slide 0) | `data/admixture.js` |
 | Index technique / carte des slides | `CLAUDE.md` |
@@ -170,6 +148,6 @@ Le deck s'adapte automatiquement :
 
 ## Documents de référence internes
 
-- `AGENTS.md` — règles d’édition et de maintenabilité
+- `AGENTS.md` — règles d'édition et de maintenabilité
 - `CLAUDE.md` — carte technique complète du deck (slides, CSS, IDs DOM, conventions de nommage)
 - `SECURITY.md` — politique de sécurité du dépôt
