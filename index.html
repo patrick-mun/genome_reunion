@@ -1725,9 +1725,9 @@
                 <td>Partiel</td>
               </tr>
               <tr class="highlight">
-                <td><strong>5. Géo-ancestral + S_div ✓</strong></td>
-                <td><strong>Secteur + S_div 4-composantes</strong></td>
-                <td><strong>Diversité complète, robustesse, inter-populations</strong></td>
+                <td><strong>5. Géo-ancestral distributionnel + S_div ✓</strong></td>
+                <td><strong>Cellules (secteur × cluster ascendance) + S_div 4-composantes</strong></td>
+                <td><strong>Diversité complète, profils maj/min/mix/rare représentés, robustesse</strong></td>
                 <td><strong>Heuristique non optimale mathématiquement</strong></td>
                 <td><strong>RETENU</strong></td>
               </tr>
@@ -1979,11 +1979,12 @@
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">
-          <h2 class="slide-title">Représentativité géographique — la contrainte première</h2>
+          <h2 class="slide-title">Stratification géo-ancestrale — secteur × cluster d'ascendance</h2>
           <div class="slide-rule slide-rule--blue"></div>
           <div class="grid-2">
             <div>
-              <p class="text-body mb-responsive-md"><strong>Noyau géographique strict (N_core = 322) :</strong> Chaque secteur reçoit <strong>N<sub>core</sub> = round(proportion × 322)</strong>. En cas de désaccord d'arrondi (somme ≠ 322), ajuster ±1 au secteur plus proche du demi-entier.</p>
+              <p class="text-body mb-responsive-sm"><strong>Cellule géo-ancestrale = secteur × cluster d'ascendance inférée</strong> (PCA projetée + ADMIXTURE). Chaque cellule représente <strong>profils majoritaires, minoritaires, mixtes et rares</strong> — un secteur n'est jamais réduit à son ascendance dominante.</p>
+              <p class="text-body mb-responsive-md"><strong>Noyau géo-ancestral (N_core = 322) :</strong> chaque secteur reçoit <strong>N<sub>core</sub> = round(proportion × 322)</strong>, puis quotas redistribués entre cellules selon leur fréquence et garde-fous pour les profils rares.</p>
               <table>
                 <tr><th>Secteur</th><th>% cohorte</th><th>N_core</th></tr>
                 <tr><td>Nord-Est</td><td>20.0 %</td><td class="hi">64</td></tr>
@@ -2026,7 +2027,14 @@
             </svg>
           </div>
           <div class="callout">
-            <strong>Bras découverte (N_discovery = 28) :</strong> 28 individus sélectionnés après noyau géographique par score insulaire S_discovery_global. Profils rares, fondateurs, extrêmes ou utiles pour l'imputation. <strong>Non-redondance</strong> avec noyau vérifiée via IBD (kinship KING &lt; 0.0625).
+            <strong>4 types de profils par cellule géo-ancestrale :</strong>
+            <span class="text-body" style="display:inline">
+              <strong style="color:var(--teal)">majoritaires</strong> (ancrage du secteur) ·
+              <strong style="color:var(--blue)">minoritaires informatifs</strong> (intégrés au noyau) ·
+              <strong style="color:var(--purple)">mixtes</strong> (composante réelle, pas intermédiaires) ·
+              <strong style="color:var(--amber)">rares/fondateurs</strong> (orientés vers le bras découverte).
+            </span>
+            <br/><strong>Bras découverte (N_discovery = 28) :</strong> score insulaire S_discovery_global après noyau, profils rares/fondateurs/extrêmes. Non-redondance vérifiée via IBD (kinship KING &lt; 0.0625).
           </div>
           <div class="slide-footer">
             <span class="caption">Génome Réunion</span>
@@ -2238,7 +2246,7 @@
             <div class="comp-card comp-card--purple">
               <div class="comp-badge comp-badge--global">GLOBAL · 2500</div>
               <h3 class="comp-card-title">2 · ADMIX_score</h3>
-              <p class="comp-card-copy">Entropie de Shannon des proportions ancestrales q_k du modèle global (K déterminé par CV-error, attendu K=4). Capture la <strong>diversité ancestrale</strong>.</p>
+              <p class="comp-card-copy">Entropie de Shannon des proportions ancestrales q_k du modèle <strong>supervisé/semi-supervisé</strong> ancré sur pools témoins (1000G + EGA). <strong>K testé empiriquement</strong> (CV-error + stabilité + interprétabilité), non fixé a priori. Capture la <strong>diversité ancestrale</strong>.</p>
             </div>
             <div class="comp-card comp-card--orange">
               <div class="comp-badge comp-badge--secteur">PAR SECTEUR</div>
@@ -2253,8 +2261,8 @@
           </div>
           <div class="callout"><strong>Pourquoi global vs par-secteur ?</strong><br>
             <ul style="margin: 8px 0; padding-left: 20px;">
-              <li><strong>PCA (global)</strong> : centroïdes secteurs bien positionnés dans espace commun</li>
-              <li><strong>ADMIXTURE (global)</strong> : modèle ancestral unique → q_k identiques tous secteurs</li>
+              <li><strong>PCA (global, projetée)</strong> : axes ancrés sur pools témoins (1000G + EGA), centroïdes secteurs positionnés dans cet espace commun</li>
+              <li><strong>ADMIXTURE (global, supervisé/semi-supervisé)</strong> : modèle ancestral ancré sur références → q_k interprétables et stables, K testé empiriquement</li>
               <li><strong>IBD (par-secteur)</strong> : parenté contexte local de sélection</li>
               <li><strong>ROH (global)</strong> : métrique individuelle, non affectée par groupe</li>
             </ul>
@@ -2286,7 +2294,7 @@
               <div class="level-body">
                 <div class="formula">dist(i) = √Σ(PCₖ(i) − cₖ)²</div>
                 <div class="formula">PCA_score = (dist − min) / (max − min)</div>
-                <p class="text-body design-body mt-responsive-sm">PCA calculée sur les 2 500 — centroïde du secteur dans l'espace commun à toute la cohorte. La normalisation locale qui suit sert uniquement à ramener les distances à [0,1] pour l'agrégation.</p>
+                <p class="text-body design-body mt-responsive-sm"><strong>PCA projetée</strong> — axes ancrés sur pools témoins externes (1000G + EGA prioritaires) puis individus réunionnais positionnés dans cet espace commun. Centroïde calculé par secteur. La normalisation locale qui suit sert uniquement à ramener les distances à [0,1] pour l'agrégation.</p>
                 <div class="mt-responsive-sm">
                 <svg viewBox="0 0 200 95" aria-hidden="true" style="width:100%;display:block;">
                   <circle cx="88" cy="52" fill="none" r="32" stroke="#0D7377" stroke-dasharray="4,3" stroke-width="1.5"></circle>
@@ -2308,7 +2316,7 @@
               <div class="level-body">
                 <div class="formula">H(i) = −Σ qₖ × log(qₖ)</div>
                 <div class="formula">ADMIX_score = (H − min) / (max − min)</div>
-                <p class="text-body design-body mt-responsive-sm">Modèle global → q_k interprétables de façon identique dans tous les secteurs. K optimal déterminé par cross-validation (K testé 2–10 ; choix par CV-error, stabilité, interprétabilité). Attendu K=4 pour La Réunion (africain, indien, européen, malgache).</p>
+                <p class="text-body design-body mt-responsive-sm"><strong>ADMIXTURE supervisé / semi-supervisé</strong> avec pools témoins (1000G + EGA : MGUA Madagascar, GenomeAsia, Angola/Mozambique) → q_k labellisés et stables entre secteurs. <strong>K testé empiriquement</strong> (2–10) : choix par CV-error, stabilité multi-seed, cohérence avec PCA et histoire du peuplement. <strong>K non fixé a priori.</strong></p>
                 <div class="mt-responsive-sm">
                 <svg viewBox="0 0 200 72" aria-hidden="true" style="width:100%;display:block;">
                   <text fill="#4A5568" font-size="8.5" x="4" y="14">Concentré (H ≈ 0)</text>
