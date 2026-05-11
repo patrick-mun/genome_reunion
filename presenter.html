@@ -408,7 +408,7 @@
     window.addEventListener('resize', applyAllScales);
 
     document.addEventListener('DOMContentLoaded', function() {
-      const indexUrl = window.location.origin + '/index.html';
+      const indexUrl = new URL('index.html', window.location.href).href;
       const mainIframe = document.getElementById('slide-preview-iframe');
       const nextIframe = document.getElementById('next-slide-preview-iframe');
 
