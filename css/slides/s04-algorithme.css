@@ -936,3 +936,185 @@
   font-size: clamp(11px, 1.1vw, 13px);
   font-weight: 700;
 }
+
+/* ── Pools témoins externes (slide 27) ─────────────────────
+   Slide dual : ADMIXTURE supervisée (gauche) + PCA projetée (droite).
+   Illustre l'ancrage des composantes ancestrales par pools témoins.
+   ──────────────────────────────────────────────────────── */
+.pools-dual-layout {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(14px, 1.8vw, 28px);
+  min-height: 0;
+  margin-top: clamp(8px, 1.2vh, 14px);
+}
+
+.pools-pane {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 0.8vh, 10px);
+  min-height: 0;
+}
+
+.pools-pane-title {
+  font-size: clamp(11px, 1.05vw, 14px);
+  font-weight: 700;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pools-chart {
+  flex: 1 1 auto;
+  background: linear-gradient(135deg, #F8F5EE 0%, #ECE6D8 100%);
+  border-radius: 8px;
+  padding: clamp(10px, 1.4vh, 16px);
+  box-shadow: inset 0 0 0 1px rgba(11, 31, 58, 0.08);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* === ADMIXTURE barplot === */
+.pools-admix-bars {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(4px, 0.7vh, 8px);
+  min-height: 0;
+}
+
+.pools-admix-indiv {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pools-admix-indiv--ref {
+  margin-top: clamp(4px, 0.6vh, 8px);
+  padding-top: clamp(4px, 0.6vh, 8px);
+  border-top: 1px solid rgba(11, 31, 58, 0.12);
+}
+
+.pools-admix-indiv--highlight .pools-admix-label {
+  color: var(--coral);
+}
+.pools-admix-indiv--highlight .pools-admix-bar {
+  box-shadow: 0 0 0 2px var(--coral), 0 1px 3px rgba(11, 31, 58, 0.1);
+}
+
+.pools-admix-label {
+  font-size: clamp(9px, 0.9vw, 11px);
+  font-weight: 700;
+  color: #4A5568;
+  min-width: clamp(54px, 6vw, 76px);
+  text-align: right;
+}
+
+.pools-admix-bar {
+  flex: 1 1 auto;
+  height: clamp(16px, 2.4vh, 24px);
+  display: flex;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(11, 31, 58, 0.1);
+}
+
+.pools-admix-seg {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(8px, 0.75vw, 10px);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+.pools-admix-seg--afr { background: var(--teal); }
+.pools-admix-seg--asi { background: var(--orange); }
+.pools-admix-seg--eur { background: var(--blue); }
+.pools-admix-seg--mal { background: var(--tealL); }
+
+.pools-admix-legend {
+  display: flex;
+  gap: clamp(8px, 1.2vw, 14px);
+  flex-wrap: wrap;
+  padding-top: clamp(6px, 0.8vh, 10px);
+  margin-top: clamp(4px, 0.6vh, 8px);
+  border-top: 1px solid rgba(11, 31, 58, 0.1);
+  font-size: clamp(9px, 0.85vw, 11px);
+}
+
+.pools-admix-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pools-admix-leg-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* === PCA biplot === */
+.pools-pca-chart-inner {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.pools-pca-chart-inner svg {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+.pools-pca-legend {
+  display: flex;
+  gap: clamp(6px, 0.8vw, 10px);
+  flex-wrap: wrap;
+  font-size: clamp(9px, 0.85vw, 11px);
+  margin-top: clamp(4px, 0.6vh, 8px);
+}
+
+.pools-pca-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 7px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(11, 31, 58, 0.06);
+}
+
+.pools-pca-leg-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.pools-pca-leg-dot--afr { background: var(--teal); }
+.pools-pca-leg-dot--asi { background: var(--orange); }
+.pools-pca-leg-dot--mal { background: var(--tealL); }
+.pools-pca-leg-dot--eur { background: var(--blue); }
+.pools-pca-leg-dot--reu { background: var(--coral); }
+
+/* === Callouts en bas de pane === */
+.pools-callout-foot {
+  flex: 0 0 auto;
+  font-size: clamp(10px, 0.95vw, 12px);
+  background: #FEF3C7;
+  border-left: 3px solid var(--amber);
+  padding: clamp(7px, 1vh, 10px) clamp(10px, 1.2vw, 14px);
+  color: var(--navy);
+  line-height: 1.35;
+  border-radius: 4px;
+  margin-top: clamp(4px, 0.6vh, 8px);
+}
+.pools-callout-foot strong { color: #B45309; }

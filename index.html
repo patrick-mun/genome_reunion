@@ -28,7 +28,7 @@
         <button class="sec-pill js-slide-jump" data-target-slide="8">02 · Singularité</button>
         <button class="sec-pill js-slide-jump" data-target-slide="14">03 · Méthodo</button>
         <button class="sec-pill js-slide-jump" data-target-slide="17">04 · Algorithme</button>
-        <button class="sec-pill js-slide-jump" data-target-slide="32">05 · WGS</button>
+        <button class="sec-pill js-slide-jump" data-target-slide="33">05 · WGS</button>
       </div>
       <div id="nav-right">
         <button class="nbtn" id="presenter-btn" title="Ouvrir le mode présentation (2 écrans)">Présentation</button>
@@ -216,7 +216,7 @@
             </div>
             <button id="s04-toggle-btn" title="Basculer entre mode Expert (détaillé) et Résumé pour la section Algorithme" aria-pressed="true">Expert</button>
           </div>
-          <div class="toc-row js-slide-jump" data-target-slide="32">
+          <div class="toc-row js-slide-jump" data-target-slide="33">
             <div class="toc-number toc-number--s05">05</div>
             <div>
               <strong class="toc-title">Ce que le WGS va Produire</strong>
@@ -2040,7 +2040,190 @@
         </div>
       </div>
       <!-- ═══════════════════════════════════════════════════════
-     SLIDE 27 — LES 4 COMPOSANTES DE S_div
+     SLIDE 27 — POOLS TÉMOINS EXTERNES (ANCRAGE PCA / ADMIXTURE)
+     V3.5 : 1000G + EGA (MGUA, MAGE, GenomeAsia, Angola/Mozambique)
+     ═══════════════════════════════════════════════════════ -->
+      <div class="slide slide--cream" data-section="4">
+        <div class="inner">
+          <h2 class="slide-title">Pools témoins externes : ancrer PCA et ADMIXTURE</h2>
+          <div class="slide-rule slide-rule--blue"></div>
+
+          <div class="pools-dual-layout">
+            <!-- ============ ADMIXTURE supervisée (gauche) ============ -->
+            <div class="pools-pane">
+              <div class="pools-pane-title">ADMIXTURE supervisée K=4 — composition ancestrale</div>
+              <div class="pools-chart">
+                <div class="pools-admix-bars">
+                  <div class="pools-admix-indiv pools-admix-indiv--highlight">
+                    <div class="pools-admix-label">Ind. A ★</div>
+                    <div class="pools-admix-bar">
+                      <div class="pools-admix-seg pools-admix-seg--afr" style="width: 48%;">48%</div>
+                      <div class="pools-admix-seg pools-admix-seg--mal" style="width: 32%;">32%</div>
+                      <div class="pools-admix-seg pools-admix-seg--asi" style="width: 15%;">15%</div>
+                      <div class="pools-admix-seg pools-admix-seg--eur" style="width: 5%;"></div>
+                    </div>
+                  </div>
+                  <div class="pools-admix-indiv">
+                    <div class="pools-admix-label">Ind. B</div>
+                    <div class="pools-admix-bar">
+                      <div class="pools-admix-seg pools-admix-seg--afr" style="width: 42%;">42%</div>
+                      <div class="pools-admix-seg pools-admix-seg--asi" style="width: 35%;">35%</div>
+                      <div class="pools-admix-seg pools-admix-seg--mal" style="width: 18%;">18%</div>
+                      <div class="pools-admix-seg pools-admix-seg--eur" style="width: 5%;"></div>
+                    </div>
+                  </div>
+                  <div class="pools-admix-indiv">
+                    <div class="pools-admix-label">Ind. C</div>
+                    <div class="pools-admix-bar">
+                      <div class="pools-admix-seg pools-admix-seg--afr" style="width: 35%;">35%</div>
+                      <div class="pools-admix-seg pools-admix-seg--mal" style="width: 30%;">30%</div>
+                      <div class="pools-admix-seg pools-admix-seg--eur" style="width: 20%;">20%</div>
+                      <div class="pools-admix-seg pools-admix-seg--asi" style="width: 15%;">15%</div>
+                    </div>
+                  </div>
+                  <div class="pools-admix-indiv">
+                    <div class="pools-admix-label">Ind. D</div>
+                    <div class="pools-admix-bar">
+                      <div class="pools-admix-seg pools-admix-seg--asi" style="width: 52%;">52%</div>
+                      <div class="pools-admix-seg pools-admix-seg--afr" style="width: 28%;">28%</div>
+                      <div class="pools-admix-seg pools-admix-seg--mal" style="width: 12%;">12%</div>
+                      <div class="pools-admix-seg pools-admix-seg--eur" style="width: 8%;"></div>
+                    </div>
+                  </div>
+                  <div class="pools-admix-indiv">
+                    <div class="pools-admix-label">Ind. E</div>
+                    <div class="pools-admix-bar">
+                      <div class="pools-admix-seg pools-admix-seg--mal" style="width: 58%;">58%</div>
+                      <div class="pools-admix-seg pools-admix-seg--afr" style="width: 25%;">25%</div>
+                      <div class="pools-admix-seg pools-admix-seg--asi" style="width: 12%;">12%</div>
+                      <div class="pools-admix-seg pools-admix-seg--eur" style="width: 5%;"></div>
+                    </div>
+                  </div>
+                  <div class="pools-admix-indiv pools-admix-indiv--ref">
+                    <div class="pools-admix-label">Réf. africain</div>
+                    <div class="pools-admix-bar">
+                      <div class="pools-admix-seg pools-admix-seg--afr" style="width: 98%;">98%</div>
+                      <div class="pools-admix-seg pools-admix-seg--asi" style="width: 2%;"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pools-admix-legend">
+                  <div class="pools-admix-leg-item"><div class="pools-admix-leg-dot pools-admix-seg--afr"></div><span>Africain</span></div>
+                  <div class="pools-admix-leg-item"><div class="pools-admix-leg-dot pools-admix-seg--mal"></div><span>Malgache</span></div>
+                  <div class="pools-admix-leg-item"><div class="pools-admix-leg-dot pools-admix-seg--asi"></div><span>Asiatique</span></div>
+                  <div class="pools-admix-leg-item"><div class="pools-admix-leg-dot pools-admix-seg--eur"></div><span>Européen</span></div>
+                </div>
+              </div>
+              <div class="pools-callout-foot">
+                <strong>Supervisée :</strong> modèle ADMIXTURE calibré sur 1000G + EGA (MGUA Madagascar, GenomeAsia, Angola/Mozambique) → labels stables et interprétables. K testé empiriquement, pas fixé a priori.
+              </div>
+            </div>
+
+            <!-- ============ PCA projetée (droite) ============ -->
+            <div class="pools-pane">
+              <div class="pools-pane-title">PCA projetée — clusters d'ascendance ancrés</div>
+              <div class="pools-chart">
+                <div class="pools-pca-chart-inner">
+                  <svg viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <!-- Axes -->
+                    <line x1="36" y1="270" x2="300" y2="270" stroke="#9CA3AF" stroke-width="1.5" />
+                    <line x1="36" y1="20" x2="36" y2="270" stroke="#9CA3AF" stroke-width="1.5" />
+                    <text x="294" y="288" font-size="11" fill="#6B7280" text-anchor="end">PC1</text>
+                    <text x="22" y="30" font-size="11" fill="#6B7280" text-anchor="middle">PC2</text>
+
+                    <!-- Cluster africain -->
+                    <ellipse cx="130" cy="190" rx="48" ry="54" fill="rgba(13, 115, 119, 0.12)" stroke="#0D7377" stroke-width="1.5" stroke-dasharray="3 2" />
+                    <text x="130" y="252" font-size="10.5" fill="#0D7377" font-weight="700" text-anchor="middle">Africain</text>
+
+                    <!-- Cluster asiatique -->
+                    <ellipse cx="210" cy="115" rx="50" ry="46" fill="rgba(234, 88, 12, 0.12)" stroke="#EA580C" stroke-width="1.5" stroke-dasharray="3 2" />
+                    <text x="230" y="62" font-size="10.5" fill="#EA580C" font-weight="700" text-anchor="middle">Asiatique</text>
+
+                    <!-- Cluster malgache -->
+                    <ellipse cx="92" cy="135" rx="42" ry="40" fill="rgba(20, 184, 166, 0.14)" stroke="#14B8A6" stroke-width="1.5" stroke-dasharray="3 2" />
+                    <text x="60" y="98" font-size="10.5" fill="#14B8A6" font-weight="700" text-anchor="middle">Malgache</text>
+
+                    <!-- Cluster européen -->
+                    <ellipse cx="230" cy="210" rx="44" ry="48" fill="rgba(3, 105, 161, 0.12)" stroke="#0369A1" stroke-width="1.5" stroke-dasharray="3 2" />
+                    <text x="262" y="230" font-size="10.5" fill="#0369A1" font-weight="700" text-anchor="middle">Européen</text>
+
+                    <!-- Points réunionnais admixés -->
+                    <g fill="#E05A4B" opacity="0.78">
+                      <circle cx="142" cy="172" r="2.6" />
+                      <circle cx="155" cy="158" r="2.6" />
+                      <circle cx="120" cy="198" r="2.6" />
+                      <circle cx="138" cy="186" r="2.6" />
+                      <circle cx="160" cy="178" r="2.6" />
+                      <circle cx="128" cy="160" r="2.6" />
+                      <circle cx="148" cy="204" r="2.6" />
+                      <circle cx="166" cy="148" r="2.6" />
+                      <circle cx="112" cy="176" r="2.6" />
+                      <circle cx="172" cy="168" r="2.6" />
+                      <circle cx="135" cy="142" r="2.6" />
+                      <circle cx="158" cy="192" r="2.6" />
+                    </g>
+
+                    <!-- Ind. A highlighted (correspond au barplot ADMIXTURE) -->
+                    <g>
+                      <circle cx="120" cy="175" r="9" fill="none" stroke="#E05A4B" stroke-width="2" />
+                      <circle cx="120" cy="175" r="4" fill="#E05A4B" />
+                      <text x="120" y="158" font-size="10" fill="#E05A4B" font-weight="700" text-anchor="middle">Ind. A ★</text>
+                    </g>
+
+                    <!-- Échantillons de référence (transparents) -->
+                    <g fill="#0D7377" opacity="0.35">
+                      <circle cx="105" cy="205" r="1.8" />
+                      <circle cx="135" cy="215" r="1.8" />
+                      <circle cx="118" cy="195" r="1.8" />
+                      <circle cx="145" cy="200" r="1.8" />
+                    </g>
+                    <g fill="#EA580C" opacity="0.35">
+                      <circle cx="210" cy="105" r="1.8" />
+                      <circle cx="195" cy="120" r="1.8" />
+                      <circle cx="225" cy="115" r="1.8" />
+                    </g>
+                    <g fill="#0369A1" opacity="0.35">
+                      <circle cx="230" cy="220" r="1.8" />
+                      <circle cx="210" cy="200" r="1.8" />
+                      <circle cx="240" cy="205" r="1.8" />
+                    </g>
+                    <g fill="#14B8A6" opacity="0.35">
+                      <circle cx="85" cy="130" r="1.8" />
+                      <circle cx="100" cy="125" r="1.8" />
+                      <circle cx="90" cy="145" r="1.8" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="pools-pca-legend">
+                  <div class="pools-pca-leg-item"><div class="pools-pca-leg-dot pools-pca-leg-dot--afr"></div><span>Africain</span></div>
+                  <div class="pools-pca-leg-item"><div class="pools-pca-leg-dot pools-pca-leg-dot--mal"></div><span>Malgache</span></div>
+                  <div class="pools-pca-leg-item"><div class="pools-pca-leg-dot pools-pca-leg-dot--asi"></div><span>Asiatique</span></div>
+                  <div class="pools-pca-leg-item"><div class="pools-pca-leg-dot pools-pca-leg-dot--eur"></div><span>Européen</span></div>
+                  <div class="pools-pca-leg-item"><div class="pools-pca-leg-dot pools-pca-leg-dot--reu"></div><span>Réunionnais</span></div>
+                </div>
+              </div>
+              <div class="pools-callout-foot">
+                <strong>Projetée :</strong> axes PCA ancrés sur les pools témoins. Ellipses = clusters de référence. Les individus réunionnais se projettent naturellement aux interfaces — Ind. A ★ se positionne entre africain et malgache, cohérent avec sa composition ADMIXTURE.
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-footer">
+            <span class="caption">Génome Réunion · S04</span>
+            <span class="slide-footer-sources">
+              <span class="slide-footer-source">Price et al. 2006, <em>Nature Genetics</em>. PCA corrects for stratification in GWAS.</span>
+              <span class="slide-footer-source">Alexander et al. 2009, <em>Genome Research</em>. ADMIXTURE: ancestry estimation.</span>
+              <span class="slide-footer-source">Lawson et al. 2018, <em>Nature Communications</em>. Misinterpretation of STRUCTURE/ADMIXTURE bar plots.</span>
+              <span class="slide-footer-source">Byrska-Bishop et al. 2022, <em>Cell</em>. 1000G high-coverage genomes.</span>
+              <span class="slide-footer-source">Hamid et al. 2024, <em>HGG Advances</em>. Malagasy WGS (MGUA, EGAS50000000496).</span>
+              <span class="slide-footer-source">Wall et al. 2019, <em>Nature</em>. GenomeAsia 100K.</span>
+            </span>
+            <span class="caption">27</span>
+          </div>
+        </div>
+      </div>
+      <!-- ═══════════════════════════════════════════════════════
+     SLIDE 28 — LES 4 COMPOSANTES DE S_div
      ═══════════════════════════════════════════════════════ -->
       <div class="slide slide--cream" data-section="4">
         <div class="inner">

@@ -573,8 +573,8 @@ const S04_INTRO_SLIDE    = 17;
 const S04_SUMMARY_START  = 18;
 const S04_SUMMARY_END    = 19;
 const S04_DETAILED_START = 20;
-const S04_DETAILED_END   = 37;
-const S05_INTRO_SLIDE    = 38;
+const S04_DETAILED_END   = 38;
+const S05_INTRO_SLIDE    = 39;
 
 // Applique display:none sur les slides cachés, retire-le sur les visibles.
 // Indispensable pour que visibleIdx × 100vw corresponde à la position flex réelle.

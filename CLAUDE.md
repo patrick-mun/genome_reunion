@@ -2,10 +2,11 @@
 
 ## Vue d'ensemble
 
-Présentation HTML/CSS/JS statique — **41 slides** (0–40, dont 2 résumés S04 optionnels), zéro build tool, zéro CDN à l'exécution.
-Fichiers sources : `index.html` (~180 KB), 7 fichiers CSS (3 096 lignes), 3 fichiers JS (665 lignes).
+Présentation HTML/CSS/JS statique — **42 slides** (0–41, dont 2 résumés S04 optionnels), zéro build tool, zéro CDN à l'exécution.
+Fichiers sources : `index.html` (~195 KB), 7 fichiers CSS (3 280 lignes), 3 fichiers JS (665 lignes).
 Système adaptatif : toggle Expert/Résumé pour la section S04 (Algorithme) — les 2 slides de résumé remplacent les 20 slides expert détaillées.
 **Révision S04 (2026-04)** : implémentation de 5 recommandations scientifiques + 75+ références bibliographiques intégrées.
+**Révision V3.5 (2026-05)** : intégration des pools témoins externes (1000G + EGA) pour ancrage PCA/ADMIXTURE — nouvelle slide 27 dual ADMIXTURE/PCA.
 Règles de travail détaillées dans `AGENTS.md`.
 
 ## Fichiers principaux
@@ -36,8 +37,8 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `s01-angle-mort.css` | 2–8 | 330 | `.ai-* .clinical-* .bias-* .pharma-*` | ✓ extrait |
 | `s02-singularite.css` | 9–14 | 360 | `.history-* .s2-* .timeline-*` | ✓ extrait |
 | `s03-design.css` | 15–16 | 183 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
-| `s04-algorithme.css` | 17–38 | 938 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .phasage-* .comp-* .geo-bars-svg .chromosome-*` | ✓ V3 révisé |
-| `s05-wgs.css` | 39–40 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
+| `s04-algorithme.css` | 17–39 | 1122 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .phasage-* .comp-* .geo-bars-svg .chromosome-* .pools-*` | ✓ V3.5 révisé |
+| `s05-wgs.css` | 40–41 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
 | **main.css** | — | **1112** | Voir section "CSS – main.css" |  ✓ structuré |
 
 ## CSS — Sections principales (main.css)
@@ -94,19 +95,20 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 24 | Représentativité géographique | 1871 | 4 | — | `slide--cream` | Stratification par secteur |
 | 25 | Quatre dimensions S_div | 1931 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH |
 | 26 | Composantes globales | 1975 | 4 | — | `slide--cream` | PCA + ADMIX score |
-| 27 | Composantes locales | 2040 | 4 | `roh` | `slide--cream` | IBD + ROH score, ROH diagram |
-| 28 | Score de Diversité | 2119 | 4 | `score` | `slide--cream` | Chart.js barres |
-| 29 | Anti-biais directionnel | 2138 | 4 | — | `slide--cream` | Quintile stratification |
-| 30 | Sélection greedy stratifiée | 2192 | 4 | — | `slide--cream` + `inner--top` | 3 branches, robustesse |
-| 31 | Exemple concret: calcul | 2257 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
-| 32 | Phasage réunionnais | 2303 | 4 | — | `slide--cream` + `inner--top` | 2500 SNP + 100 familles, pipeline visuel |
-| 33 | Recalibrage fréquences | 2367 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
-| 34 | Avantages et limitations | 2409 | 4 | — | `slide--cream` + `inner--top` | Robustesse multi-ordre, callout |
-| 35 | Validation 1000G | 2468 | 4 | — | `slide--cream` | Étape critique avant déploiement |
-| 36 | Validation EPIGEN-Brasil | 2505 | 4 | — | `slide--cream` | Cohorte brésilienne admixée |
-| 37 | INTRO S05 — WGS | 2543 | 5 | — | `slide--s05` | WGS, impacts, conclusion |
-| 38 | Impacts attendus | 2654 | 5 | — | `slide--cream` | Référentiel réunionnais |
-| 39 | CONCLUSION | 2695 | 5 | — | `slide--navy` | Fermeture |
+| **27** | **Pools témoins externes (V3.5)** | **2042** | 4 | — | `slide--cream` | **ADMIXTURE supervisée K=4 + PCA projetée, ancrage 1000G + EGA** |
+| 28 | Composantes locales | 2231 | 4 | `roh` | `slide--cream` | IBD + ROH score, ROH diagram |
+| 29 | Score de Diversité | 2310 | 4 | `score` | `slide--cream` | Chart.js barres |
+| 30 | Anti-biais directionnel | 2329 | 4 | — | `slide--cream` | Quintile stratification |
+| 31 | Sélection greedy stratifiée | 2383 | 4 | — | `slide--cream` + `inner--top` | 3 branches, robustesse |
+| 32 | Exemple concret: calcul | 2448 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
+| 33 | Phasage réunionnais | 2494 | 4 | — | `slide--cream` + `inner--top` | 2500 SNP + 100 familles, pipeline visuel |
+| 34 | Recalibrage fréquences | 2558 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
+| 35 | Avantages et limitations | 2600 | 4 | — | `slide--cream` + `inner--top` | Robustesse multi-ordre, callout |
+| 36 | Validation 1000G | 2659 | 4 | — | `slide--cream` | Étape critique avant déploiement |
+| 37 | Validation EPIGEN-Brasil | 2696 | 4 | — | `slide--cream` | Cohorte brésilienne admixée |
+| 38 | INTRO S05 — WGS | 2734 | 5 | — | `slide--s05` | WGS, impacts, conclusion |
+| 39 | Impacts attendus | 2845 | 5 | — | `slide--cream` | Référentiel réunionnais |
+| 40 | CONCLUSION | 2886 | 5 | — | `slide--navy` | Fermeture |
 
 ### Navigation pills → slides d'entrée de section
 
@@ -117,13 +119,13 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 02 · Singularité | 8 | 8 — INTRO S02 |
 | 03 · Méthodo | 14 | 14 — INTRO S03 |
 | 04 · Algorithme | 17 | 17 — INTRO S04 |
-| 05 · WGS | 30 | 30 — INTRO S05 |
+| 05 · WGS | 33 | 33 — INTRO S05 |
 
 ## IDs DOM utilisés par app.js
 
 | ID | Rôle |
 |---|---|
-| `#deck` | Conteneur des 40 slides (transform translateX) |
+| `#deck` | Conteneur des 42 slides (transform translateX) |
 | `#bp` / `#bn` | Boutons Préc. / Suiv. (gèrent navigation visible uniquement) |
 | `#ctr` | Compteur "N / visible-count" (aria-live, ajusté dynamiquement) |
 | `#s04-toggle-btn` | Bouton toggle Expert/Résumé pour section S04 (aria-pressed) |
@@ -131,9 +133,9 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `#admix-bg` | Conteneur 60 barres admixture (injecté par data/admixture.js, slide 0) |
 | `#pipeFlow` | Animation pipeline (slide 15, data-animate="pipeline") |
 | `#archFlow` | Carousel arch-flow (slide 23, data-animate="archflow", mobile uniquement) |
-| `#scoreBarChart` | Canvas Chart.js barres S_div (slide 28, data-animate="score") |
-| `#radarChart` | Canvas Chart.js radar (slide 31, data-animate="radar") |
-| `#rohDiagram` | SVG diagramme ROH (slide 27, data-animate="roh") |
+| `#scoreBarChart` | Canvas Chart.js barres S_div (slide 29, data-animate="score") |
+| `#radarChart` | Canvas Chart.js radar (slide 32, data-animate="radar") |
+| `#rohDiagram` | SVG diagramme ROH (slide 28, data-animate="roh") |
 
 ## Conventions de nommage CSS
 
@@ -145,7 +147,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | Angle mort S01 | `bias-` / `ai-` / `clinical-` / `pharma-` | `.bias-table .ai-callout .clinical-panel .pharma-highlight` | s01-angle-mort.css |
 | Singularité S02 | `history-*` / `s2-*` / `timeline-*` | `.history-quote .s2-card .timeline-step` | s02-singularite.css |
 | Design S03 | `pipeline-*` / `design-*` / `funnel-*` | `.pipeline-box .design-pipeline .funnel-layout` | s03-design.css |
-| Algorithme S04 | `algo-*` / `special-*` / `arm-*` / `arch-*` / `comp-*` / `chromosome-*` / `geo-bars-svg` | `.algo-problem-box .arm-card .arch-split .comp-card .geo-bars-svg` | s04-algorithme.css |
+| Algorithme S04 | `algo-*` / `special-*` / `arm-*` / `arch-*` / `comp-*` / `chromosome-*` / `geo-bars-svg` / `pools-*` | `.algo-problem-box .arm-card .arch-split .comp-card .geo-bars-svg .pools-dual-layout .pools-admix-bar .pools-pca-chart-inner` | s04-algorithme.css |
 | WGS S05 | `impact-*` / `conclusion-*` | `.impact-card--green .conclusion-list .conclusion-item` | s05-wgs.css |
 
 ## Récapitulatif des éléments DOM inline style
@@ -180,8 +182,8 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 
 | Aspect | Expert Mode (ON) | Résumé Mode (OFF) |
 |---|---|---|
-| Slides visibles S04 | 17, 20–38 (21 slides détaillés) | 17–19 (3 slides : intro + 2 résumés) |
-| Autres slides | Slides 18–19 masqués, autres visibles | Slides 21–38 masqués, autres visibles |
+| Slides visibles S04 | 17, 20–38 (20 slides détaillés) | 17–19 (3 slides : intro + 2 résumés) |
+| Autres slides | Slides 18–19 masqués, autres visibles | Slides 20–38 masqués, autres visibles |
 | Compteur | Affiche le total des slides visibles | Affiche le total des slides visibles |
 | Navigation | Saute les slides masqués automatiquement | Saute les slides masqués automatiquement |
 | Bouton toggle | `S04: Expert` (aria-pressed="true") | `S04: Résumé` (aria-pressed="false") |
@@ -189,7 +191,7 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 **Implémentation JS** (`js/app.js`) :
 - `s04ExpertMode` : variable globale (true = Expert, false = Résumé), pas de localStorage
 - `S04_SUMMARY_START=18, S04_SUMMARY_END=19` : slides résumé (Algorithme vue d'ensemble + Validation)
-- `S04_DETAILED_START=21, S04_DETAILED_END=38` : slides expert détaillés (comparative + fondations + validation)
+- `S04_DETAILED_START=20, S04_DETAILED_END=38` : slides expert détaillés (comparative + fondations + pools témoins V3.5 + validation)
 - `updateSlideVisibility()` : applique `display:none` sur les slides cachés
 - `getVisibleSlides()` : retourne indices visibles selon le mode courant
 - Bouton `#s04-toggle-btn` : bascule le mode et redessine le deck
@@ -230,6 +232,8 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 | **S04 Révision (2026-04)** | ✅ 5 recommandations implémentées : (1) slide 21 comparative 6 stratégies, (2) clarifier ADMIX_rarity (slide 28), (3) quantifier robustesse multi-ordre (slide 32), (4) énumérer 6 stratégies (slides 18-19), (5) effectif observé (slide 35). ✅ 75+ références bibliographiques intégrées en pied de page |
 | **Footer Redesign (2026-04)** | ✅ Option 5 — Design Mixte Moderne : barre d'accent colorée (couleur de section), breadcrumb "Génome Réunion · <#>", badge de numéro (droite), section références avec icône 📚. CSS Grid 2×3 + pseudo-éléments ::before/::after. Support dual : simple (2 captions) + citations (via slide-footer-meta wrapper). Responsive clamp() typography. |
 | **Total slides** | Augmenté de 40 → **41 slides** (1 nouvelle comparative S04) + 2 résumés optionnels = deck complet V3 révisé |
+| **S04 Pools témoins V3.5 (2026-05)** | ✅ Nouvelle slide 27 « Pools témoins externes — ancrer PCA et ADMIXTURE » : layout dual ADMIXTURE supervisée K=4 (gauche, 5 individus admixés + 1 référence africaine, mise en évidence Ind. A) + PCA projetée (droite, 4 clusters d'ascendance, individu A pointé). Aligne la présentation sur METHODOLOGY_selection_V3_5.md (catalogue 1000G + EGA : MGUA Madagascar, MAGE, GenomeAsia, Angola/Mozambique). Classes `.pools-dual-layout .pools-pane .pools-admix-* .pools-pca-*` dans `s04-algorithme.css`. |
+| **Total slides** | Augmenté de 41 → **42 slides** (1 nouvelle pools témoins S04) + 2 résumés optionnels = deck complet V3.5 |
 
 ## Règle de mise à jour
 
