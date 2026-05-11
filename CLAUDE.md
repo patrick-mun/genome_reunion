@@ -95,7 +95,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 24 | Représentativité géographique | 1871 | 4 | — | `slide--cream` | Stratification par secteur |
 | 25 | Quatre dimensions S_div | 1931 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH |
 | 26 | Composantes globales | 1975 | 4 | — | `slide--cream` | PCA + ADMIX score |
-| **27** | **Pools témoins externes (V3.5)** | **2042** | 4 | — | `slide--cream` | **ADMIXTURE supervisée K=4 + PCA projetée, ancrage 1000G + EGA** |
+| **27** | **Pools témoins externes (V3.5)** | **2042** | 4 | — | `slide--cream slide--mobile-scroll` | **ADMIXTURE supervisée K=4 + PCA projetée, ancrage 1000G + EGA — scroll page natif ≤900px** |
 | 28 | Composantes locales | 2231 | 4 | `roh` | `slide--cream` | IBD + ROH score, ROH diagram |
 | 29 | Score de Diversité | 2310 | 4 | `score` | `slide--cream` | Chart.js barres |
 | 30 | Anti-biais directionnel | 2329 | 4 | — | `slide--cream` | Quintile stratification |
