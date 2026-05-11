@@ -1118,3 +1118,49 @@
   margin-top: clamp(4px, 0.6vh, 8px);
 }
 .pools-callout-foot strong { color: #B45309; }
+
+/* === Media queries pour adaptation mobile === */
+@media (max-width: 900px) {
+  .pools-dual-layout {
+    grid-template-columns: 1fr;
+    gap: clamp(12px, 1.5vh, 20px);
+  }
+
+  .pools-pane-title {
+    font-size: clamp(10px, 1.2vw, 13px);
+  }
+
+  .pools-admix-label {
+    min-width: clamp(48px, 5vw, 64px);
+    font-size: clamp(8px, 1vw, 10px);
+  }
+
+  .pools-admix-seg {
+    font-size: clamp(7px, 0.9vw, 9px);
+  }
+}
+
+@media (max-width: 600px) {
+  .pools-admix-label {
+    min-width: clamp(40px, 4vw, 56px);
+    font-size: clamp(7px, 0.95vw, 9px);
+  }
+
+  .pools-admix-bar {
+    height: clamp(14px, 2vh, 18px);
+  }
+
+  .pools-pca-chart-inner {
+    min-height: 200px;
+  }
+
+  .pools-admix-legend,
+  .pools-pca-legend {
+    font-size: clamp(8px, 1vw, 10px);
+  }
+
+  .pools-callout-foot {
+    font-size: clamp(9px, 1vw, 11px);
+    padding: clamp(6px, 0.8vh, 9px) clamp(8px, 1vw, 12px);
+  }
+}

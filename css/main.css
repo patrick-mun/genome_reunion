@@ -1017,8 +1017,8 @@ tr:last-child td { border: none; }
   .grid-4      { grid-template-columns: 1fr 1fr; }
   .slide-title { font-size: clamp(20px, 4vw, 28px); }
   .inner       { padding: 22px 14px 28px; max-height: calc(100vh - 70px); justify-content: flex-start; }
-  table        { font-size: 11px; }
-  th, td       { padding: 6px 7px; }
+  table        { font-size: clamp(10px, 1.3vw, 12px); }
+  th, td       { padding: clamp(5px, 0.8vh, 7px) clamp(5px, 0.7vw, 7px); }
   .progress-label { min-width: 58px; font-size: 10px; }
   .progress-value { min-width: 24px; font-size: 10px; }
   .toc-number  { min-width: 34px; height: 34px; font-size: 12px; }
