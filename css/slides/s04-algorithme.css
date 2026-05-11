@@ -943,9 +943,9 @@
    ──────────────────────────────────────────────────────── */
 .pools-stacked-layout {
   flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(18px, 2.2vh, 28px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 2vh, 28px);
   min-height: 0;
   margin-top: clamp(8px, 1.2vh, 14px);
 }
@@ -1128,7 +1128,8 @@
 /* === Media queries pour adaptation mobile === */
 @media (max-width: 900px) {
   .pools-stacked-layout {
-    gap: clamp(16px, 2vh, 22px);
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 2vh, 24px);
   }
 
   .pools-pane-title {
