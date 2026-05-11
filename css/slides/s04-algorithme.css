@@ -1150,6 +1150,7 @@
     flex: 0 0 auto;
     min-height: auto;
     justify-content: flex-start;
+    gap: clamp(8px, 1.2vh, 12px);
   }
 
   .pools-pca-chart-inner {
@@ -1165,10 +1166,6 @@
 
   .pools-pane-title {
     font-size: clamp(12px, 1.4vw, 14px);
-  }
-
-  .pools-admix-bars {
-    gap: clamp(8px, 1.2vh, 12px);
   }
 
   .pools-admix-label {
@@ -1187,10 +1184,6 @@
   .pools-admix-legend {
     font-size: clamp(11px, 1.3vw, 13px);
     gap: clamp(10px, 1.6vw, 16px);
-  }
-
-  .pools-pca-chart-inner {
-    min-height: 280px;
   }
 
   .pools-pca-legend {
@@ -1224,6 +1217,10 @@
   }
 
   .pools-pca-chart-inner {
-    min-height: 240px;
+    height: 240px;
+  }
+
+  .pools-pca-chart-inner svg {
+    max-height: 240px;
   }
 }
