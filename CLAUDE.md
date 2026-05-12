@@ -97,25 +97,25 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 17 | INTRO S04 — L'ALGORITHME | 1489 | 4 | — | `slide--s04` | Sélection sous contrainte budgétaire |
 | **18** | **Algorithme — Vue d'ensemble (RÉSUMÉ)** | **1605** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
 | **19** | **Validation & Déploiement (RÉSUMÉ)** | **1649** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
-| 20 | Comparaison 6 stratégies | 1694 | 4 | — | `slide--cream` | Évaluation systématique approches |
-| 21 | Justification N=350 | 1772 | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
-| 22 | Architecture 3 ressources | 1816 | 4 | — | `slide--cream` | Cohorte SNP + panel WGS + familles phasage |
-| 23 | Panel WGS hybride V3 | 1864 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
-| 24 | Deux niveaux, contrainte principale | 1906 | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
-| 25 | Stratification géo-ancestrale | 1989 | 4 | — | `slide--cream` | Secteur × cluster ascendance |
-| 26 | Pools témoins externes (V3.5) | 2063 | 4 | — | `slide--cream slide--mobile-scroll` | ADMIXTURE supervisée K=4 + PCA, 1000G + EGA |
-| 27 | Quatre dimensions complémentaires | 2245 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH scores |
-| 28 | Composantes globales | 2296 | 4 | — | `slide--cream` | Position + composition ancestrale |
-| 29 | Composantes locales | 2367 | 4 | `roh` | `slide--cream` | Indépendance (IBD) + effet fondateur (ROH) |
-| 30 | Score de Diversité | 2454 | 4 | `score` | `slide--cream` | S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH |
-| 31 | Anti-biais directionnel | 2479 | 4 | — | `slide--cream` | Stratification par quintile |
-| 32 | Sélection greedy stratifiée | 2537 | 4 | — | `slide--cream` | 3 branches : noyau + cordon + enrichissement |
-| 33 | Exemple concret : calcul | 2607 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
-| 34 | Phasage réunionnais | 2659 | 4 | — | `slide--cream` | 2500 SNP + 100 familles nucléaires |
-| 35 | Fréquences finales | 2732 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
-| 36 | Avantages et limitations | 2783 | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
-| 37 | Validation 1000 Genomes | 2847 | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
-| 38 | Validation EPIGEN-Brasil | 2893 | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
+| 20 | Architecture du projet : 3 ressources | — | 4 | — | `slide--cream` | Cohorte SNP + panel WGS + familles phasage |
+| 21 | Panel WGS hybride V3 | — | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
+| 22 | Deux niveaux, contrainte principale | — | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
+| 23 | Justification N=350 | — | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
+| 24 | Stratification géo-ancestrale | — | 4 | — | `slide--cream` | Secteur × cluster ascendance |
+| 25 | Pools témoins externes (V3.5) | — | 4 | — | `slide--cream slide--mobile-scroll` | ADMIXTURE supervisée K=4 + PCA, 1000G + EGA |
+| 26 | Quatre dimensions complémentaires | — | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH scores |
+| 27 | Composantes globales | — | 4 | — | `slide--cream` | Position + composition ancestrale |
+| 28 | Composantes locales | — | 4 | `roh` | `slide--cream` | Indépendance (IBD) + effet fondateur (ROH) |
+| 29 | Score de Diversité | — | 4 | `score` | `slide--cream` | S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH |
+| 30 | Anti-biais directionnel | — | 4 | — | `slide--cream` | Stratification par quintile |
+| 31 | Sélection greedy stratifiée | — | 4 | — | `slide--cream` | 3 branches : noyau + cordon + enrichissement |
+| 32 | Exemple concret : calcul | — | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
+| 33 | Phasage réunionnais | — | 4 | — | `slide--cream` | 2500 SNP + 100 familles nucléaires |
+| 34 | Fréquences finales | — | 4 | — | `slide--cream` | Brute → pondérée → imputée |
+| 35 | Comparaison 6 stratégies | — | 4 | — | `slide--cream` | Évaluation systématique approches |
+| 36 | Avantages et limitations | — | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
+| 37 | Validation 1000 Genomes | — | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
+| 38 | Validation EPIGEN-Brasil | — | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
 | 39 | INTRO S05 — WGS ET IMPACTS | 2936 | 5 | — | `slide--s05` | Impacts attendus, conclusion |
 | 40 | Les impacts attendus | 3047 | 5 | — | `slide--cream` | Référentiel réunionnais, santé précision |
 | 41 | CONCLUSION | 3088 | 5 | — | `slide--navy` | Fermeture |
@@ -142,10 +142,10 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `#pf` | Barre de progression (width %) |
 | `#admix-bg` | Conteneur 60 barres admixture (injecté par data/admixture.js, slide 0) |
 | `#pipeFlow` | Animation pipeline (slide 15, data-animate="pipeline") |
-| `#archFlow` | Carousel arch-flow (slide 24, data-animate="archflow", mobile uniquement) |
-| `#scoreBarChart` | Canvas Chart.js barres S_div (slide 30, data-animate="score") |
-| `#radarChart` | Canvas Chart.js radar (slide 33, data-animate="radar") |
-| `#rohDiagram` | SVG diagramme ROH (slide 29, data-animate="roh") |
+| `#archFlow` | Carousel arch-flow (slide 22, data-animate="archflow", mobile uniquement) |
+| `#scoreBarChart` | Canvas Chart.js barres S_div (slide 29, data-animate="score") |
+| `#radarChart` | Canvas Chart.js radar (slide 32, data-animate="radar") |
+| `#rohDiagram` | SVG diagramme ROH (slide 28, data-animate="roh") |
 
 ## Conventions de nommage CSS
 
@@ -212,10 +212,10 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 |---|---|---|---|
 | **Admixture** | 0 | CSS animation loop, 60 barres translateY(-50%) | 24s infinite |
 | **Pipeline** | 15 | JS .shown (opacity + transform), app.initDeck()/animatePipeline() | ~2.5s |
-| **Archflow** | 24 | Carousel mobile, initArchFlowCarousel() | interactive |
-| **ROH diagram** | 29 | JS .roh-visible transition, animateROH() | ~1.3s |
-| **Score chart** | 30 | Chart.js bar chart, initScoreChart() | instant |
-| **Radar chart** | 33 | Chart.js radar, initRadarChart() | instant |
+| **Archflow** | 22 | Carousel mobile, initArchFlowCarousel() | interactive |
+| **ROH diagram** | 28 | JS .roh-visible transition, animateROH() | ~1.3s |
+| **Score chart** | 29 | Chart.js bar chart, initScoreChart() | instant |
+| **Radar chart** | 32 | Chart.js radar, initRadarChart() | instant |
 
 ## Fonctionnalités récentes (2026-04)
 
@@ -225,25 +225,26 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 | **Navigation Mobile** | Burger menu (< 900px) : nav pills à gauche, cream bg, dark text, séparateurs, 260px width |
 | **Logo interactif** | Logo "Génome Réunion" cliquable → retour slide 0, style navy bg / white text, tab shape border-radius |
 | **Corrections contenu** | Slide 5: "variant de signification inconnue" • Slide 10: "Colonisation / Esclavage" • Slide 14: "WGS (Whole Genome Sequencing)" |
-| **Distribution labels** | Slide 24: labels "scores élevés" (gauche) et "scores bas" (droite) alignés avec méthodologie |
+| **Distribution labels** | Slide 22: labels "scores élevés" (gauche) et "scores bas" (droite) alignés avec méthodologie |
 | **Notes presenter** | Notes font-size 36px, colonne 50/50 split (texte | next-slide preview) |
 | **Emoji removal** | Présentation button : 📺 emoji retiré |
 | **CSS Cleanup** | Nettoyage complet : 83→13 inline styles (-84%), 9 s04 summary slides repositionnées, classes utilitaires responsives |
 | **Classe .toc-row--with-button** | Dédiée au toggle Expert/Résumé S04 en slide 2, élimine redéfinition globale de `.toc-row` |
 | **Texte TOC S04 actualisé** | "Comment choisir les individus qui maximisent l'information génétique" (description plus pertinente) |
 | **S04 Méthodologie V3** | 5 nouvelles slides fondation : Justification N=350, Architecture 3 piliers, Panel hybride V3, Phasage, Recalibrage |
-| **Classe .inner--top** | `justify-content: flex-start` pour slides denses (29, 32, 34) évite que titre soit coupé par overflow |
+| **Classe .inner--top** | `justify-content: flex-start` pour slides denses (28, 31, 33) évite que titre soit coupé par overflow |
 | **Callout --amber** | Variante `.callout--amber` pour distinctions critiques (border-left amber au lieu de teal) |
-| **Classe .algo-card--top-navy** | Nouvelle variante de couleur pour cards S04 (Garde-fous éthiques, slide 32) |
-| **Pipeline phasage V3** | Slide 32 redessinée : layout 3-col (cards + visual pipeline) + callout amber, élimine monospace ASCII |
+| **Classe .algo-card--top-navy** | Nouvelle variante de couleur pour cards S04 (Garde-fous éthiques, slide 31) |
+| **Pipeline phasage V3** | Slide 31 redessinée : layout 3-col (cards + visual pipeline) + callout amber, élimine monospace ASCII |
 | **Classes .phasage-flow-*** | `.phasage-flow` `.phasage-flow-box--navy/.blue/.teal` `.phasage-flow-tag` pour pipeline visuel |
-| **Archflow carousel** | Nouveau système pour slides larges (slide 23) : carousel items avec dots navigation, mobile-friendly |
-| **Slide 30 + 32 + 34** | Appliqué `.inner--top` pour éviter titles cachés sur slides denses (greedy, phasage, avantages) |
-| **S04 Révision (2026-04)** | ✅ 5 recommandations implémentées : (1) slide 21 comparative 6 stratégies, (2) clarifier ADMIX_rarity (slide 28), (3) quantifier robustesse multi-ordre (slide 32), (4) énumérer 6 stratégies (slides 18-19), (5) effectif observé (slide 35). ✅ 75+ références bibliographiques intégrées en pied de page |
+| **Archflow carousel** | Nouveau système pour slides larges (slide 21) : carousel items avec dots navigation, mobile-friendly |
+| **Slide 29 + 31 + 33** | Appliqué `.inner--top` pour éviter titles cachés sur slides denses (greedy, phasage, avantages) |
+| **S04 Révision (2026-04)** | ✅ 5 recommandations implémentées : (1) slide 35 comparative 6 stratégies, (2) clarifier ADMIX_rarity (slide 27), (3) quantifier robustesse multi-ordre (slide 31), (4) énumérer 6 stratégies (slides 18-19), (5) effectif observé (slide 34). ✅ 75+ références bibliographiques intégrées en pied de page |
 | **Footer Redesign (2026-04)** | ✅ Option 5 — Design Mixte Moderne : barre d'accent colorée (couleur de section), breadcrumb "Génome Réunion · <#>", badge de numéro (droite), section références avec icône 📚. CSS Grid 2×3 + pseudo-éléments ::before/::after. Support dual : simple (2 captions) + citations (via slide-footer-meta wrapper). Responsive clamp() typography. |
 | **Total slides** | Augmenté de 40 → **41 slides** (1 nouvelle comparative S04) + 2 résumés optionnels = deck complet V3 révisé |
-| **S04 Pools témoins V3.5 (2026-05)** | ✅ Nouvelle slide 27 « Pools témoins externes — ancrer PCA et ADMIXTURE » : layout dual ADMIXTURE supervisée K=4 (gauche, 5 individus admixés + 1 référence africaine, mise en évidence Ind. A) + PCA projetée (droite, 4 clusters d'ascendance, individu A pointé). Aligne la présentation sur METHODOLOGY_selection_V3_5.md (catalogue 1000G + EGA : MGUA Madagascar, MAGE, GenomeAsia, Angola/Mozambique). Classes `.pools-dual-layout .pools-pane .pools-admix-* .pools-pca-*` dans `s04-algorithme.css`. |
+| **S04 Pools témoins V3.5 (2026-05)** | ✅ Nouvelle slide 25 « Pools témoins externes — ancrer PCA et ADMIXTURE » : layout dual ADMIXTURE supervisée K=4 (gauche, 5 individus admixés + 1 référence africaine, mise en évidence Ind. A) + PCA projetée (droite, 4 clusters d'ascendance, individu A pointé). Aligne la présentation sur METHODOLOGY_selection_V3_5.md (catalogue 1000G + EGA : MGUA Madagascar, MAGE, GenomeAsia, Angola/Mozambique). Classes `.pools-dual-layout .pools-pane .pools-admix-* .pools-pca-*` dans `s04-algorithme.css`. |
 | **Total slides** | Augmenté de 41 → **42 slides** (1 nouvelle pools témoins S04) + 2 résumés optionnels = deck complet V3.5 |
+| **S04 Réorganisation logique (2026-05)** | ✅ Réorganisation complète des 22 slides S04 (17-38) pour respecter la progression du document maître METHODOLOGY_selection_V3_5.md : Partie I (Architecture 20-23) → Partie II (Ressources 24-25) → Partie III (Méthodologie 26-34) → Partie V (Validation 35-38). Numérotation logique alignée avec l'ordre de présentation. |
 
 ## Règle de mise à jour
 
