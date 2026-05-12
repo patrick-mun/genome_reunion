@@ -28,65 +28,74 @@
         <button class="sec-pill js-slide-jump" data-target-slide="8">02 · Singularité</button>
         <button class="sec-pill js-slide-jump" data-target-slide="14">03 · Méthodo</button>
         <button class="sec-pill js-slide-jump" data-target-slide="17">04 · Algorithme</button>
-        <button class="sec-pill js-slide-jump" data-target-slide="33">05 · WGS</button>
+        <button class="sec-pill js-slide-jump" data-target-slide="39">05 · WGS</button>
       </div>
       <div id="nav-right">
         <button class="nbtn" id="presenter-btn" title="Ouvrir le mode présentation (2 écrans)">Présentation</button>
         <button class="nbtn" id="bp" aria-controls="deck">← Préc.</button>
-        <output id="ctr" aria-live="polite" aria-atomic="true">1 / 33</output>
+        <output id="ctr" aria-live="polite" aria-atomic="true">1 / 42</output>
         <button class="nbtn" id="bn" aria-controls="deck">Suiv. →</button>
       </div>
     </nav>
     <div id="prog"><div id="pf"></div></div>
     <main id="deck" aria-label="Présentation Génome Réunion">
       <!-- ═══════════════════════════════════════════════════════
-           INDEX DES 33 SLIDES — Navigation rapide (Ctrl+G → line)
+           INDEX DES 42 SLIDES (0–41) — Navigation rapide (Ctrl+G → line)
            ═══════════════════════════════════════════════════════
 
-           SECTION 00 — ACCUEIL
-           L.37    : Slide 00 — TITRE HERO
-           L.118   : Slide 01 — SOMMAIRE
+           SECTION 00 — ACCUEIL (Slides 0–1)
+           L.100   : Slide 00 — TITRE HERO
+           L.180   : Slide 01 — PLAN DE LA PRÉSENTATION
 
-           SECTION 01 — ANGLE MORT (Slides 02-08)
-           L.172   : Slide 02 — INTRO S01 : L'ANGLE MORT
-           L.297   : Slide 03 — BIAIS STRUCTUREL MONDIAL
-           L.378   : Slide 04 — LE MUR CLINIQUE
-           L.433   : Slide 05 — PHARMACOGÉNÉTIQUE
-           L.525   : Slide 06 — IA : GARBAGE IN, GARBAGE OUT
-           L.592   : Slide 07 — COMMENT LE PROJET CORRIGE LE BIAIS IA
-           L.634   : Slide 08 — INTRO S02 : SINGULARITÉ RÉUNIONNAISE
+           SECTION 01 — ANGLE MORT (Slides 2–8)
+           L.234   : Slide 02 — INTRO S01 : L'ANGLE MORT
+           L.364   : Slide 03 — BIAIS STRUCTUREL DOCUMENTÉ
+           L.442   : Slide 04 — LE MUR CLINIQUE
+           L.497   : Slide 05 — PHARMACOGÉNÉTIQUE
+           L.589   : Slide 06 — QUAND L'IA HÉRITE D'UNE MAUVAISE RÉFÉRENCE
+           L.655   : Slide 07 — COMMENT GÉNOME RÉUNION CORRIGE LE BIAIS
+           L.696   : Slide 08 — INTRO S02 : SINGULARITÉ RÉUNIONNAISE
 
-           SECTION 02 — SINGULARITÉ (Slides 09-14)
-           L.741   : Slide 09 — HISTOIRE DU PEUPLEMENT
-           L.837   : Slide 10 — DU PEUPLEMENT AU MÉTISSAGE
-           L.924   : Slide 11 — POPULATION HOMOGÈNE VS LA RÉUNION
-           L.1017  : Slide 12 — EFFET FONDATEUR
-           L.1095  : Slide 13 — DOUBLE SINGULARITÉ
-           L.1128  : Slide 14 — INTRO S03 : DESIGN
+           SECTION 02 — SINGULARITÉ (Slides 9–13)
+           L.805   : Slide 09 — LA RÉUNION : PEUPLEMENT SANS AUTOCHTONES
+           L.900   : Slide 10 — DU PEUPLEMENT AU MÉTISSAGE
+           L.987   : Slide 11 — POURQUOI LA RÉUNION N'EST PAS HOMOGÈNE
+           L.1080  : Slide 12 — L'EFFET FONDATEUR
+           L.1158  : Slide 13 — LA DOUBLE SINGULARITÉ
 
-           SECTION 03 — MÉTHODOLOGIE (Slides 15-17)
-           L.1146  : Slide 15 — LE PIPELINE D'OPTIMISATION
-           L.1233  : Slide 16 — L'ENTONNOIR D'OPTIMISATION
-           L.1302  : Slide 17 — INTRO S04 : ALGORITHME
+           SECTION 03 — MÉTHODOLOGIE (Slides 14–17)
+           L.1190  : Slide 14 — INTRO S03 : DESIGN
+           L.1327  : Slide 15 — LE PIPELINE D'OPTIMISATION
+           L.1412  : Slide 16 — DE LA PUCE SNP AU WGS : L'ENTONNOIR
+           L.1480  : Slide 17 — INTRO S04 : L'ALGORITHME
 
-           SECTION 04 — ALGORITHME (Slides 18-29)
-           L.1320  : Slide 18 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
-           L.1410  : Slide 19 — REPRÉSENTATIVITÉ GÉOGRAPHIQUE
-           L.1467  : Slide 20 — LES 4 COMPOSANTES DE S_DIV
-           L.1503  : Slide 21 — PCA_SCORE + ADMIX_SCORE
-           L.1560  : Slide 22 — IBD_SCORE + ROH_SCORE
-           L.1638  : Slide 23 — AGRÉGATION S_DIV
-           L.1658  : Slide 24 — STRATIFICATION QUINTILE
-           L.1709  : Slide 25 — ALGORITHME GREEDY STRATIFIÉ
-           L.1763  : Slide 26 — EXEMPLE CONCRET : CALCUL DU SCORE
-           L.1810  : Slide 27 — AVANTAGES ET LIMITATIONS ACCEPTABLES
-           L.1860  : Slide 28 — VALIDATION 1000 GENOMES
-           L.1910  : Slide 29 — VALIDATION EPIGEN-BRASIL
+           SECTION 04 — ALGORITHME (Slides 18–38)
+           L.1596  : Slide 18 — ALGORITHME DE SÉLECTION (RÉSUMÉ 1)
+           L.1640  : Slide 19 — VALIDATION & DÉPLOIEMENT (RÉSUMÉ 2)
+           L.1685  : Slide 20 — COMPARAISON DES 6 STRATÉGIES
+           L.1763  : Slide 21 — JUSTIFICATION STATISTIQUE N=350
+           L.1807  : Slide 22 — ARCHITECTURE DU PROJET
+           L.1855  : Slide 23 — PANEL WGS HYBRIDE V3
+           L.1897  : Slide 24 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
+           L.1980  : Slide 25 — STRATIFICATION GÉO-ANCESTRALE
+           L.2054  : Slide 26 — POOLS TÉMOINS EXTERNES (V3.5)
+           L.2236  : Slide 27 — QUATRE DIMENSIONS COMPLÉMENTAIRES
+           L.2287  : Slide 28 — COMPOSANTES GLOBALES
+           L.2358  : Slide 29 — COMPOSANTES LOCALES
+           L.2445  : Slide 30 — LE SCORE DE DIVERSITÉ
+           L.2470  : Slide 31 — ANTI-BIAIS DIRECTIONNEL
+           L.2528  : Slide 32 — SÉLECTION GREEDY STRATIFIÉE
+           L.2598  : Slide 33 — EXEMPLE CONCRET : CALCUL PAS-À-PAS
+           L.2650  : Slide 34 — PHASAGE RÉUNIONNAIS
+           L.2723  : Slide 35 — FRÉQUENCES FINALES
+           L.2774  : Slide 36 — AVANTAGES ET LIMITATIONS
+           L.2838  : Slide 37 — VALIDATION 1000 GENOMES
+           L.2884  : Slide 38 — VALIDATION EPIGEN-BRASIL
 
-           SECTION 05 — WGS (Slides 30-32)
-           L.1950  : Slide 30 — INTRO S05 : WGS ET IMPACTS
-           L.1970  : Slide 31 — IMPACTS ATTENDUS DU RÉFÉRENTIEL
-           L.2010  : Slide 32 — CONCLUSION
+           SECTION 05 — WGS (Slides 39–41)
+           L.2927  : Slide 39 — INTRO S05 : WGS ET IMPACTS
+           L.3038  : Slide 40 — LES IMPACTS ATTENDUS DU RÉFÉRENTIEL
+           L.3079  : Slide 41 — CONCLUSION
 
            ═══════════════════════════════════════════════════════ -->
       <!-- ═══════════════════════════════════════════════════════

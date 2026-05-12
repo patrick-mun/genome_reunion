@@ -3,25 +3,25 @@
 ## Vue d'ensemble
 
 Présentation HTML/CSS/JS statique — **42 slides** (0–41, dont 2 résumés S04 optionnels), zéro build tool, zéro CDN à l'exécution.
-Fichiers sources : `index.html` (~195 KB), 7 fichiers CSS (3 280 lignes), 3 fichiers JS (665 lignes).
-Système adaptatif : toggle Expert/Résumé pour la section S04 (Algorithme) — les 2 slides de résumé remplacent les 20 slides expert détaillées.
+Fichiers sources : `index.html` (~196 KB), 7 fichiers CSS (3 280 lignes), 3 fichiers JS (665 lignes).
+Système adaptatif : mode Expert/Résumé pour section S04 masque/affiche slides 20–38 (résumés 18–19 visibles sauf en Expert mode).
 **Révision S04 (2026-04)** : implémentation de 5 recommandations scientifiques + 75+ références bibliographiques intégrées.
-**Révision V3.5 (2026-05)** : intégration des pools témoins externes (1000G + EGA) pour ancrage PCA/ADMIXTURE — nouvelle slide 27 dual ADMIXTURE/PCA.
+**Révision V3.5 (2026-05)** : intégration des pools témoins externes (1000G + EGA) pour ancrage PCA/ADMIXTURE — slide 26 dual ADMIXTURE supervisée K=4/PCA.
 Règles de travail détaillées dans `AGENTS.md`.
 
 ## Fichiers principaux
 
 | Fichier | Rôle |
 |---|---|
-| `index.html` | Toutes les 41 slides (source unique de vérité) : 39 principales + 2 résumés S04 adaptés |
+| `index.html` | Toutes les 42 slides (0–41, source unique de vérité) : 40 principales + 2 résumés S04 optionnels |
 | `presenter.html` | Mode présentation deux-écrans : slide actuelle (gauche) + notes + preview (droite), synchro par postMessage |
 | `css/main.css` | Styles transversaux : variables de couleur, reset, nav fixe, deck, typo, grilles, composants génériques, responsive (900px / 600px / 380px), burger menu mobile, logo stylisé |
 | `css/slides/s00-hero.css` | Slide 0 — hero, auteurs, animation admixture, légende ancêtrale |
 | `css/slides/s01-angle-mort.css` | Slides 2–8 — biais IA, clinique, pharmacogénétique |
-| `css/slides/s02-singularite.css` | Slides 9–14 — histoire, peuplement, métissage, effet fondateur, singularité |
-| `css/slides/s03-design.css` | Slides 15–17 — pipeline SNP→WGS, entonnoir d'optimisation, mini-figures |
-| `css/slides/s04-algorithme.css` | Slides 17–38 — intro, résumés, comparative (NEW), fondations, algorithme détaillé, ROH/IBD, score, phasage, recalibrage, validation |
-| `css/slides/s05-wgs.css` | Slides 39–40 — intro S05, impacts, conclusion |
+| `css/slides/s02-singularite.css` | Slides 9–13 — histoire, peuplement, métissage, effet fondateur, singularité |
+| `css/slides/s03-design.css` | Slides 14–16 — pipeline SNP→WGS, entonnoir d'optimisation |
+| `css/slides/s04-algorithme.css` | Slides 17–38 — intro, résumés, comparative, fondations, algorithme détaillé, ROH/IBD, score, phasage, recalibrage, validation |
+| `css/slides/s05-wgs.css` | Slides 39–41 — intro S05, impacts, conclusion |
 | `js/app.js` | Navigation, accessibilité, Chart.js (score + radar), animations SVG (pipeline, ROH), speaker mode, logo click handler |
 | `data/admixture.js` | Données + générateur DOM pour animation admixture (slide 0 : 60 barres animées) |
 | `js/vendor/chart.umd.js` | Chart.js 4.4.1 vendorisé (pas de CDN) |
@@ -35,10 +35,10 @@ Règles de travail détaillées dans `AGENTS.md`.
 |---|---|---|---|---|
 | `s00-hero.css` | 0 | 219 | `.hero-* .accent-bar .admix-* .adm-legend-*` | ✓ extrait |
 | `s01-angle-mort.css` | 2–8 | 330 | `.ai-* .clinical-* .bias-* .pharma-*` | ✓ extrait |
-| `s02-singularite.css` | 9–14 | 360 | `.history-* .s2-* .timeline-*` | ✓ extrait |
-| `s03-design.css` | 15–16 | 183 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
-| `s04-algorithme.css` | 17–39 | 1122 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .phasage-* .comp-* .geo-bars-svg .chromosome-* .pools-*` | ✓ V3.5 révisé |
-| `s05-wgs.css` | 40–41 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
+| `s02-singularite.css` | 9–13 | 360 | `.history-* .s2-* .timeline-*` | ✓ extrait |
+| `s03-design.css` | 14–16 | 183 | `.pipeline-* .design-* .funnel-*` | ✓ extrait |
+| `s04-algorithme.css` | 17–38 | 1122 | `.algo-* .special-* .arm-* .arch-* .arch-flow* .phasage-* .comp-* .geo-bars-svg .pools-*` | ✓ V3.5 |
+| `s05-wgs.css` | 39–41 | 96 | `.conclusion-* .impact-card-*` | ✓ extrait |
 | **main.css** | — | **1112** | Voir section "CSS – main.css" |  ✓ structuré |
 
 ## CSS — Sections principales (main.css)
@@ -80,35 +80,45 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 0 | TITRE HERO | 100 | 0 | — | `slide--hero` | Auteurs, animation admixture |
 | 1 | Plan de la présentation | 180 | 0 | — | `slide--cream` | Sommaire, TOC, toggle S04 |
 | 2 | INTRO S01 — L'ANGLE MORT | 234 | 1 | — | `slide--s01` | Biais structurel, IA, clinique |
-| 3–7 | Biais (5 slides) | 364–655 | 1 | — | `slide--cream` | IA, pharmacogénétique, correction projet |
-| 8 | INTRO S02 — SINGULARITÉ | 696 | 2 | — | `slide--s02` | Histoire, peuplement, métissage |
-| 9–13 | Singularité (5 slides) | 805–1158 | 2 | — | `slide--cream` | Fondateur, double singularité |
-| 14 | INTRO S03 — DESIGN | 1190 | 3 | — | `slide--s03` | Pipeline, entonnoir |
-| 15 | Pipeline d'Optimisation | 1327 | 3 | `pipeline` | `slide--cream` | Animation SVG |
-| 16 | Entonnoir d'Optimisation | 1412 | 3 | — | `slide--cream` | SNP→WGS |
-| 17 | INTRO S04 — ALGORITHME | 1480 | 4 | — | `slide--s04` | S04 expert ou résumé |
-| **18–19** | **S04 RÉSUMÉ (2 slides)** | 1596–1634 | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
-| 20 | Justification N=350 (V3 fondation) | 1674 | 4 | — | `slide--cream` | MAF, robustesse |
-| 21 | Architecture 3 piliers | 1713 | 4 | — | `slide--cream` | Cohorte SNP, panel hybride, familles |
-| 22 | Panel WGS hybride V3 | 1756 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
-| 23 | Deux niveaux, contrainte | 1793 | 4 | `archflow` | `slide--cream` | Géo + découverte (carousel mobile) |
-| 24 | Représentativité géographique | 1871 | 4 | — | `slide--cream` | Stratification par secteur |
-| 25 | Quatre dimensions S_div | 1931 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH |
-| 26 | Composantes globales | 1975 | 4 | — | `slide--cream` | PCA + ADMIX score |
-| **27** | **Pools témoins externes (V3.5)** | **2042** | 4 | — | `slide--cream slide--mobile-scroll` | **ADMIXTURE supervisée K=4 + PCA projetée, ancrage 1000G + EGA — scroll page natif ≤900px** |
-| 28 | Composantes locales | 2231 | 4 | `roh` | `slide--cream` | IBD + ROH score, ROH diagram |
-| 29 | Score de Diversité | 2310 | 4 | `score` | `slide--cream` | Chart.js barres |
-| 30 | Anti-biais directionnel | 2329 | 4 | — | `slide--cream` | Quintile stratification |
-| 31 | Sélection greedy stratifiée | 2383 | 4 | — | `slide--cream` + `inner--top` | 3 branches, robustesse |
-| 32 | Exemple concret: calcul | 2448 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
-| 33 | Phasage réunionnais | 2494 | 4 | — | `slide--cream` + `inner--top` | 2500 SNP + 100 familles, pipeline visuel |
-| 34 | Recalibrage fréquences | 2558 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
-| 35 | Avantages et limitations | 2600 | 4 | — | `slide--cream` + `inner--top` | Robustesse multi-ordre, callout |
-| 36 | Validation 1000G | 2659 | 4 | — | `slide--cream` | Étape critique avant déploiement |
-| 37 | Validation EPIGEN-Brasil | 2696 | 4 | — | `slide--cream` | Cohorte brésilienne admixée |
-| 38 | INTRO S05 — WGS | 2734 | 5 | — | `slide--s05` | WGS, impacts, conclusion |
-| 39 | Impacts attendus | 2845 | 5 | — | `slide--cream` | Référentiel réunionnais |
-| 40 | CONCLUSION | 2886 | 5 | — | `slide--navy` | Fermeture |
+| 3 | Biais structurel documenté | 364 | 1 | — | `slide--cream` | 1000G disparité documentée |
+| 4 | Le Mur Clinique | 442 | 1 | — | `slide--cream` | Incertitudes et pertes de chance |
+| 5 | Pharmacogénétique | 497 | 1 | — | `slide--cream` | Standard dangereux pour certaines populations |
+| 6 | Quand l'IA hérite | 589 | 1 | — | `slide--cream` | Mauvaise référence dans modèles IA |
+| 7 | Comment Génome Réunion corrige | 655 | 1 | — | `slide--cream` | Solution : référentiel réunionnais |
+| 8 | INTRO S02 — SINGULARITÉ | 696 | 2 | — | `slide--s02` | Peuplement, métissage, singularité |
+| 9 | La Réunion : peuplement | 805 | 2 | — | `slide--cream` | Pas d'autochtones, colonisation |
+| 10 | Du peuplement au métissage | 900 | 2 | — | `slide--cream` | Vagues démographiques historiques |
+| 11 | Pourquoi La Réunion n'est pas homogène | 987 | 2 | — | `slide--cream` | Strates d'ascendance distinctes |
+| 12 | L'effet fondateur | 1080 | 2 | — | `slide--cream` | Maladies rares fondateurs (Larsen-Bourbon) |
+| 13 | La double singularité | 1158 | 2 | — | `slide--cream` | Métissage + fondateur = complexité génétique |
+| 14 | INTRO S03 — DESIGN | 1190 | 3 | — | `slide--s03` | Pipeline, entonnoir, optimisation |
+| 15 | Le Pipeline d'Optimisation | 1327 | 3 | `pipeline` | `slide--cream` | 5 étapes : échantillonnage → BD locale |
+| 16 | De la Puce SNP au WGS | 1412 | 3 | — | `slide--cream` | Entonnoir : SNP → score → WGS panel |
+| 17 | INTRO S04 — L'ALGORITHME | 1480 | 4 | — | `slide--s04` | Sélection sous contrainte budgétaire |
+| **18** | **Algorithme — Vue d'ensemble (RÉSUMÉ)** | **1596** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
+| **19** | **Validation & Déploiement (RÉSUMÉ)** | **1640** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
+| 20 | Comparaison 6 stratégies | 1685 | 4 | — | `slide--cream` | Évaluation systématique approches |
+| 21 | Justification N=350 | 1763 | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
+| 22 | Architecture 3 ressources | 1807 | 4 | — | `slide--cream` | Cohorte SNP + panel WGS + familles phasage |
+| 23 | Panel WGS hybride V3 | 1855 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
+| 24 | Deux niveaux, contrainte principale | 1897 | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
+| 25 | Stratification géo-ancestrale | 1980 | 4 | — | `slide--cream` | Secteur × cluster ascendance |
+| 26 | Pools témoins externes (V3.5) | 2054 | 4 | — | `slide--cream slide--mobile-scroll` | ADMIXTURE supervisée K=4 + PCA, 1000G + EGA |
+| 27 | Quatre dimensions complémentaires | 2236 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH scores |
+| 28 | Composantes globales | 2287 | 4 | — | `slide--cream` | Position + composition ancestrale |
+| 29 | Composantes locales | 2358 | 4 | `roh` | `slide--cream` | Indépendance (IBD) + effet fondateur (ROH) |
+| 30 | Score de Diversité | 2445 | 4 | `score` | `slide--cream` | S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH |
+| 31 | Anti-biais directionnel | 2470 | 4 | — | `slide--cream` | Stratification par quintile |
+| 32 | Sélection greedy stratifiée | 2528 | 4 | — | `slide--cream` | 3 branches : noyau + cordon + enrichissement |
+| 33 | Exemple concret : calcul | 2598 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
+| 34 | Phasage réunionnais | 2650 | 4 | — | `slide--cream` | 2500 SNP + 100 familles nucléaires |
+| 35 | Fréquences finales | 2723 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
+| 36 | Avantages et limitations | 2774 | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
+| 37 | Validation 1000 Genomes | 2838 | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
+| 38 | Validation EPIGEN-Brasil | 2884 | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
+| 39 | INTRO S05 — WGS ET IMPACTS | 2927 | 5 | — | `slide--s05` | Impacts attendus, conclusion |
+| 40 | Les impacts attendus | 3038 | 5 | — | `slide--cream` | Référentiel réunionnais, santé précision |
+| 41 | CONCLUSION | 3079 | 5 | — | `slide--navy` | Fermeture |
 
 ### Navigation pills → slides d'entrée de section
 
@@ -119,7 +129,7 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 02 · Singularité | 8 | 8 — INTRO S02 |
 | 03 · Méthodo | 14 | 14 — INTRO S03 |
 | 04 · Algorithme | 17 | 17 — INTRO S04 |
-| 05 · WGS | 33 | 33 — INTRO S05 |
+| 05 · WGS | 39 | 39 — INTRO S05 |
 
 ## IDs DOM utilisés par app.js
 
@@ -132,10 +142,10 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `#pf` | Barre de progression (width %) |
 | `#admix-bg` | Conteneur 60 barres admixture (injecté par data/admixture.js, slide 0) |
 | `#pipeFlow` | Animation pipeline (slide 15, data-animate="pipeline") |
-| `#archFlow` | Carousel arch-flow (slide 23, data-animate="archflow", mobile uniquement) |
-| `#scoreBarChart` | Canvas Chart.js barres S_div (slide 29, data-animate="score") |
-| `#radarChart` | Canvas Chart.js radar (slide 32, data-animate="radar") |
-| `#rohDiagram` | SVG diagramme ROH (slide 28, data-animate="roh") |
+| `#archFlow` | Carousel arch-flow (slide 24, data-animate="archflow", mobile uniquement) |
+| `#scoreBarChart` | Canvas Chart.js barres S_div (slide 30, data-animate="score") |
+| `#radarChart` | Canvas Chart.js radar (slide 33, data-animate="radar") |
+| `#rohDiagram` | SVG diagramme ROH (slide 29, data-animate="roh") |
 
 ## Conventions de nommage CSS
 
@@ -153,10 +163,10 @@ Règles de travail détaillées dans `AGENTS.md`.
 ## Récapitulatif des éléments DOM inline style
 
 Il reste **25** `style=""` inline dans `index.html` (tous justifiés) :
-- **4** : SVG display standard (`width:100%;display:block`) — élément racine SVG, responsive (slides 15, 26, 29)
-- **9** : ROH chromosome segments (`left`/`width` positioning) — géométrie unique du diagramme (slide 27)
-- **3** : Liste et code styling pour notes phasage/recalibrage (slides 30-31)
-- **9** : Callouts colorés recalibrage (slide 33: 3 boxes + style inline pour formule)
+- **4** : SVG display standard (`width:100%;display:block`) — élément racine SVG, responsive (slides 15, 26, 30)
+- **9** : ROH chromosome segments (`left`/`width` positioning) — géométrie unique du diagramme (slide 29)
+- **3** : Liste et code styling pour notes phasage/recalibrage (slides 34-35)
+- **9** : Callouts colorés recalibrage (slide 35: 3 boxes + style inline pour formule)
 
 Conservés volontairement pour des raisons de responsivité (SVG), géométrie locale unique (ROH), et callouts spécialisés (recalibrage).
 
@@ -182,7 +192,7 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 
 | Aspect | Expert Mode (ON) | Résumé Mode (OFF) |
 |---|---|---|
-| Slides visibles S04 | 17, 20–38 (20 slides détaillés) | 17–19 (3 slides : intro + 2 résumés) |
+| Slides visibles S04 | 17, 20–38 (21 slides : intro + 19 détaillés) | 17–19 (3 slides : intro + 2 résumés) |
 | Autres slides | Slides 18–19 masqués, autres visibles | Slides 20–38 masqués, autres visibles |
 | Compteur | Affiche le total des slides visibles | Affiche le total des slides visibles |
 | Navigation | Saute les slides masqués automatiquement | Saute les slides masqués automatiquement |
@@ -203,9 +213,9 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 | **Admixture** | 0 | CSS animation loop, 60 barres translateY(-50%) | 24s infinite |
 | **Pipeline** | 15 | JS .shown (opacity + transform), app.initDeck()/animatePipeline() | ~2.5s |
 | **Archflow** | 24 | Carousel mobile, initArchFlowCarousel() | interactive |
-| **ROH diagram** | 28 | JS .roh-visible transition, animateROH() | ~1.3s |
-| **Score chart** | 29 | Chart.js bar chart, initScoreChart() | instant |
-| **Radar chart** | 32 | Chart.js radar, initRadarChart() | instant |
+| **ROH diagram** | 29 | JS .roh-visible transition, animateROH() | ~1.3s |
+| **Score chart** | 30 | Chart.js bar chart, initScoreChart() | instant |
+| **Radar chart** | 33 | Chart.js radar, initRadarChart() | instant |
 
 ## Fonctionnalités récentes (2026-04)
 
