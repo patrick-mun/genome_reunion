@@ -77,48 +77,48 @@ Règles de travail détaillées dans `AGENTS.md`.
 
 | Idx | Titre | L. HTML | Sect | Anim | Classe | Notes |
 |---|---|---|---|---|---|---|
-| 0 | TITRE HERO | 100 | 0 | — | `slide--hero` | Auteurs, animation admixture |
-| 1 | Plan de la présentation | 180 | 0 | — | `slide--cream` | Sommaire, TOC, toggle S04 |
-| 2 | INTRO S01 — L'ANGLE MORT | 234 | 1 | — | `slide--s01` | Biais structurel, IA, clinique |
-| 3 | Biais structurel documenté | 364 | 1 | — | `slide--cream` | 1000G disparité documentée |
-| 4 | Le Mur Clinique | 442 | 1 | — | `slide--cream` | Incertitudes et pertes de chance |
-| 5 | Pharmacogénétique | 497 | 1 | — | `slide--cream` | Standard dangereux pour certaines populations |
-| 6 | Quand l'IA hérite | 589 | 1 | — | `slide--cream` | Mauvaise référence dans modèles IA |
-| 7 | Comment Génome Réunion corrige | 655 | 1 | — | `slide--cream` | Solution : référentiel réunionnais |
-| 8 | INTRO S02 — SINGULARITÉ | 696 | 2 | — | `slide--s02` | Peuplement, métissage, singularité |
-| 9 | La Réunion : peuplement | 805 | 2 | — | `slide--cream` | Pas d'autochtones, colonisation |
-| 10 | Du peuplement au métissage | 900 | 2 | — | `slide--cream` | Vagues démographiques historiques |
-| 11 | Pourquoi La Réunion n'est pas homogène | 987 | 2 | — | `slide--cream` | Strates d'ascendance distinctes |
-| 12 | L'effet fondateur | 1080 | 2 | — | `slide--cream` | Maladies rares fondateurs (Larsen-Bourbon) |
-| 13 | La double singularité | 1158 | 2 | — | `slide--cream` | Métissage + fondateur = complexité génétique |
-| 14 | INTRO S03 — DESIGN | 1190 | 3 | — | `slide--s03` | Pipeline, entonnoir, optimisation |
-| 15 | Le Pipeline d'Optimisation | 1327 | 3 | `pipeline` | `slide--cream` | 5 étapes : échantillonnage → BD locale |
-| 16 | De la Puce SNP au WGS | 1412 | 3 | — | `slide--cream` | Entonnoir : SNP → score → WGS panel |
-| 17 | INTRO S04 — L'ALGORITHME | 1480 | 4 | — | `slide--s04` | Sélection sous contrainte budgétaire |
-| **18** | **Algorithme — Vue d'ensemble (RÉSUMÉ)** | **1596** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
-| **19** | **Validation & Déploiement (RÉSUMÉ)** | **1640** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
-| 20 | Comparaison 6 stratégies | 1685 | 4 | — | `slide--cream` | Évaluation systématique approches |
-| 21 | Justification N=350 | 1763 | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
-| 22 | Architecture 3 ressources | 1807 | 4 | — | `slide--cream` | Cohorte SNP + panel WGS + familles phasage |
-| 23 | Panel WGS hybride V3 | 1855 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
-| 24 | Deux niveaux, contrainte principale | 1897 | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
-| 25 | Stratification géo-ancestrale | 1980 | 4 | — | `slide--cream` | Secteur × cluster ascendance |
-| 26 | Pools témoins externes (V3.5) | 2054 | 4 | — | `slide--cream slide--mobile-scroll` | ADMIXTURE supervisée K=4 + PCA, 1000G + EGA |
-| 27 | Quatre dimensions complémentaires | 2236 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH scores |
-| 28 | Composantes globales | 2287 | 4 | — | `slide--cream` | Position + composition ancestrale |
-| 29 | Composantes locales | 2358 | 4 | `roh` | `slide--cream` | Indépendance (IBD) + effet fondateur (ROH) |
-| 30 | Score de Diversité | 2445 | 4 | `score` | `slide--cream` | S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH |
-| 31 | Anti-biais directionnel | 2470 | 4 | — | `slide--cream` | Stratification par quintile |
-| 32 | Sélection greedy stratifiée | 2528 | 4 | — | `slide--cream` | 3 branches : noyau + cordon + enrichissement |
-| 33 | Exemple concret : calcul | 2598 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
-| 34 | Phasage réunionnais | 2650 | 4 | — | `slide--cream` | 2500 SNP + 100 familles nucléaires |
-| 35 | Fréquences finales | 2723 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
-| 36 | Avantages et limitations | 2774 | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
-| 37 | Validation 1000 Genomes | 2838 | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
-| 38 | Validation EPIGEN-Brasil | 2884 | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
-| 39 | INTRO S05 — WGS ET IMPACTS | 2927 | 5 | — | `slide--s05` | Impacts attendus, conclusion |
-| 40 | Les impacts attendus | 3038 | 5 | — | `slide--cream` | Référentiel réunionnais, santé précision |
-| 41 | CONCLUSION | 3079 | 5 | — | `slide--navy` | Fermeture |
+| 0 | TITRE HERO | 109 | 0 | — | `slide--hero` | Auteurs, animation admixture |
+| 1 | Plan de la présentation | 189 | 0 | — | `slide--cream` | Sommaire, TOC, toggle S04 |
+| 2 | INTRO S01 — L'ANGLE MORT | 243 | 1 | — | `slide--s01` | Biais structurel, IA, clinique |
+| 3 | Biais structurel documenté | 373 | 1 | — | `slide--cream` | 1000G disparité documentée |
+| 4 | Le Mur Clinique | 451 | 1 | — | `slide--cream` | Incertitudes et pertes de chance |
+| 5 | Pharmacogénétique | 506 | 1 | — | `slide--cream` | Standard dangereux pour certaines populations |
+| 6 | Quand l'IA hérite | 598 | 1 | — | `slide--cream` | Mauvaise référence dans modèles IA |
+| 7 | Comment Génome Réunion corrige | 664 | 1 | — | `slide--cream` | Solution : référentiel réunionnais |
+| 8 | INTRO S02 — SINGULARITÉ | 705 | 2 | — | `slide--s02` | Peuplement, métissage, singularité |
+| 9 | La Réunion : peuplement | 814 | 2 | — | `slide--cream` | Pas d'autochtones, colonisation |
+| 10 | Du peuplement au métissage | 909 | 2 | — | `slide--cream` | Vagues démographiques historiques |
+| 11 | Pourquoi La Réunion n'est pas homogène | 996 | 2 | — | `slide--cream` | Strates d'ascendance distinctes |
+| 12 | L'effet fondateur | 1089 | 2 | — | `slide--cream` | Maladies rares fondateurs (Larsen-Bourbon) |
+| 13 | La double singularité | 1167 | 2 | — | `slide--cream` | Métissage + fondateur = complexité génétique |
+| 14 | INTRO S03 — DESIGN | 1199 | 3 | — | `slide--s03` | Pipeline, entonnoir, optimisation |
+| 15 | Le Pipeline d'Optimisation | 1336 | 3 | `pipeline` | `slide--cream` | 5 étapes : échantillonnage → BD locale |
+| 16 | De la Puce SNP au WGS | 1421 | 3 | — | `slide--cream` | Entonnoir : SNP → score → WGS panel |
+| 17 | INTRO S04 — L'ALGORITHME | 1489 | 4 | — | `slide--s04` | Sélection sous contrainte budgétaire |
+| **18** | **Algorithme — Vue d'ensemble (RÉSUMÉ)** | **1605** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
+| **19** | **Validation & Déploiement (RÉSUMÉ)** | **1649** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
+| 20 | Comparaison 6 stratégies | 1694 | 4 | — | `slide--cream` | Évaluation systématique approches |
+| 21 | Justification N=350 | 1772 | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
+| 22 | Architecture 3 ressources | 1816 | 4 | — | `slide--cream` | Cohorte SNP + panel WGS + familles phasage |
+| 23 | Panel WGS hybride V3 | 1864 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
+| 24 | Deux niveaux, contrainte principale | 1906 | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
+| 25 | Stratification géo-ancestrale | 1989 | 4 | — | `slide--cream` | Secteur × cluster ascendance |
+| 26 | Pools témoins externes (V3.5) | 2063 | 4 | — | `slide--cream slide--mobile-scroll` | ADMIXTURE supervisée K=4 + PCA, 1000G + EGA |
+| 27 | Quatre dimensions complémentaires | 2245 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH scores |
+| 28 | Composantes globales | 2296 | 4 | — | `slide--cream` | Position + composition ancestrale |
+| 29 | Composantes locales | 2367 | 4 | `roh` | `slide--cream` | Indépendance (IBD) + effet fondateur (ROH) |
+| 30 | Score de Diversité | 2454 | 4 | `score` | `slide--cream` | S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH |
+| 31 | Anti-biais directionnel | 2479 | 4 | — | `slide--cream` | Stratification par quintile |
+| 32 | Sélection greedy stratifiée | 2537 | 4 | — | `slide--cream` | 3 branches : noyau + cordon + enrichissement |
+| 33 | Exemple concret : calcul | 2607 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
+| 34 | Phasage réunionnais | 2659 | 4 | — | `slide--cream` | 2500 SNP + 100 familles nucléaires |
+| 35 | Fréquences finales | 2732 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
+| 36 | Avantages et limitations | 2783 | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
+| 37 | Validation 1000 Genomes | 2847 | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
+| 38 | Validation EPIGEN-Brasil | 2893 | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
+| 39 | INTRO S05 — WGS ET IMPACTS | 2936 | 5 | — | `slide--s05` | Impacts attendus, conclusion |
+| 40 | Les impacts attendus | 3047 | 5 | — | `slide--cream` | Référentiel réunionnais, santé précision |
+| 41 | CONCLUSION | 3088 | 5 | — | `slide--navy` | Fermeture |
 
 ### Navigation pills → slides d'entrée de section
 
