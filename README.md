@@ -4,7 +4,7 @@ Présentation HTML/CSS/JS statique du projet de référentiel génomique réunio
 
 Le deck est composé de **42 slides** (index 0–41, dont 2 résumés optionnels pour la section S04), sans build tool et sans dépendance CDN à l'exécution.
 **Mode adaptatif** : basculez entre "Expert" (tous les détails) et "Résumé" (synthèse) pour la section Algorithme via le bouton `Expert`/`Résumé` dans le sommaire (slide 2, ligne "04 · L'Algorithme de Sélection").
-**Révision V3.5 (mai 2026)** : intégration des pools témoins externes (1000G + EGA) pour ancrage PCA/ADMIXTURE — nouvelle slide 27 dual ADMIXTURE/PCA + implémentation de 5 recommandations scientifiques + 75+ références bibliographiques intégrées en pied de page.
+**Révision V3.5 (mai 2026)** : intégration des pools témoins externes (1000G + EGA) pour ancrage PCA/ADMIXTURE — nouvelle slide 25 dual ADMIXTURE/PCA + implémentation de 5 recommandations scientifiques + 75+ références bibliographiques intégrées en pied de page.
 
 ## Accès en ligne
 

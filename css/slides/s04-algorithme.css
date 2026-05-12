@@ -1,5 +1,5 @@
 /* ============================================================
-   S04 — ALGORITHME (slides 17–25)
+   S04 — ALGORITHME (slides 17–38)
    Composants algorithmiques, schémas ROH/IBD, score radar,
    bras de sélection et slides spécialisées.
    Dépend des variables définies dans main.css.
@@ -11,7 +11,7 @@
 .arm-percent--purple { background: var(--purple); }
 .arm-percent--gray   { background: var(--gray); }
 
-/* ── Composants algorithmiques (slides 18–21, 25) ────────── */
+/* ── Composants algorithmiques (slides 18–19, 23–26) ────────── */
 .algo-problem-box {
   background: var(--navy);
   border-radius: 8px;
@@ -460,7 +460,7 @@
   margin-bottom: 3px;
 }
 
-/* ── Arm-card : bras de sélection (slide 22) ─────────────── */
+/* ── Arm-card : bras de sélection (slide 20) ─────────────── */
 .arm-card {
   display: flex;
   align-items: stretch;
@@ -505,7 +505,7 @@
   margin: 14px 0;
 }
 
-/* ── Diagramme chromosomes ROH (slide 23) ────────────────── */
+/* ── Diagramme chromosomes ROH (slide 21) ────────────────── */
 .chromosome-wrap   { font-family: 'Segoe UI', sans-serif; }
 .chromosome-row    { display: flex; align-items: center; gap: clamp(12px, 1.8vh, 24px); margin-bottom: clamp(6px, 1.2vh, 16px); }
 .chromosome-label  { font-size: clamp(14px, 1.6vw, 22px); font-weight: 600; color: var(--navy); min-width: 130px; }
@@ -536,10 +536,10 @@
 .chromosome-legend { display: flex; gap: clamp(14px, 2.2vh, 26px); margin-top: clamp(6px, 1.2vh, 16px); font-size: clamp(14px, 1.6vw, 22px); }
 .legend-item       { display: flex; align-items: center; gap: 6px; }
 
-/* Limite la hauteur max du radar (slide 24) */
+/* Limite la hauteur max du radar (slide 32) ─────────────── */
 #radarChart { max-height: 320px; }
 
-/* ── Architecture deux niveaux (slide 18) ───────────────── */
+/* ── Architecture deux niveaux (slide 22) ───────────────── */
 .arch-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -687,7 +687,7 @@
 .arch-flow-svg--vertical   { display: none; }
 .geo-bars-svg   { width: 100%; display: block; height: auto; margin-top: clamp(30px, 5vh, 60px); }
 
-/* ── Grille 2×2 composantes S_div (slide 20) ────────────── */
+/* ── Grille 2×2 composantes S_div (slides 27–28) ────────────── */
 .comp-overview-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -937,7 +937,7 @@
   font-weight: 700;
 }
 
-/* ── Pools témoins externes (slide 27) ─────────────────────
+/* ── Pools témoins externes (slide 25) ─────────────────────
    Slide dual : ADMIXTURE supervisée (gauche) + PCA projetée (droite).
    Illustre l'ancrage des composantes ancestrales par pools témoins.
    ──────────────────────────────────────────────────────── */
@@ -1126,7 +1126,7 @@
 .pools-callout-foot strong { color: #B45309; font-weight: 700; }
 
 /* === Media queries pour adaptation mobile ===
-   La slide 27 (.slide--mobile-scroll) permet le scroll naturel de page sur ≤900px.
+   La slide 25 (.slide--mobile-scroll) permet le scroll naturel de page sur ≤900px.
    Comme .inner passe en height: auto, on doit neutraliser les flex: 1 1 auto et
    min-height: 0 hérités du layout desktop, qui faisaient se superposer les éléments. */
 @media (max-width: 900px) {
