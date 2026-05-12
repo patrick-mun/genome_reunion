@@ -73,21 +73,21 @@
            SECTION 04 — ALGORITHME (Slides 18–38)
            L.1605  : Slide 18 — ALGORITHME DE SÉLECTION (RÉSUMÉ 1)
            L.1649  : Slide 19 — VALIDATION & DÉPLOIEMENT (RÉSUMÉ 2)
-           L.1694  : SLIDE 35 — COMPARAISON DES 6 STRATÉGIES
+           L.1694  : SLIDE 37 — COMPARAISON DES 6 STRATÉGIES
            L.1772  : Slide 21 — JUSTIFICATION STATISTIQUE N=350
-           L.1816  : SLIDE 20 — ARCHITECTURE DU PROJET
-           L.1864  : SLIDE 21 — PANEL WGS HYBRIDE V3
-           L.1906  : SLIDE 22 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
+           L.1816  : SLIDE 19 — ARCHITECTURE DU PROJET
+           L.1864  : SLIDE 20 — PANEL WGS HYBRIDE V3
+           L.1906  : SLIDE 21 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
            L.1989  : Slide 25 — STRATIFICATION GÉO-ANCESTRALE
-           L.2063  : SLIDE 25 — POOLS TÉMOINS EXTERNES (V3.5)
+           L.2063  : SLIDE 24 — POOLS TÉMOINS EXTERNES (V3.5)
            L.2245  : Slide 27 — QUATRE DIMENSIONS COMPLÉMENTAIRES
            L.2296  : Slide 28 — COMPOSANTES GLOBALES
            L.2367  : Slide 29 — COMPOSANTES LOCALES
            L.2454  : Slide 30 — LE SCORE DE DIVERSITÉ
            L.2479  : Slide 31 — ANTI-BIAIS DIRECTIONNEL
            L.2537  : Slide 32 — SÉLECTION GREEDY STRATIFIÉE
-           L.2607  : SLIDE 32 — EXEMPLE CONCRET : CALCUL PAS-À-PAS
-           L.2659  : SLIDE 33 — PHASAGE RÉUNIONNAIS
+           L.2607  : SLIDE 31 — EXEMPLE CONCRET : CALCUL PAS-À-PAS
+           L.2659  : SLIDE 32 — PHASAGE RÉUNIONNAIS
            L.2732  : Slide 35 — FRÉQUENCES FINALES
            L.2783  : Slide 36 — AVANTAGES ET LIMITATIONS
            L.2847  : Slide 37 — VALIDATION 1000 GENOMES
@@ -1477,96 +1477,96 @@
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 35 — COMPARAISON DES 6 STRATÉGIES DE SÉLECTION (RECOMMANDATION 1)
+     SLIDE 37 — COMPARAISON DES 6 STRATÉGIES DE SÉLECTION (RECOMMANDATION 1)
      Tableau des 6 approches testées pendant validation.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 23 — JUSTIFICATION N=350 WGS (FONDATIONS SCIENTIFIQUES)
+     SLIDE 22 — JUSTIFICATION N=350 WGS (FONDATIONS SCIENTIFIQUES)
      Formule P(détection), table MAF, seuil 1%, comparaison Naslavsky.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 20 — ARCHITECTURE DU PROJET : TROIS PILIERS
+     SLIDE 19 — ARCHITECTURE DU PROJET : TROIS PILIERS
      2500 SNP populationnels + 350 WGS + 100 familles nucléaires.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 21 — PANEL WGS HYBRIDE V3
+     SLIDE 20 — PANEL WGS HYBRIDE V3
      Noyau géographique (322) + Bras découverte (28).
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 22 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
+     SLIDE 21 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
      Architecture générale : géographique (fondation) puis
      génétique (optimisation S_div au sein de chaque secteur).
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 24 — STRATIFICATION GÉOGRAPHIQUE
+     SLIDE 23 — STRATIFICATION GÉOGRAPHIQUE
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 25 — POOLS TÉMOINS EXTERNES (ANCRAGE PCA / ADMIXTURE)
+     SLIDE 24 — POOLS TÉMOINS EXTERNES (ANCRAGE PCA / ADMIXTURE)
      V3.5 : 1000G + EGA (MGUA, MAGE, GenomeAsia, Angola/Mozambique)
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 26 — LES 4 COMPOSANTES DE S_div
+     SLIDE 25 — LES 4 COMPOSANTES DE S_div
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 27 — PCA_score + ADMIX_score
+     SLIDE 26 — PCA_score + ADMIX_score
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 28 — IBD_score + ROH_score
+     SLIDE 27 — IBD_score + ROH_score
      Anime #rohDiagram via animateROH() dans app.js.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 29 — AGRÉGATION S_div
+     SLIDE 28 — AGRÉGATION S_div
      Poids : PCA 30% · ADMIX 30% · IBD 25% · ROH 15%
      Graphique barres (#scoreBarChart) via data-animate="score".
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 30 — STRATIFICATION QUINTILE
+     SLIDE 29 — STRATIFICATION QUINTILE
      Anti-biais directionnel : Q1-Q5 + binaire + greedy.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 31 — ALGORITHME GREEDY STRATIFIÉ
+     SLIDE 30 — ALGORITHME GREEDY STRATIFIÉ
      Les trois branches selon la taille du secteur.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 32 — EXEMPLE CONCRET : CALCUL DU SCORE
+     SLIDE 31 — EXEMPLE CONCRET : CALCUL DU SCORE
      Radar Chart.js (#radarChart) — 4 axes alignés sur S_div v3.8.
      Scores : A=0.38 · B=0.59 · C=0.85
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 33 — PHASAGE RÉUNIONNAIS + 100 FAMILLES NUCLÉAIRES
+     SLIDE 32 — PHASAGE RÉUNIONNAIS + 100 FAMILLES NUCLÉAIRES
      Transmission mendélienne, haplotypes locaux, ressource phasage.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 34 — RECALIBRAGE FRÉQUENCES : BRUTE → PONDÉRÉE → IMPUTÉE
+     SLIDE 33 — RECALIBRAGE FRÉQUENCES : BRUTE → PONDÉRÉE → IMPUTÉE
      Distinction critical: WGS brute vs populationnelle, pondération, imputation.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 36 — CE QUI REND LA MÉTHODE DÉFENDABLE
+     SLIDE 34 — CE QUI REND LA MÉTHODE DÉFENDABLE
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 37 — VALIDATION 1000G (ÉTAPE CRITIQUE)
+     SLIDE 35 — VALIDATION 1000G (ÉTAPE CRITIQUE)
      Résumé de la validation avant déploiement sur cohorte réunionnaise.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 38 — VALIDATION COMPLÉMENTAIRE : COHORTE BRÉSILIENNE ADMIXÉE
+     SLIDE 36 — VALIDATION COMPLÉMENTAIRE : COHORTE BRÉSILIENNE ADMIXÉE
      EPIGEN-Brasil : 6 487 individus, structure génétique réelle admixée.
      ═══════════════════════════════════════════════════════ -->
 
