@@ -75,50 +75,54 @@ Règles de travail détaillées dans `AGENTS.md`.
 
 ## index.html — Carte des slides
 
-| Idx | Titre | L. HTML | Sect | Anim | Classe | Notes |
+> **Deux numérotations coexistent :**
+> - **Idx** (colonne ci-dessous) = index DOM 0-based, utilisé par `app.js` (`data-target-slide`, navigation).
+> - **Badge** = numéro affiché en pied de slide (`<span class="caption">N</span>`) = position 1-based en mode Expert (résumés S04 exclus). Pour les slides S04 détaillées : Badge = Idx − 1 (les 2 résumés DOM 18-19 ne sont pas comptés). Ex. Architecture du projet = Idx 20 → Badge 19. Les slides de section intro (INTRO S01-S05) et HERO/PLAN n'ont pas de badge.
+
+| Idx | Titre | Badge | Sect | Anim | Classe | Notes |
 |---|---|---|---|---|---|---|
-| 0 | TITRE HERO | 109 | 0 | — | `slide--hero` | Auteurs, animation admixture |
-| 1 | Plan de la présentation | 189 | 0 | — | `slide--cream` | Sommaire, TOC, toggle S04 |
-| 2 | INTRO S01 — L'ANGLE MORT | 243 | 1 | — | `slide--s01` | Biais structurel, IA, clinique |
-| 3 | Biais structurel documenté | 373 | 1 | — | `slide--cream` | 1000G disparité documentée |
-| 4 | Le Mur Clinique | 451 | 1 | — | `slide--cream` | Incertitudes et pertes de chance |
-| 5 | Pharmacogénétique | 506 | 1 | — | `slide--cream` | Standard dangereux pour certaines populations |
-| 6 | Quand l'IA hérite | 598 | 1 | — | `slide--cream` | Mauvaise référence dans modèles IA |
-| 7 | Comment Génome Réunion corrige | 664 | 1 | — | `slide--cream` | Solution : référentiel réunionnais |
-| 8 | INTRO S02 — SINGULARITÉ | 705 | 2 | — | `slide--s02` | Peuplement, métissage, singularité |
-| 9 | La Réunion : peuplement | 814 | 2 | — | `slide--cream` | Pas d'autochtones, colonisation |
-| 10 | Du peuplement au métissage | 909 | 2 | — | `slide--cream` | Vagues démographiques historiques |
-| 11 | Pourquoi La Réunion n'est pas homogène | 996 | 2 | — | `slide--cream` | Strates d'ascendance distinctes |
-| 12 | L'effet fondateur | 1089 | 2 | — | `slide--cream` | Maladies rares fondateurs (Larsen-Bourbon) |
-| 13 | La double singularité | 1167 | 2 | — | `slide--cream` | Métissage + fondateur = complexité génétique |
-| 14 | INTRO S03 — DESIGN | 1199 | 3 | — | `slide--s03` | Pipeline, entonnoir, optimisation |
-| 15 | Le Pipeline d'Optimisation | 1336 | 3 | `pipeline` | `slide--cream` | 5 étapes : échantillonnage → BD locale |
-| 16 | De la Puce SNP au WGS | 1421 | 3 | — | `slide--cream` | Entonnoir : SNP → score → WGS panel |
-| 17 | INTRO S04 — L'ALGORITHME | 1489 | 4 | — | `slide--s04` | Sélection sous contrainte budgétaire |
-| **18** | **Algorithme — Vue d'ensemble (RÉSUMÉ)** | **1605** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
-| **19** | **Validation & Déploiement (RÉSUMÉ)** | **1649** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
-| 20 | Architecture du projet : 3 ressources | — | 4 | — | `slide--cream` | Cohorte SNP + panel WGS + familles phasage |
-| 21 | Panel WGS hybride V3 | — | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
-| 22 | Deux niveaux, contrainte principale | — | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
-| 23 | Justification N=350 | — | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
-| 24 | Stratification géo-ancestrale | — | 4 | — | `slide--cream` | Secteur × cluster ascendance |
-| 25 | Pools témoins externes (V3.5) | — | 4 | — | `slide--cream slide--mobile-scroll` | ADMIXTURE supervisée K=4 + PCA, 1000G + EGA |
-| 26 | Quatre dimensions complémentaires | — | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH scores |
-| 27 | Composantes globales | — | 4 | — | `slide--cream` | Position + composition ancestrale |
-| 28 | Composantes locales | — | 4 | `roh` | `slide--cream` | Indépendance (IBD) + effet fondateur (ROH) |
-| 29 | Score de Diversité | — | 4 | `score` | `slide--cream` | S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH |
-| 30 | Anti-biais directionnel | — | 4 | — | `slide--cream` | Stratification par quintile |
-| 31 | Sélection greedy stratifiée | — | 4 | — | `slide--cream` | 3 branches : noyau + cordon + enrichissement |
-| 32 | Exemple concret : calcul | — | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
-| 33 | Phasage réunionnais | — | 4 | — | `slide--cream` | 2500 SNP + 100 familles nucléaires |
-| 34 | Fréquences finales | — | 4 | — | `slide--cream` | Brute → pondérée → imputée |
-| 35 | Comparaison 6 stratégies | — | 4 | — | `slide--cream` | Évaluation systématique approches |
-| 36 | Avantages et limitations | — | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
-| 37 | Validation 1000 Genomes | — | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
-| 38 | Validation EPIGEN-Brasil | — | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
-| 39 | INTRO S05 — WGS ET IMPACTS | 2936 | 5 | — | `slide--s05` | Impacts attendus, conclusion |
-| 40 | Les impacts attendus | 3047 | 5 | — | `slide--cream` | Référentiel réunionnais, santé précision |
-| 41 | CONCLUSION | 3088 | 5 | — | `slide--navy` | Fermeture |
+| 0 | TITRE HERO | — | 0 | — | `slide--hero` | Auteurs, animation admixture |
+| 1 | Plan de la présentation | — | 0 | — | `slide--cream` | Sommaire, TOC, toggle S04 |
+| 2 | INTRO S01 — L'ANGLE MORT | — | 1 | — | `slide--s01` | Biais structurel, IA, clinique |
+| 3 | Biais structurel documenté | 4 | 1 | — | `slide--cream` | 1000G disparité documentée |
+| 4 | Le Mur Clinique | 5 | 1 | — | `slide--cream` | Incertitudes et pertes de chance |
+| 5 | Pharmacogénétique | 6 | 1 | — | `slide--cream` | Standard dangereux pour certaines populations |
+| 6 | Quand l'IA hérite | 7 | 1 | — | `slide--cream` | Mauvaise référence dans modèles IA |
+| 7 | Comment Génome Réunion corrige | 8 | 1 | — | `slide--cream` | Solution : référentiel réunionnais |
+| 8 | INTRO S02 — SINGULARITÉ | — | 2 | — | `slide--s02` | Peuplement, métissage, singularité |
+| 9 | La Réunion : peuplement | 10 | 2 | — | `slide--cream` | Pas d'autochtones, colonisation |
+| 10 | Du peuplement au métissage | 11 | 2 | — | `slide--cream` | Vagues démographiques historiques |
+| 11 | Pourquoi La Réunion n'est pas homogène | 12 | 2 | — | `slide--cream` | Strates d'ascendance distinctes |
+| 12 | L'effet fondateur | 13 | 2 | — | `slide--cream` | Maladies rares fondateurs (Larsen-Bourbon) |
+| 13 | La double singularité | 14 | 2 | — | `slide--cream` | Métissage + fondateur = complexité génétique |
+| 14 | INTRO S03 — DESIGN | — | 3 | — | `slide--s03` | Pipeline, entonnoir, optimisation |
+| 15 | Le Pipeline d'Optimisation | 16 | 3 | `pipeline` | `slide--cream` | 5 étapes : échantillonnage → BD locale |
+| 16 | De la Puce SNP au WGS | 17 | 3 | — | `slide--cream` | Entonnoir : SNP → score → WGS panel |
+| 17 | INTRO S04 — L'ALGORITHME | — (slide 18) | 4 | — | `slide--s04` | Sélection sous contrainte budgétaire |
+| **18** | **Algorithme — Vue d'ensemble (RÉSUMÉ)** | **S04-1** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
+| **19** | **Validation & Déploiement (RÉSUMÉ)** | **S04-2** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
+| 20 | Architecture du projet : 3 ressources | 19 | 4 | — | `slide--cream` | Cohorte SNP + panel WGS + familles phasage |
+| 21 | Panel WGS hybride V3 | 20 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
+| 22 | Deux niveaux, contrainte principale | 21 | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
+| 23 | Justification N=350 | 22 | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
+| 24 | Stratification géo-ancestrale | 23 | 4 | — | `slide--cream` | Secteur × cluster ascendance |
+| 25 | Pools témoins externes (V3.5) | 24 | 4 | — | `slide--cream slide--mobile-scroll` | ADMIXTURE supervisée K=4 + PCA, 1000G + EGA |
+| 26 | Quatre dimensions complémentaires | 25 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH scores |
+| 27 | Composantes globales | 26 | 4 | — | `slide--cream` | Position + composition ancestrale |
+| 28 | Composantes locales | 27 | 4 | `roh` | `slide--cream` | Indépendance (IBD) + effet fondateur (ROH) |
+| 29 | Score de Diversité | 28 | 4 | `score` | `slide--cream` | S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH |
+| 30 | Anti-biais directionnel | 29 | 4 | — | `slide--cream` | Stratification par quintile |
+| 31 | Sélection greedy stratifiée | 30 | 4 | — | `slide--cream` | 3 branches : noyau + cordon + enrichissement |
+| 32 | Exemple concret : calcul | 31 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
+| 33 | Phasage réunionnais | 32 | 4 | — | `slide--cream` | 2500 SNP + 100 familles nucléaires |
+| 34 | Fréquences finales | 33 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
+| 35 | Comparaison 6 stratégies | 34 | 4 | — | `slide--cream` | Évaluation systématique approches |
+| 36 | Avantages et limitations | 35 | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
+| 37 | Validation 1000 Genomes | 36 | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
+| 38 | Validation EPIGEN-Brasil | 37 | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
+| 39 | INTRO S05 — WGS ET IMPACTS | — (slide 38) | 5 | — | `slide--s05` | Impacts attendus, conclusion |
+| 40 | Les impacts attendus | 39 | 5 | — | `slide--cream` | Référentiel réunionnais, santé précision |
+| 41 | CONCLUSION | — (slide 40) | 5 | — | `slide--navy` | Fermeture |
 
 ### Navigation pills → slides d'entrée de section
 
@@ -245,6 +249,7 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 | **S04 Pools témoins V3.5 (2026-05)** | ✅ Nouvelle slide 25 « Pools témoins externes — ancrer PCA et ADMIXTURE » : layout dual ADMIXTURE supervisée K=4 (gauche, 5 individus admixés + 1 référence africaine, mise en évidence Ind. A) + PCA projetée (droite, 4 clusters d'ascendance, individu A pointé). Aligne la présentation sur METHODOLOGY_selection_V3_5.md (catalogue 1000G + EGA : MGUA Madagascar, MAGE, GenomeAsia, Angola/Mozambique). Classes `.pools-dual-layout .pools-pane .pools-admix-* .pools-pca-*` dans `s04-algorithme.css`. |
 | **Total slides** | Augmenté de 41 → **42 slides** (1 nouvelle pools témoins S04) + 2 résumés optionnels = deck complet V3.5 |
 | **S04 Réorganisation logique (2026-05)** | ✅ Réorganisation complète des 22 slides S04 (17-38) pour respecter la progression du document maître METHODOLOGY_selection_V3_5.md : Partie I (Architecture 20-23) → Partie II (Ressources 24-25) → Partie III (Méthodologie 26-34) → Partie V (Validation 35-38). Numérotation logique alignée avec l'ordre de présentation. |
+| **S04 Recalibrage badges (2026-05)** | ✅ Badges de pied de page recalculés : Architecture du projet = badge 19, puis incrémentation séquentielle jusqu'à badge 37 (Validation EPIGEN-Brasil), badge 39 (Impacts), badge 40 (Conclusion). Le badge = position 1-based en mode Expert (2 résumés S04 exclus, slides de section sans badge). Index DOM inchangés (utilisés par `app.js`). Bloc d'index de navigation en tête de `index.html` et commentaires `SLIDE N` réécrits en cohérence. |
 
 ## Règle de mise à jour
 
