@@ -1,1 +1,3 @@
-{ "notes": "" }
+{
+  "notes": "Jusqu'ici, le risque est à la prescription : un médicament existant, mal dosé pour un patient réunionnais. Ça peut être grave, mais ça se rattrape, au cas par cas.\n\nSauf que le référencement incomplet remonte plus haut. La découverte de médicaments s'appuie de plus en plus sur les données omiques, source primaire de l'IA pharmaceutique, pour choisir les cibles, anticiper les effets, dessiner les essais cliniques. Or une IA n'invente pas ses biais. Elle les hérite des bases sur lesquelles elle apprend. Et on a vu lesquelles : sans La Réunion.\n\nLe biais référentiel ne se contente plus de moins bien soigner les Réunionnais d'aujourd'hui. Il risque de façonner, en silence, ceux de demain. Et l'IA ne corrige pas ça : elle l'accélère."
+}
