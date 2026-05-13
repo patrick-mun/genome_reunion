@@ -1,1 +1,3 @@
-{ "notes": "" }
+{
+  "notes": "Le pipeline se lit de gauche à droite. On part des donneurs volontaires recrutés via l'EFS, on extrait leur ADN au CHU Réunion, on génotype tout le monde avec une puce SNP. C'est standard, c'est faisable à grande échelle.\n\nLe goulot, c'est l'étape 4. Le WGS coûte cher. On ne peut pas séquencer tout le monde. Il faut choisir. Et ce choix n'est pas un tirage au sort : c'est une équation d'optimisation. Maximiser l'information génétique capturée, sous contrainte budgétaire.\n\nCe qu'on va voir dans la section suivante, c'est précisément comment ce score est construit, et pourquoi chaque composante compte."
+}
