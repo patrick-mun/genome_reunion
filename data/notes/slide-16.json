@@ -1,1 +1,3 @@
-{ "notes": "" }
+{
+  "notes": "Ce que montre l'entonnoir, c'est une stratégie en deux temps. D'abord, on génotype toute la cohorte avec une puce SNP, économique et exhaustive. Pas pour avoir le résultat final, mais pour avoir l'information qui va permettre de choisir.\n\nC'est cette donnée SNP qui alimente le score S_div. Et c'est ce score qui filtre : qui mérite d'être séquencé en WGS, parce qu'il apporte de l'information nouvelle, pas redondante avec ce qui est déjà dans le panel.\n\nLe WGS ne tombe donc pas en bout de chaîne par hasard. Il est dirigé par la donnée observable. C'est ça, l'optimisation."
+}
