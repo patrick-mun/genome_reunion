@@ -1,1 +1,3 @@
-{ "notes": "" }
+{
+  "notes": "On vient de dire que La Réunion a une forte variance interne. Mais qu'est-ce que ça signifie concrètement ?\n\nComparons deux situations. D'abord, une population homogène, comme on en trouve ailleurs. Les individus se ressemblent. Les outils statistiques convergent vite. Une référence existante capture déjà l'essentiel de la variation.\n\nÀ La Réunion, c'est l'inverse. Sous un seul nom, \"la population réunionnaise\", se cachent des profils génétiques très différents. Des proportions d'ascendance différentes. Des relations de parenté qui ne convergent pas vers un centre unique. C'est une structure interne stratifiée.\n\nEt c'est ça qui pose problème : parler de \"la population réunionnaise\" est utile cliniquement, mais insuffisant analytiquement. Il faut modéliser la diversité interne, pas la lisser."
+}
