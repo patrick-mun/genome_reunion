@@ -1125,6 +1125,31 @@
 }
 .pools-callout-foot strong { color: #B45309; font-weight: 700; }
 
+/* ── Grille géo-ancestrale & allocation WGS (slide 23) ────────── */
+
+.geo-grid-svg {
+  width: 100%;
+  display: block;
+  height: auto;
+  margin-bottom: clamp(12px, 1.5vh, 18px);
+}
+
+.geo-alloc-box {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.2vh, 12px);
+}
+
+.geo-bars-svg {
+  width: 100%;
+  display: block;
+  height: auto;
+}
+
+.callout--discovery {
+  border-left-color: var(--blue);
+}
+
 /* === Media queries pour adaptation mobile ===
    La slide 25 (.slide--mobile-scroll) permet le scroll naturel de page sur ≤900px.
    Comme .inner passe en height: auto, on doit neutraliser les flex: 1 1 auto et
