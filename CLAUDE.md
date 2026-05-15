@@ -102,9 +102,9 @@ Règles de travail détaillées dans `AGENTS.md`.
 | **18** | **Algorithme — Vue d'ensemble (RÉSUMÉ)** | **S04-1** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
 | **19** | **Validation & Déploiement (RÉSUMÉ)** | **S04-2** | 4 | — | `s04-summary` | **Masqué Expert, visible Résumé** |
 | 20 | Architecture du projet : 3 ressources | 19 | 4 | — | `slide--cream` | Cohorte SNP + panel WGS + familles phasage |
-| 21 | Panel WGS hybride V3 | 20 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
-| 22 | Deux niveaux, contrainte principale | 21 | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
-| 23 | Justification N=350 | 22 | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
+| 21 | Justification N=350 | 20 | 4 | — | `slide--cream` | P(détection) = 1 − (1−MAF)^700 |
+| 22 | Panel WGS hybride V3 | 21 | 4 | — | `slide--cream` | Noyau 322 + découverte 28 |
+| 23 | Deux niveaux, contrainte principale | 22 | 4 | `archflow` | `slide--cream` | Géo (fondation) + génétique (optimisation) |
 | 24 | Stratification géo-ancestrale | 23 | 4 | — | `slide--cream` | Secteur × cluster ascendance |
 | 25 | Pools témoins externes (V3.5) | 24 | 4 | — | `slide--cream slide--mobile-scroll` | ADMIXTURE supervisée K=4 + PCA, 1000G + EGA |
 | 26 | Quatre dimensions complémentaires | 25 | 4 | — | `slide--cream` | PCA, ADMIX, IBD, ROH scores |

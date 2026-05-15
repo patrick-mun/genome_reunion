@@ -75,9 +75,9 @@
            Slide 18a — ALGORITHME DE SÉLECTION (RÉSUMÉ 1, optionnel)
            Slide 18b — VALIDATION & DÉPLOIEMENT (RÉSUMÉ 2, optionnel)
            Slide 19 — ARCHITECTURE DU PROJET : TROIS RESSOURCES
-           Slide 20 — PANEL WGS HYBRIDE V3
-           Slide 21 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
-           Slide 22 — JUSTIFICATION STATISTIQUE N=350
+           Slide 20 — JUSTIFICATION STATISTIQUE N=350
+           Slide 21 — PANEL WGS HYBRIDE V3
+           Slide 22 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
            Slide 23 — STRATIFICATION GÉO-ANCESTRALE
            Slide 24 — POOLS TÉMOINS EXTERNES (V3.5)
            Slide 25 — QUATRE DIMENSIONS COMPLÉMENTAIRES DE S_div
@@ -1483,22 +1483,22 @@
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 22 — JUSTIFICATION N=350 WGS (FONDATIONS SCIENTIFIQUES)
-     Formule P(détection), table MAF, seuil 1%, comparaison Naslavsky.
-     ═══════════════════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════════════════════
      SLIDE 19 — ARCHITECTURE DU PROJET : TROIS PILIERS
      2500 SNP populationnels + 350 WGS + 100 familles nucléaires.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 20 — PANEL WGS HYBRIDE V3
+     SLIDE 20 — JUSTIFICATION N=350 WGS (FONDATIONS SCIENTIFIQUES)
+     Formule P(détection), table MAF, seuil 1%, comparaison Naslavsky.
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 21 — PANEL WGS HYBRIDE V3
      Noyau géographique (322) + Bras découverte (28).
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 21 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
+     SLIDE 22 — DEUX NIVEAUX, UNE CONTRAINTE PRINCIPALE
      Architecture générale : géographique (fondation) puis
      génétique (optimisation S_div au sein de chaque secteur).
      ═══════════════════════════════════════════════════════ -->
@@ -1803,6 +1803,45 @@
 </div>
 </div><div class="slide slide--cream" data-section="4">
 <div class="inner">
+<h2 class="slide-title">Justification statistique : pourquoi 350 WGS = 700 haplotypes ?</h2>
+<div class="slide-rule slide-rule--blue"></div>
+<div class="grid-2">
+<div>
+<p class="text-body mb-responsive-sm"><strong>Formule de détection</strong> :</p>
+<div class="formula">P(détection variant) = 1 − (1 − MAF)<sup>700</sup></div>
+<p class="text-body mb-responsive-lg">Avec 350 WGS (700 haplotypes), la probabilité de détecter au moins une copie d'un variant dépend directement de sa fréquence allélique (MAF).</p>
+<p class="text-body"><strong>Seuil adopté : MAF ≥ 1%</strong></p>
+<ul class="compact mb-responsive-lg">
+<li>• Couverture fiable des variants communs</li>
+<li>• Variants &lt; 1% : non fiables à ce panel</li>
+<li>• Limit acceptée pour référentiel réunionnais</li>
+</ul>
+</div>
+<div>
+<p class="text-body mb-responsive-sm"><strong>Robustesse par MAF (tableau)</strong> :</p>
+<table class="table-tiny">
+<tr><th>MAF</th><th>Copies attendues</th><th>P(détection)</th><th>Fiabilité</th></tr>
+<tr><td><strong>5%</strong></td><td>35</td><td>&gt;99.9%</td><td>✓ Très robuste</td></tr>
+<tr><td><strong>2%</strong></td><td>14</td><td>&gt;99.9%</td><td>✓ Robuste</td></tr>
+<tr class="highlight"><td><strong>1%</strong></td><td>7</td><td>&gt;99.9%</td><td>✓ Limite acceptable</td></tr>
+<tr><td><strong>0.5%</strong></td><td>3.5</td><td>~97%</td><td>⚠ Fragile</td></tr>
+<tr><td><strong>0.1%</strong></td><td>0.7</td><td>~50%</td><td>✗ Non fiable</td></tr>
+</table>
+<p class="design-note design-note--blue mt-responsive-lg"><strong>Comparaison :</strong> Naslavsky (Brasil, 1171 WGS, MAF ~0.1%) vs Génome Réunion (350 WGS, MAF ~1%). Le seuil 1% offre un équilibre rareté/robustesse adapté à notre effectif.</p>
+</div>
+</div>
+<div class="slide-footer">
+<span class="caption">Génome Réunion</span>
+<span class="slide-footer-sources">
+<span class="slide-footer-source">Le &amp; Durbin 2011, <em>Genome Research</em>. SNP detection and genotyping from low-coverage sequencing data.</span>
+<span class="slide-footer-source">Auer &amp; Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: considerations, challenges and opportunities.</span>
+<span class="slide-footer-source">Naslavsky et al. 2022, <em>Nature Communications</em>. Whole-genome sequencing of 1,171 elderly admixed individuals from São Paulo, Brazil.</span>
+</span>
+<span class="caption">20</span>
+</div>
+</div>
+</div><div class="slide slide--cream" data-section="4">
+<div class="inner">
 <h2 class="slide-title">Panel WGS hybride V3 : noyau géographique + découverte contrôlée</h2>
 <div class="slide-rule slide-rule--blue"></div>
 <div class="grid-2">
@@ -1834,7 +1873,7 @@
 <span class="slide-footer-source">Browning et al. 2018, <em>AJHG</em>. A One-Penny Imputed Genome from Next-Generation Reference Panels.</span>
 <span class="slide-footer-source">Auer &amp; Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: considerations and opportunities.</span>
 </span>
-<span class="caption">20</span>
+<span class="caption">21</span>
 </div>
 </div>
 </div><div class="slide slide--cream" data-animate="archflow" data-section="4">
@@ -1912,45 +1951,6 @@
 <span class="slide-footer-source">Cardon &amp; Palmer 2003, <em>The Lancet</em>. Population stratification and spurious allelic association.</span>
 <span class="slide-footer-source">Wojcik et al. 2019, <em>Nature</em>. Genetic analyses of diverse populations improves discovery for complex traits.</span>
 <span class="slide-footer-source">Sirugo et al. 2019, <em>Cell</em>. The Missing Diversity in Human Genetic Studies.</span>
-</span>
-<span class="caption">21</span>
-</div>
-</div>
-</div><div class="slide slide--cream" data-section="4">
-<div class="inner">
-<h2 class="slide-title">Justification statistique : pourquoi 350 WGS = 700 haplotypes ?</h2>
-<div class="slide-rule slide-rule--blue"></div>
-<div class="grid-2">
-<div>
-<p class="text-body mb-responsive-sm"><strong>Formule de détection</strong> :</p>
-<div class="formula">P(détection variant) = 1 − (1 − MAF)<sup>700</sup></div>
-<p class="text-body mb-responsive-lg">Avec 350 WGS (700 haplotypes), la probabilité de détecter au moins une copie d'un variant dépend directement de sa fréquence allélique (MAF).</p>
-<p class="text-body"><strong>Seuil adopté : MAF ≥ 1%</strong></p>
-<ul class="compact mb-responsive-lg">
-<li>• Couverture fiable des variants communs</li>
-<li>• Variants &lt; 1% : non fiables à ce panel</li>
-<li>• Limit acceptée pour référentiel réunionnais</li>
-</ul>
-</div>
-<div>
-<p class="text-body mb-responsive-sm"><strong>Robustesse par MAF (tableau)</strong> :</p>
-<table class="table-tiny">
-<tr><th>MAF</th><th>Copies attendues</th><th>P(détection)</th><th>Fiabilité</th></tr>
-<tr><td><strong>5%</strong></td><td>35</td><td>&gt;99.9%</td><td>✓ Très robuste</td></tr>
-<tr><td><strong>2%</strong></td><td>14</td><td>&gt;99.9%</td><td>✓ Robuste</td></tr>
-<tr class="highlight"><td><strong>1%</strong></td><td>7</td><td>&gt;99.9%</td><td>✓ Limite acceptable</td></tr>
-<tr><td><strong>0.5%</strong></td><td>3.5</td><td>~97%</td><td>⚠ Fragile</td></tr>
-<tr><td><strong>0.1%</strong></td><td>0.7</td><td>~50%</td><td>✗ Non fiable</td></tr>
-</table>
-<p class="design-note design-note--blue mt-responsive-lg"><strong>Comparaison :</strong> Naslavsky (Brasil, 1171 WGS, MAF ~0.1%) vs Génome Réunion (350 WGS, MAF ~1%). Le seuil 1% offre un équilibre rareté/robustesse adapté à notre effectif.</p>
-</div>
-</div>
-<div class="slide-footer">
-<span class="caption">Génome Réunion</span>
-<span class="slide-footer-sources">
-<span class="slide-footer-source">Le &amp; Durbin 2011, <em>Genome Research</em>. SNP detection and genotyping from low-coverage sequencing data.</span>
-<span class="slide-footer-source">Auer &amp; Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: considerations, challenges and opportunities.</span>
-<span class="slide-footer-source">Naslavsky et al. 2022, <em>Nature Communications</em>. Whole-genome sequencing of 1,171 elderly admixed individuals from São Paulo, Brazil.</span>
 </span>
 <span class="caption">22</span>
 </div>
