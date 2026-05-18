@@ -1478,8 +1478,9 @@
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 34 — COMPARAISON DES 6 STRATÉGIES DE SÉLECTION (RECOMMANDATION 1)
+     SLIDE 38 — COMPARAISON DES 6 STRATÉGIES DE SÉLECTION (RECOMMANDATION 1)
      Tableau des 6 approches testées pendant validation.
+     Réorganisé à la fin de S04 pour conclure avant implémentation.
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
@@ -1572,7 +1573,7 @@
      ═══════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════
-     SLIDE 38 — INTRO SECTION 05 : WGS
+     SLIDE 39 — INTRO SECTION 05 : WGS
      Slide d'intro pleine couleur var(--s05) = vert.
      ═══════════════════════════════════════════════════════ -->
 <div class="slide slide--s04" data-section="4">
@@ -2723,79 +2724,6 @@
 </div>
 </div><div class="slide slide--cream" data-section="4">
 <div class="inner inner--top">
-<h2 class="slide-title">Comparaison des 6 stratégies de sélection testées</h2>
-<div class="slide-rule slide-rule--blue"></div>
-<p class="text-body mb-responsive-md"><strong>Avant d'adopter S_div stratifié, six approches ont été évaluées</strong> sur critères de robustesse, couverture allélique, et stabilité inter-populations. Seule S_div géo-ancestral montre performance complète sur tous les domaines.</p>
-<div class="grid-1">
-<table class="table-compact">
-<tr>
-<th>Stratégie</th>
-<th>Approche</th>
-<th>Avantages</th>
-<th>Limitation</th>
-<th>Verdict</th>
-</tr>
-<tr>
-<td><strong>1. Random sampling</strong></td>
-<td>Tirage aléatoire</td>
-<td>Pas de biais cognitif</td>
-<td>Perte de diversité génétique, couverture rares faible</td>
-<td>Benchmark</td>
-</tr>
-<tr>
-<td><strong>2. PCA-only</strong></td>
-<td>Position PCA maximale</td>
-<td>Marginalité génétique</td>
-<td>Ignore parenté IBD, sur-représente outliers</td>
-<td>Rejeté</td>
-</tr>
-<tr>
-<td><strong>3. Maximin IBD</strong></td>
-<td>Maximiser distance IBD min</td>
-<td>Indépendance génétique</td>
-<td>Ignore structure géographique, biais géographique</td>
-<td>Rejeté</td>
-</tr>
-<tr>
-<td><strong>4. Géo + S_div naïf</strong></td>
-<td>Secteur + S_div non pondéré</td>
-<td>Représentativité démo</td>
-<td>Poids non justifiés, sensibilité paramètre</td>
-<td>Partiel</td>
-</tr>
-<tr class="highlight">
-<td><strong>5. Géo-ancestral distributionnel + S_div ✓</strong></td>
-<td><strong>Cellules (secteur × cluster ascendance) + S_div 4-composantes</strong></td>
-<td><strong>Diversité complète, profils maj/min/mix/rare représentés, robustesse</strong></td>
-<td><strong>Heuristique non optimale mathématiquement</strong></td>
-<td><strong>RETENU</strong></td>
-</tr>
-<tr>
-<td><strong>6. ADMIXTURE-only + greedy</strong></td>
-<td>Inférence ancestralité + sélection</td>
-<td>Capture ancestralité</td>
-<td>Ignore PCA local, parenté non gérée</td>
-<td>Rejeté</td>
-</tr>
-</table>
-</div>
-<div class="callout">
-<strong>Critères d'évaluation :</strong> Couverture allélique (rares variants, MAF 0.1-1%), KS-test distribution (accord fréquences), stabilité inter-populations (African, South Asian, tri-ancestral), robustesse intra-seed (ordres aléatoires).
-          </div>
-<div class="slide-footer slide-footer-citations">
-<div class="slide-footer-meta">
-<span class="caption">Génome Réunion</span>
-<div class="slide-footer-sources">
-<span class="slide-footer-source">Le &amp; Durbin 2011, <em>Genome Research</em>. SNP detection from low-coverage sequencing.</span>
-<span class="slide-footer-source">Pemberton et al. 2013, <em>G3</em>. Population structure in comprehensive genomic data.</span>
-<span class="slide-footer-source">Auer &amp; Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: considerations and opportunities.</span>
-</div>
-</div>
-<span class="caption">34</span>
-</div>
-</div>
-</div><div class="slide slide--cream" data-section="4">
-<div class="inner inner--top">
 <h2 class="slide-title">Avantages et limitations acceptables de la méthode</h2>
 <div class="slide-rule slide-rule--teal"></div>
 <div class="algo-validation-list">
@@ -2850,7 +2778,7 @@
 <span class="slide-footer-source">Chang et al. 2015, <em>GigaScience</em>. Second-generation PLINK: reproducible analysis tools.</span>
 <span class="slide-footer-source">Purcell et al. 2007, <em>AJHG</em>. PLINK: a tool set for whole-genome association and population-based linkage analyses.</span>
 </span>
-<span class="caption">35</span>
+<span class="caption">34</span>
 </div>
 </div>
 </div><div class="slide slide--cream" data-section="4">
@@ -2891,7 +2819,7 @@
 <span class="slide-footer-source">Wall et al. 2019, <em>Nature</em>. The GenomeAsia 100K Project enables genetic discoveries across Asia.</span>
 <span class="slide-footer-source">Wojcik et al. 2019, <em>Nature</em>. Genetic analyses of diverse populations improves discovery for complex traits.</span>
 </span>
-<span class="caption">36</span>
+<span class="caption">35</span>
 </div>
 </div>
 </div><div class="slide slide--cream" data-section="4">
@@ -2929,6 +2857,79 @@
 <span class="slide-footer-source">Nunes et al. 2025, <em>Science</em>. Admixture's impact on Brazilian population evolution and health.</span>
 <span class="slide-footer-source">Suarez-Kurtz 2010, <em>Frontiers in Pharmacology</em>. Pharmacogenetics in the Brazilian population.</span>
 </span>
+<span class="caption">36</span>
+</div>
+</div>
+</div><div class="slide slide--cream" data-section="4">
+<div class="inner inner--top">
+<h2 class="slide-title">Comparaison des 6 stratégies de sélection testées</h2>
+<div class="slide-rule slide-rule--blue"></div>
+<p class="text-body mb-responsive-md"><strong>Avant d'adopter S_div stratifié, six approches ont été évaluées</strong> sur critères de robustesse, couverture allélique, et stabilité inter-populations. Seule S_div géo-ancestral montre performance complète sur tous les domaines.</p>
+<div class="grid-1">
+<table class="table-compact">
+<tr>
+<th>Stratégie</th>
+<th>Approche</th>
+<th>Avantages</th>
+<th>Limitation</th>
+<th>Verdict</th>
+</tr>
+<tr>
+<td><strong>1. Random sampling</strong></td>
+<td>Tirage aléatoire</td>
+<td>Pas de biais cognitif</td>
+<td>Perte de diversité génétique, couverture rares faible</td>
+<td>à valider</td>
+</tr>
+<tr>
+<td><strong>2. PCA-only</strong></td>
+<td>Position PCA maximale</td>
+<td>Marginalité génétique</td>
+<td>Ignore parenté IBD, sur-représente outliers</td>
+<td>à valider</td>
+</tr>
+<tr>
+<td><strong>3. Maximin IBD</strong></td>
+<td>Maximiser distance IBD min</td>
+<td>Indépendance génétique</td>
+<td>Ignore structure géographique, biais géographique</td>
+<td>à valider</td>
+</tr>
+<tr>
+<td><strong>4. Géo + S_div naïf</strong></td>
+<td>Secteur + S_div non pondéré</td>
+<td>Représentativité démo</td>
+<td>Poids non justifiés, sensibilité paramètre</td>
+<td>à valider</td>
+</tr>
+<tr class="highlight">
+<td><strong>5. Géo-ancestral distributionnel + S_div ✓</strong></td>
+<td><strong>Cellules (secteur × cluster ascendance) + S_div 4-composantes</strong></td>
+<td><strong>Diversité complète, profils maj/min/mix/rare représentés, robustesse</strong></td>
+<td><strong>Heuristique non optimale mathématiquement</strong></td>
+<td><strong>à valider</strong></td>
+</tr>
+<tr>
+<td><strong>6. ADMIXTURE-only + greedy</strong></td>
+<td>Inférence ancestralité + sélection</td>
+<td>Capture ancestralité</td>
+<td>Ignore PCA local, parenté non gérée</td>
+<td>à valider</td>
+</tr>
+</table>
+</div>
+<div class="callout">
+<strong>Critères d'évaluation :</strong> Couverture allélique (rares variants, MAF 0.1-1%), KS-test distribution (accord fréquences), stabilité inter-populations (African, South Asian, tri-ancestral), robustesse intra-seed (ordres aléatoires).
+          </div>
+<div class="slide-footer slide-footer-citations">
+<div class="slide-footer-meta">
+<span class="caption">Génome Réunion</span>
+<div class="slide-footer-sources">
+<span class="slide-footer-source">Le &amp; Durbin 2011, <em>Genome Research</em>. SNP detection from low-coverage sequencing.</span>
+<span class="slide-footer-source">Pemberton et al. 2013, <em>G3</em>. Population structure in comprehensive genomic data.</span>
+<span class="slide-footer-source">Auer &amp; Lettre 2015, <em>Genome Medicine</em>. Rare variant association studies: considerations and opportunities.</span>
+</div>
+</div>
 <span class="caption">37</span>
 </div>
 </div>
