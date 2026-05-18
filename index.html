@@ -2783,16 +2783,19 @@
 </div>
 </div><div class="slide slide--cream" data-section="4">
 <div class="inner">
-<h2 class="slide-title">Validation sur 1000 Genomes avant déploiement</h2>
+<h2 class="slide-title">Validation sur 1000 Genomes + EGA avant déploiement</h2>
 <div class="slide-rule slide-rule--blue"></div>
 <div class="grid-2">
 <div>
-<p class="text-body mb-responsive-sm"><strong>3 populations admixées</strong> servant de proxy à la structure génétique réunionnaise :</p>
+<p class="text-body mb-responsive-sm"><strong>Proxies 1000G</strong> pour la structure admixée + <strong>pools EGA</strong> ancrant les ascendances absentes de 1000G :</p>
 <table class="table-compact">
-<tr><th>Groupe 1000G</th><th>Code</th><th>Rôle</th></tr>
-<tr><td>ACB / ASW</td><td>Afrique</td><td>Ancestral africain</td></tr>
-<tr><td>GIH / BEB</td><td>Inde</td><td>Ancestral indien</td></tr>
-<tr><td>Tri-ancestral</td><td>Mix</td><td>Métissage 3+ apports</td></tr>
+<tr><th>Source</th><th>Jeu de données</th><th>Rôle dans la validation</th></tr>
+<tr><td>1000G</td><td>ACB / ASW</td><td>Ancestral africain</td></tr>
+<tr><td>1000G</td><td>GIH / BEB</td><td>Ancestral indien / sud-asiatique</td></tr>
+<tr><td>1000G</td><td>Tri-ancestral</td><td>Métissage 3+ apports</td></tr>
+<tr><td>EGA</td><td>MGUA Madagascar</td><td>Ancestral malgache (absent de 1000G)</td></tr>
+<tr><td>EGA</td><td>GenomeAsia 100K</td><td>Sud / Sud-Est asiatique (raffine GIH/BEB)</td></tr>
+<tr><td>EGA</td><td>Angola / Mozambique</td><td>Bantou sud-est africain (raffine ACB/ASW)</td></tr>
 </table>
 <p class="caption mt-responsive-lg text-italic">Chaque groupe testé en 3 budgets (N = 100, 200, 350) × 5 stratégies (S_div stratifié, S_div naïf, random, PCA-only, maximin-IBD).</p>
 </div>
@@ -2805,7 +2808,7 @@
 <li><strong>Reproductibilité</strong> : résultats identiques avec --seed différents</li>
 </ul>
 <p class="design-note design-note--orange mt-responsive-lg"><strong>🎯 Robustesse multi-groupe :</strong> Performance cohérente sur tous les 3 groupes (africain/européen, sud-asiatique, tri-ancestral). Pas d'optimisation locale pour un groupe unique — validation inter-groupes garantit générisabilité à la Réunion.</p>
-<p class="design-note design-note--blue mt-responsive-lg">✓ Succès 1000G → Déploiement sur cohorte EFS réunionnaise.<br>✗ Échec → Révision des poids S_div ou stratégie quintile.</br></p>
+<p class="design-note design-note--blue mt-responsive-lg">✓ Succès 1000G + EGA → Déploiement sur cohorte EFS réunionnaise.<br>✗ Échec → Révision des poids S_div ou stratégie quintile.</br></p>
 </div>
 </div>
 <div class="slide-footer">
@@ -2817,6 +2820,7 @@
 <span class="slide-footer-source">Gurdasani et al. 2015, <em>Nature</em>. The African Genome Variation Project shapes medical genetics in Africa.</span>
 <span class="slide-footer-source">Nakatsuka et al. 2017, <em>Nature Genetics</em>. The promise of disease gene discovery in South Asia.</span>
 <span class="slide-footer-source">Wall et al. 2019, <em>Nature</em>. The GenomeAsia 100K Project enables genetic discoveries across Asia.</span>
+<span class="slide-footer-source">Hamid et al. 2024, <em>HGG Advances</em>. Malagasy WGS (MGUA, EGAS50000000496).</span>
 <span class="slide-footer-source">Wojcik et al. 2019, <em>Nature</em>. Genetic analyses of diverse populations improves discovery for complex traits.</span>
 </span>
 <span class="caption">35</span>
