@@ -1842,7 +1842,7 @@
 </div>
 </div><div class="slide slide--cream" data-section="4">
 <div class="inner">
-<h2 class="slide-title">Panel WGS hybride V3 : noyau géographique + découverte contrôlée</h2>
+<h2 class="slide-title">Panel WGS hybride V3 : noyau géo-ancestral + découverte contrôlée</h2>
 <div class="slide-rule slide-rule--blue"></div>
 <div class="grid-2">
 <div>
@@ -1852,7 +1852,7 @@
 <li><strong>Découverte (28 indiv):</strong> Profils informatifs : rares, fondateurs, extrêmes, utiles pour imputation</li>
 <li><strong>Recalibrage:</strong> Fréquences finales calculées sur les 2500 SNP, pas sur le panel WGS brut</li>
 </ul>
-<p class="text-body"><strong>Statut technique :</strong> Panel hybride validé 1000G avant déploiement sur Réunion.</p>
+<p class="text-body"><strong>Statut technique :</strong> Panel hybride à valider sur 1000G avant déploiement sur Réunion.</p>
 </div>
 <div>
 <p class="text-body mb-responsive-sm"><strong>Allocation V3 opérationnelle</strong> :</p>
@@ -1890,7 +1890,7 @@
 <div class="card arch-constraint-box arch-constraint-box--gen">
 <div class="arch-constraint-label arch-constraint-label--gen">Niveau 2 — Optimisation</div>
 <h3 class="arch-constraint-title">Diversité génétique<br/>locale + découverte</h3>
-<p class="text-body arch-constraint-copy"><strong>Au sein</strong> de chaque secteur : maximiser l'information via score S_div multicritère (4 dimensions). <strong>Bras découverte :</strong> score insulaire pour profils rares/fondateurs/informatifs après noyau géographique.</p>
+<p class="text-body arch-constraint-copy"><strong>Au sein</strong> de chaque secteur : maximiser l'information via score S_div multicritère (4 dimensions). <strong>Bras découverte :</strong> score insulaire pour profils rares/fondateurs/informatifs après noyau géo-ancestral.</p>
 <div class="arch-constraint-badge arch-constraint-badge--gen">Algo greedy + enrichissement</div>
 </div>
 </div>
@@ -2310,13 +2310,13 @@
 <p class="text-body design-body mt-responsive-sm"><strong>ADMIXTURE supervisé / semi-supervisé</strong> avec pools témoins (1000G + EGA : MGUA Madagascar, GenomeAsia, Angola/Mozambique) → q_k labellisés et stables entre secteurs. <strong>K testé empiriquement</strong> (2–10) : choix par CV-error, stabilité multi-seed, cohérence avec PCA et histoire du peuplement. <strong>K non fixé a priori.</strong></p>
 <div class="mt-responsive-sm">
 <svg aria-hidden="true" style="width:100%;display:block;" viewbox="0 0 200 72">
-<text fill="#4A5568" font-size="8.5" x="4" y="14">Concentré (H ≈ 0)</text>
+<text fill="#4A5568" font-size="8.5" x="4" y="14">Concentré (H faible)</text>
 <rect fill="#0369A1" height="12" rx="2" width="112" x="4" y="18"></rect>
 <rect fill="#D97706" height="12" rx="2" width="8" x="118" y="18"></rect>
 <rect fill="#7C3AED" height="12" rx="2" width="6" x="128" y="18"></rect>
 <rect fill="#059669" height="12" rx="2" width="4" x="136" y="18"></rect>
 <text fill="#8896A5" font-size="8" x="145" y="28">H = 0.28</text>
-<text fill="#E05A4B" font-size="8.5" font-weight="700" x="4" y="52">Admixé max (H ≈ 1) ✓</text>
+<text fill="#E05A4B" font-size="8.5" font-weight="700" x="4" y="52">Admixé max (H ≈ ln K) ✓</text>
 <rect fill="#0369A1" height="12" rx="2" width="34" x="4" y="56"></rect>
 <rect fill="#D97706" height="12" rx="2" width="30" x="40" y="56"></rect>
 <rect fill="#7C3AED" height="12" rx="2" width="36" x="72" y="56"></rect>
@@ -2325,7 +2325,7 @@
 </svg>
 </div>
 <div class="mt-responsive-sm callout">
-<strong>Note :</strong> L'entropie seule ne capture pas la rareté ancestrale. <strong>Le bras découverte (28 indiv) utilise S_discovery_rarity</strong> (distance au centroïde q_k du secteur ancestral) plutôt que l'entropie — capturant profils aux marges ancestrales. Noyau géographique (322) utilise entropie H(i) pour diversité globale. À valider par analyse de sensibilité.
+<strong>Note :</strong> L'entropie seule ne capture pas la rareté ancestrale. <strong>Le bras découverte (28 indiv) utilise S_discovery_rarity</strong> (distance au centroïde q_k du secteur ancestral) plutôt que l'entropie — capturant profils aux marges ancestrales. Noyau géo-ancestral (322) utilise entropie H(i) pour diversité globale. À valider par analyse de sensibilité.
                 </div>
 </div>
 </div>
@@ -2354,21 +2354,21 @@
 <div class="algo-legend">
 <div class="algo-legend-row">
 <div class="algo-legend-swatch algo-legend-swatch--red"></div>
-<span class="algo-legend-value algo-legend-value--red">kinship &gt; 0.125</span>
-<span class="algo-legend-label">1er degré — éliminé</span>
+<span class="algo-legend-value algo-legend-value--red">kinship ≥ 0.177</span>
+<span class="algo-legend-label">1er degré, éliminé</span>
 </div>
 <div class="algo-legend-row">
 <div class="algo-legend-swatch algo-legend-swatch--orange"></div>
-<span class="algo-legend-value algo-legend-value--orange">kinship 0.0625–0.125</span>
-<span class="algo-legend-label">2e degré — seuil dur</span>
+<span class="algo-legend-value algo-legend-value--orange">0.0625 ≤ kinship &lt; 0.177</span>
+<span class="algo-legend-label">2e/3e degré jusqu'aux cousins germains, éliminé</span>
 </div>
 <div class="algo-legend-row">
 <div class="algo-legend-swatch algo-legend-swatch--green"></div>
 <span class="algo-legend-value algo-legend-value--green">kinship &lt; 0.0625</span>
-<span class="algo-legend-label">Non apparenté ✓</span>
+<span class="algo-legend-label">au-delà des cousins germains ✓</span>
 </div>
 </div>
-<p class="design-note design-note--teal mt-responsive-sm">Contrainte dure cross-secteur : kinship_KING(candidat, tous déjà sélectionnés) &lt; 0.0625</p>
+<p class="design-note design-note--teal mt-responsive-sm">Contrainte dure cross-secteur : kinship_KING(candidat, tous déjà sélectionnés) &lt; 0.0625 (exclut cousins germains et plus proches)</p>
 </div>
 </div>
 <div class="level-card">
@@ -2542,7 +2542,7 @@
 <div class="algo-validation-mark algo-validation-mark--purple">④</div>
 <div>
 <h3 class="algo-validation-title">Bras découverte sélectionné après noyau</h3>
-<p class="algo-validation-copy">Les 28 individus du bras découverte sont sélectionnés après constitution du noyau géographique, pour assurer la non-redondance avec les individus déjà retenus. Score S_discovery_global (insulaire) distinct de S_div_sector (local).</p>
+<p class="algo-validation-copy">Les 28 individus du bras découverte sont sélectionnés après constitution du noyau géo-ancestral, pour assurer la non-redondance avec les individus déjà retenus. Score S_discovery_global (insulaire) distinct de S_div_sector (local).</p>
 </div>
 </div>
 </div>
@@ -2592,7 +2592,7 @@
               </div>
 </div>
 </div>
-<p class="text-body special-score-line">— <strong>Patient A :</strong> centroïde du secteur, toutes les distances faibles. Non sélectionné.</p>
+<p class="text-body special-score-line">— <strong>Patient A :</strong> centroïde du secteur, distances faibles, donc S_div bas. Non retenu sur le score seul, mais c'est le profil typique que le quota Q3 (30 %) réserve : l'anti-biais garantit sa représentation.</p>
 <p class="text-body special-score-line">— <strong>Patient B :</strong> marges PCA et ADMIX élevées mais très apparenté → IBD_score = 0.20 effondre le score.</p>
 <p class="special-score-line special-copy-strong-green">— <strong>Patient C :</strong> marges maximales ET non apparenté → sélectionné en priorité.</p>
 <div class="slide-footer">
