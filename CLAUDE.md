@@ -116,10 +116,10 @@ Règles de travail détaillées dans `AGENTS.md`.
 | 32 | Exemple concret : calcul | 31 | 4 | `radar` | `slide--cream` | Radar Chart.js pas-à-pas |
 | 33 | Phasage réunionnais | 32 | 4 | — | `slide--cream` | 2500 SNP + 100 familles nucléaires |
 | 34 | Fréquences finales | 33 | 4 | — | `slide--cream` | Brute → pondérée → imputée |
-| 35 | Comparaison 6 stratégies | 34 | 4 | — | `slide--cream` | Évaluation systématique approches |
-| 36 | Avantages et limitations | 35 | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
-| 37 | Validation 1000 Genomes | 36 | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
-| 38 | Validation EPIGEN-Brasil | 37 | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
+| 35 | Avantages et limitations | 34 | 4 | — | `slide--cream` | Robustesse multi-ordre, MAF ≥ 1% |
+| 36 | Validation 1000 Genomes | 35 | 4 | — | `slide--cream` | Proxy : 3 populations × 3 budgets × 5 stratégies |
+| 37 | Validation EPIGEN-Brasil | 36 | 4 | — | `slide--cream` | Cohorte brésilienne réelle : 6487 indiv, 30 WGS |
+| 38 | Comparaison 6 stratégies | 37 | 4 | — | `slide--cream` | Évaluation systématique approches |
 | 39 | INTRO S05 — WGS ET IMPACTS | — (slide 38) | 5 | — | `slide--s05` | Impacts attendus, conclusion |
 | 40 | Les impacts attendus | 39 | 5 | — | `slide--cream` | Référentiel réunionnais, santé précision |
 | 41 | CONCLUSION | — (slide 40) | 5 | — | `slide--navy` | Fermeture |
@@ -170,7 +170,7 @@ Il reste **25** `style=""` inline dans `index.html` (tous justifiés) :
 - **4** : SVG display standard (`width:100%;display:block`) — élément racine SVG, responsive (slides 15, 26, 30)
 - **9** : ROH chromosome segments (`left`/`width` positioning) — géométrie unique du diagramme (slide 29)
 - **3** : Liste et code styling pour notes phasage/recalibrage (slides 34-35)
-- **9** : Callouts colorés recalibrage (slide 35: 3 boxes + style inline pour formule)
+- **9** : Callouts colorés recalibrage (slide 35/Avantages: 3 boxes + style inline pour formule)
 
 Conservés volontairement pour des raisons de responsivité (SVG), géométrie locale unique (ROH), et callouts spécialisés (recalibrage).
 
@@ -243,13 +243,13 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 | **Classes .phasage-flow-*** | `.phasage-flow` `.phasage-flow-box--navy/.blue/.teal` `.phasage-flow-tag` pour pipeline visuel |
 | **Archflow carousel** | Nouveau système pour slides larges (slide 21) : carousel items avec dots navigation, mobile-friendly |
 | **Slide 29 + 31 + 33** | Appliqué `.inner--top` pour éviter titles cachés sur slides denses (greedy, phasage, avantages) |
-| **S04 Révision (2026-04)** | ✅ 5 recommandations implémentées : (1) slide 35 comparative 6 stratégies, (2) clarifier ADMIX_rarity (slide 27), (3) quantifier robustesse multi-ordre (slide 31), (4) énumérer 6 stratégies (slides 18-19), (5) effectif observé (slide 34). ✅ 75+ références bibliographiques intégrées en pied de page |
+| **S04 Révision (2026-04)** | ✅ 5 recommandations implémentées : (1) slide 38 comparative 6 stratégies, (2) clarifier ADMIX_rarity (slide 27), (3) quantifier robustesse multi-ordre (slide 31), (4) énumérer 6 stratégies (slides 18-19), (5) effectif observé (slide 34). ✅ 75+ références bibliographiques intégrées en pied de page |
 | **Footer Redesign (2026-04)** | ✅ Option 5 — Design Mixte Moderne : barre d'accent colorée (couleur de section), breadcrumb "Génome Réunion · <#>", badge de numéro (droite), section références avec icône 📚. CSS Grid 2×3 + pseudo-éléments ::before/::after. Support dual : simple (2 captions) + citations (via slide-footer-meta wrapper). Responsive clamp() typography. |
 | **Total slides** | Augmenté de 40 → **41 slides** (1 nouvelle comparative S04) + 2 résumés optionnels = deck complet V3 révisé |
 | **S04 Pools témoins V3.5 (2026-05)** | ✅ Nouvelle slide 25 « Pools témoins externes — ancrer PCA et ADMIXTURE » : layout dual ADMIXTURE supervisée K=4 (gauche, 5 individus admixés + 1 référence africaine, mise en évidence Ind. A) + PCA projetée (droite, 4 clusters d'ascendance, individu A pointé). Aligne la présentation sur METHODOLOGY_selection_V3_5.md (catalogue 1000G + EGA : MGUA Madagascar, MAGE, GenomeAsia, Angola/Mozambique). Classes `.pools-dual-layout .pools-pane .pools-admix-* .pools-pca-*` dans `s04-algorithme.css`. |
 | **Total slides** | Augmenté de 41 → **42 slides** (1 nouvelle pools témoins S04) + 2 résumés optionnels = deck complet V3.5 |
 | **S04 Réorganisation logique (2026-05)** | ✅ Réorganisation complète des 22 slides S04 (17-38) pour respecter la progression du document maître METHODOLOGY_selection_V3_5.md : Partie I (Architecture 20-23) → Partie II (Ressources 24-25) → Partie III (Méthodologie 26-34) → Partie V (Validation 35-38). Numérotation logique alignée avec l'ordre de présentation. |
-| **S04 Recalibrage badges (2026-05)** | ✅ Badges de pied de page recalculés : Architecture du projet = badge 19, puis incrémentation séquentielle jusqu'à badge 37 (Validation EPIGEN-Brasil), badge 39 (Impacts), badge 40 (Conclusion). Le badge = position 1-based en mode Expert (2 résumés S04 exclus, slides de section sans badge). Index DOM inchangés (utilisés par `app.js`). Bloc d'index de navigation en tête de `index.html` et commentaires `SLIDE N` réécrits en cohérence. |
+| **S04 Recalibrage badges (2026-05)** | ✅ Badges de pied de page recalculés : Architecture du projet = badge 19, puis incrémentation séquentielle jusqu'à badge 36 (Validation EPIGEN-Brasil), badge 37 (Comparaison 6 stratégies), badge 39 (Impacts). Le badge = position 1-based en mode Expert (2 résumés S04 exclus, slides de section sans badge). Index DOM inchangés (utilisés par `app.js`). Bloc d'index de navigation en tête de `index.html` et commentaires `SLIDE N` réécrits en cohérence. |
 
 ## Règle de mise à jour
 
