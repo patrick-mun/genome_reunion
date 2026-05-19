@@ -6,16 +6,24 @@
    ============================================================ */
 
 /* ── Couleurs des boîtes du pipeline ─────────────────────── */
-.pipeline-box--navy   { background: var(--navy); }
-.pipeline-box--teal   { background: var(--teal); }
-.pipeline-box--purple { background: var(--purple); }
-.pipeline-box--coral  { background: var(--coral); }
+.pipeline-box--navy {
+  background: var(--navy);
+}
+.pipeline-box--teal {
+  background: var(--teal);
+}
+.pipeline-box--purple {
+  background: var(--purple);
+}
+.pipeline-box--coral {
+  background: var(--coral);
+}
 
 /* ── Typographie interne des boîtes (slide 15) ───────────── */
 .design-pipeline-step {
   font-size: 42px;
   font-weight: 700;
-  color: rgba(255, 255, 255, .18);
+  color: rgba(255, 255, 255, 0.18);
   font-family: Georgia, serif;
   line-height: 1;
   margin-bottom: clamp(5px, 1vh, 14px);
@@ -23,7 +31,7 @@
 
 .design-pipeline-divider {
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, .2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   margin: 8px 0;
 }
 
@@ -38,12 +46,16 @@
   line-height: 1.5;
 }
 
-.design-pipeline-copy--soft { opacity: .8; }
-.design-pipeline-copy--mid  { opacity: .85; }
+.design-pipeline-copy--soft {
+  opacity: 0.8;
+}
+.design-pipeline-copy--mid {
+  opacity: 0.85;
+}
 
 .design-pipeline-note {
-  background: #F3F0FF;
-  border: 1px solid #C4B5FD;
+  background: #f3f0ff;
+  border: 1px solid #c4b5fd;
   border-radius: 6px;
   padding: clamp(12px, 1.8vh, 28px) 16px;
   font-size: clamp(16px, 1.8vw, 26px);
@@ -61,9 +73,18 @@
   margin-bottom: 10px;
 }
 
-.design-figure--teal   { background: #F0FDFA; padding: 8px; }
-.design-figure--purple { background: #FAF5FF; padding: 8px 10px; }
-.design-figure--coral  { background: #FFF5F5; padding: 10px 12px; }
+.design-figure--teal {
+  background: #f0fdfa;
+  padding: 8px;
+}
+.design-figure--purple {
+  background: #faf5ff;
+  padding: 8px 10px;
+}
+.design-figure--coral {
+  background: #fff5f5;
+  padding: 10px 12px;
+}
 
 .design-figure-svg {
   width: 100%;
@@ -83,13 +104,24 @@
   font-style: italic;
 }
 
-.design-body--tight { margin-bottom: 5px; }
+.design-body--tight {
+  margin-bottom: 5px;
+}
 
-.design-note { font-size: clamp(16px, 1.8vw, 26px); font-style: italic; }
+.design-note {
+  font-size: clamp(16px, 1.8vw, 26px);
+  font-style: italic;
+}
 
-.design-note--teal   { color: var(--teal); }
-.design-note--purple { color: var(--purple); }
-.design-note--amber  { color: var(--amber); }
+.design-note--teal {
+  color: var(--teal);
+}
+.design-note--purple {
+  color: var(--purple);
+}
+.design-note--amber {
+  color: var(--amber);
+}
 
 /* ── Animation pipeline SNP → WGS (slide 15) ────────────────
    Chaque .pipeline-box et .pipeline-arrow commence invisible
@@ -111,15 +143,20 @@
   text-align: center;
   color: white;
   position: relative;
-  opacity: 0;                                        /* Invisible par défaut */
-  transform: translateY(20px);                       /* Léger décalage vers le bas */
-  transition: opacity .5s ease, transform .5s ease;
+  opacity: 0; /* Invisible par défaut */
+  transform: translateY(20px); /* Léger décalage vers le bas */
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
-.pipeline-box.shown { opacity: 1; transform: none; } /* État visible */
+.pipeline-box.shown {
+  opacity: 1;
+  transform: none;
+} /* État visible */
 
 .pipeline-arrow {
   width: 36px;
@@ -128,12 +165,17 @@
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity .4s ease;
+  transition: opacity 0.4s ease;
   align-self: center;
 }
 
-.pipeline-arrow.shown { opacity: 1; }
-.pipeline-arrow svg   { width: 28px; height: 28px; }
+.pipeline-arrow.shown {
+  opacity: 1;
+}
+.pipeline-arrow svg {
+  width: 28px;
+  height: 28px;
+}
 
 /* ── Entonnoir d'optimisation (slide 16) ─────────────────── */
 .funnel-layout {
@@ -148,16 +190,31 @@
 
 /* Tablette (601–900px) : pipeline en 2 rangées 3+2 */
 @media (max-width: 900px) and (min-width: 601px) {
-  .pipeline-flow { flex-wrap: wrap; gap: 8px; justify-content: center; }
-  .pipeline-box  { flex: 1 1 calc(31% - 4px); min-width: 0; }
-  .pipeline-arrow { display: none; }
+  .pipeline-flow {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .pipeline-box {
+    flex: 1 1 calc(31% - 4px);
+    min-width: 0;
+  }
+  .pipeline-arrow {
+    display: none;
+  }
 }
 
 @media (max-width: 600px) {
   /* Pipeline horizontal → vertical */
-  .pipeline-flow  { flex-direction: column; }
+  .pipeline-flow {
+    flex-direction: column;
+  }
   /* Flèche orientée vers le bas */
-  .pipeline-arrow { transform: rotate(90deg); width: 100%; height: 28px; }
+  .pipeline-arrow {
+    transform: rotate(90deg);
+    width: 100%;
+    height: 28px;
+  }
 
   /* Entonnoir : SVG au-dessus, étapes en dessous */
   .funnel-layout {

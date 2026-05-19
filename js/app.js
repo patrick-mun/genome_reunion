@@ -7,14 +7,14 @@
 
 // ── Éléments DOM ─────────────────────────────────────────────
 
-const slideDeck        = document.getElementById('deck');
-const slideCounter     = document.getElementById('ctr');
-const progressBar      = document.getElementById('pf');
-const buttonPrevious   = document.getElementById('bp');
-const buttonNext       = document.getElementById('bn');
-const allSlides        = document.querySelectorAll('.slide');
-const navPills         = document.querySelectorAll('.sec-pill');
-const slideJumpTargets = document.querySelectorAll('.js-slide-jump');
+const slideDeck = document.getElementById("deck");
+const slideCounter = document.getElementById("ctr");
+const progressBar = document.getElementById("pf");
+const buttonPrevious = document.getElementById("bp");
+const buttonNext = document.getElementById("bn");
+const allSlides = document.querySelectorAll(".slide");
+const navPills = document.querySelectorAll(".sec-pill");
+const slideJumpTargets = document.querySelectorAll(".js-slide-jump");
 
 // ── Constantes dérivées du DOM ────────────────────────────────
 
@@ -23,7 +23,7 @@ const TOTAL_SLIDES = allSlides.length;
 
 // Construit le tableau de section depuis les attributs data-section du HTML.
 // 0=Accueil 1=Angle mort 2=Singularité 3=Design 4=Algorithme 5=WGS
-const SECTION_MAP = Array.from(allSlides).map(function(slide) {
+const SECTION_MAP = Array.from(allSlides).map(function (slide) {
   return parseInt(slide.dataset.section, 10) || 0;
 });
 
@@ -45,7 +45,7 @@ let radarChartInstance = null;
  * hero, titre standard ou titre d'introduction de section.
  */
 function getSlideTitleElement(slide) {
-  return slide.querySelector('.hero-title, .slide-title, .section-title');
+  return slide.querySelector(".hero-title, .slide-title, .section-title");
 }
 
 /**
@@ -54,27 +54,27 @@ function getSlideTitleElement(slide) {
  * - les cibles cliquables non natives deviennent accessibles au clavier
  */
 function setupDeckAccessibility() {
-  allSlides.forEach(function(slide, index) {
+  allSlides.forEach(function (slide, index) {
     var title = getSlideTitleElement(slide);
 
     slide.id = slide.id || `slide-${index + 1}`;
-    slide.setAttribute('role', 'group');
-    slide.setAttribute('aria-roledescription', 'slide');
+    slide.setAttribute("role", "group");
+    slide.setAttribute("aria-roledescription", "slide");
 
     if (title) {
       title.id = title.id || `slide-title-${index + 1}`;
-      title.setAttribute('tabindex', '-1');
-      slide.setAttribute('aria-labelledby', title.id);
+      title.setAttribute("tabindex", "-1");
+      slide.setAttribute("aria-labelledby", title.id);
     } else {
-      slide.setAttribute('aria-label', `Slide ${index + 1} sur ${TOTAL_SLIDES}`);
+      slide.setAttribute("aria-label", `Slide ${index + 1} sur ${TOTAL_SLIDES}`);
     }
   });
 
-  slideJumpTargets.forEach(function(target) {
-    var isNativeControl = target.matches('button, a[href]');
+  slideJumpTargets.forEach(function (target) {
+    var isNativeControl = target.matches("button, a[href]");
     if (!isNativeControl) {
-      target.setAttribute('role', 'button');
-      target.setAttribute('tabindex', '0');
+      target.setAttribute("role", "button");
+      target.setAttribute("tabindex", "0");
     }
   });
 }
@@ -84,18 +84,18 @@ function setupDeckAccessibility() {
  * mais doivent être masquées sémantiquement et retirées du focus clavier.
  */
 function updateSlideAccessibility() {
-  allSlides.forEach(function(slide, index) {
+  allSlides.forEach(function (slide, index) {
     var isActive = index === currentSlide;
 
-    slide.setAttribute('aria-hidden', String(!isActive));
+    slide.setAttribute("aria-hidden", String(!isActive));
 
     if (isActive) {
-      slide.removeAttribute('inert');
+      slide.removeAttribute("inert");
     } else {
-      slide.setAttribute('inert', '');
+      slide.setAttribute("inert", "");
     }
 
-    if ('inert' in slide) {
+    if ("inert" in slide) {
       slide.inert = !isActive;
     }
   });
@@ -128,28 +128,28 @@ function goToSlide(targetIndex, options) {
   options = options || {};
   targetIndex = Math.max(0, Math.min(TOTAL_SLIDES - 1, targetIndex));
 
-  allSlides[currentSlide].classList.remove('on');
+  allSlides[currentSlide].classList.remove("on");
   currentSlide = targetIndex;
-  allSlides[currentSlide].classList.add('on');
+  allSlides[currentSlide].classList.add("on");
 
-  var innerEl = allSlides[currentSlide].querySelector('.inner');
+  var innerEl = allSlides[currentSlide].querySelector(".inner");
   if (innerEl) innerEl.scrollTop = 0;
 
   slideDeck.style.transform = `translateX(-${currentSlide * 100}vw)`;
-  slideCounter.textContent  = `${currentSlide + 1} / ${TOTAL_SLIDES}`;
-  progressBar.style.width   = `${((currentSlide + 1) / TOTAL_SLIDES) * 100}%`;
+  slideCounter.textContent = `${currentSlide + 1} / ${TOTAL_SLIDES}`;
+  progressBar.style.width = `${((currentSlide + 1) / TOTAL_SLIDES) * 100}%`;
 
   buttonPrevious.disabled = currentSlide === 0;
-  buttonNext.disabled     = currentSlide === TOTAL_SLIDES - 1;
+  buttonNext.disabled = currentSlide === TOTAL_SLIDES - 1;
 
-  navPills.forEach(function(pill, index) {
+  navPills.forEach(function (pill, index) {
     var isActive = index === (SECTION_MAP[currentSlide] || 0);
-    pill.classList.toggle('on', isActive);
+    pill.classList.toggle("on", isActive);
     // aria-current indique la section active aux lecteurs d'écran.
     if (isActive) {
-      pill.setAttribute('aria-current', 'true');
+      pill.setAttribute("aria-current", "true");
     } else {
-      pill.removeAttribute('aria-current');
+      pill.removeAttribute("aria-current");
     }
   });
 
@@ -158,11 +158,23 @@ function goToSlide(targetIndex, options) {
   // Animations déclenchées à l'arrivée sur certaines slides.
   // La slide active est identifiée via data-animate (plus d'indices hardcodés).
   var animate = allSlides[currentSlide].dataset.animate;
-  if (animate === 'pipeline')  { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
-  if (animate === 'archflow')  { initArchFlowCarousel(); }
-  if (animate === 'score')     { setTimeout(initScoreChart,  200); }
-  if (animate === 'roh')       { resetROHAnimation(); setTimeout(animateROH, 300); }
-  if (animate === 'radar')     { setTimeout(initRadarChart,  200); }
+  if (animate === "pipeline") {
+    resetPipelineAnimation();
+    setTimeout(animatePipeline, 200);
+  }
+  if (animate === "archflow") {
+    initArchFlowCarousel();
+  }
+  if (animate === "score") {
+    setTimeout(initScoreChart, 200);
+  }
+  if (animate === "roh") {
+    resetROHAnimation();
+    setTimeout(animateROH, 300);
+  }
+  if (animate === "radar") {
+    setTimeout(initRadarChart, 200);
+  }
 
   if (!options.skipFocus) {
     focusCurrentSlideTitle();
@@ -171,7 +183,7 @@ function goToSlide(targetIndex, options) {
   // Envoyer un message à la fenêtre presenter si elle est ouverte (sauf si on est en mode slave)
   // NB: L'iframe (slave mode) ne doit PAS broadcaster pour éviter une boucle infinie
   if (!isSlavePresenter && presenterWindow && !presenterWindow.closed) {
-    presenterWindow.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
+    presenterWindow.postMessage({ type: "SLIDE_CHANGE", slideIndex: currentSlide }, "*");
   }
 }
 
@@ -182,16 +194,16 @@ window.go = goToSlide;
 
 // Les event listeners des boutons sont redéfinis dans la section MODE ADAPTATIF
 
-slideJumpTargets.forEach(function(target) {
-  target.addEventListener('click', function() {
+slideJumpTargets.forEach(function (target) {
+  target.addEventListener("click", function () {
     const targetIndex = Number.parseInt(target.dataset.targetSlide, 10);
     if (!Number.isNaN(targetIndex)) {
       goToSlide(targetIndex);
     }
   });
 
-  target.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' || event.key === ' ') {
+  target.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
 
       const targetIndex = Number.parseInt(target.dataset.targetSlide, 10);
@@ -204,20 +216,20 @@ slideJumpTargets.forEach(function(target) {
 
 // ── Navigation clavier ────────────────────────────────────────
 
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'ArrowRight' || event.key === 'ArrowDown') goToSlide(currentSlide + 1);
-  if (event.key === 'ArrowLeft'  || event.key === 'ArrowUp')   goToSlide(currentSlide - 1);
+document.addEventListener("keydown", function (event) {
+  if (event.key === "ArrowRight" || event.key === "ArrowDown") goToSlide(currentSlide + 1);
+  if (event.key === "ArrowLeft" || event.key === "ArrowUp") goToSlide(currentSlide - 1);
 });
 
 // ── Navigation swipe mobile ───────────────────────────────────
 
 let touchStartX = 0;
 
-document.addEventListener('touchstart', function(event) {
+document.addEventListener("touchstart", function (event) {
   touchStartX = event.touches[0].clientX;
 });
 
-document.addEventListener('touchend', function(event) {
+document.addEventListener("touchend", function (event) {
   const swipeDistance = event.changedTouches[0].clientX - touchStartX;
   if (Math.abs(swipeDistance) > 50) {
     goToSlide(swipeDistance < 0 ? currentSlide + 1 : currentSlide - 1);
@@ -233,59 +245,71 @@ document.addEventListener('touchend', function(event) {
  * Formule v3.8 : PCA 30% · ADMIX 30% · IBD 25% · ROH 15%
  */
 function initScoreChart() {
-  if (typeof Chart === 'undefined') { console.warn('[app.js] Chart.js non chargé — initScoreChart annulé.'); return; }
-  const canvas = document.getElementById('scoreBarChart');
+  if (typeof Chart === "undefined") {
+    console.warn("[app.js] Chart.js non chargé — initScoreChart annulé.");
+    return;
+  }
+  const canvas = document.getElementById("scoreBarChart");
   if (!canvas || scoreChartInstance) return;
 
-  const componentDescriptions = [
-    'Distance au centroïde du secteur dans l\'espace PCA global',
-    'Entropie de Shannon des proportions ancestrales q_k',
-    'Indépendance génétique (1 − max IBD intra-secteur)',
-    'Effet fondateur / consanguinité (1 − ROH_total / 100 Mb)'
-  ];
+  const componentDescriptions = ["Distance au centroïde du secteur dans l'espace PCA global", "Entropie de Shannon des proportions ancestrales q_k", "Indépendance génétique (1 − max IBD intra-secteur)", "Effet fondateur / consanguinité (1 − ROH_total / 100 Mb)"];
 
   scoreChartInstance = new Chart(canvas, {
-    type: 'bar',
+    type: "bar",
     data: {
-      labels: ['PCA_score', 'ADMIX_score', 'IBD_score', 'ROH_score'],
-      datasets: [{
-        label: 'Poids (%)',
-        data: [30, 30, 25, 15],
-        backgroundColor: ['#0D7377', '#7C3AED', '#EA580C', '#D97706'],
-        borderRadius: 6,
-        borderSkipped: false
-      }]
+      labels: ["PCA_score", "ADMIX_score", "IBD_score", "ROH_score"],
+      datasets: [
+        {
+          label: "Poids (%)",
+          data: [30, 30, 25, 15],
+          backgroundColor: ["#0D7377", "#7C3AED", "#EA580C", "#D97706"],
+          borderRadius: 6,
+          borderSkipped: false,
+        },
+      ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      indexAxis: 'y',
+      indexAxis: "y",
       animation: {
         duration: 800,
-        delay: function(context) { return context.dataIndex * 120; },
-        easing: 'easeOutQuart'
+        delay: function (context) {
+          return context.dataIndex * 120;
+        },
+        easing: "easeOutQuart",
       },
       plugins: {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label:      function(context) { return `Poids : ${context.parsed.x}%`; },
-            afterLabel: function(context) { return componentDescriptions[context.dataIndex]; }
-          }
-        }
+            label: function (context) {
+              return `Poids : ${context.parsed.x}%`;
+            },
+            afterLabel: function (context) {
+              return componentDescriptions[context.dataIndex];
+            },
+          },
+        },
       },
       scales: {
         x: {
           max: 50,
-          ticks: { callback: function(v) { return v + '%'; }, color: '#4A5568', font: { size: 14 } },
-          grid:  { color: 'rgba(0,0,0,.06)' }
+          ticks: {
+            callback: function (v) {
+              return v + "%";
+            },
+            color: "#4A5568",
+            font: { size: 14 },
+          },
+          grid: { color: "rgba(0,0,0,.06)" },
         },
         y: {
-          ticks: { color: '#0B1F3A', font: { size: 15, weight: '700', family: "'Courier New',monospace" } },
-          grid:  { display: false }
-        }
-      }
-    }
+          ticks: { color: "#0B1F3A", font: { size: 15, weight: "700", family: "'Courier New',monospace" } },
+          grid: { display: false },
+        },
+      },
+    },
   });
 }
 
@@ -295,68 +319,71 @@ function initScoreChart() {
  * Scores cohérents avec la formule S_div v3.8 (0.30/0.30/0.25/0.15)
  */
 function initRadarChart() {
-  if (typeof Chart === 'undefined') { console.warn('[app.js] Chart.js non chargé — initRadarChart annulé.'); return; }
-  const canvas = document.getElementById('radarChart');
+  if (typeof Chart === "undefined") {
+    console.warn("[app.js] Chart.js non chargé — initRadarChart annulé.");
+    return;
+  }
+  const canvas = document.getElementById("radarChart");
   if (!canvas || radarChartInstance) return;
 
   radarChartInstance = new Chart(canvas, {
-    type: 'radar',
+    type: "radar",
     data: {
-      labels: ['PCA_score', 'ADMIX_score', 'IBD_score', 'ROH_score'],
+      labels: ["PCA_score", "ADMIX_score", "IBD_score", "ROH_score"],
       datasets: [
         {
           // S_div = 0.30×0.20 + 0.30×0.15 + 0.25×0.80 + 0.15×0.55 = 0.38
-          label: 'Patient A — profil médian',
-          data: [0.20, 0.15, 0.80, 0.55],
-          backgroundColor: 'rgba(107,114,128,.12)',
-          borderColor: '#9CA3AF',
-          pointBackgroundColor: '#9CA3AF',
+          label: "Patient A — profil médian",
+          data: [0.2, 0.15, 0.8, 0.55],
+          backgroundColor: "rgba(107,114,128,.12)",
+          borderColor: "#9CA3AF",
+          pointBackgroundColor: "#9CA3AF",
           borderWidth: 2,
-          pointRadius: 4
+          pointRadius: 4,
         },
         {
           // S_div = 0.30×0.80 + 0.30×0.70 + 0.25×0.20 + 0.15×0.60 = 0.59
-          label: 'Patient B — extrême, apparenté',
-          data: [0.80, 0.70, 0.20, 0.60],
-          backgroundColor: 'rgba(217,119,6,.12)',
-          borderColor: '#D97706',
-          pointBackgroundColor: '#D97706',
+          label: "Patient B — extrême, apparenté",
+          data: [0.8, 0.7, 0.2, 0.6],
+          backgroundColor: "rgba(217,119,6,.12)",
+          borderColor: "#D97706",
+          pointBackgroundColor: "#D97706",
           borderWidth: 2,
-          pointRadius: 4
+          pointRadius: 4,
         },
         {
           // S_div = 0.30×0.90 + 0.30×0.80 + 0.25×0.88 + 0.15×0.80 = 0.84
-          label: 'Patient C — sélectionné ✓',
-          data: [0.90, 0.80, 0.88, 0.80],
-          backgroundColor: 'rgba(5,150,105,.15)',
-          borderColor: '#059669',
-          pointBackgroundColor: '#059669',
+          label: "Patient C — sélectionné ✓",
+          data: [0.9, 0.8, 0.88, 0.8],
+          backgroundColor: "rgba(5,150,105,.15)",
+          borderColor: "#059669",
+          pointBackgroundColor: "#059669",
           borderWidth: 2.5,
-          pointRadius: 5
-        }
-      ]
+          pointRadius: 5,
+        },
+      ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 900, easing: 'easeInOutQuart' },
+      animation: { duration: 900, easing: "easeInOutQuart" },
       plugins: {
         legend: {
-          position: 'bottom',
-          labels: { font: { size: 13 }, padding: 12, boxWidth: 14, color: '#4A5568' }
-        }
+          position: "bottom",
+          labels: { font: { size: 13 }, padding: 12, boxWidth: 14, color: "#4A5568" },
+        },
       },
       scales: {
         r: {
           min: 0,
           max: 1,
-          ticks:       { stepSize: .25, font: { size: 12 }, color: '#8896A5', backdropColor: 'transparent' },
-          pointLabels: { font: { size: 14, weight: '700' }, color: '#0B1F3A' },
-          grid:        { color: 'rgba(0,0,0,.1)' },
-          angleLines:  { color: 'rgba(0,0,0,.1)' }
-        }
-      }
-    }
+          ticks: { stepSize: 0.25, font: { size: 12 }, color: "#8896A5", backdropColor: "transparent" },
+          pointLabels: { font: { size: 14, weight: "700" }, color: "#0B1F3A" },
+          grid: { color: "rgba(0,0,0,.1)" },
+          angleLines: { color: "rgba(0,0,0,.1)" },
+        },
+      },
+    },
   });
 }
 
@@ -374,21 +401,23 @@ var _archFlowCarouselInit = false;
 function initArchFlowCarousel() {
   if (window.innerWidth > 600) return;
 
-  var items = document.querySelectorAll('#archFlow .arch-flow-item');
-  var dots  = document.querySelectorAll('.arch-flow-carousel-dot');
-  var btnPrev = document.getElementById('archFlowPrev');
-  var btnNext = document.getElementById('archFlowNext');
+  var items = document.querySelectorAll("#archFlow .arch-flow-item");
+  var dots = document.querySelectorAll(".arch-flow-carousel-dot");
+  var btnPrev = document.getElementById("archFlowPrev");
+  var btnNext = document.getElementById("archFlowNext");
   if (!items.length) return;
 
   var step = 0;
 
   function showStep(n) {
-    items.forEach(function(item, i) {
-      item.classList.remove('arch-flow-active', 'arch-flow-prev');
-      if (i === n) item.classList.add('arch-flow-active');
-      else if (i < n) item.classList.add('arch-flow-prev');
+    items.forEach(function (item, i) {
+      item.classList.remove("arch-flow-active", "arch-flow-prev");
+      if (i === n) item.classList.add("arch-flow-active");
+      else if (i < n) item.classList.add("arch-flow-prev");
     });
-    dots.forEach(function(dot, i) { dot.classList.toggle('active', i === n); });
+    dots.forEach(function (dot, i) {
+      dot.classList.toggle("active", i === n);
+    });
     step = n;
   }
 
@@ -397,15 +426,25 @@ function initArchFlowCarousel() {
   if (_archFlowCarouselInit) return;
   _archFlowCarouselInit = true;
 
-  if (btnPrev) btnPrev.addEventListener('click', function() { if (step > 0) showStep(step - 1); });
-  if (btnNext) btnNext.addEventListener('click', function() { if (step < items.length - 1) showStep(step + 1); });
-  dots.forEach(function(dot) {
-    dot.addEventListener('click', function() { showStep(parseInt(dot.dataset.step, 10)); });
+  if (btnPrev)
+    btnPrev.addEventListener("click", function () {
+      if (step > 0) showStep(step - 1);
+    });
+  if (btnNext)
+    btnNext.addEventListener("click", function () {
+      if (step < items.length - 1) showStep(step + 1);
+    });
+  dots.forEach(function (dot) {
+    dot.addEventListener("click", function () {
+      showStep(parseInt(dot.dataset.step, 10));
+    });
   });
 
-  window.addEventListener('resize', function() {
+  window.addEventListener("resize", function () {
     if (window.innerWidth > 600) {
-      items.forEach(function(item) { item.classList.remove('arch-flow-active', 'arch-flow-prev'); });
+      items.forEach(function (item) {
+        item.classList.remove("arch-flow-active", "arch-flow-prev");
+      });
     } else {
       showStep(step);
     }
@@ -413,20 +452,25 @@ function initArchFlowCarousel() {
 }
 
 function animatePipeline() {
-  const pipeFlow = document.getElementById('pipeFlow');
-  if (!pipeFlow) { console.warn('[app.js] #pipeFlow introuvable — animatePipeline annulé.'); return; }
-  pipeFlow.querySelectorAll('.pipeline-box, .pipeline-arrow')
-    .forEach(function(element) {
-      const animationDelay = parseInt(element.dataset.delay || 0) * 130;
-      setTimeout(function() { element.classList.add('shown'); }, animationDelay);
-    });
+  const pipeFlow = document.getElementById("pipeFlow");
+  if (!pipeFlow) {
+    console.warn("[app.js] #pipeFlow introuvable — animatePipeline annulé.");
+    return;
+  }
+  pipeFlow.querySelectorAll(".pipeline-box, .pipeline-arrow").forEach(function (element) {
+    const animationDelay = parseInt(element.dataset.delay || 0) * 130;
+    setTimeout(function () {
+      element.classList.add("shown");
+    }, animationDelay);
+  });
 }
 
 function resetPipelineAnimation() {
-  const pipeFlow = document.getElementById('pipeFlow');
+  const pipeFlow = document.getElementById("pipeFlow");
   if (!pipeFlow) return;
-  pipeFlow.querySelectorAll('.pipeline-box, .pipeline-arrow')
-    .forEach(function(element) { element.classList.remove('shown'); });
+  pipeFlow.querySelectorAll(".pipeline-box, .pipeline-arrow").forEach(function (element) {
+    element.classList.remove("shown");
+  });
 }
 
 /**
@@ -434,19 +478,21 @@ function resetPipelineAnimation() {
  * La classe .roh-visible (définie dans main.css) gère opacity et transition.
  */
 function animateROH() {
-  const segments = document.querySelectorAll('#rohDiagram .chromosome-segment');
-  segments.forEach(function(segment, index) {
-    setTimeout(function() {
-      segment.classList.add('roh-visible');
-    }, index * 90 + 200);
+  const segments = document.querySelectorAll("#rohDiagram .chromosome-segment");
+  segments.forEach(function (segment, index) {
+    setTimeout(
+      function () {
+        segment.classList.add("roh-visible");
+      },
+      index * 90 + 200,
+    );
   });
 }
 
 function resetROHAnimation() {
-  document.querySelectorAll('#rohDiagram .chromosome-segment')
-    .forEach(function(segment) {
-      segment.classList.remove('roh-visible');
-    });
+  document.querySelectorAll("#rohDiagram .chromosome-segment").forEach(function (segment) {
+    segment.classList.remove("roh-visible");
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -465,88 +511,88 @@ function openPresenterMode() {
   const left = window.screen.availWidth - width - 10;
   const top = 10;
 
-  presenterWindow = window.open(
-    'presenter.html',
-    'GenomeReunion_Presenter',
-    'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top +
-    ',toolbar=0,menubar=0,location=0,scrollbars=1'
-  );
+  presenterWindow = window.open("presenter.html", "GenomeReunion_Presenter", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top + ",toolbar=0,menubar=0,location=0,scrollbars=1");
 
   if (!presenterWindow) {
-    alert('Impossible d\'ouvrir la fenêtre presenter. Vérifiez que les pop-ups ne sont pas bloqués.');
+    alert("Impossible d'ouvrir la fenêtre presenter. Vérifiez que les pop-ups ne sont pas bloqués.");
     return;
   }
 
   // Envoyer la slide actuelle à presenter au démarrage
-  setTimeout(function() {
+  setTimeout(function () {
     if (presenterWindow && !presenterWindow.closed) {
-      presenterWindow.postMessage({ type: 'SLIDE_CHANGE', slideIndex: currentSlide }, '*');
+      presenterWindow.postMessage({ type: "SLIDE_CHANGE", slideIndex: currentSlide }, "*");
     }
   }, 500);
 }
 
 // Événement du bouton presenter
-var presenterBtn = document.getElementById('presenter-btn');
+var presenterBtn = document.getElementById("presenter-btn");
 if (presenterBtn) {
-  presenterBtn.addEventListener('click', openPresenterMode);
+  presenterBtn.addEventListener("click", openPresenterMode);
 }
 
 // ── Burger menu (< 900px) ────────────────────────────────────
-var burgerBtn  = document.getElementById('burger-btn');
-var navCenter  = document.getElementById('nav-center');
+var burgerBtn = document.getElementById("burger-btn");
+var navCenter = document.getElementById("nav-center");
 
 if (burgerBtn && navCenter) {
-  burgerBtn.addEventListener('click', function() {
-    var isOpen = navCenter.classList.toggle('open');
-    burgerBtn.classList.toggle('open', isOpen);
-    burgerBtn.setAttribute('aria-expanded', String(isOpen));
+  burgerBtn.addEventListener("click", function () {
+    var isOpen = navCenter.classList.toggle("open");
+    burgerBtn.classList.toggle("open", isOpen);
+    burgerBtn.setAttribute("aria-expanded", String(isOpen));
   });
 
   // Fermer le menu quand on clique sur une pill
-  navPills.forEach(function(pill) {
-    pill.addEventListener('click', function() {
-      navCenter.classList.remove('open');
-      burgerBtn.classList.remove('open');
-      burgerBtn.setAttribute('aria-expanded', 'false');
+  navPills.forEach(function (pill) {
+    pill.addEventListener("click", function () {
+      navCenter.classList.remove("open");
+      burgerBtn.classList.remove("open");
+      burgerBtn.setAttribute("aria-expanded", "false");
     });
   });
 
   // Fermer si clic en dehors du menu
-  document.addEventListener('click', function(e) {
+  document.addEventListener("click", function (e) {
     if (!navCenter.contains(e.target) && e.target !== burgerBtn && !burgerBtn.contains(e.target)) {
-      navCenter.classList.remove('open');
-      burgerBtn.classList.remove('open');
-      burgerBtn.setAttribute('aria-expanded', 'false');
+      navCenter.classList.remove("open");
+      burgerBtn.classList.remove("open");
+      burgerBtn.setAttribute("aria-expanded", "false");
     }
   });
 }
 
 // ── Logo cliquable → slide 0 ─────────────────────────────────
-var navLogo = document.getElementById('nav-logo');
+var navLogo = document.getElementById("nav-logo");
 if (navLogo) {
-  navLogo.addEventListener('click', function() { goToSlide(0); });
+  navLogo.addEventListener("click", function () {
+    goToSlide(0);
+  });
 }
 
 // Écouter les messages depuis presenter.html (pour l'iframe slave et requêtes presenter)
-window.addEventListener('message', function(event) {
-  if (event.data && event.data.type === 'IFRAME_SYNC') {
+window.addEventListener("message", function (event) {
+  if (event.data && event.data.type === "IFRAME_SYNC") {
     // Naviguer vers la slide sans broadcaster (on est en slave mode)
     goToSlide(event.data.slideIndex, { skipFocus: true });
   }
 
-  if (event.data && event.data.type === 'GET_CURRENT_SLIDE') {
+  if (event.data && event.data.type === "GET_CURRENT_SLIDE") {
     if (event.source) {
-      event.source.postMessage({
-        type: 'CURRENT_SLIDE_INDEX',
-        slideIndex: currentSlide,
-        visibleIndex: getVisibleIndexFromRealIndex(currentSlide),
-        totalVisible: getVisibleSlideCount(),
-        expertMode: s04ExpertMode
-      }, '*');
+      event.source.postMessage(
+        {
+          type: "CURRENT_SLIDE_INDEX",
+          slideIndex: currentSlide,
+          visibleIndex: getVisibleIndexFromRealIndex(currentSlide),
+          totalVisible: getVisibleSlideCount(),
+          expertMode: s04ExpertMode,
+        },
+        "*",
+      );
     }
   }
 
-  if (event.data && event.data.type === 'S04_MODE_CHANGE') {
+  if (event.data && event.data.type === "S04_MODE_CHANGE") {
     // Iframe slave : appliquer le changement de mode reçu du presenter
     if (isSlavePresenter && event.data.expertMode !== undefined) {
       s04ExpertMode = event.data.expertMode;
@@ -555,10 +601,10 @@ window.addEventListener('message', function(event) {
     }
   }
 
-  if (event.data && event.data.type === 'NAV_COMMAND') {
+  if (event.data && event.data.type === "NAV_COMMAND") {
     // Commande de navigation depuis presenter.html — simuler clic bouton
-    if (event.data.direction === 'next') buttonNext.click();
-    else if (event.data.direction === 'prev') buttonPrevious.click();
+    if (event.data.direction === "next") buttonNext.click();
+    else if (event.data.direction === "prev") buttonPrevious.click();
   }
 });
 
@@ -569,32 +615,32 @@ window.addEventListener('message', function(event) {
 let s04ExpertMode = true; // true = detailed slides, false = summary only
 
 // Indices des slides S04 — ordre DOM après repositionnement des résumés
-const S04_INTRO_SLIDE    = 17;
-const S04_SUMMARY_START  = 18;
-const S04_SUMMARY_END    = 19;
+const S04_INTRO_SLIDE = 17;
+const S04_SUMMARY_START = 18;
+const S04_SUMMARY_END = 19;
 const S04_DETAILED_START = 20;
-const S04_DETAILED_END   = 38;
-const S05_INTRO_SLIDE    = 39;
+const S04_DETAILED_END = 38;
+const S05_INTRO_SLIDE = 39;
 
 // Applique display:none sur les slides cachés, retire-le sur les visibles.
 // Indispensable pour que visibleIdx × 100vw corresponde à la position flex réelle.
 function updateSlideVisibility() {
-  allSlides.forEach(function(slide, index) {
+  allSlides.forEach(function (slide, index) {
     var hidden;
     if (s04ExpertMode) {
       hidden = index >= S04_SUMMARY_START && index <= S04_SUMMARY_END;
     } else {
       hidden = index >= S04_DETAILED_START && index <= S04_DETAILED_END;
     }
-    slide.style.display = hidden ? 'none' : '';
+    slide.style.display = hidden ? "none" : "";
   });
 }
 
 // Retourne les indices des slides affichés dans l'ordre courant
 function getVisibleSlides() {
   var visible = [];
-  allSlides.forEach(function(slide, index) {
-    if (slide.style.display !== 'none') visible.push(index);
+  allSlides.forEach(function (slide, index) {
+    if (slide.style.display !== "none") visible.push(index);
   });
   return visible;
 }
@@ -663,11 +709,11 @@ function goToSlide(targetIndex, options) {
     realIndex = currentSlide;
   }
 
-  allSlides[currentSlide].classList.remove('on');
+  allSlides[currentSlide].classList.remove("on");
   currentSlide = realIndex;
-  allSlides[currentSlide].classList.add('on');
+  allSlides[currentSlide].classList.add("on");
 
-  var innerEl = allSlides[currentSlide].querySelector('.inner');
+  var innerEl = allSlides[currentSlide].querySelector(".inner");
   if (innerEl) innerEl.scrollTop = 0;
 
   var visibleIdx = getVisibleIndexFromRealIndex(currentSlide);
@@ -677,22 +723,22 @@ function goToSlide(targetIndex, options) {
   var visibleCount = getVisibleSlideCount();
   var visibleIndex = getVisibleIndexFromRealIndex(currentSlide) + 1; // +1 pour affichage
 
-  slideCounter.textContent  = `${visibleIndex} / ${visibleCount}`;
-  progressBar.style.width   = `${((visibleIndex) / visibleCount) * 100}%`;
+  slideCounter.textContent = `${visibleIndex} / ${visibleCount}`;
+  progressBar.style.width = `${(visibleIndex / visibleCount) * 100}%`;
 
   // Mettre à jour les boutons
   var visibleSlides = getVisibleSlides();
   var currentVisiblePos = getVisibleIndexFromRealIndex(currentSlide);
   buttonPrevious.disabled = currentVisiblePos === 0;
-  buttonNext.disabled     = currentVisiblePos === visibleSlides.length - 1;
+  buttonNext.disabled = currentVisiblePos === visibleSlides.length - 1;
 
-  navPills.forEach(function(pill, index) {
+  navPills.forEach(function (pill, index) {
     var isActive = index === (SECTION_MAP[currentSlide] || 0);
-    pill.classList.toggle('on', isActive);
+    pill.classList.toggle("on", isActive);
     if (isActive) {
-      pill.setAttribute('aria-current', 'true');
+      pill.setAttribute("aria-current", "true");
     } else {
-      pill.removeAttribute('aria-current');
+      pill.removeAttribute("aria-current");
     }
   });
 
@@ -700,11 +746,23 @@ function goToSlide(targetIndex, options) {
 
   // Animations
   var animate = allSlides[currentSlide].dataset.animate;
-  if (animate === 'pipeline')  { resetPipelineAnimation(); setTimeout(animatePipeline, 200); }
-  if (animate === 'archflow')  { initArchFlowCarousel(); }
-  if (animate === 'score')     { setTimeout(initScoreChart,  200); }
-  if (animate === 'roh')       { resetROHAnimation(); setTimeout(animateROH, 300); }
-  if (animate === 'radar')     { setTimeout(initRadarChart,  200); }
+  if (animate === "pipeline") {
+    resetPipelineAnimation();
+    setTimeout(animatePipeline, 200);
+  }
+  if (animate === "archflow") {
+    initArchFlowCarousel();
+  }
+  if (animate === "score") {
+    setTimeout(initScoreChart, 200);
+  }
+  if (animate === "roh") {
+    resetROHAnimation();
+    setTimeout(animateROH, 300);
+  }
+  if (animate === "radar") {
+    setTimeout(initRadarChart, 200);
+  }
 
   if (!options.skipFocus) {
     focusCurrentSlideTitle();
@@ -712,17 +770,20 @@ function goToSlide(targetIndex, options) {
 
   // Envoyer à presenter si ouvert
   if (!isSlavePresenter && presenterWindow && !presenterWindow.closed) {
-    presenterWindow.postMessage({
-      type: 'SLIDE_CHANGE',
-      slideIndex: currentSlide,
-      visibleIndex: getVisibleIndexFromRealIndex(currentSlide),
-      totalVisible: getVisibleSlideCount()
-    }, '*');
+    presenterWindow.postMessage(
+      {
+        type: "SLIDE_CHANGE",
+        slideIndex: currentSlide,
+        visibleIndex: getVisibleIndexFromRealIndex(currentSlide),
+        totalVisible: getVisibleSlideCount(),
+      },
+      "*",
+    );
   }
 }
 
 // Gère la navigation avec les boutons (pour sauter les slides masqués)
-buttonPrevious.addEventListener('click', function() {
+buttonPrevious.addEventListener("click", function () {
   var visible = getVisibleSlides();
   var currentPos = getVisibleIndexFromRealIndex(currentSlide);
   if (currentPos > 0) {
@@ -730,7 +791,7 @@ buttonPrevious.addEventListener('click', function() {
   }
 });
 
-buttonNext.addEventListener('click', function() {
+buttonNext.addEventListener("click", function () {
   var visible = getVisibleSlides();
   var currentPos = getVisibleIndexFromRealIndex(currentSlide);
   if (currentPos < visible.length - 1) {
@@ -739,14 +800,14 @@ buttonNext.addEventListener('click', function() {
 });
 
 // Toggle S04 mode
-var s04ToggleBtn = document.getElementById('s04-toggle-btn');
+var s04ToggleBtn = document.getElementById("s04-toggle-btn");
 if (s04ToggleBtn) {
-  s04ToggleBtn.addEventListener('click', function() {
+  s04ToggleBtn.addEventListener("click", function () {
     s04ExpertMode = !s04ExpertMode;
 
-    s04ToggleBtn.textContent = s04ExpertMode ? 'Expert' : 'Résumé';
-    s04ToggleBtn.setAttribute('aria-pressed', String(s04ExpertMode));
-    s04ToggleBtn.classList.toggle('is-resume', !s04ExpertMode);
+    s04ToggleBtn.textContent = s04ExpertMode ? "Expert" : "Résumé";
+    s04ToggleBtn.setAttribute("aria-pressed", String(s04ExpertMode));
+    s04ToggleBtn.classList.toggle("is-resume", !s04ExpertMode);
 
     updateSlideVisibility();
 
@@ -755,20 +816,23 @@ if (s04ToggleBtn) {
     var target = currentSlide;
     if (vis.indexOf(target) === -1) {
       for (var j = target - 1; j >= 0; j--) {
-        if (vis.indexOf(j) !== -1) { target = j; break; }
+        if (vis.indexOf(j) !== -1) {
+          target = j;
+          break;
+        }
       }
     }
     goToSlide(target);
 
     // Notifier le presenter du changement de mode
     if (!isSlavePresenter && presenterWindow && !presenterWindow.closed) {
-      presenterWindow.postMessage({ type: 'S04_MODE_CHANGE', expertMode: s04ExpertMode }, '*');
+      presenterWindow.postMessage({ type: "S04_MODE_CHANGE", expertMode: s04ExpertMode }, "*");
     }
   });
 }
 
 // ── Démarrage ─────────────────────────────────────────────────
-console.assert(allSlides.length > 0, '[app.js] Aucune .slide trouvée — vérifier le HTML.');
+console.assert(allSlides.length > 0, "[app.js] Aucune .slide trouvée — vérifier le HTML.");
 setupDeckAccessibility();
 updateSlideVisibility();
 goToSlide(0, { skipFocus: true });

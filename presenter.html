@@ -1,870 +1,869 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Génome Réunion — Mode Présentation</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: #f5f5f5;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      padding: 16px;
-      height: 100vh;
-      overflow: hidden;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Génome Réunion — Mode Présentation</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: #f5f5f5;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 16px;
+        height: 100vh;
+        overflow: hidden;
+      }
 
-    .presenter-main {
-      background: #fff;
-      border: 3px solid #0B1F3A;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
+      .presenter-main {
+        background: #fff;
+        border: 3px solid #0B1F3A;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
 
-    .presenter-sidebar {
-      background: #fff;
-      border: 3px solid #0D7377;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
+      .presenter-sidebar {
+        background: #fff;
+        border: 3px solid #0D7377;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
 
-    .presenter-header {
-      background: #0B1F3A;
-      color: white;
-      padding: 12px 16px;
-      border-bottom: 2px solid #0D7377;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-    }
+      .presenter-header {
+        background: #0B1F3A;
+        color: white;
+        padding: 12px 16px;
+        border-bottom: 2px solid #0D7377;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+      }
 
-    .presenter-header h2 {
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+      .presenter-header h2 {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
 
-    .presenter-timer {
-      font-size: 24px;
-      font-weight: 700;
-      font-family: 'Courier New', monospace;
-      color: #14B8A6;
-    }
+      .presenter-timer {
+        font-size: 24px;
+        font-weight: 700;
+        font-family: 'Courier New', monospace;
+        color: #14B8A6;
+      }
 
-    .presenter-slide-number {
-      background: #0D7377;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-    }
+      .presenter-slide-number {
+        background: #0D7377;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
 
-    .presenter-content {
-      flex: 1;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
+      .presenter-content {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
 
-    #current-slide-container {
-      flex: 1;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #1a1a2e;
-      overflow: hidden;
-      padding: 8px;
-    }
+      #current-slide-container {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #1a1a2e;
+        overflow: hidden;
+        padding: 8px;
+      }
 
-    .slide-overlay-badge {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(11, 31, 58, 0.85);
-      color: white;
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-      z-index: 10;
-      pointer-events: none;
-      backdrop-filter: blur(2px);
-    }
+      .slide-overlay-badge {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(11, 31, 58, 0.85);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        z-index: 10;
+        pointer-events: none;
+        backdrop-filter: blur(2px);
+      }
 
-    .iframe-scale-wrapper {
-      position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-      border-radius: 4px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-    }
+      .iframe-scale-wrapper {
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        border-radius: 4px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      }
 
-    .iframe-scale-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 1280px;
-      height: 720px;
-      border: none;
-      transform-origin: top left;
-    }
+      .iframe-scale-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1280px;
+        height: 720px;
+        border: none;
+        transform-origin: top left;
+      }
 
-    .slide-snapshot {
-      font-size: 11px;
-      color: #999;
-      background: #f0f0f0;
-      padding: 12px;
-      border-radius: 4px;
-      text-align: center;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
+      .slide-snapshot {
+        font-size: 11px;
+        color: #999;
+        background: #f0f0f0;
+        padding: 12px;
+        border-radius: 4px;
+        text-align: center;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
 
-    .slide-snapshot-title {
-      font-weight: 600;
-      font-size: 13px;
-      color: #0B1F3A;
-      margin-bottom: 8px;
-    }
+      .slide-snapshot-title {
+        font-weight: 600;
+        font-size: 13px;
+        color: #0B1F3A;
+        margin-bottom: 8px;
+      }
 
-    .notes-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      background: #fafafa;
-    }
+      .notes-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: #fafafa;
+      }
 
-    /* ── Section texte (50%) ── */
-    .notes-text-section {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      padding: 16px 16px 8px;
-    }
+      /* ── Section texte (50%) ── */
+      .notes-text-section {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        padding: 16px 16px 8px;
+      }
 
-    .notes-header {
-      font-size: 13px;
-      font-weight: 700;
-      color: #0B1F3A;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      border-bottom: 2px solid #0D7377;
-      padding-bottom: 8px;
-    }
+      .notes-header {
+        font-size: 13px;
+        font-weight: 700;
+        color: #0B1F3A;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #0D7377;
+        padding-bottom: 8px;
+      }
 
-    #notes-content {
-      font-size: 28px;
-      line-height: 1.6;
-      color: #333;
-    }
+      #notes-content {
+        font-size: 28px;
+        line-height: 1.6;
+        color: #333;
+      }
 
-    /* ── Section preview (50%) ── */
-    .next-slide-section {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      border-top: 2px solid #ddd;
-      padding: 8px 16px 16px;
-    }
+      /* ── Section preview (50%) ── */
+      .next-slide-section {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        border-top: 2px solid #ddd;
+        padding: 8px 16px 16px;
+      }
 
-    .next-slide-header {
-      font-size: 11px;
-      font-weight: 700;
-      color: #0B1F3A;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      opacity: 0.7;
-      flex-shrink: 0;
-    }
+      .next-slide-header {
+        font-size: 11px;
+        font-weight: 700;
+        color: #0B1F3A;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        opacity: 0.7;
+        flex-shrink: 0;
+      }
 
-    #next-slide-preview {
-      flex: 1;
-      min-height: 0;
-      background: #1a1a2e;
-      border-radius: 4px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-    }
+      #next-slide-preview {
+        flex: 1;
+        min-height: 0;
+        background: #1a1a2e;
+        border-radius: 4px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+      }
 
-    .next-iframe-scale-wrapper {
-      position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-      border-radius: 3px;
-    }
+      .next-iframe-scale-wrapper {
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        border-radius: 3px;
+      }
 
-    .next-iframe-scale-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 1280px;
-      height: 720px;
-      border: none;
-      transform-origin: top left;
-    }
+      .next-iframe-scale-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1280px;
+        height: 720px;
+        border: none;
+        transform-origin: top left;
+      }
 
-    .connection-lost {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: #E05A4B;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-      z-index: 9999;
-      display: none;
-    }
+      .connection-lost {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: #E05A4B;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        z-index: 9999;
+        display: none;
+      }
 
-    .connection-lost.show {
-      display: block;
-      animation: pulse 2s infinite;
-    }
+      .connection-lost.show {
+        display: block;
+        animation: pulse 2s infinite;
+      }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
 
-    /* Scrollbar styling */
-    .notes-container::-webkit-scrollbar {
-      width: 6px;
-    }
+      /* Scrollbar styling */
+      .notes-container::-webkit-scrollbar {
+        width: 6px;
+      }
 
-    .notes-container::-webkit-scrollbar-track {
-      background: #f0f0f0;
-    }
+      .notes-container::-webkit-scrollbar-track {
+        background: #f0f0f0;
+      }
 
-    .notes-container::-webkit-scrollbar-thumb {
-      background: #0D7377;
-      border-radius: 3px;
-    }
+      .notes-container::-webkit-scrollbar-thumb {
+        background: #0D7377;
+        border-radius: 3px;
+      }
 
-    @media (max-width: 900px) {
-      body { grid-template-columns: 1fr; }
-      .presenter-sidebar { display: none; }
-    }
+      @media (max-width: 900px) {
+        body { grid-template-columns: 1fr; }
+        .presenter-sidebar { display: none; }
+      }
 
-    /* ── Barre de navigation presenter ── */
-    .presenter-nav-bar {
-      background: #0B1F3A;
-      border-top: 1px solid #0D7377;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 16px;
-      flex-shrink: 0;
-    }
+      /* ── Barre de navigation presenter ── */
+      .presenter-nav-bar {
+        background: #0B1F3A;
+        border-top: 1px solid #0D7377;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 16px;
+        flex-shrink: 0;
+      }
 
-    .presenter-nav-btn {
-      background: transparent;
-      color: #14B8A6;
-      border: 1px solid #14B8A6;
-      padding: 6px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      font-family: inherit;
-      transition: background .2s, color .2s;
-    }
+      .presenter-nav-btn {
+        background: transparent;
+        color: #14B8A6;
+        border: 1px solid #14B8A6;
+        padding: 6px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: inherit;
+        transition: background .2s, color .2s;
+      }
 
-    .presenter-nav-btn:hover:not(:disabled) {
-      background: #14B8A6;
-      color: #0B1F3A;
-    }
+      .presenter-nav-btn:hover:not(:disabled) {
+        background: #14B8A6;
+        color: #0B1F3A;
+      }
 
-    .presenter-nav-btn:disabled {
-      opacity: .3;
-      cursor: default;
-    }
+      .presenter-nav-btn:disabled {
+        opacity: .3;
+        cursor: default;
+      }
 
-    #presenter-slide-counter {
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      font-family: 'Courier New', monospace;
-    }
+      #presenter-slide-counter {
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+        font-family: 'Courier New', monospace;
+      }
 
-    /* ── Séparateur draggable notes/preview ── */
-    .notes-divider {
-      width: 100%;
-      height: 6px;
-      background: linear-gradient(to bottom, #e0e0e0, #d0d0d0);
-      cursor: row-resize;
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-      flex-shrink: 0;
-      transition: background 0.2s;
-      user-select: none;
-    }
+      /* ── Séparateur draggable notes/preview ── */
+      .notes-divider {
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(to bottom, #e0e0e0, #d0d0d0);
+        cursor: row-resize;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        flex-shrink: 0;
+        transition: background 0.2s;
+        user-select: none;
+      }
 
-    .notes-divider:hover {
-      background: linear-gradient(to bottom, #0D7377, #0a5a65);
-    }
+      .notes-divider:hover {
+        background: linear-gradient(to bottom, #0D7377, #0a5a65);
+      }
 
-    .notes-divider.dragging {
-      background: linear-gradient(to bottom, #0D7377, #0a5a65);
-    }
+      .notes-divider.dragging {
+        background: linear-gradient(to bottom, #0D7377, #0a5a65);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="connection-lost" id="connection-lost">⚠ Connexion perdue avec l'audience</div>
 
-  </style>
-</head>
-<body>
-  <div class="connection-lost" id="connection-lost">⚠ Connexion perdue avec l'audience</div>
-
-  <!-- Panneau gauche : slide actuelle -->
-  <div class="presenter-main">
-    <div class="presenter-content">
-      <div id="current-slide-container">
-        <div class="iframe-scale-wrapper" id="main-scale-wrapper">
-          <iframe id="slide-preview-iframe"></iframe>
-        </div>
-        <div class="slide-overlay-badge" id="slide-number-main">--</div>
-      </div>
-    </div>
-    <div class="presenter-nav-bar">
-      <button id="presenter-prev-btn" class="presenter-nav-btn" disabled>← Préc.</button>
-      <span id="presenter-slide-counter">--</span>
-      <button id="presenter-next-btn" class="presenter-nav-btn">Suiv. →</button>
-    </div>
-  </div>
-
-  <!-- Panneau droit : notes + preview -->
-  <div class="presenter-sidebar">
-    <div class="presenter-header">
-      <h2>Notes du Speaker</h2>
-      <div class="presenter-timer" id="timer">00:00</div>
-    </div>
-    <div class="notes-container">
-      <div class="notes-text-section" id="notes-text-section">
-        <div class="notes-header">Slide actuelle</div>
-        <div id="notes-content">
-          <p>En attente de connexion avec l'audience...</p>
+    <!-- Panneau gauche : slide actuelle -->
+    <div class="presenter-main">
+      <div class="presenter-content">
+        <div id="current-slide-container">
+          <div class="iframe-scale-wrapper" id="main-scale-wrapper">
+            <iframe id="slide-preview-iframe"></iframe>
+          </div>
+          <div class="slide-overlay-badge" id="slide-number-main">--</div>
         </div>
       </div>
+      <div class="presenter-nav-bar">
+        <button id="presenter-prev-btn" class="presenter-nav-btn" disabled>← Préc.</button>
+        <span id="presenter-slide-counter">--</span>
+        <button id="presenter-next-btn" class="presenter-nav-btn">Suiv. →</button>
+      </div>
+    </div>
 
-      <div class="notes-divider" id="notes-divider"></div>
+    <!-- Panneau droit : notes + preview -->
+    <div class="presenter-sidebar">
+      <div class="presenter-header">
+        <h2>Notes du Speaker</h2>
+        <div class="presenter-timer" id="timer">00:00</div>
+      </div>
+      <div class="notes-container">
+        <div class="notes-text-section" id="notes-text-section">
+          <div class="notes-header">Slide actuelle</div>
+          <div id="notes-content">
+            <p>En attente de connexion avec l'audience...</p>
+          </div>
+        </div>
 
-      <div class="next-slide-section" id="next-slide-section">
-        <div class="next-slide-header">Slide suivante (preview)</div>
-        <div id="next-slide-preview">
-          <div class="next-iframe-scale-wrapper" id="next-scale-wrapper">
-            <iframe id="next-slide-preview-iframe"></iframe>
+        <div class="notes-divider" id="notes-divider"></div>
+
+        <div class="next-slide-section" id="next-slide-section">
+          <div class="next-slide-header">Slide suivante (preview)</div>
+          <div id="next-slide-preview">
+            <div class="next-iframe-scale-wrapper" id="next-scale-wrapper">
+              <iframe id="next-slide-preview-iframe"></iframe>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    // Calcule et applique le scale pour un wrapper iframe
-    // Le wrapper prend la taille affichée (scale × native),
-    // l'iframe intérieure reste 1280×720 avec transform: scale()
-    function applyIframeScale(wrapperId, nativeW, nativeH) {
-      const wrapper = document.getElementById(wrapperId);
-      if (!wrapper) return;
-      const container = wrapper.parentElement;
-      const availW = container.clientWidth  - 8;
-      const availH = container.clientHeight - 8;
-      if (availW <= 0 || availH <= 0) return;
-      const scale   = Math.min(availW / nativeW, availH / nativeH);
-      const displayW = Math.floor(nativeW * scale);
-      const displayH = Math.floor(nativeH * scale);
-      wrapper.style.width  = displayW + 'px';
-      wrapper.style.height = displayH + 'px';
-      const iframe = wrapper.querySelector('iframe');
-      if (iframe) iframe.style.transform = 'scale(' + scale + ')';
-    }
-
-    function applyAllScales() {
-      applyIframeScale('main-scale-wrapper', 1280, 720);
-      applyIframeScale('next-scale-wrapper', 1280, 720);
-    }
-
-    window.addEventListener('resize', applyAllScales);
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const indexUrl = new URL('index.html', window.location.href).href;
-      const mainIframe = document.getElementById('slide-preview-iframe');
-      const nextIframe = document.getElementById('next-slide-preview-iframe');
-
-      if (mainIframe) mainIframe.src = indexUrl;
-      if (nextIframe) nextIframe.src = indexUrl;
-
-      setTimeout(applyAllScales, 50);
-    });
-
-    // Cache des notes chargées depuis data/notes/slide-XX.json
-    const notesCache = {};
-
-    function loadSlideNotes(slideIndex) {
-      if (notesCache[slideIndex] !== undefined) {
-        return Promise.resolve(notesCache[slideIndex]);
+    <script>
+      // Calcule et applique le scale pour un wrapper iframe
+      // Le wrapper prend la taille affichée (scale × native),
+      // l'iframe intérieure reste 1280×720 avec transform: scale()
+      function applyIframeScale(wrapperId, nativeW, nativeH) {
+        const wrapper = document.getElementById(wrapperId);
+        if (!wrapper) return;
+        const container = wrapper.parentElement;
+        const availW = container.clientWidth  - 8;
+        const availH = container.clientHeight - 8;
+        if (availW <= 0 || availH <= 0) return;
+        const scale   = Math.min(availW / nativeW, availH / nativeH);
+        const displayW = Math.floor(nativeW * scale);
+        const displayH = Math.floor(nativeH * scale);
+        wrapper.style.width  = displayW + 'px';
+        wrapper.style.height = displayH + 'px';
+        const iframe = wrapper.querySelector('iframe');
+        if (iframe) iframe.style.transform = 'scale(' + scale + ')';
       }
-      const padded = String(slideIndex).padStart(2, '0');
-      return fetch('data/notes/slide-' + padded + '.json')
-        .then(res => res.ok ? res.json() : { notes: 'Notes non disponibles.' })
-        .then(data => {
-          notesCache[slideIndex] = data.notes || 'Notes non disponibles.';
-          return notesCache[slideIndex];
-        })
-        .catch(() => {
-          notesCache[slideIndex] = 'Notes non disponibles.';
-          return notesCache[slideIndex];
-        });
-    }
 
-    let currentSlideIndex = 0;
-    let currentVisibleIndex = 0;
-    let totalVisibleCount = 41;
-    let startTime = null;
-    let timerInterval = null;
-    let parentWindow = null;
-    let slidePreviewIframe = null;
-    let nextSlidePreviewIframe = null;
-    let nextSlidePreviewReady = false;
-    let mainIframeReady = false;
-    let nextSyncAttempts = 0;
-
-    // Envoyer une commande de navigation à la fenêtre audience (index.html)
-    function sendNavCommand(direction) {
-      if (window.opener && !window.opener.closed) {
-        window.opener.postMessage({ type: 'NAV_COMMAND', direction: direction }, '*');
+      function applyAllScales() {
+        applyIframeScale('main-scale-wrapper', 1280, 720);
+        applyIframeScale('next-scale-wrapper', 1280, 720);
       }
-    }
 
-    // Initialiser le timer
-    function startTimer() {
-      startTime = Date.now();
-      if (timerInterval) clearInterval(timerInterval);
+      window.addEventListener('resize', applyAllScales);
 
-      timerInterval = setInterval(() => {
-        const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        const mins = Math.floor(elapsed / 60);
-        const secs = elapsed % 60;
-        document.getElementById('timer').textContent =
-          String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-      }, 1000);
-    }
+      document.addEventListener('DOMContentLoaded', function() {
+        const indexUrl = new URL('index.html', window.location.href).href;
+        const mainIframe = document.getElementById('slide-preview-iframe');
+        const nextIframe = document.getElementById('next-slide-preview-iframe');
 
-    // Wait for iframe contentWindow to be accessible, with max retries
-    function waitForIframeReady(iframe, name, maxRetries) {
-      maxRetries = maxRetries || 50;
-      let attempts = 0;
+        if (mainIframe) mainIframe.src = indexUrl;
+        if (nextIframe) nextIframe.src = indexUrl;
 
-      function checkReady() {
-        attempts++;
-        if (iframe && iframe.contentWindow) {
-          console.log('[presenter]', '✓ ' + name + ' iframe ready after ' + attempts + ' attempts');
-          return true;
+        setTimeout(applyAllScales, 50);
+      });
+
+      // Cache des notes chargées depuis data/notes/slide-XX.json
+      const notesCache = {};
+
+      function loadSlideNotes(slideIndex) {
+        if (notesCache[slideIndex] !== undefined) {
+          return Promise.resolve(notesCache[slideIndex]);
         }
-        if (attempts >= maxRetries) {
-          console.log('[presenter]', '⚠ ' + name + ' iframe never became ready after ' + maxRetries + ' attempts');
+        const padded = String(slideIndex).padStart(2, '0');
+        return fetch('data/notes/slide-' + padded + '.json')
+          .then(res => res.ok ? res.json() : { notes: 'Notes non disponibles.' })
+          .then(data => {
+            notesCache[slideIndex] = data.notes || 'Notes non disponibles.';
+            return notesCache[slideIndex];
+          })
+          .catch(() => {
+            notesCache[slideIndex] = 'Notes non disponibles.';
+            return notesCache[slideIndex];
+          });
+      }
+
+      let currentSlideIndex = 0;
+      let currentVisibleIndex = 0;
+      let totalVisibleCount = 41;
+      let startTime = null;
+      let timerInterval = null;
+      let parentWindow = null;
+      let slidePreviewIframe = null;
+      let nextSlidePreviewIframe = null;
+      let nextSlidePreviewReady = false;
+      let mainIframeReady = false;
+      let nextSyncAttempts = 0;
+
+      // Envoyer une commande de navigation à la fenêtre audience (index.html)
+      function sendNavCommand(direction) {
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage({ type: 'NAV_COMMAND', direction: direction }, '*');
+        }
+      }
+
+      // Initialiser le timer
+      function startTimer() {
+        startTime = Date.now();
+        if (timerInterval) clearInterval(timerInterval);
+
+        timerInterval = setInterval(() => {
+          const elapsed = Math.floor((Date.now() - startTime) / 1000);
+          const mins = Math.floor(elapsed / 60);
+          const secs = elapsed % 60;
+          document.getElementById('timer').textContent =
+            String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }, 1000);
+      }
+
+      // Wait for iframe contentWindow to be accessible, with max retries
+      function waitForIframeReady(iframe, name, maxRetries) {
+        maxRetries = maxRetries || 50;
+        let attempts = 0;
+
+        function checkReady() {
+          attempts++;
+          if (iframe && iframe.contentWindow) {
+            console.log('[presenter]', '✓ ' + name + ' iframe ready after ' + attempts + ' attempts');
+            return true;
+          }
+          if (attempts >= maxRetries) {
+            console.log('[presenter]', '⚠ ' + name + ' iframe never became ready after ' + maxRetries + ' attempts');
+            return false;
+          }
           return false;
         }
-        return false;
-      }
 
-      if (checkReady()) return Promise.resolve();
+        if (checkReady()) return Promise.resolve();
 
-      return new Promise((resolve) => {
-        const interval = setInterval(() => {
-          if (checkReady()) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 50);
-      });
-    }
-
-    // Synchroniser l'iframe avec la slide actuelle
-    function syncIframeSlide(slideIndex) {
-      if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
-        try {
-          slidePreviewIframe.contentWindow.postMessage({
-            type: 'IFRAME_SYNC',
-            slideIndex: slideIndex
-          }, '*');
-          console.log('[presenter]', '→ Syncing main preview to slide ' + slideIndex);
-        } catch (e) {
-          console.log('[presenter]', '⚠ Error syncing main preview: ' + e.message);
-        }
-      } else {
-        console.log('[presenter]', '⚠ Main iframe not ready');
-      }
-    }
-
-    // Synchroniser l'iframe de preview avec la slide suivante
-    function syncNextSlidePreview(slideIndex) {
-      const nextIndex = slideIndex + 1;
-
-      if (!nextSlidePreviewIframe) {
-        console.log('[presenter]', '⚠ nextSlidePreviewIframe is null');
-        return;
-      }
-
-      // Vérifier directement si contentWindow est accessible
-      if (!nextSlidePreviewIframe.contentWindow) {
-        console.log('[presenter]', '⏳ Next iframe contentWindow not accessible, retrying...');
-        setTimeout(() => { syncNextSlidePreview(slideIndex); }, 100);
-        return;
-      }
-
-      try {
-        console.log('[presenter]', '→ Syncing next slide preview to slide ' + nextIndex);
-        nextSlidePreviewIframe.contentWindow.postMessage({
-          type: 'IFRAME_SYNC',
-          slideIndex: nextIndex
-        }, '*');
-        console.log('[presenter]', '✓ Next slide preview message sent');
-      } catch (e) {
-        console.log('[presenter]', '⚠ Error sending next preview message: ' + e.message);
-        // Retry on error
-        setTimeout(() => { syncNextSlidePreview(slideIndex); }, 100);
-      }
-    }
-
-    // Mettre à jour l'affichage du presenter
-    function updatePresenterView(slideIndex, visIdx, totalVis) {
-      currentSlideIndex = slideIndex;
-      if (visIdx !== undefined) currentVisibleIndex = visIdx;
-      if (totalVis !== undefined) totalVisibleCount = totalVis;
-
-      // Mise à jour numéro slide (badge overlay + barre de nav)
-      const displayPos = currentVisibleIndex + 1;
-      document.getElementById('slide-number-main').textContent = displayPos + ' / ' + totalVisibleCount;
-      const counter = document.getElementById('presenter-slide-counter');
-      if (counter) counter.textContent = displayPos + ' / ' + totalVisibleCount;
-
-      // Mise à jour état des boutons nav
-      const prevBtn = document.getElementById('presenter-prev-btn');
-      const nextBtn = document.getElementById('presenter-next-btn');
-      if (prevBtn) prevBtn.disabled = currentVisibleIndex === 0;
-      if (nextBtn) nextBtn.disabled = currentVisibleIndex >= totalVisibleCount - 1;
-
-      // Chargement asynchrone des notes depuis data/notes/slide-XX.json
-      loadSlideNotes(slideIndex).then(notes => {
-        document.getElementById('notes-content').innerHTML = '<p>' + notes + '</p>';
-      });
-
-      // Synchroniser l'iframe principal
-      syncIframeSlide(slideIndex);
-
-      // Wait for next iframe and sync it
-      waitForIframeReady(nextSlidePreviewIframe, 'Next').then(() => {
-        syncNextSlidePreview(slideIndex);
-      });
-
-      // Lancer le timer à la première slide
-      if (!startTime) {
-        startTimer();
-      }
-    }
-
-    // Créer un snapshot texte de la slide (fallback si iframe ne charge pas)
-    function updateSlideSnapshot(slideIndex) {
-      // Ce snapshot n'est plus utilisé car l'iframe montre le vrai contenu
-      // Mais on le garde comme fallback
-      const container = document.getElementById('current-slide-container');
-      const titles = [
-        'Génome Réunion — Hero',
-        'Sommaire',
-        'Angle mort de la médecine',
-        'Biais structurel mondial',
-        'Le mur clinique',
-        'Pharmacogénétique',
-        'IA : garbage in, garbage out',
-        'Comment le projet corrige le biais',
-        'Singularité réunionnaise',
-        'Histoire du peuplement',
-        'Du peuplement au métissage',
-        'Population homogène vs Réunion',
-        'Effet fondateur',
-        'Double singularité',
-        'Design méthodologique',
-        'Le pipeline d\'optimisation',
-        'L\'entonnoir d\'optimisation',
-        'Algorithme de sélection',
-        'S04 Résumé — Vue d\'ensemble',
-        'S04 Résumé — Validation',
-        'Comparaison 6 stratégies',
-        'Architecture 3 piliers',
-        'Panel WGS hybride V3',
-        'Deux niveaux, une contrainte',
-        'Représentativité géographique',
-        'Quatre dimensions S_div',
-        'Composantes globales',
-        'Composantes locales',
-        'Score de Diversité',
-        'Anti-biais directionnel',
-        'Sélection greedy stratifiée',
-        'Exemple concret : calcul',
-        'Phasage réunionnais',
-        'Recalibrage fréquences',
-        'Avantages et limitations',
-        'Validation 1000G',
-        'Validation EPIGEN-Brasil',
-        'WGS & Impacts',
-        'Impacts attendus',
-        'Conclusion'
-      ];
-
-      const title = titles[slideIndex] || 'Slide ' + (slideIndex + 1);
-      const totalSlides = 41;
-      container.innerHTML = '<div class="slide-snapshot"><div class="slide-snapshot-title">' + title + '</div><div>Slide ' + (slideIndex + 1) + ' / ' + totalSlides + '</div></div>';
-    }
-
-    // Écouter les messages depuis la fenêtre audience
-    window.addEventListener('message', (event) => {
-      // Vérifier que le message provient d'une source fiable (même origine)
-      if (event.source === window) return; // Ignorer les messages de soi-même
-
-      if (event.data && event.data.type === 'SLIDE_CHANGE') {
-        console.log('[presenter]', '📡 SLIDE_CHANGE received: slide ' + event.data.slideIndex);
-        updatePresenterView(event.data.slideIndex, event.data.visibleIndex, event.data.totalVisible);
-        document.getElementById('connection-lost').classList.remove('show');
-      }
-
-      if (event.data && event.data.type === 'CURRENT_SLIDE_INDEX') {
-        // Réponse de la fenêtre audience : quelle slide elle regarde
-        console.log('[presenter]', '📡 CURRENT_SLIDE_INDEX received: slide ' + event.data.slideIndex);
-        updatePresenterView(event.data.slideIndex, event.data.visibleIndex, event.data.totalVisible);
-        document.getElementById('connection-lost').classList.remove('show');
-
-        // Synchroniser le mode S04 aux iframes si fourni
-        if (event.data.expertMode !== undefined) {
-          const modeMsg = { type: 'S04_MODE_CHANGE', expertMode: event.data.expertMode };
-          console.log('[presenter]', '→ Syncing S04 mode to iframes: ' + (event.data.expertMode ? 'Expert' : 'Résumé'));
-          setTimeout(() => {
-            if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
-              slidePreviewIframe.contentWindow.postMessage(modeMsg, '*');
+        return new Promise((resolve) => {
+          const interval = setInterval(() => {
+            if (checkReady()) {
+              clearInterval(interval);
+              resolve();
             }
-            if (nextSlidePreviewIframe && nextSlidePreviewIframe.contentWindow) {
-              nextSlidePreviewIframe.contentWindow.postMessage(modeMsg, '*');
-            }
-          }, 200);
-        }
+          }, 50);
+        });
       }
 
-      if (event.data && event.data.type === 'S04_MODE_CHANGE') {
-        // Mode change depuis la fenêtre audience — transférer aux iframes
-        console.log('[presenter]', '📡 S04_MODE_CHANGE received: ' + (event.data.expertMode ? 'Expert' : 'Résumé'));
+      // Synchroniser l'iframe avec la slide actuelle
+      function syncIframeSlide(slideIndex) {
         if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
-          slidePreviewIframe.contentWindow.postMessage(event.data, '*');
-        }
-        if (nextSlidePreviewIframe && nextSlidePreviewIframe.contentWindow) {
-          nextSlidePreviewIframe.contentWindow.postMessage(event.data, '*');
+          try {
+            slidePreviewIframe.contentWindow.postMessage({
+              type: 'IFRAME_SYNC',
+              slideIndex: slideIndex
+            }, '*');
+            console.log('[presenter]', '→ Syncing main preview to slide ' + slideIndex);
+          } catch (e) {
+            console.log('[presenter]', '⚠ Error syncing main preview: ' + e.message);
+          }
+        } else {
+          console.log('[presenter]', '⚠ Main iframe not ready');
         }
       }
-    });
 
-    // Demander la slide actuelle à la fenêtre audience
-    function requestCurrentSlideFromAudience() {
-      console.log('[presenter]', 'Waiting for main iframe to be ready...');
-      waitForIframeReady(slidePreviewIframe, 'Main').then(() => {
-        console.log('[presenter]', 'Requesting current slide from audience...');
-        if (window.opener && !window.opener.closed) {
-          window.opener.postMessage({ type: 'GET_CURRENT_SLIDE' }, '*');
-          // Fallback si pas de réponse rapide
-          setTimeout(() => {
-            if (!startTime) {
-              console.log('[presenter]', 'No response from audience, starting at slide 0');
-              updatePresenterView(0);
-            }
-          }, 1000);
-        } else {
-          console.log('[presenter]', 'No audience window, starting at slide 0');
-          updatePresenterView(0);
+      // Synchroniser l'iframe de preview avec la slide suivante
+      function syncNextSlidePreview(slideIndex) {
+        const nextIndex = slideIndex + 1;
+
+        if (!nextSlidePreviewIframe) {
+          console.log('[presenter]', '⚠ nextSlidePreviewIframe is null');
+          return;
+        }
+
+        // Vérifier directement si contentWindow est accessible
+        if (!nextSlidePreviewIframe.contentWindow) {
+          console.log('[presenter]', '⏳ Next iframe contentWindow not accessible, retrying...');
+          setTimeout(() => { syncNextSlidePreview(slideIndex); }, 100);
+          return;
+        }
+
+        try {
+          console.log('[presenter]', '→ Syncing next slide preview to slide ' + nextIndex);
+          nextSlidePreviewIframe.contentWindow.postMessage({
+            type: 'IFRAME_SYNC',
+            slideIndex: nextIndex
+          }, '*');
+          console.log('[presenter]', '✓ Next slide preview message sent');
+        } catch (e) {
+          console.log('[presenter]', '⚠ Error sending next preview message: ' + e.message);
+          // Retry on error
+          setTimeout(() => { syncNextSlidePreview(slideIndex); }, 100);
+        }
+      }
+
+      // Mettre à jour l'affichage du presenter
+      function updatePresenterView(slideIndex, visIdx, totalVis) {
+        currentSlideIndex = slideIndex;
+        if (visIdx !== undefined) currentVisibleIndex = visIdx;
+        if (totalVis !== undefined) totalVisibleCount = totalVis;
+
+        // Mise à jour numéro slide (badge overlay + barre de nav)
+        const displayPos = currentVisibleIndex + 1;
+        document.getElementById('slide-number-main').textContent = displayPos + ' / ' + totalVisibleCount;
+        const counter = document.getElementById('presenter-slide-counter');
+        if (counter) counter.textContent = displayPos + ' / ' + totalVisibleCount;
+
+        // Mise à jour état des boutons nav
+        const prevBtn = document.getElementById('presenter-prev-btn');
+        const nextBtn = document.getElementById('presenter-next-btn');
+        if (prevBtn) prevBtn.disabled = currentVisibleIndex === 0;
+        if (nextBtn) nextBtn.disabled = currentVisibleIndex >= totalVisibleCount - 1;
+
+        // Chargement asynchrone des notes depuis data/notes/slide-XX.json
+        loadSlideNotes(slideIndex).then(notes => {
+          document.getElementById('notes-content').innerHTML = '<p>' + notes + '</p>';
+        });
+
+        // Synchroniser l'iframe principal
+        syncIframeSlide(slideIndex);
+
+        // Wait for next iframe and sync it
+        waitForIframeReady(nextSlidePreviewIframe, 'Next').then(() => {
+          syncNextSlidePreview(slideIndex);
+        });
+
+        // Lancer le timer à la première slide
+        if (!startTime) {
+          startTimer();
+        }
+      }
+
+      // Créer un snapshot texte de la slide (fallback si iframe ne charge pas)
+      function updateSlideSnapshot(slideIndex) {
+        // Ce snapshot n'est plus utilisé car l'iframe montre le vrai contenu
+        // Mais on le garde comme fallback
+        const container = document.getElementById('current-slide-container');
+        const titles = [
+          'Génome Réunion — Hero',
+          'Sommaire',
+          'Angle mort de la médecine',
+          'Biais structurel mondial',
+          'Le mur clinique',
+          'Pharmacogénétique',
+          'IA : garbage in, garbage out',
+          'Comment le projet corrige le biais',
+          'Singularité réunionnaise',
+          'Histoire du peuplement',
+          'Du peuplement au métissage',
+          'Population homogène vs Réunion',
+          'Effet fondateur',
+          'Double singularité',
+          'Design méthodologique',
+          'Le pipeline d\'optimisation',
+          'L\'entonnoir d\'optimisation',
+          'Algorithme de sélection',
+          'S04 Résumé — Vue d\'ensemble',
+          'S04 Résumé — Validation',
+          'Comparaison 6 stratégies',
+          'Architecture 3 piliers',
+          'Panel WGS hybride V3',
+          'Deux niveaux, une contrainte',
+          'Représentativité géographique',
+          'Quatre dimensions S_div',
+          'Composantes globales',
+          'Composantes locales',
+          'Score de Diversité',
+          'Anti-biais directionnel',
+          'Sélection greedy stratifiée',
+          'Exemple concret : calcul',
+          'Phasage réunionnais',
+          'Recalibrage fréquences',
+          'Avantages et limitations',
+          'Validation 1000G',
+          'Validation EPIGEN-Brasil',
+          'WGS & Impacts',
+          'Impacts attendus',
+          'Conclusion'
+        ];
+
+        const title = titles[slideIndex] || 'Slide ' + (slideIndex + 1);
+        const totalSlides = 41;
+        container.innerHTML = '<div class="slide-snapshot"><div class="slide-snapshot-title">' + title + '</div><div>Slide ' + (slideIndex + 1) + ' / ' + totalSlides + '</div></div>';
+      }
+
+      // Écouter les messages depuis la fenêtre audience
+      window.addEventListener('message', (event) => {
+        // Vérifier que le message provient d'une source fiable (même origine)
+        if (event.source === window) return; // Ignorer les messages de soi-même
+
+        if (event.data && event.data.type === 'SLIDE_CHANGE') {
+          console.log('[presenter]', '📡 SLIDE_CHANGE received: slide ' + event.data.slideIndex);
+          updatePresenterView(event.data.slideIndex, event.data.visibleIndex, event.data.totalVisible);
+          document.getElementById('connection-lost').classList.remove('show');
+        }
+
+        if (event.data && event.data.type === 'CURRENT_SLIDE_INDEX') {
+          // Réponse de la fenêtre audience : quelle slide elle regarde
+          console.log('[presenter]', '📡 CURRENT_SLIDE_INDEX received: slide ' + event.data.slideIndex);
+          updatePresenterView(event.data.slideIndex, event.data.visibleIndex, event.data.totalVisible);
+          document.getElementById('connection-lost').classList.remove('show');
+
+          // Synchroniser le mode S04 aux iframes si fourni
+          if (event.data.expertMode !== undefined) {
+            const modeMsg = { type: 'S04_MODE_CHANGE', expertMode: event.data.expertMode };
+            console.log('[presenter]', '→ Syncing S04 mode to iframes: ' + (event.data.expertMode ? 'Expert' : 'Résumé'));
+            setTimeout(() => {
+              if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
+                slidePreviewIframe.contentWindow.postMessage(modeMsg, '*');
+              }
+              if (nextSlidePreviewIframe && nextSlidePreviewIframe.contentWindow) {
+                nextSlidePreviewIframe.contentWindow.postMessage(modeMsg, '*');
+              }
+            }, 200);
+          }
+        }
+
+        if (event.data && event.data.type === 'S04_MODE_CHANGE') {
+          // Mode change depuis la fenêtre audience — transférer aux iframes
+          console.log('[presenter]', '📡 S04_MODE_CHANGE received: ' + (event.data.expertMode ? 'Expert' : 'Résumé'));
+          if (slidePreviewIframe && slidePreviewIframe.contentWindow) {
+            slidePreviewIframe.contentWindow.postMessage(event.data, '*');
+          }
+          if (nextSlidePreviewIframe && nextSlidePreviewIframe.contentWindow) {
+            nextSlidePreviewIframe.contentWindow.postMessage(event.data, '*');
+          }
         }
       });
-    }
 
-    // Initialiser les iframes et synchroniser avec la slide actuelle de l'audience
-    window.addEventListener('load', () => {
-      slidePreviewIframe = document.getElementById('slide-preview-iframe');
-      nextSlidePreviewIframe = document.getElementById('next-slide-preview-iframe');
+      // Demander la slide actuelle à la fenêtre audience
+      function requestCurrentSlideFromAudience() {
+        console.log('[presenter]', 'Waiting for main iframe to be ready...');
+        waitForIframeReady(slidePreviewIframe, 'Main').then(() => {
+          console.log('[presenter]', 'Requesting current slide from audience...');
+          if (window.opener && !window.opener.closed) {
+            window.opener.postMessage({ type: 'GET_CURRENT_SLIDE' }, '*');
+            // Fallback si pas de réponse rapide
+            setTimeout(() => {
+              if (!startTime) {
+                console.log('[presenter]', 'No response from audience, starting at slide 0');
+                updatePresenterView(0);
+              }
+            }, 1000);
+          } else {
+            console.log('[presenter]', 'No audience window, starting at slide 0');
+            updatePresenterView(0);
+          }
+        });
+      }
 
-      console.log('[presenter]', 'Iframes found: main=' + !!slidePreviewIframe + ', next=' + !!nextSlidePreviewIframe);
+      // Initialiser les iframes et synchroniser avec la slide actuelle de l'audience
+      window.addEventListener('load', () => {
+        slidePreviewIframe = document.getElementById('slide-preview-iframe');
+        nextSlidePreviewIframe = document.getElementById('next-slide-preview-iframe');
 
-      if (slidePreviewIframe) {
-        // Check if already loaded
-        if (slidePreviewIframe.contentWindow) {
-          console.log('[presenter]', 'Main slide iframe already loaded');
-          mainIframeReady = true;
-          // Delay slightly to ensure app.js has initialized
-          setTimeout(requestCurrentSlideFromAudience, 100);
-        } else {
-          // Set onload handler for when it loads
-          slidePreviewIframe.onload = function() {
-            console.log('[presenter]', 'Main slide iframe onload fired');
+        console.log('[presenter]', 'Iframes found: main=' + !!slidePreviewIframe + ', next=' + !!nextSlidePreviewIframe);
+
+        if (slidePreviewIframe) {
+          // Check if already loaded
+          if (slidePreviewIframe.contentWindow) {
+            console.log('[presenter]', 'Main slide iframe already loaded');
             mainIframeReady = true;
-            requestCurrentSlideFromAudience();
-          };
-
-          // Fallback timeout
-          setTimeout(() => {
-            if (slidePreviewIframe.contentWindow && !mainIframeReady) {
-              console.log('[presenter]', 'Main slide iframe ready (timeout fallback)');
+            // Delay slightly to ensure app.js has initialized
+            setTimeout(requestCurrentSlideFromAudience, 100);
+          } else {
+            // Set onload handler for when it loads
+            slidePreviewIframe.onload = function() {
+              console.log('[presenter]', 'Main slide iframe onload fired');
               mainIframeReady = true;
               requestCurrentSlideFromAudience();
-            }
-          }, 2000);
+            };
+
+            // Fallback timeout
+            setTimeout(() => {
+              if (slidePreviewIframe.contentWindow && !mainIframeReady) {
+                console.log('[presenter]', 'Main slide iframe ready (timeout fallback)');
+                mainIframeReady = true;
+                requestCurrentSlideFromAudience();
+              }
+            }, 2000);
+          }
         }
-      }
 
-      if (nextSlidePreviewIframe) {
-        console.log('[presenter]', 'Next slide preview iframe found');
+        if (nextSlidePreviewIframe) {
+          console.log('[presenter]', 'Next slide preview iframe found');
 
-        // Check if already loaded
-        if (nextSlidePreviewIframe.contentWindow) {
-          console.log('[presenter]', 'Next slide iframe already loaded');
-          nextSlidePreviewReady = true;
-        } else {
-          // Set onload handler
-          nextSlidePreviewIframe.onload = function() {
-            console.log('[presenter]', 'Next slide preview iframe onload triggered');
+          // Check if already loaded
+          if (nextSlidePreviewIframe.contentWindow) {
+            console.log('[presenter]', 'Next slide iframe already loaded');
             nextSlidePreviewReady = true;
-          };
-
-          // Fallback timeout
-          setTimeout(() => {
-            if (nextSlidePreviewIframe.contentWindow && !nextSlidePreviewReady) {
-              console.log('[presenter]', 'Next slide preview iframe ready (timeout)');
+          } else {
+            // Set onload handler
+            nextSlidePreviewIframe.onload = function() {
+              console.log('[presenter]', 'Next slide preview iframe onload triggered');
               nextSlidePreviewReady = true;
-            }
-          }, 3000);
+            };
+
+            // Fallback timeout
+            setTimeout(() => {
+              if (nextSlidePreviewIframe.contentWindow && !nextSlidePreviewReady) {
+                console.log('[presenter]', 'Next slide preview iframe ready (timeout)');
+                nextSlidePreviewReady = true;
+              }
+            }, 3000);
+          }
         }
-      }
-    });
-
-    // Draggable divider: notes/preview ratio control with localStorage
-    (function() {
-      const divider = document.getElementById('notes-divider');
-      const notesSection = document.getElementById('notes-text-section');
-      const previewSection = document.getElementById('next-slide-section');
-      const container = document.querySelector('.notes-container');
-
-      const STORAGE_KEY = 'presenter-notes-ratio';
-      const DEFAULT_RATIO = 0.5;
-      let isDragging = false;
-      let pendingScaleUpdate = false;
-
-      function applyRatio(ratio) {
-        const clampedRatio = Math.max(0.2, Math.min(0.8, ratio));
-        notesSection.style.flex = clampedRatio + ' 1 auto';
-        previewSection.style.flex = (1 - clampedRatio) + ' 1 auto';
-        localStorage.setItem(STORAGE_KEY, clampedRatio);
-      }
-
-      function getRatioFromStorage() {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        return stored ? parseFloat(stored) : DEFAULT_RATIO;
-      }
-
-      function scheduleScaleUpdate() {
-        if (!pendingScaleUpdate) {
-          pendingScaleUpdate = true;
-          requestAnimationFrame(() => {
-            applyAllScales();
-            pendingScaleUpdate = false;
-          });
-        }
-      }
-
-      function initializeRatio() {
-        applyRatio(getRatioFromStorage());
-        setTimeout(() => applyAllScales(), 50);
-      }
-
-      divider.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        divider.classList.add('dragging');
-        const containerHeight = container.clientHeight;
-        const startY = e.clientY;
-        const startNotesHeight = notesSection.clientHeight;
-
-        const onMouseMove = (e) => {
-          const deltaY = e.clientY - startY;
-          const newNotesHeight = startNotesHeight + deltaY;
-          const newRatio = newNotesHeight / containerHeight;
-          applyRatio(newRatio);
-          scheduleScaleUpdate();
-        };
-
-        const onMouseUp = () => {
-          isDragging = false;
-          divider.classList.remove('dragging');
-          document.removeEventListener('mousemove', onMouseMove);
-          document.removeEventListener('mouseup', onMouseUp);
-        };
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
       });
 
-      document.addEventListener('DOMContentLoaded', initializeRatio);
-      if (document.readyState === 'loading') {
+      // Draggable divider: notes/preview ratio control with localStorage
+      (function() {
+        const divider = document.getElementById('notes-divider');
+        const notesSection = document.getElementById('notes-text-section');
+        const previewSection = document.getElementById('next-slide-section');
+        const container = document.querySelector('.notes-container');
+
+        const STORAGE_KEY = 'presenter-notes-ratio';
+        const DEFAULT_RATIO = 0.5;
+        let isDragging = false;
+        let pendingScaleUpdate = false;
+
+        function applyRatio(ratio) {
+          const clampedRatio = Math.max(0.2, Math.min(0.8, ratio));
+          notesSection.style.flex = clampedRatio + ' 1 auto';
+          previewSection.style.flex = (1 - clampedRatio) + ' 1 auto';
+          localStorage.setItem(STORAGE_KEY, clampedRatio);
+        }
+
+        function getRatioFromStorage() {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          return stored ? parseFloat(stored) : DEFAULT_RATIO;
+        }
+
+        function scheduleScaleUpdate() {
+          if (!pendingScaleUpdate) {
+            pendingScaleUpdate = true;
+            requestAnimationFrame(() => {
+              applyAllScales();
+              pendingScaleUpdate = false;
+            });
+          }
+        }
+
+        function initializeRatio() {
+          applyRatio(getRatioFromStorage());
+          setTimeout(() => applyAllScales(), 50);
+        }
+
+        divider.addEventListener('mousedown', (e) => {
+          isDragging = true;
+          divider.classList.add('dragging');
+          const containerHeight = container.clientHeight;
+          const startY = e.clientY;
+          const startNotesHeight = notesSection.clientHeight;
+
+          const onMouseMove = (e) => {
+            const deltaY = e.clientY - startY;
+            const newNotesHeight = startNotesHeight + deltaY;
+            const newRatio = newNotesHeight / containerHeight;
+            applyRatio(newRatio);
+            scheduleScaleUpdate();
+          };
+
+          const onMouseUp = () => {
+            isDragging = false;
+            divider.classList.remove('dragging');
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+          };
+
+          document.addEventListener('mousemove', onMouseMove);
+          document.addEventListener('mouseup', onMouseUp);
+        });
+
         document.addEventListener('DOMContentLoaded', initializeRatio);
-      } else {
-        initializeRatio();
-      }
-    })();
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initializeRatio);
+        } else {
+          initializeRatio();
+        }
+      })();
 
-    // Boutons de navigation presenter → index.html
-    document.getElementById('presenter-prev-btn').addEventListener('click', function() {
-      sendNavCommand('prev');
-    });
-    document.getElementById('presenter-next-btn').addEventListener('click', function() {
-      sendNavCommand('next');
-    });
-
-    // Raccourcis clavier dans la fenêtre presenter
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-        e.preventDefault();
-        sendNavCommand('next');
-      }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        e.preventDefault();
+      // Boutons de navigation presenter → index.html
+      document.getElementById('presenter-prev-btn').addEventListener('click', function() {
         sendNavCommand('prev');
-      }
-    });
+      });
+      document.getElementById('presenter-next-btn').addEventListener('click', function() {
+        sendNavCommand('next');
+      });
 
-    // Heartbeat : si pas de message depuis 3s, afficher "connexion perdue"
-    let lastMessageTime = Date.now();
-    window.addEventListener('message', () => {
-      lastMessageTime = Date.now();
-    });
+      // Raccourcis clavier dans la fenêtre presenter
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+          e.preventDefault();
+          sendNavCommand('next');
+        }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          sendNavCommand('prev');
+        }
+      });
 
-    setInterval(() => {
-      if (Date.now() - lastMessageTime > 3000) {
-        document.getElementById('connection-lost').classList.add('show');
-      }
-    }, 1000);
-  </script>
-</body>
+      // Heartbeat : si pas de message depuis 3s, afficher "connexion perdue"
+      let lastMessageTime = Date.now();
+      window.addEventListener('message', () => {
+        lastMessageTime = Date.now();
+      });
+
+      setInterval(() => {
+        if (Date.now() - lastMessageTime > 3000) {
+          document.getElementById('connection-lost').classList.add('show');
+        }
+      }, 1000);
+    </script>
+  </body>
 </html>

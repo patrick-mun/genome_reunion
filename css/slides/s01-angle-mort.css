@@ -65,7 +65,7 @@
 
 /* Variante d'alerte pour signaler l'absence de référence dédiée. */
 .ai-badge-card--alert {
-  background: #FEF2F0;
+  background: #fef2f0;
   border-color: var(--coral);
 }
 
@@ -94,12 +94,12 @@
   padding: clamp(12px, 1.8vh, 28px) clamp(16px, 2vw, 24px);
   border-radius: 0 8px 8px 0;
   border-left: 4px solid var(--teal);
-  background: #F0FDFA;
+  background: #f0fdfa;
 }
 
 .ai-callout--alert {
   border-left-color: var(--coral);
-  background: #FEF2F0;
+  background: #fef2f0;
 }
 
 .ai-callout-label {
@@ -125,9 +125,15 @@
   border-top-style: solid;
 }
 
-.ai-step-card--coral  { border-top-color: var(--coral); }
-.ai-step-card--amber  { border-top-color: var(--amber); }
-.ai-step-card--orange { border-top-color: var(--orange); }
+.ai-step-card--coral {
+  border-top-color: var(--coral);
+}
+.ai-step-card--amber {
+  border-top-color: var(--amber);
+}
+.ai-step-card--orange {
+  border-top-color: var(--orange);
+}
 
 .ai-step-number {
   display: flex;
@@ -142,9 +148,15 @@
   font-weight: 700;
 }
 
-.ai-step-number--coral  { background: var(--coral); }
-.ai-step-number--amber  { background: var(--amber); }
-.ai-step-number--orange { background: var(--orange); }
+.ai-step-number--coral {
+  background: var(--coral);
+}
+.ai-step-number--amber {
+  background: var(--amber);
+}
+.ai-step-number--orange {
+  background: var(--orange);
+}
 
 .ai-step-text {
   font-size: clamp(15px, 1.7vw, 24px);
@@ -167,8 +179,12 @@
   text-align: center;
 }
 
-.clinical-panel--navy   { background: var(--navy); }
-.clinical-panel--orange { background: var(--orange); }
+.clinical-panel--navy {
+  background: var(--navy);
+}
+.clinical-panel--orange {
+  background: var(--orange);
+}
 
 .clinical-panel-title {
   margin-bottom: clamp(8px, 1.5vh, 18px);
@@ -183,7 +199,7 @@
 }
 
 .clinical-panel-result--success {
-  color: #6EE7B7;
+  color: #6ee7b7;
   font-size: clamp(17px, 1.9vw, 28px);
 }
 
@@ -198,7 +214,7 @@
   margin-top: 2px;
   font-size: clamp(14px, 1.6vw, 22px);
   font-weight: 400;
-  opacity: .85;
+  opacity: 0.85;
 }
 
 .clinical-impact-line {
@@ -223,28 +239,40 @@
   margin-bottom: clamp(10px, 1.8vh, 20px);
 }
 
-.bias-col-resource { width: 24%; }
+.bias-col-resource {
+  width: 24%;
+}
 
 .bias-col-key,
-.bias-col-coverage { width: 22%; }
+.bias-col-coverage {
+  width: 22%;
+}
 
 .bias-resource-note {
   font-size: clamp(12px, 1.2vw, 14px);
   color: var(--light);
 }
 
-.bias-key { font-weight: 700; }
+.bias-key {
+  font-weight: 700;
+}
 
-.bias-key--coral { color: var(--coral); }
-.bias-key--amber { color: var(--amber); }
-.bias-key--teal  { color: var(--teal); }
+.bias-key--coral {
+  color: var(--coral);
+}
+.bias-key--amber {
+  color: var(--amber);
+}
+.bias-key--teal {
+  color: var(--teal);
+}
 
 .bias-callout {
   margin-top: clamp(10px, 1.8vh, 20px);
   padding: clamp(12px, 1.8vh, 28px) 16px;
-  border: 1px solid #FECACA;
+  border: 1px solid #fecaca;
   border-radius: 6px;
-  background: #FEF2F0;
+  background: #fef2f0;
 }
 
 .bias-callout-label {
@@ -260,17 +288,27 @@
   table-layout: fixed;
 }
 
-.pharma-col-drug     { width: 30%; }
-.pharma-col-expected { width: 28%; }
-.pharma-col-risk     { width: 42%; }
+.pharma-col-drug {
+  width: 30%;
+}
+.pharma-col-expected {
+  width: 28%;
+}
+.pharma-col-risk {
+  width: 42%;
+}
 
 .pharma-table th,
 .pharma-table td {
   vertical-align: top;
 }
 
-.pharma-head--expected { color: #6EE7B7; }
-.pharma-head--risk     { color: #FCA5A5; }
+.pharma-head--expected {
+  color: #6ee7b7;
+}
+.pharma-head--risk {
+  color: #fca5a5;
+}
 
 .pharma-cell--expected {
   color: var(--green);
@@ -341,12 +379,20 @@
   }
 
   .bias-table th:last-child,
-  .bias-table td:last-child { display: none; }
+  .bias-table td:last-child {
+    display: none;
+  }
 
   /* Redistribue les 3 colonnes restantes sur toute la largeur */
-  .bias-col-resource  { width: 30%; }
-  .bias-col-key       { width: 35%; }
-  .bias-col-coverage  { width: 35%; }
+  .bias-col-resource {
+    width: 30%;
+  }
+  .bias-col-key {
+    width: 35%;
+  }
+  .bias-col-coverage {
+    width: 35%;
+  }
 
   .bias-resource-note {
     font-size: clamp(10px, 0.9vw, 11px);
