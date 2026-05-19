@@ -30,7 +30,6 @@
      14. Accessibilité — Réduction des animations
    ============================================================ */
 
-
 /* ============================================================
    1. VARIABLES DE DESIGN
    Modifier ici pour changer l'ensemble du thème visuel.
@@ -39,36 +38,35 @@
    ============================================================ */
 :root {
   /* Palette principale */
-  --navy:   #0B1F3A;   /* Fond sombre, textes importants, nav */
-  --teal:   #0D7377;   /* Couleur d'accent principale */
-  --tealL:  #14B8A6;   /* Teal clair — sous-titres hero, highlights */
-  --cream:  #F4F1EC;   /* Fond des slides de contenu */
-  --white:  #FFFFFF;
+  --navy: #0b1f3a; /* Fond sombre, textes importants, nav */
+  --teal: #0d7377; /* Couleur d'accent principale */
+  --tealL: #14b8a6; /* Teal clair — sous-titres hero, highlights */
+  --cream: #f4f1ec; /* Fond des slides de contenu */
+  --white: #ffffff;
 
   /* Couleurs de texte — du plus sombre au plus discret */
-  --text:   #1A2B3C;   /* Texte principal (titres, td) */
-  --muted:  #4A5568;   /* Corps de texte */
-  --light:  #8896A5;   /* Légendes, hints, textes secondaires */
-  --border: #D1C9BC;   /* Bordures et séparateurs */
+  --text: #1a2b3c; /* Texte principal (titres, td) */
+  --muted: #4a5568; /* Corps de texte */
+  --light: #8896a5; /* Légendes, hints, textes secondaires */
+  --border: #d1c9bc; /* Bordures et séparateurs */
 
   /* Couleurs d'accent sémantiques */
-  --coral:  #E05A4B;   /* Danger, absence, alerte */
-  --amber:  #D97706;   /* Avertissement, fondateur */
-  --purple: #7C3AED;   /* Section 03 Design, ADMIXTURE */
-  --blue:   #0369A1;   /* Section 04 Algorithme, PCA */
-  --green:  #059669;   /* Section 05 WGS, succès, sélection */
-  --orange: #EA580C;   /* Effet fondateur, parenté */
-  --gray:   #6B7280;   /* DNAQ, éléments neutres */
+  --coral: #e05a4b; /* Danger, absence, alerte */
+  --amber: #d97706; /* Avertissement, fondateur */
+  --purple: #7c3aed; /* Section 03 Design, ADMIXTURE */
+  --blue: #0369a1; /* Section 04 Algorithme, PCA */
+  --green: #059669; /* Section 05 WGS, succès, sélection */
+  --orange: #ea580c; /* Effet fondateur, parenté */
+  --gray: #6b7280; /* DNAQ, éléments neutres */
 
   /* Couleurs des 5 sections — utilisées sur les slides d'intro
      et les pills de navigation actives */
-  --s01: #E05A4B;   /* Section 01 — Angle mort */
-  --s02: #0D7377;   /* Section 02 — Singularité */
-  --s03: #7C3AED;   /* Section 03 — Design */
-  --s04: #0369A1;   /* Section 04 — Algorithme */
-  --s05: #059669;   /* Section 05 — WGS */
+  --s01: #e05a4b; /* Section 01 — Angle mort */
+  --s02: #0d7377; /* Section 02 — Singularité */
+  --s03: #7c3aed; /* Section 03 — Design */
+  --s04: #0369a1; /* Section 04 — Algorithme */
+  --s05: #059669; /* Section 05 — WGS */
 }
-
 
 /* ============================================================
    2. RESET & BASE
@@ -76,18 +74,20 @@
    overflow:hidden sur html/body est intentionnel : c'est le
    deck (#deck) qui gère le défilement via transform translateX.
    ============================================================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   overflow: hidden; /* Le scroll est géré par le deck, pas le navigateur */
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: "Segoe UI", system-ui, sans-serif;
 }
-
 
 /* ============================================================
    3. NAVIGATION FIXE
@@ -96,7 +96,9 @@ html, body {
    ============================================================ */
 #nav {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 46px;
   background: var(--white);
   border-bottom: 1px solid var(--border);
@@ -133,7 +135,9 @@ html, body {
   /* Arrondi : haut-gauche, haut-droit, bas-droit — droit en bas-gauche */
   border-radius: 8px 20px 20px 0;
 }
-#nav-logo:hover { opacity: .8; }
+#nav-logo:hover {
+  opacity: 0.8;
+}
 
 /* Zone centrale : pills de navigation par section.
    Masquée sous 900px (trop étroite pour afficher toutes les pills). */
@@ -151,19 +155,22 @@ html, body {
 .sec-pill {
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: .8px;
+  letter-spacing: 0.8px;
   padding: 4px 10px;
   border-radius: 20px;
   cursor: pointer;
   border: none;
   background: transparent;
   color: var(--muted);
-  transition: .2s;
+  transition: 0.2s;
   white-space: nowrap;
   font-family: inherit;
 }
 .sec-pill:hover,
-.sec-pill.on { background: var(--navy); color: var(--white); }
+.sec-pill.on {
+  background: var(--navy);
+  color: var(--white);
+}
 
 #nav-right {
   display: flex;
@@ -182,10 +189,17 @@ html, body {
   cursor: pointer;
   font-size: 12px;
   font-family: inherit;
-  transition: .2s;
+  transition: 0.2s;
 }
-.nbtn:hover    { background: var(--navy); color: var(--white); border-color: var(--navy); }
-.nbtn:disabled { opacity: .3; cursor: default; }
+.nbtn:hover {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+.nbtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
 
 #ctr {
   font-size: 12px;
@@ -202,12 +216,11 @@ html, body {
   outline-offset: 2px;
 }
 
-
 /* ── Burger button (visible < 900px) ─────────────────────── */
 #burger-btn {
   display: none;
   background: transparent;
-  border: 1px solid rgba(11,31,58,.35);
+  border: 1px solid rgba(11, 31, 58, 0.35);
   border-radius: 5px;
   padding: 6px 8px;
   cursor: pointer;
@@ -224,12 +237,20 @@ html, body {
   height: 2px;
   background: var(--navy);
   border-radius: 1px;
-  transition: transform .2s ease, opacity .2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
-#burger-btn.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-#burger-btn.open span:nth-child(2) { opacity: 0; }
-#burger-btn.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+#burger-btn.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+#burger-btn.open span:nth-child(2) {
+  opacity: 0;
+}
+#burger-btn.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
 
 /* ============================================================
    4. BARRE DE PROGRESSION
@@ -238,19 +259,20 @@ html, body {
    ============================================================ */
 #prog {
   position: fixed;
-  top: 46px; left: 0; right: 0; /* Collée sous la nav */
+  top: 46px;
+  left: 0;
+  right: 0; /* Collée sous la nav */
   height: 3px;
-  background: #E8E4DC;
+  background: #e8e4dc;
   z-index: 300;
 }
 
 #pf {
-  width: 0;                   /* Valeur initiale ; app.js fixe la largeur dès goToSlide(0) */
+  width: 0; /* Valeur initiale ; app.js fixe la largeur dès goToSlide(0) */
   height: 100%;
   background: var(--teal);
-  transition: width .4s ease; /* Transition fluide entre slides */
+  transition: width 0.4s ease; /* Transition fluide entre slides */
 }
-
 
 /* ============================================================
    5. DECK DE SLIDES
@@ -262,7 +284,7 @@ html, body {
   position: fixed;
   inset: 49px 0 0 0;
   display: flex;
-  transition: transform .46s cubic-bezier(.4, 0, .2, 1); /* Easing naturel */
+  transition: transform 0.46s cubic-bezier(0.4, 0, 0.2, 1); /* Easing naturel */
 }
 
 /* Chaque slide occupe exactement 100vw — garantit l'alignement
@@ -291,11 +313,18 @@ html, body {
 }
 
 /* Slides trop denses : alignement en haut pour éviter que le titre soit coupé */
-.inner--top { justify-content: flex-start; }
+.inner--top {
+  justify-content: flex-start;
+}
 
 /* Scrollbar discrète pour les slides dont le contenu dépasse */
-.inner::-webkit-scrollbar       { width: 3px; }
-.inner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.inner::-webkit-scrollbar {
+  width: 3px;
+}
+.inner::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
 
 /* Animation d'entrée des enfants directs de .inner.
    Chaque élément entre en fondu + translateY quand la slide
@@ -304,18 +333,38 @@ html, body {
 .inner > * {
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity .4s ease, transform .4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
-.slide.on .inner > *                { opacity: 1; transform: none; }
-.slide.on .inner > *:nth-child(1)   { transition-delay: .04s; }
-.slide.on .inner > *:nth-child(2)   { transition-delay: .10s; }
-.slide.on .inner > *:nth-child(3)   { transition-delay: .16s; }
-.slide.on .inner > *:nth-child(4)   { transition-delay: .22s; }
-.slide.on .inner > *:nth-child(5)   { transition-delay: .28s; }
-.slide.on .inner > *:nth-child(6)   { transition-delay: .34s; }
-.slide.on .inner > *:nth-child(7)   { transition-delay: .40s; }
-.slide.on .inner > *:nth-child(n+8) { transition-delay: .46s; } /* 8e enfant et au-delà : délai max */
-
+.slide.on .inner > * {
+  opacity: 1;
+  transform: none;
+}
+.slide.on .inner > *:nth-child(1) {
+  transition-delay: 0.04s;
+}
+.slide.on .inner > *:nth-child(2) {
+  transition-delay: 0.1s;
+}
+.slide.on .inner > *:nth-child(3) {
+  transition-delay: 0.16s;
+}
+.slide.on .inner > *:nth-child(4) {
+  transition-delay: 0.22s;
+}
+.slide.on .inner > *:nth-child(5) {
+  transition-delay: 0.28s;
+}
+.slide.on .inner > *:nth-child(6) {
+  transition-delay: 0.34s;
+}
+.slide.on .inner > *:nth-child(7) {
+  transition-delay: 0.4s;
+}
+.slide.on .inner > *:nth-child(n + 8) {
+  transition-delay: 0.46s;
+} /* 8e enfant et au-delà : délai max */
 
 /* ============================================================
    6. TYPOGRAPHIE DE SLIDE
@@ -366,8 +415,6 @@ html, body {
   outline: none;
 }
 
-
-
 /* ============================================================
    8. SLIDES D'INTRO DE SECTION
    Chaque grande section commence par une slide pleine couleur
@@ -380,7 +427,7 @@ html, body {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: .92fr 1.48fr; /* Réduit le vide à droite, laisse plus de place au texte */
+  grid-template-columns: 0.92fr 1.48fr; /* Réduit le vide à droite, laisse plus de place au texte */
   overflow: hidden;
 }
 
@@ -395,15 +442,12 @@ html, body {
 }
 
 .section-slide::before {
-  background:
-    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, .14) 0%, rgba(255, 255, 255, 0) 28%),
-    radial-gradient(circle at 78% 70%, rgba(11, 31, 58, .14) 0%, rgba(11, 31, 58, 0) 34%);
-  opacity: .9;
+  background: radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 28%), radial-gradient(circle at 78% 70%, rgba(11, 31, 58, 0.14) 0%, rgba(11, 31, 58, 0) 34%);
+  opacity: 0.9;
 }
 
 .section-slide::after {
-  background:
-    linear-gradient(120deg, rgba(255, 255, 255, .06) 0%, rgba(255, 255, 255, 0) 24%, rgba(11, 31, 58, .10) 100%);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 24%, rgba(11, 31, 58, 0.1) 100%);
 }
 
 .section-slide-left {
@@ -412,7 +456,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid rgba(255, 255, 255, .12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
   padding: 40px;
 }
 
@@ -438,10 +482,10 @@ html, body {
   font-family: Georgia, serif;
   font-size: clamp(180px, 26vw, 380px);
   font-weight: 700;
-  color: rgba(255, 255, 255, .19);
-  line-height: .85;
+  color: rgba(255, 255, 255, 0.19);
+  line-height: 0.85;
   letter-spacing: -10px;
-  text-shadow: 0 12px 30px rgba(255, 255, 255, .05);
+  text-shadow: 0 12px 30px rgba(255, 255, 255, 0.05);
 }
 
 .section-tag {
@@ -449,7 +493,7 @@ html, body {
   font-weight: 700;
   letter-spacing: 3.2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .58);
+  color: rgba(255, 255, 255, 0.58);
   margin-bottom: 18px;
 }
 
@@ -459,14 +503,14 @@ html, body {
   font-weight: 700;
   color: var(--white);
   line-height: 1.02;
-  letter-spacing: -.03em;
+  letter-spacing: -0.03em;
   margin-bottom: 20px;
   max-width: 13ch;
 }
 
 .section-subtitle {
   font-size: clamp(14px, 1.45vw, 19px);
-  color: rgba(255, 255, 255, .82);
+  color: rgba(255, 255, 255, 0.82);
   line-height: 1.62;
   font-style: italic;
   max-width: 50ch;
@@ -481,7 +525,7 @@ html, body {
   position: absolute;
   inset: 4% -8% 4% 30%;
   pointer-events: none;
-  opacity: .72;
+  opacity: 0.72;
   z-index: 0;
 }
 
@@ -491,7 +535,6 @@ html, body {
   display: block;
 }
 
-
 /* ============================================================
    9. COMPOSANTS DE CONTENU
    ============================================================ */
@@ -500,9 +543,21 @@ html, body {
    Grilles CSS à 2, 3 ou 4 colonnes égales.
    Les gaps et hauteurs minimales s'adaptent à la hauteur
    d'écran via clamp() pour rester dans les limites du .inner. */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr;          gap: clamp(10px, 2vh, 24px); }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr);   gap: clamp(8px, 1.6vh, 20px); }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr);   gap: clamp(6px, 1.4vh, 16px); }
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(10px, 2vh, 24px);
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 1.6vh, 20px);
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(6px, 1.4vh, 16px);
+}
 
 /* ── Card générique ─────────────────────────────────────────
    Fond blanc, bordure crème, coins arrondis.
@@ -532,41 +587,89 @@ html, body {
 /* ── Fonds de slides ─────────────────────────────────────── */
 /* Sélecteurs composés (.slide.slide--*) pour garantir la priorité
    sur la règle de base .slide sans dépendre de l'ordre cascade. */
-.slide.slide--cream { background: var(--cream); }
-.slide.slide--navy  { background: var(--navy); }
-.slide.slide--hero  { background: var(--navy); justify-content: flex-start; }
-.slide.slide--s01   { background: var(--s01); }
-.slide.slide--s02   { background: var(--s02); }
-.slide.slide--s03   { background: var(--s03); }
-.slide.slide--s04   { background: var(--s04); }
-.slide.slide--s05   { background: var(--s05); }
+.slide.slide--cream {
+  background: var(--cream);
+}
+.slide.slide--navy {
+  background: var(--navy);
+}
+.slide.slide--hero {
+  background: var(--navy);
+  justify-content: flex-start;
+}
+.slide.slide--s01 {
+  background: var(--s01);
+}
+.slide.slide--s02 {
+  background: var(--s02);
+}
+.slide.slide--s03 {
+  background: var(--s03);
+}
+.slide.slide--s04 {
+  background: var(--s04);
+}
+.slide.slide--s05 {
+  background: var(--s05);
+}
 
 /* ── Règles colorées sous les titres ─────────────────────── */
 .accent-bar--coral,
-.slide-rule--coral  { background: var(--coral); }
-.slide-rule--teal   { background: var(--teal); }
-.slide-rule--orange { background: var(--orange); }
-.slide-rule--purple { background: var(--purple); }
-.slide-rule--blue   { background: var(--blue); }
-.slide-rule--amber  { background: var(--amber); }
-.slide-rule--green  { background: var(--green); }
+.slide-rule--coral {
+  background: var(--coral);
+}
+.slide-rule--teal {
+  background: var(--teal);
+}
+.slide-rule--orange {
+  background: var(--orange);
+}
+.slide-rule--purple {
+  background: var(--purple);
+}
+.slide-rule--blue {
+  background: var(--blue);
+}
+.slide-rule--amber {
+  background: var(--amber);
+}
+.slide-rule--green {
+  background: var(--green);
+}
 
 /* ── Badges numérotés du sommaire ────────────────────────── */
-.toc-number--s01 { background: var(--s01); }
-.toc-number--s02 { background: var(--s02); }
-.toc-number--s03 { background: var(--s03); }
-.toc-number--s04 { background: var(--s04); }
-.toc-number--s05 { background: var(--s05); }
+.toc-number--s01 {
+  background: var(--s01);
+}
+.toc-number--s02 {
+  background: var(--s02);
+}
+.toc-number--s03 {
+  background: var(--s03);
+}
+.toc-number--s04 {
+  background: var(--s04);
+}
+.toc-number--s05 {
+  background: var(--s05);
+}
 
 /* ── En-têtes des level-cards ────────────────────────────── */
-.level-header--teal   { background: var(--teal); }
-.level-header--purple { background: var(--purple); }
-.level-header--coral  { background: var(--coral); }
-.level-header--amber  { background: var(--amber); }
-.level-header--blue   { background: var(--blue); }
-
-
-
+.level-header--teal {
+  background: var(--teal);
+}
+.level-header--purple {
+  background: var(--purple);
+}
+.level-header--coral {
+  background: var(--coral);
+}
+.level-header--amber {
+  background: var(--amber);
+}
+.level-header--blue {
+  background: var(--blue);
+}
 
 /* ── Footer de slide (OPTION 5 — Design Mixte Moderne) ──────────────
    - Barre d'accent colorée en haut (couleur de section)
@@ -605,7 +708,7 @@ html, body {
 
 /* Barre d'accent colorée — s'étend sur toute la largeur (haut) */
 .slide-footer::before {
-  content: '';
+  content: "";
   grid-column: 1 / -1;
   grid-row: 1;
   width: 100%;
@@ -616,11 +719,21 @@ html, body {
 }
 
 /* Adaptation couleur barre par section */
-.slide.slide--s01 .slide-footer::before { background: var(--coral); }
-.slide.slide--s02 .slide-footer::before { background: var(--teal); }
-.slide.slide--s03 .slide-footer::before { background: var(--purple); }
-.slide.slide--s04 .slide-footer::before { background: var(--blue); }
-.slide.slide--s05 .slide-footer::before { background: var(--green); }
+.slide.slide--s01 .slide-footer::before {
+  background: var(--coral);
+}
+.slide.slide--s02 .slide-footer::before {
+  background: var(--teal);
+}
+.slide.slide--s03 .slide-footer::before {
+  background: var(--purple);
+}
+.slide.slide--s04 .slide-footer::before {
+  background: var(--blue);
+}
+.slide.slide--s05 .slide-footer::before {
+  background: var(--green);
+}
 
 /* ─ Structure simple (pas de sources) ─
    Premier caption (Génome Réunion) — devient breadcrumb */
@@ -639,7 +752,7 @@ html, body {
 
 /* Ajouter le séparateur "·" après le projet (simple) */
 .slide-footer:not(.slide-footer-citations) > .caption:first-of-type::after {
-  content: '·';
+  content: "·";
   margin-left: 8px;
 }
 
@@ -658,11 +771,21 @@ html, body {
 }
 
 /* Adaptation couleur badge par section (simple) */
-.slide.slide--s01 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--coral); }
-.slide.slide--s02 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--teal); }
-.slide.slide--s03 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--purple); }
-.slide.slide--s04 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--blue); }
-.slide.slide--s05 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--green); }
+.slide.slide--s01 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+  background: var(--coral);
+}
+.slide.slide--s02 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+  background: var(--teal);
+}
+.slide.slide--s03 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+  background: var(--purple);
+}
+.slide.slide--s04 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+  background: var(--blue);
+}
+.slide.slide--s05 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+  background: var(--green);
+}
 
 /* ─ Structure avec citations (slide-footer-meta wrapper) ─
    Le meta wrapper contient breadcrumb + sources, occupe col 1 */
@@ -689,7 +812,7 @@ html, body {
 
 /* Ajouter le séparateur "·" (citations) */
 .slide-footer-citations .slide-footer-meta > .caption:first-of-type::after {
-  content: '·';
+  content: "·";
   margin-left: 8px;
 }
 
@@ -709,11 +832,21 @@ html, body {
 }
 
 /* Adaptation couleur badge (citations) */
-.slide.slide--s01 .slide-footer-citations > .caption:last-of-type { background: var(--coral); }
-.slide.slide--s02 .slide-footer-citations > .caption:last-of-type { background: var(--teal); }
-.slide.slide--s03 .slide-footer-citations > .caption:last-of-type { background: var(--purple); }
-.slide.slide--s04 .slide-footer-citations > .caption:last-of-type { background: var(--blue); }
-.slide.slide--s05 .slide-footer-citations > .caption:last-of-type { background: var(--green); }
+.slide.slide--s01 .slide-footer-citations > .caption:last-of-type {
+  background: var(--coral);
+}
+.slide.slide--s02 .slide-footer-citations > .caption:last-of-type {
+  background: var(--teal);
+}
+.slide.slide--s03 .slide-footer-citations > .caption:last-of-type {
+  background: var(--purple);
+}
+.slide.slide--s04 .slide-footer-citations > .caption:last-of-type {
+  background: var(--blue);
+}
+.slide.slide--s05 .slide-footer-citations > .caption:last-of-type {
+  background: var(--green);
+}
 
 /* ─ Bloc références (sources) ─
    Affiche dans le meta ou directement dans footer selon structure */
@@ -725,7 +858,7 @@ html, body {
 
 /* Label "RÉFÉRENCES" avec icône */
 .slide-footer-sources::before {
-  content: '📚 RÉFÉRENCES';
+  content: "📚 RÉFÉRENCES";
   display: block;
   font-size: clamp(8px, 0.88vw, 10px);
   font-weight: 700;
@@ -777,10 +910,14 @@ html, body {
   padding: clamp(8px, 1.5vh, 18px) 0;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
-  transition: padding-left .2s;
+  transition: padding-left 0.2s;
 }
-.toc-row:hover      { padding-left: 8px; }
-.toc-row:last-child { border: none; }
+.toc-row:hover {
+  padding-left: 8px;
+}
+.toc-row:last-child {
+  border: none;
+}
 
 /* Variante de .toc-row avec bouton toggle à droite (S04 Expert/Résumé).
    La structure HTML est : .toc-row--with-button > (js-slide-jump + button).
@@ -806,7 +943,9 @@ html, body {
   font-size: clamp(13px, 1.4vw, 16px);
   font-weight: 600;
   cursor: pointer;
-  transition: background .2s, color .2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .toc-row--with-button button:hover {
@@ -845,11 +984,11 @@ html, body {
    Bloc monospace sur fond bleu très clair, utilisé pour
    afficher les équations du score S_div, F_ROH, H_i, etc. */
 .formula {
-  background: #EFF6FF;
-  border: 1px solid #BFDBFE;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
   border-radius: 5px;
   padding: clamp(8px, 1.2vh, 14px) 16px;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: clamp(11px, 1.2vw, 14px);
   color: var(--navy);
   margin: clamp(6px, 1vh, 12px) 0;
@@ -857,7 +996,7 @@ html, body {
 }
 
 .formula--score {
-  border-color: #BFDBFE;
+  border-color: #bfdbfe;
   font-size: clamp(15px, 1.7vw, 24px);
 }
 
@@ -873,7 +1012,7 @@ html, body {
   margin-bottom: clamp(7px, 1.2vh, 14px);
 }
 .progress-label {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 14px;
   font-weight: 700;
   min-width: 96px;
@@ -882,7 +1021,7 @@ html, body {
 .progress-track {
   flex: 1;
   height: clamp(10px, 1.4vh, 16px);
-  background: #E8E4DC;
+  background: #e8e4dc;
   border-radius: 7px;
   overflow: hidden;
 }
@@ -909,17 +1048,36 @@ html, body {
 /* ── Tableau HTML ────────────────────────────────────────────
    Style appliqué à tous les <table> du document.
    .hi marque une ligne mise en évidence (résultat sélectionné). */
-table            { width: 100%; border-collapse: collapse; font-size: 15px; }
-th               { background: var(--navy); color: var(--white); padding: clamp(7px, 1.2vh, 14px) 14px; font-weight: 600; text-align: left; }
-td               { padding: clamp(7px, 1.2vh, 14px) 14px; border-bottom: 1px solid var(--border); color: var(--text); }
-tr:last-child td { border: none; }
-.hi td           { background: #F0FDF4; font-weight: 600; } /* Ligne "Patient C sélectionné" */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+th {
+  background: var(--navy);
+  color: var(--white);
+  padding: clamp(7px, 1.2vh, 14px) 14px;
+  font-weight: 600;
+  text-align: left;
+}
+td {
+  padding: clamp(7px, 1.2vh, 14px) 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+tr:last-child td {
+  border: none;
+}
+.hi td {
+  background: #f0fdf4;
+  font-weight: 600;
+} /* Ligne "Patient C sélectionné" */
 
 /* ── Callout : encadré note / citation ──────────────────────
    Barre colorée à gauche sur fond crème clair.
    Utilisé pour les notes de bas de slide et les résumés clés. */
 .callout {
-  background: #F8F5F0;
+  background: #f8f5f0;
   border-left: 4px solid var(--teal);
   padding: clamp(8px, 1.2vh, 14px) 16px;
   margin-top: clamp(8px, 1.4vh, 18px);
@@ -927,25 +1085,38 @@ tr:last-child td { border: none; }
   font-size: clamp(13px, 1.3vw, 15px);
   color: var(--muted);
 }
-.callout--amber { border-left-color: var(--amber); }
+.callout--amber {
+  border-left-color: var(--amber);
+}
 
 /* ── Level-card : carte à en-tête coloré (slide 16) ─────────
    Utilisée pour les trois variables génomiques (PCA, ADMIXTURE,
    Entropie). Structure : .level-card > .level-header + .level-body
    La couleur du .level-header est définie via .level-header--* (voir variantes CSS). */
-.level-card   { background: var(--white); border: 2px solid var(--border); border-radius: 8px; overflow: hidden; }
-.level-header { padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px); color: var(--white); font-weight: 700; font-size: clamp(12px, 1.3vw, 15px); }
-.level-body   { padding: clamp(8px, 1.4vh, 18px); }
-
+.level-card {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.level-header {
+  padding: clamp(8px, 1.2vh, 14px) clamp(10px, 1.2vw, 16px);
+  color: var(--white);
+  font-weight: 700;
+  font-size: clamp(12px, 1.3vw, 15px);
+}
+.level-body {
+  padding: clamp(8px, 1.4vh, 18px);
+}
 
 /* Hint de navigation — visible uniquement sur desktop */
 #hint {
   position: fixed;
-  bottom: 10px; right: 14px;
+  bottom: 10px;
+  right: 14px;
   font-size: 10px;
   color: var(--light);
 }
-
 
 /* ============================================================
    12. RESPONSIVE
@@ -958,16 +1129,22 @@ tr:last-child td { border: none; }
              → grid-4 passe en colonne unique
    ============================================================ */
 @media (max-width: 900px) {
-  #burger-btn                       { display: flex; }
-  #nav-center                       { display: none; }
-  #presenter-btn                    { display: none; }
+  #burger-btn {
+    display: flex;
+  }
+  #nav-center {
+    display: none;
+  }
+  #presenter-btn {
+    display: none;
+  }
   #nav-center.open {
     display: flex;
     flex-direction: column;
     position: fixed;
     top: 46px;
     left: 0;
-    width: 260px;                        /* Largeur limitée, aligné à gauche */
+    width: 260px; /* Largeur limitée, aligné à gauche */
     background: var(--cream);
     border-top: 2px solid var(--teal);
     border-right: 1px solid var(--border);
@@ -975,7 +1152,7 @@ tr:last-child td { border: none; }
     padding: 0;
     gap: 0;
     z-index: 998;
-    box-shadow: 4px 6px 16px rgba(0,0,0,.15);
+    box-shadow: 4px 6px 16px rgba(0, 0, 0, 0.15);
     border-radius: 0 0 8px 0;
   }
   #nav-center.open .sec-pill {
@@ -987,20 +1164,50 @@ tr:last-child td { border: none; }
     color: var(--text);
     border-bottom: 1px solid var(--border);
   }
-  #nav-center.open .sec-pill:last-child { border-bottom: none; }
+  #nav-center.open .sec-pill:last-child {
+    border-bottom: none;
+  }
   #nav-center.open .sec-pill:hover,
-  #nav-center.open .sec-pill.on        { background: var(--navy); color: var(--white); }
-  .section-slide                    { grid-template-columns: 1fr !important; }
-  .section-slide-left               { display: none; }             /* Grand numéro masqué */
-  .section-slide-right              { padding: clamp(28px, 5vw, 48px); }
-  .grid-4                           { grid-template-columns: 1fr 1fr; }
-  .grid-3                           { grid-template-columns: 1fr 1fr; }
-  .grid-3 > *:last-child:nth-child(odd) { grid-column: span 2; }  /* Dernier élément impair = pleine largeur */
-  .inner                            { padding: 20px 22px; justify-content: flex-start; } /* flex-start évite le clip du titre quand le contenu déborde */
-  .section-slide                    { padding: 24px 26px 36px; }
-  .progress-desc                    { display: none; }             /* Description trop large */
-  .section-graphic                  { display: none; }             /* SVG décoratif masqué sur mobile */
-  table                             { display: block; overflow-x: auto; max-width: 100%; }
+  #nav-center.open .sec-pill.on {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .section-slide {
+    grid-template-columns: 1fr !important;
+  }
+  .section-slide-left {
+    display: none;
+  } /* Grand numéro masqué */
+  .section-slide-right {
+    padding: clamp(28px, 5vw, 48px);
+  }
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid-3 > *:last-child:nth-child(odd) {
+    grid-column: span 2;
+  } /* Dernier élément impair = pleine largeur */
+  .inner {
+    padding: 20px 22px;
+    justify-content: flex-start;
+  } /* flex-start évite le clip du titre quand le contenu déborde */
+  .section-slide {
+    padding: 24px 26px 36px;
+  }
+  .progress-desc {
+    display: none;
+  } /* Description trop large */
+  .section-graphic {
+    display: none;
+  } /* SVG décoratif masqué sur mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
 
   /* Slides marquées --mobile-scroll : scroll naturel de la slide (et non du .inner)
      → contenu dense affiché en entier, geste de scroll mobile naturel */
@@ -1018,33 +1225,76 @@ tr:last-child td { border: none; }
 }
 
 @media (max-width: 600px) {
-  #nav-logo    { font-size: 9px; letter-spacing: 1px; }
-  .nbtn        { padding: 4px 9px; font-size: 11px; }
-  #ctr         { min-width: 36px; font-size: 11px; }
+  #nav-logo {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .nbtn {
+    padding: 4px 9px;
+    font-size: 11px;
+  }
+  #ctr {
+    min-width: 36px;
+    font-size: 11px;
+  }
   .grid-2,
-  .grid-3      { grid-template-columns: 1fr; }
-  .grid-3 > *:last-child:nth-child(odd) { grid-column: auto; }
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .grid-3 > *:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
   /* Typographie des slides section — plus lisible sur mobile */
-  .section-title    { font-size: clamp(36px, 9vw, 44px); }
-  .section-subtitle { font-size: clamp(16px, 4vw, 18px); }
-  .section-tag      { font-size: 12px; }
-  .grid-4      { grid-template-columns: 1fr 1fr; }
-  .slide-title { font-size: clamp(20px, 4vw, 28px); }
-  .inner       { padding: 22px 14px 28px; max-height: calc(100vh - 70px); justify-content: flex-start; }
-  table        { font-size: clamp(10px, 1.3vw, 12px); }
-  th, td       { padding: clamp(5px, 0.8vh, 7px) clamp(5px, 0.7vw, 7px); }
-  .progress-label { min-width: 58px; font-size: 10px; }
-  .progress-value { min-width: 24px; font-size: 10px; }
-  .toc-number  { min-width: 34px; height: 34px; font-size: 12px; }
-  #hint        { display: none; }
+  .section-title {
+    font-size: clamp(36px, 9vw, 44px);
+  }
+  .section-subtitle {
+    font-size: clamp(16px, 4vw, 18px);
+  }
+  .section-tag {
+    font-size: 12px;
+  }
+  .grid-4 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .slide-title {
+    font-size: clamp(20px, 4vw, 28px);
+  }
+  .inner {
+    padding: 22px 14px 28px;
+    max-height: calc(100vh - 70px);
+    justify-content: flex-start;
+  }
+  table {
+    font-size: clamp(10px, 1.3vw, 12px);
+  }
+  th,
+  td {
+    padding: clamp(5px, 0.8vh, 7px) clamp(5px, 0.7vw, 7px);
+  }
+  .progress-label {
+    min-width: 58px;
+    font-size: 10px;
+  }
+  .progress-value {
+    min-width: 24px;
+    font-size: 10px;
+  }
+  .toc-number {
+    min-width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+  #hint {
+    display: none;
+  }
 }
 
 @media (max-width: 380px) {
-  .grid-4 { grid-template-columns: 1fr; } /* Mobile très étroit : tout en colonne */
+  .grid-4 {
+    grid-template-columns: 1fr;
+  } /* Mobile très étroit : tout en colonne */
 }
-
-
-
 
 /* ============================================================
    13. HAUTEURS MINIMALES FLUIDES
@@ -1054,10 +1304,18 @@ tr:last-child td { border: none; }
    pour couvrir du mobile (120px) au grand écran (240px).
    ============================================================ */
 .grid-2 > *,
-.grid-3 > *  { min-height: clamp(120px, 16vh, 240px); }
-.grid-4 > *  { min-height: clamp(140px, 18vh, 260px); }
-.card        { min-height: clamp(100px, 12vh, 180px); }
-.level-card  { min-height: clamp(180px, 22vh, 320px); }
+.grid-3 > * {
+  min-height: clamp(120px, 16vh, 240px);
+}
+.grid-4 > * {
+  min-height: clamp(140px, 18vh, 260px);
+}
+.card {
+  min-height: clamp(100px, 12vh, 180px);
+}
+.level-card {
+  min-height: clamp(180px, 22vh, 320px);
+}
 
 /* ============================================================
    13b. TOGGLE BUTTON S04
@@ -1074,7 +1332,10 @@ tr:last-child td { border: none; }
   cursor: pointer;
   flex-shrink: 0;
   letter-spacing: 0.02em;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
 }
 
 #s04-toggle-btn.is-resume {
@@ -1086,31 +1347,60 @@ tr:last-child td { border: none; }
 /* ============================================================
    Responsive Margin Utilities
    ============================================================ */
-.mb-responsive-sm { margin-bottom: clamp(8px, 1.5vh, 16px); }
-.mb-responsive-md { margin-bottom: clamp(8px, 1.5vh, 18px); }
-.mt-responsive-sm { margin-top: clamp(8px, 1.5vh, 16px); }
-.mt-responsive-md { margin-top: clamp(10px, 1.8vh, 20px); }
-.mt-responsive-lg { margin-top: clamp(12px, 2vh, 24px); }
+.mb-responsive-sm {
+  margin-bottom: clamp(8px, 1.5vh, 16px);
+}
+.mb-responsive-md {
+  margin-bottom: clamp(8px, 1.5vh, 18px);
+}
+.mt-responsive-sm {
+  margin-top: clamp(8px, 1.5vh, 16px);
+}
+.mt-responsive-md {
+  margin-top: clamp(10px, 1.8vh, 20px);
+}
+.mt-responsive-lg {
+  margin-top: clamp(12px, 2vh, 24px);
+}
 
 /* ============================================================
    Typography Utilities
    ============================================================ */
-.text-small { font-size: clamp(13px, 1.4vw, 16px); }
-.text-tiny { font-size: clamp(12px, 1.3vw, 15px); }
-.text-muted { font-size: 0.9em; color: var(--gray); }
-.text-problem { font-size: clamp(14px, 1.6vw, 20px); color: #F87171; }
-.text-italic { font-style: italic; }
+.text-small {
+  font-size: clamp(13px, 1.4vw, 16px);
+}
+.text-tiny {
+  font-size: clamp(12px, 1.3vw, 15px);
+}
+.text-muted {
+  font-size: 0.9em;
+  color: var(--gray);
+}
+.text-problem {
+  font-size: clamp(14px, 1.6vw, 20px);
+  color: #f87171;
+}
+.text-italic {
+  font-style: italic;
+}
 
 /* ============================================================
    Pipeline & Animation
    ============================================================ */
-.pipeline-box.muted { opacity: 0.85; }
+.pipeline-box.muted {
+  opacity: 0.85;
+}
 
 /* ============================================================
    Table Utilities
    ============================================================ */
-table.table-compact { font-size: clamp(11px, 1vw, 13px); }
-table.table-tiny { font-size: clamp(10px, 0.95vw, 12px); line-height: 1.5; }
+table.table-compact {
+  font-size: clamp(11px, 1vw, 13px);
+}
+table.table-tiny {
+  font-size: clamp(10px, 0.95vw, 12px);
+  line-height: 1.5;
+}
 
 /* ============================================================
    Validation/Criteria Lists
@@ -1206,11 +1496,21 @@ ul.validation-list li {
     font-weight: 600;
   }
 
-  .slide.slide--s01 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--coral); }
-  .slide.slide--s02 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--teal); }
-  .slide.slide--s03 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--purple); }
-  .slide.slide--s04 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--blue); }
-  .slide.slide--s05 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type { background: var(--green); }
+  .slide.slide--s01 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+    background: var(--coral);
+  }
+  .slide.slide--s02 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+    background: var(--teal);
+  }
+  .slide.slide--s03 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+    background: var(--purple);
+  }
+  .slide.slide--s04 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+    background: var(--blue);
+  }
+  .slide.slide--s05 .slide-footer:not(.slide-footer-citations) > .caption:last-of-type {
+    background: var(--green);
+  }
 
   /* Breadcrumb + badge en line (citations) */
   .slide-footer-citations .slide-footer-meta {
@@ -1232,11 +1532,21 @@ ul.validation-list li {
     font-weight: 600;
   }
 
-  .slide.slide--s01 .slide-footer-citations > .caption:last-of-type { background: var(--coral); }
-  .slide.slide--s02 .slide-footer-citations > .caption:last-of-type { background: var(--teal); }
-  .slide.slide--s03 .slide-footer-citations > .caption:last-of-type { background: var(--purple); }
-  .slide.slide--s04 .slide-footer-citations > .caption:last-of-type { background: var(--blue); }
-  .slide.slide--s05 .slide-footer-citations > .caption:last-of-type { background: var(--green); }
+  .slide.slide--s01 .slide-footer-citations > .caption:last-of-type {
+    background: var(--coral);
+  }
+  .slide.slide--s02 .slide-footer-citations > .caption:last-of-type {
+    background: var(--teal);
+  }
+  .slide.slide--s03 .slide-footer-citations > .caption:last-of-type {
+    background: var(--purple);
+  }
+  .slide.slide--s04 .slide-footer-citations > .caption:last-of-type {
+    background: var(--blue);
+  }
+  .slide.slide--s05 .slide-footer-citations > .caption:last-of-type {
+    background: var(--green);
+  }
 
   /* References — pleine largeur sous le contenu */
   .slide-footer-sources {
@@ -1260,14 +1570,19 @@ ul.validation-list li {
   }
 }
 
-
 /* ============================================================
    14. ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
    Respecte le réglage système "Réduire les animations".
    Désactive l'animation admixture et simplifie les transitions.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  #deck      { transition: none; }
-  #pf        { transition: none; }
-  .inner > * { transition: none; }
+  #deck {
+    transition: none;
+  }
+  #pf {
+    transition: none;
+  }
+  .inner > * {
+    transition: none;
+  }
 }
