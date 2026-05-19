@@ -340,7 +340,7 @@
       <div class="presenter-content">
         <div id="current-slide-container">
           <div class="iframe-scale-wrapper" id="main-scale-wrapper">
-            <iframe id="slide-preview-iframe"></iframe>
+            <iframe id="slide-preview-iframe" title="Slide courante"></iframe>
           </div>
           <div class="slide-overlay-badge" id="slide-number-main">--</div>
         </div>
@@ -372,7 +372,7 @@
           <div class="next-slide-header">Slide suivante (preview)</div>
           <div id="next-slide-preview">
             <div class="next-iframe-scale-wrapper" id="next-scale-wrapper">
-              <iframe id="next-slide-preview-iframe"></iframe>
+              <iframe id="next-slide-preview-iframe" title="Slide suivante (preview)"></iframe>
             </div>
           </div>
         </div>
@@ -567,7 +567,10 @@
 
         // Chargement asynchrone des notes depuis data/notes/slide-XX.json
         loadSlideNotes(slideIndex).then(notes => {
-          document.getElementById('notes-content').innerHTML = '<p>' + notes + '</p>';
+          const p = document.createElement('p');
+          p.textContent = notes;
+          const container = document.getElementById('notes-content');
+          container.replaceChildren(p);
         });
 
         // Synchroniser l'iframe principal
@@ -634,7 +637,15 @@
 
         const title = titles[slideIndex] || 'Slide ' + (slideIndex + 1);
         const totalSlides = 41;
-        container.innerHTML = '<div class="slide-snapshot"><div class="slide-snapshot-title">' + title + '</div><div>Slide ' + (slideIndex + 1) + ' / ' + totalSlides + '</div></div>';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'slide-snapshot';
+        const titleEl = document.createElement('div');
+        titleEl.className = 'slide-snapshot-title';
+        titleEl.textContent = title;
+        const countEl = document.createElement('div');
+        countEl.textContent = 'Slide ' + (slideIndex + 1) + ' / ' + totalSlides;
+        wrapper.append(titleEl, countEl);
+        container.replaceChildren(wrapper);
       }
 
       // Écouter les messages depuis la fenêtre audience
