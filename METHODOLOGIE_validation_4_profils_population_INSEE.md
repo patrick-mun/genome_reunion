@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.8  
+**Version :** v0.9  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -14,6 +14,7 @@
 - v0.6 — **modèle haplotypique détaillé** (§12.4 nouvelle) avec squelette démographique informé par l'histoire connue de La Réunion : pool de populations sources (1000G + EGA, cohérent V3.5), chronologie des pulses migratoires (founding 1665 → engagisme → moderne), bottleneck fondateur (`Ne ≈ 50`) et croissance exponentielle, architecture chromosomique, protocole d'injection F1–F5, **pool de 100 familles nucléaires simulé en parallèle** pour ancrer le phasage Beagle/SHAPEIT5, sanity-checks de calibration (LD decay + ROH). Ajout du livrable `nuclear_families_pool.vcf`. Renumérotation §12.4 → §12.5, §12.5 → §12.6.
 - v0.7 — **évaluation spécifique du bras découverte** (nouvelle §7.8) sans dévier de la logique d'optimisation de la méthode : le ratio noyau/pool libre est **déterminé par analyse de sensibilité** (5 ratios testés), pas fixé doctrinalement. Critère d'utilité positif (gain ≥ +3 points sur au moins une métrique primaire vs `géo-ancestrale seule`) plutôt que critères restrictifs de fidélité à la cohorte. Ajout d'une métrique primaire `IBD résiduel pool libre seul` (anti-redondance interne) en §5.1. Livrable `discovery_arm_sensitivity.tsv`.
 - v0.8 — **harmonisation complète avec METHODOLOGY_selection_V3_5.md** (3 paliers fusionnés). Palier 1 (critique) : §4 enrichi avec 4 stratégies V3.5 manquantes (`S_div naïf`, `maximin IBD`, `S_div + novelty λ`, `maximin PCA/ADMIX/IBD`) ; §5.1 enrichi (couverture géo-ancestrale, couverture haplotypique, précision recalibrage fréquences) ; §5.2 : KING kinship explicité (seuil 0,0625) ; §5.3 : LOCO ajouté ; nouvelle §7.9 « Audit puce → WGS » (V3.5 §13.6). Palier 2 (important) : §12.4.7 HWE par strate ; §5.3 sensibilité ±10 %/±20 % explicitée ; §7.3 classe MAF 1–5 % ajoutée ; §7.8 récupération des quotas V3.5 §9.4 mentionnée ; K ADMIXTURE élargi à 2–10. Palier 3 (confort) : §5.2 KS de `S_div` et stabilité labels ADMIXTURE ; nouvelle §17 « Table de correspondance V3.5 ↔ v0.8 ». Livrables ajoutés : `chip_to_wgs_audit.tsv`, `frequency_recalibration_validation.tsv`, `loco_sensitivity.tsv`.
+- v0.9 — **validation pré-déploiement par triangulation sur populations réelles externes** (nouvelle §8) : opérationnalise V3.5 §13.2 Validations A/B/C qui étaient absentes de v0.8. La conviction pré-déploiement se construit désormais sur trois sources convergentes — simulation profils A–D, populations réelles externes (1000G + EGA + EPIGEN-Brasil), squelette historique. Critère de succès triangulé §8.5. Chronologie pré-déploiement vs audit ex-post explicitée §8.7. Reformulation du §14 garde-fou n°4 : l'audit ex-post post-WGS n'est **pas** la validation (déjà faite avant déploiement), c'est un sanity-check. Renumérotation §8 → §9, … §17 → §18 ; cross-références mises à jour. Livrables ajoutés : `external_validation_1000G.tsv`, `external_validation_EGA_prioritaires.tsv`, `external_validation_EGA_complementaires.tsv`, `triangulation_summary.tsv`.
 
 ---
 
@@ -48,7 +49,7 @@ Cette logique permet de valider la méthode sans prétendre reconstituer parfait
 
 **Conséquence 1 — Sous-puissance assumée du tirage aléatoire pour les fondateurs.** Sur des sous-profils fondateurs représentant ~10 % d'un secteur (~36 individus), un variant à fréquence locale ~6 % donne ~0,6 allèle attendu dans une sélection `random` de 350/2500. La probabilité que `random` capte *zéro* allèle fondateur d'un foyer donné est ≈ 54 %. Cette sous-puissance n'est pas un défaut de la validation, c'est **l'argument central de la méthode** : on évalue précisément la capacité d'une sélection structurée à rendre déterministe ce qui, en tirage aléatoire, est bimodal et imprévisible.
 
-**Conséquence 2 — Intégration de l'apparentement comme paramètre de simulation.** Dans une population avec endogamie locale, dérive sur petit pool reproductif et héritage de quelques lignées fondatrices (Hauts, cirques, marronnage, petits foyers agricoles), les variants fondateurs voient leur **fréquence locale gonflée naturellement** au-delà de leur fréquence introduite. Cet effet est modélisé explicitement via deux paramètres ajoutés au simulateur (cf. §12.3) :
+**Conséquence 2 — Intégration de l'apparentement comme paramètre de simulation.** Dans une population avec endogamie locale, dérive sur petit pool reproductif et héritage de quelques lignées fondatrices (Hauts, cirques, marronnage, petits foyers agricoles), les variants fondateurs voient leur **fréquence locale gonflée naturellement** au-delà de leur fréquence introduite. Cet effet est modélisé explicitement via deux paramètres ajoutés au simulateur (cf. §13.3) :
 
 | Paramètre | Notation | Plage par sous-profil fondateur |
 |---|---|---|
@@ -262,7 +263,7 @@ La stratégie historique « ADMIXTURE-only » de v0.7 est désormais incluse dan
 
 ## 5. Métriques de validation
 
-Les mêmes métriques doivent être calculées pour chaque profil et chaque stratégie. Elles sont **classées en trois tiroirs** selon leur indépendance vis-à-vis de la fonction objectif `S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH` (cf. §10.2 sur le découplage simulateur ↔ méthode).
+Les mêmes métriques doivent être calculées pour chaque profil et chaque stratégie. Elles sont **classées en trois tiroirs** selon leur indépendance vis-à-vis de la fonction objectif `S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH` (cf. §12.2 sur le découplage simulateur ↔ méthode).
 
 ### 5.1 Métriques primaires (extrinsèques) — critère décisif de succès
 
@@ -554,7 +555,123 @@ ecart_absolu, ecart_relatif, fidelite_puce (OK / dégradation)
 
 ---
 
-## 8. Proxys à intégrer dans le simulateur
+## 8. Validation sur populations réelles externes
+
+### 8.1 Principe : triangulation pour la conviction pré-déploiement
+
+L'objectif du présent document est de **démontrer la pertinence de V3.5 avant le déploiement** des 350 WGS réunionnais — donc *avant* l'arrivée des données réelles de La Réunion. La simulation (§3, §13.4) seule risquerait d'être perçue comme un monde imaginaire. Pour rendre la démonstration défendable sans données réunionnaises, on **triangule** trois sources de conviction indépendantes :
+
+| Source de conviction | Nature | Section |
+|---|---|---|
+| 1. Simulation profils A–D | mondes possibles, robustesse multi-scénarios | §3 |
+| 2. **Populations réelles externes** (1000G + EGA) | données empiriques sur populations admixées analogues | **§8 (cette section)** |
+| 3. Squelette historique attesté | chronologie, founding 1665, événements documentés | §13.4 |
+
+Si la méthode V3.5 gagne sur les trois fronts, la pertinence pré-déploiement est défendable. Si elle gagne sur deux fronts mais échoue sur le troisième, la limitation est documentée. Si elle échoue sur deux fronts, le déploiement WGS doit être reporté pour révision.
+
+### 8.2 Validation A — 1000G public (V3.5 §13.2)
+
+**Datasets** : populations admixées et de référence directement accessibles, sans accès contrôlé :
+
+| Population 1000G | Caractéristique | Rôle dans la validation |
+|---|---|---|
+| ACB (Afro-Caribbean Barbados) | admixée Afrique + Europe | proxy d'une population créole atlantique, comparable structurellement à La Réunion sur l'axe afro-européen |
+| ASW (African-American Southwest US) | admixée Afrique + Europe (proportions différentes d'ACB) | second proxy afro-européen indépendant |
+| GIH (Gujarati Indians Houston) | composante indienne migrée | proxy de la composante indienne engagiste |
+| BEB (Bengali Bangladesh) | composante sud-asiatique distincte | sensibilité de la composante indienne |
+| CEU / IBS / TSI | européens | outgroup européen (non utilisé comme source de simulation, cf. §13.4.1) |
+| CHB / CHS / JPT / KHV | est-asiatiques | proxy de la composante chinoise/Hakka |
+
+**Procédure** :
+
+1. Charger les VCF 1000G high-coverage pour les populations ci-dessus.
+2. Définir une **cible artificielle de sélection** : par ex. sélectionner 14 % d'individus (équivalent au ratio 350/2500) de chaque population.
+3. Appliquer les **11 stratégies §4** sur ces cohortes.
+4. Calculer les **métriques primaires §5.1** sur chaque sélection.
+5. Vérifier que la stratégie `géo-ancestrale + bras découverte` (ou son équivalent sans dimension géographique pour 1000G) **gagne** sur les métriques primaires.
+
+**Critère de succès** : la méthode `géo-ancestrale + bras découverte` atteint le plus haut score primaire (ou est à égalité avec une stratégie indistinguable statistiquement) sur **≥ 75 %** des couples (population × métrique primaire) testés.
+
+### 8.3 Validation B — 1000G + EGA prioritaires (V3.5 §13.2)
+
+**Datasets EGA prioritaires** (accès contrôlé, voir Phase 0 de V3.5 §17) :
+
+| Pool EGA | Pertinence pour La Réunion |
+|---|---|
+| **MGUA Malagasy WGS** | composante malgache directement représentée |
+| **MAGE Madagascar SNP** | extension MGUA en densité SNP |
+| **GenomeAsia** | composantes indienne et chinoise (Asie du Sud-Est) |
+| **Angola / Mozambique WGS** | composante africaine bantu d'esclavage |
+
+**Procédure** : identique à §8.2, mais sur des cohortes plus proches structurellement de La Réunion. C'est la couche la plus directe pour anticiper la performance sur la Réunion réelle.
+
+**Critère de succès** : la méthode `géo-ancestrale + bras découverte` gagne sur **≥ 80 %** des couples (pool × métrique primaire) — seuil plus exigeant que Validation A car les populations sont plus représentatives.
+
+### 8.4 Validation C — EGA complémentaires et populations admixées comparables
+
+**Datasets** :
+
+| Pool / Étude | Pertinence |
+|---|---|
+| AGVP (African Genome Variation Project) | diversité africaine large |
+| H3Africa WGS | référence africaine de second ordre |
+| Pacific WGS (selon accès) | populations insulaires comparables |
+| **EPIGEN-Brasil** (publié) | cohorte brésilienne admixée 6487 ind. — déjà référencée dans le deck slide 37 |
+
+**Procédure** : tester la robustesse de la méthode sur des populations admixées éloignées de La Réunion structurellement, mais comparables par leur dynamique (insularité, dérive, admixture multi-vagues).
+
+**Critère de succès** : la méthode reste **non-inférieure** à `random` sur les métriques primaires (`Δ ≥ 0` avec IC 95 % ne croisant pas le seuil bas) — ce niveau d'exigence allégée reconnaît que ces populations sont structurellement plus éloignées.
+
+### 8.5 Critère de succès triangulé
+
+La validation pré-déploiement est **considérée acquise** si :
+
+```text
+(Validation A réussie)  ET  (Validation B réussie)  ET  (Validation C non-inférieure)
+ET
+(Validation D = profils A/B/C/D synthétiques, §3+§7) réussie
+ET
+(Sanity-checks de calibration §13.4.7) passés
+```
+
+Si **2 des 4 conditions** échouent, le déploiement WGS est reporté pour révision méthodologique. Si une seule condition échoue, la limitation est documentée explicitement dans le rapport final (§16 livrable `validation_report`) et le déploiement peut être autorisé sous réserve d'engagement de re-validation post-WGS.
+
+### 8.6 Livrables
+
+| Livrable | Contenu |
+|---|---|
+| `external_validation_1000G.tsv` | métriques primaires × stratégies × populations 1000G (Validation A) |
+| `external_validation_EGA_prioritaires.tsv` | métriques × stratégies × pools EGA prioritaires (Validation B) |
+| `external_validation_EGA_complementaires.tsv` | métriques × stratégies × pools EGA larges + EPIGEN-Brasil (Validation C) |
+| `triangulation_summary.tsv` | bilan des 4 conditions de succès §8.5 |
+
+Ces livrables sont versionnés et soumis à la clause §7.5 de pré-enregistrement.
+
+### 8.7 Chronologie pré-déploiement vs audit ex-post
+
+Pour lever toute ambiguïté avec le garde-fou §14.4 (« calibrer dès que les SNP réels sont disponibles ») :
+
+```text
+[T-12 mois]   Pré-enregistrement seuils + paramètres
+[T-9 mois]    Validation A (1000G public)         ← démonstration sans données réunionnaises
+[T-6 mois]    Validation B (1000G + EGA)          ← démonstration sans données réunionnaises
+[T-6 mois]    Validation C (EGA complémentaires)  ← démonstration sans données réunionnaises
+[T-3 mois]    Validation D (simulation A–D)       ← démonstration sans données réunionnaises
+[T-0]         Triangulation §8.5 → décision déploiement OU report
+              ↓
+              Si OK : déploiement sélection des 350 WGS réunionnais
+              ↓
+[T+12 mois]   Production WGS terminée
+[T+15 mois]   Audit ex-post (V3.5 §13.7) : profil dominant identifié, cohérence vérifiée
+              → NE valide PAS la méthode (déjà fait)
+              → DOCUMENTE la cohérence et les écarts éventuels
+```
+
+**L'audit ex-post n'est pas la validation.** La validation a été faite en T-9 à T-3 par triangulation. L'audit ex-post est un sanity-check qui ferme la boucle.
+
+---
+
+## 9. Proxys à intégrer dans le simulateur
 
 ### Proxys historiques et géographiques
 
@@ -586,7 +703,7 @@ ecart_absolu, ecart_relatif, fidelite_puce (OK / dégradation)
 
 ---
 
-## 9. Liens INSEE utiles
+## 10. Liens INSEE utiles
 
 ### Dossier complet — Département de La Réunion
 
@@ -627,7 +744,7 @@ Exemple Saint-Denis :
 
 ---
 
-## 10. Table de données minimale recommandée
+## 11. Table de données minimale recommandée
 
 Pour intégrer les données INSEE dans le simulateur, créer une table de travail :
 
@@ -669,7 +786,7 @@ Ouest littoral
 
 ---
 
-## 11. Formulation algorithmique
+## 12. Formulation algorithmique
 
 Pour une composante ancestrale simulée `g`, dans un secteur `s`, à une période `t` :
 
@@ -690,13 +807,13 @@ Avec :
 
 Les coefficients `αg, βg, γg, δg, ηg` varient selon la composante simulée. Par exemple, `A` pèse fortement pour l'engagisme agricole, `C` pour les réseaux commerciaux gujaratis ou chinois, `I` pour les Hauts et cirques, et `G` pour les fondateurs anciens.
 
-### 11.1 Statut de la formulation : cible de calibration, non tirage individuel
+### 12.1 Statut de la formulation : cible de calibration, non tirage individuel
 
 L'équation ci-dessus **ne décrit pas un tirage individuel d'ascendance**. Elle définit les **fréquences ancestrales attendues** par secteur, qui servent de **cibles de calibration** pour le simulateur démographique.
 
-Les individus synthétiques ne sont **pas** générés en tirant `g` selon `P(g|s,t)`. Ils sont produits par une simulation forward-time (ou coalescente) sur `G ≈ 10–12` générations, avec recombinaison, dérive, migration inter-secteurs et injection éventuelle de variants fondateurs sur lignées spécifiques. Le **squelette démographique** qui définit cette génératrice (populations sources, dates des pulses migratoires, bottleneck fondateur 1665) est détaillé en **§12.4 « Modèle haplotypique détaillé »**. Les proportions ancestrales observées en sortie sont ensuite **comparées** aux cibles ; les flux migratoires `F(g,t)` et les pondérations `αg…ηg` sont ajustés jusqu'à convergence des sorties simulées sur les tableaux §3.
+Les individus synthétiques ne sont **pas** générés en tirant `g` selon `P(g|s,t)`. Ils sont produits par une simulation forward-time (ou coalescente) sur `G ≈ 10–12` générations, avec recombinaison, dérive, migration inter-secteurs et injection éventuelle de variants fondateurs sur lignées spécifiques. Le **squelette démographique** qui définit cette génératrice (populations sources, dates des pulses migratoires, bottleneck fondateur 1665) est détaillé en **§13.4 « Modèle haplotypique détaillé »**. Les proportions ancestrales observées en sortie sont ensuite **comparées** aux cibles ; les flux migratoires `F(g,t)` et les pondérations `αg…ηg` sont ajustés jusqu'à convergence des sorties simulées sur les tableaux §3.
 
-### 11.2 Pourquoi ce découplage est indispensable
+### 12.2 Pourquoi ce découplage est indispensable
 
 Le simulateur doit opérer à un **niveau plus profond** que la méthode de sélection, pour les raisons suivantes :
 
@@ -708,13 +825,13 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 
 ---
 
-## 12. Outils logiciels et pipeline de simulation
+## 13. Outils logiciels et pipeline de simulation
 
-### 12.1 Vue d'ensemble du pipeline
+### 13.1 Vue d'ensemble du pipeline
 
 ```text
 [1] Démographie historique        →  msprime (coalescent multi-population)
-        ↓ pool sources 1000G + EGA, pulses datés (cf. §12.4)
+        ↓ pool sources 1000G + EGA, pulses datés (cf. §13.4)
 [2] Variants fondateurs simulés   →  SLiM 4 (forward-time)
         ↓ injection F1…F5 sur lignées spécifiques (profil D)
         ↓ apparentement intra sous-profil (φ, G_endo)
@@ -736,7 +853,7 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 [8] Rapport final                   →  Quarto / Jupyter Book (HTML + PDF)
 ```
 
-### 12.2 Outils recommandés par étape
+### 13.2 Outils recommandés par étape
 
 | Étape | Outil principal | Rôle | Licence |
 |---|---|---|---|
@@ -754,7 +871,7 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 | Conteneurisation | **Docker** ou **Singularity / Apptainer** | image figée, ré-exécution exacte | libre |
 | Rapport final | **Quarto** | HTML + PDF auditables, code embarqué | MIT |
 
-### 12.3 Paramètres de simulation à fixer (valeurs indicatives)
+### 13.3 Paramètres de simulation à fixer (valeurs indicatives)
 
 | Paramètre | Valeur indicative | Justification |
 |---|---|---|
@@ -768,13 +885,13 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 | Nombre de réplicats par profil | ≥ 100 seeds indépendantes | pour intervalles de confiance des métriques et taux de capture binaire `P(≥1)` |
 | Nombre de SNP simulés | ≥ 500 000 sur 22 autosomes | suffisant pour PCA, ADMIXTURE, ROH, IBD |
 | Taille cohorte synthétique `N` | **2500 (contrainte budgétaire dure)** | alignée sur la cohorte SNP réelle ; non négociable (cf. §3 préambule) |
-| Statut paramètre | `observé` / `estimé` / `scénarisé` | obligatoire par §13 garde-fous (`φ` et `G_endo` sont `scénarisés`) |
+| Statut paramètre | `observé` / `estimé` / `scénarisé` | obligatoire par §14 garde-fous (`φ` et `G_endo` sont `scénarisés`) |
 
-### 12.4 Modèle haplotypique détaillé
+### 13.4 Modèle haplotypique détaillé
 
-Cette sous-section formalise la **génératrice démographique** qui produit les cohortes synthétiques. L'esprit reste celui de la §3 préambule et du §13 garde-fous : **s'approcher de l'histoire connue, pas la reconstruire**. Le squelette ci-dessous combine événements historiques attestés (statut `observé`) et paramètres démographiques fins (statut `scénarisé`).
+Cette sous-section formalise la **génératrice démographique** qui produit les cohortes synthétiques. L'esprit reste celui de la §3 préambule et du §14 garde-fous : **s'approcher de l'histoire connue, pas la reconstruire**. Le squelette ci-dessous combine événements historiques attestés (statut `observé`) et paramètres démographiques fins (statut `scénarisé`).
 
-#### 12.4.1 Pool de populations sources (bootstrap d'haplotypes)
+#### 13.4.1 Pool de populations sources (bootstrap d'haplotypes)
 
 Cohérent avec V3.5 du projet (slide 25 « Pools témoins externes »). Les haplotypes des populations sources sont bootstrappés depuis les références publiques, plutôt que simulés *from scratch* :
 
@@ -789,7 +906,7 @@ Cohérent avec V3.5 du projet (slide 25 « Pools témoins externes »). Les hapl
 
 **Découplage simulateur ↔ analyse :** pour éviter qu'une même référence serve à la fois de source de simulation et d'ancrage d'évaluation (ADMIXTURE supervisée K=4 de la V3.5), réserver **YRI et CEU comme outgroups d'évaluation** et utiliser **MGUA, MAGE, GIH, CHS, GenomeAsia** pour le bootstrap d'haplotypes en simulation. Si une population doit être réutilisée des deux côtés, le justifier explicitement dans le manifest de calibration.
 
-#### 12.4.2 Chronologie démographique (12 générations, ~30 ans/gén., base 2025)
+#### 13.4.2 Chronologie démographique (12 générations, ~30 ans/gén., base 2025)
 
 | Génération | Date approx. | Évènement | Pulse migratoire (proportion du flux entrant à cette période) | Statut |
 |---:|---|---|---|---|
@@ -799,7 +916,7 @@ Cohérent avec V3.5 du projet (slide 25 « Pools témoins externes »). Les hapl
 | 5 → 3 | 1860 → 1930 | **Engagisme** | 80 % GIH + 15 % CHS + 5 % YRI (Comores) | `observé` / `scénarisé` |
 | 2 → 0 | 1965 → 2025 | Mobilité moderne | 70 % CEU + 20 % Comores + 10 % mixed | `observé` / `scénarisé` |
 
-#### 12.4.3 Bottleneck fondateur et croissance
+#### 13.4.3 Bottleneck fondateur et croissance
 
 | Paramètre | Valeur | Statut |
 |---|---|---|
@@ -809,7 +926,7 @@ Cohérent avec V3.5 du projet (slide 25 « Pools témoins externes »). Les hapl
 
 Cette croissance rapide d'un fondateur de ~50 vers ~100 000 reproduit la signature de **dérive génétique forte** typique d'une colonisation insulaire et favorise l'émergence naturelle des fréquences fondateur cibles (cf. §3.D).
 
-#### 12.4.4 Architecture chromosomique
+#### 13.4.4 Architecture chromosomique
 
 | Élément | Choix |
 |---|---|
@@ -820,7 +937,7 @@ Cette croissance rapide d'un fondateur de ~50 vers ~100 000 reproduit la signatu
 | Variants retenus (analyses globales) | MAF ≥ 0,5 % sur la cohorte simulée |
 | Variants retenus (catégorie « rares ») | MAF < 1 % conservés intégralement |
 
-#### 12.4.5 Protocole d'injection des variants fondateurs F1–F5
+#### 13.4.5 Protocole d'injection des variants fondateurs F1–F5
 
 | Élément | Spécification |
 |---|---|
@@ -829,21 +946,21 @@ Cette croissance rapide d'un fondateur de ~50 vers ~100 000 reproduit la signatu
 | Position | tirée aléatoirement hors régions à fort LD problématique (HLA, centromères, télomères) |
 | Génération d'introduction | calibrée par run de pré-validation pour atteindre la fréquence locale cible §3.D |
 | Trajectoire | dérive libre jusqu'au présent, sans forçage à chaque génération |
-| Mating dans le sous-profil porteur | restreint selon `φ` et `G_endo` (cf. §3 préambule et §12.3) |
+| Mating dans le sous-profil porteur | restreint selon `φ` et `G_endo` (cf. §3 préambule et §13.3) |
 
-#### 12.4.6 Pool de 100 familles nucléaires pour le phasage
+#### 13.4.6 Pool de 100 familles nucléaires pour le phasage
 
 | Élément | Spécification |
 |---|---|
 | Effectif | 100 trios ou quatuors (~400 individus) |
-| Simulation | **en parallèle** de la cohorte principale, mêmes paramètres §12.4.1–§12.4.3 |
+| Simulation | **en parallèle** de la cohorte principale, mêmes paramètres §13.4.1–§13.4.3 |
 | Pedigree | connu et exporté (PED file standard) |
 | Rôle | référence pour le phasage statistique Beagle 5.4 / SHAPEIT5 de la cohorte principale 2500 |
 | Statut | indépendant des 2500 individus de sélection, n'entre pas dans le pool de candidats WGS |
 
 Ce pool reproduit l'organisation prévue par V3.5 (slide 33 « Phasage réunionnais — 2500 SNP + 100 familles nucléaires »). Il évite à la fois (a) le phasage parfait msprime qui surévaluerait la qualité des métriques IBD/ROH et (b) le phasage Beagle sans référence qui les sous-évaluerait.
 
-#### 12.4.7 Sanity-checks de calibration (avant les 100 seeds de validation)
+#### 13.4.7 Sanity-checks de calibration (avant les 100 seeds de validation)
 
 Avant de lancer les ≥ 100 seeds par profil, exécuter **3 à 5 runs de calibration** et vérifier qualitativement les cibles suivantes. Si écart majeur, ajuster les `Ne` et proportions de pulses (statut `scénarisé`) — pas les évènements historiques.
 
@@ -856,7 +973,7 @@ Avant de lancer les ≥ 100 seeds par profil, exécuter **3 à 5 runs de calibra
 
 Le manifest de calibration est versionné dans `simulation_calibration.tsv` (livrable, §15) et soumis à la clause §7.5 de pré-enregistrement.
 
-### 12.5 Exigences de reproductibilité
+### 13.5 Exigences de reproductibilité
 
 Toute la chaîne doit être :
 
@@ -866,7 +983,7 @@ Toute la chaîne doit être :
 - **orchestrée** par Snakemake ou Nextflow (DAG reproductible, reprise sur échec) ;
 - **archivée** avec hash SHA-256 des cohortes synthétiques produites, pour permettre une ré-exécution exacte ou une audit indépendant.
 
-### 12.6 Alternatives et options
+### 13.6 Alternatives et options
 
 | Besoin | Alternative |
 |---|---|
@@ -878,18 +995,18 @@ Toute la chaîne doit être :
 
 ---
 
-## 13. Garde-fous scientifiques et éthiques
+## 14. Garde-fous scientifiques et éthiques
 
 La simulation doit respecter quatre garde-fous :
 
 1. **Ne pas assigner une origine individuelle.** Les composantes sont des outils de simulation génétique, pas des identités sociales.
-2. **Distinguer les paramètres observés, estimés et scénarisés.** Chaque paramètre doit recevoir un statut : `observé`, `estimé`, `scénarisé`. Application au modèle haplotypique §12.4 : dates et évènements historiques (founding 1665, abolition 1848, périodes d'engagisme) = `observé` ; `Ne_founding`, proportions de chaque pulse, `φ` et `G_endo` = `scénarisé` ; proxys 1000G/EGA des populations sources = `estimé` (substituts de populations historiques non directement observables).
+2. **Distinguer les paramètres observés, estimés et scénarisés.** Chaque paramètre doit recevoir un statut : `observé`, `estimé`, `scénarisé`. Application au modèle haplotypique §13.4 : dates et évènements historiques (founding 1665, abolition 1848, périodes d'engagisme) = `observé` ; `Ne_founding`, proportions de chaque pulse, `φ` et `G_endo` = `scénarisé` ; proxys 1000G/EGA des populations sources = `estimé` (substituts de populations historiques non directement observables).
 3. **Ne pas présenter les profils comme des mesures réelles.** Les profils A-D servent à valider la méthode, non à décrire définitivement La Réunion.
-4. **Calibrer dès que les 2500 SNP réels sont disponibles.** Les scénarios doivent être comparés aux PCA, ADMIXTURE, ROH, IBD et fréquences réelles.
+4. **Audit ex-post à l'arrivée des 2500 SNP réels (sanity-check, pas validation).** La validation de la méthode V3.5 est faite *avant* le déploiement, par triangulation §8 (simulation + populations réelles externes + squelette historique). À l'arrivée des SNP réunionnais réels, un audit ex-post compare les sorties effectives (PCA, ADMIXTURE, ROH, IBD, fréquences) **au profil synthétique le plus proche** parmi A/B/C/D, vérifie la cohérence avec les prédictions de validation, et documente les écarts comme limitations. Cet audit **ne valide pas** la méthode — il ferme la boucle. Voir aussi V3.5 §13.7 « Audit ex-post 350 WGS ».
 
 ---
 
-## 14. Positionnement final recommandé
+## 15. Positionnement final recommandé
 
 Le scénario principal du projet doit être le **Profil C — mixte-hétérogène réunionnais plausible**.
 
@@ -899,7 +1016,7 @@ Texte de justification recommandé :
 
 ---
 
-## 15. Livrables attendus
+## 16. Livrables attendus
 
 | Livrable | Description |
 |---|---|
@@ -916,15 +1033,19 @@ Texte de justification recommandé :
 | `power_analysis_pre_simulation.tsv` | analyse de puissance *a priori* pré-enregistrée (§7.7) |
 | `discovery_arm_sensitivity.tsv` | sensibilité du bras découverte au ratio noyau/pool libre (§7.8) |
 | `chip_to_wgs_audit.tsv` | audit puce SNP → WGS, fidélité du scoring sur puce (§7.9, V3.5 §13.6) |
+| `external_validation_1000G.tsv` | métriques × stratégies × populations 1000G (§8.2 Validation A) |
+| `external_validation_EGA_prioritaires.tsv` | métriques × stratégies × pools EGA prioritaires (§8.3 Validation B) |
+| `external_validation_EGA_complementaires.tsv` | métriques × stratégies × pools EGA larges + EPIGEN-Brasil (§8.4 Validation C) |
+| `triangulation_summary.tsv` | bilan des 4 conditions de succès de la validation pré-déploiement (§8.5) |
 | `frequency_recalibration_validation.tsv` | validation du recalibrage de fréquences (§5.1, V3.5 §3.4) |
 | `loco_sensitivity.tsv` | analyse leave-one-component-out sur `S_div` (§5.3, V3.5 §14.2) |
-| `nuclear_families_pool.vcf` | pool de 100 familles nucléaires pour ancrage du phasage (§12.4.6) |
-| `simulation_calibration.tsv` | manifest de calibration du modèle haplotypique (§12.4.7) |
+| `nuclear_families_pool.vcf` | pool de 100 familles nucléaires pour ancrage du phasage (§13.4.6) |
+| `simulation_calibration.tsv` | manifest de calibration du modèle haplotypique (§13.4.7) |
 | `validation_report.html/pdf` | rapport interprétable et auditable |
 
 ---
 
-## 16. Résumé opérationnel
+## 17. Résumé opérationnel
 
 La validation repose sur quatre profils :
 
@@ -946,35 +1067,39 @@ Cette approche rend la validation de la stratégie WGS plus défendable, car ell
 
 ---
 
-## 17. Table de correspondance V3.5 ↔ v0.8
+## 18. Table de correspondance V3.5 ↔ v0.9
 
 Ce tableau facilite la lecture croisée des deux documents et atteste que chaque exigence de `METHODOLOGY_selection_V3_5.md` est couverte par une section de validation.
 
 | Élément V3.5 | Section V3.5 | Couverture v0.8 |
 |---|---|---|
-| Architecture 2500 + 350 + 100 familles | §2.1, §5 | §3 préambule, §12.4.6 |
-| Module familial 100 trios/quatuors | §5 | §12.4.6 |
-| Pools témoins 1000G + EGA (catalogue) | §6.3, §13.2 | §12.4.1 |
+| Architecture 2500 + 350 + 100 familles | §2.1, §5 | §3 préambule, §13.4.6 |
+| Module familial 100 trios/quatuors | §5 | §13.4.6 |
+| Pools témoins 1000G + EGA (catalogue) | §6.3, §13.2 | §13.4.1 |
 | Stratification géo-ancestrale (secteur × ascendance) | §6.7 | §3, §4 stratégie 6 |
 | Quotas WGS par cellule | §6.8 | §7.8.1 (sensibilité ratio) |
 | Formule `S_div = 0,30 PCA + 0,30 ADMIX + 0,25 IBD + 0,15 ROH` | §7.1 | §5 intro |
-| PCA ancrée sur pools témoins | §7.2, §6.4 | §12.4.1 (pools), §5.2 (PCA enveloppe convexe) |
-| ADMIXTURE K = 2 à 10 | §7.3 | §12.2 (élargi v0.8) |
+| PCA ancrée sur pools témoins | §7.2, §6.4 | §13.4.1 (pools), §5.2 (PCA enveloppe convexe) |
+| ADMIXTURE K = 2 à 10 | §7.3 | §13.2 (élargi v0.8) |
 | ADMIX_rarity (bras découverte) | §7.4 | §5.2 (divergence KL) + §7.8.2 |
 | **KING kinship, seuil 0,0625** | §7.5 | §5.2 (préciisé v0.8) |
-| ROH seuil 100 Mb (recalibrable) | §7.6 | §5.2, §12.4.7 (mentionné v0.8) |
+| ROH seuil 100 Mb (recalibrable) | §7.6 | §5.2, §13.4.7 (mentionné v0.8) |
 | Score `S_discovery_global` (bras découverte) | §8.2 | §4 stratégie 7, §7.8 |
 | Sous-bras du bras découverte | §8.3 | §7.8 (sensibilité ratio) |
 | **Stratification quintiles + récupération quotas** | §9.1, §9.4 | §7.8 (récupération précisée v0.8) |
 | **Gain marginal / novelty `λ`** | §9.2 | §4 stratégie 8 (ajouté v0.8) |
-| QC SNP (variant, individu) | §11 | §12.4.4 |
-| **HWE par strate (effet Wahlund)** | §11.4 | §12.4.7 (ajouté v0.8) |
-| Phasage 2500 + familles (SHAPEIT4/5) | §12 | §12.4.6 |
-| Imputation Beagle/GLIMPSE | §12.5 | §12.2 |
-| LAI (Local Ancestry Inference) | §12.6 | §12.4 (haplotypes émergents) |
-| **Validation A : 1000G public** | §13.2 | §12.4.1 (catalogue) |
-| **Validation B : 1000G + EGA** | §13.2 | §12.4.1 (catalogue) |
-| **Validation D : Simulation réunionnaise** | §13.2 | §3 profils A–D (étendu v0.8) |
+| QC SNP (variant, individu) | §11 | §13.44 |
+| **HWE par strate (effet Wahlund)** | §11.4 | §13.4.7 (ajouté v0.8) |
+| Phasage 2500 + familles (SHAPEIT4/5) | §12 | §13.4.6 |
+| Imputation Beagle/GLIMPSE | §12.5 | §13.2 |
+| LAI (Local Ancestry Inference) | §12.6 | §13.4 (haplotypes émergents) |
+| **Validation A : 1000G public** | §13.2 | **§8.2 (opérationnalisée v0.9)** |
+| **Validation B : 1000G + EGA** | §13.2 | **§8.3 (opérationnalisée v0.9)** |
+| **Validation C : EGA complémentaires** | §13.2 | **§8.4 (opérationnalisée v0.9)** |
+| **Validation D : Simulation réunionnaise** | §13.2 | §3 profils A–D + §7 |
+| **Critère triangulé pré-déploiement** | (esprit §13.2) | **§8.5 (nouveau v0.9)** |
+| **Chronologie pré-déploiement vs ex-post** | §13.7 | **§8.7 (nouveau v0.9)** |
+| **Audit ex-post 350 WGS (sanity-check)** | §13.7 | **§14 garde-fou n°4 (reformulé v0.9)** |
 | Scénarios de compression | §13.3 | §7.4 ancrage coût-bénéfice |
 | **10 stratégies de comparaison** | §13.4 | §4 (aligné v0.8 : 10 stratégies + opportuniste) |
 | Métriques de validation | §13.5 | §5.1, §5.2, §5.3 (alignées v0.8) |
@@ -984,9 +1109,9 @@ Ce tableau facilite la lecture croisée des deux documents et atteste que chaque
 | **Analyse LOCO** | §14.2 | §5.3 (ajoutée v0.8) |
 | Robustesse greedy (multi-ordre, multi-seed) | §14.3 | §5.3 |
 | Sorties attendues (livrables) | §15 | §15 |
-| Risques et mitigations | §16 | §13 garde-fous + §3 préambule |
+| Risques et mitigations | §16 | §14 garde-fous + §3 préambule |
 | **Recalibrage de fréquences** | §3.4 | §5.1 (ajouté v0.8) |
 | Effet fondateur ROH | §8.4 | §3.D F1–F5, §7.7 |
-| Profils d'ascendance — interprétation prudente | §6.6, §13 | §13 garde-fous éthiques |
+| Profils d'ascendance — interprétation prudente | §6.6, §13 | §14 garde-fous éthiques |
 
 Toute exigence V3.5 non couverte par cette table doit être considérée comme une lacune à corriger.
