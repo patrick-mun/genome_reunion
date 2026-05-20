@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.5  
+**Version :** v0.6  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -11,6 +11,7 @@
 - v0.3 — refonte du §5 : classification des métriques en trois tiroirs (primaires extrinsèques / diagnostiques intrinsèques / algorithmiques) avec hiérarchie de jugement explicite ; spécification de **formes mathématiques d'évaluation distinctes** de celles de `S_div` pour les dimensions partagées (PCA, ADMIXTURE, IBD, ROH).
 - v0.4 — ajout d'une section **§7 « Seuils de succès quantitatifs (pré-enregistrés) »** : formule du Δ relatif, règle de jugement par profil, table de seuils initiale, trois ancrages de justification (coût-bénéfice, IC 95 %, convention), clause de pré-enregistrement et de tolérance pour les métriques diagnostiques ; ajout du livrable `validation_thresholds.tsv` ; renumérotation §7→§8 … §15→§16.
 - v0.5 — prise en compte de **N=2500 comme contrainte budgétaire dure** (§3 préambule) et reformulation : la sous-puissance de `random` sur les variants fondateurs devient l'argument central de la méthode, pas un défaut à corriger. Ajout d'un **paramètre d'apparentement φ et de profondeur d'endogamie** sur les sous-profils fondateurs (§3 B/C/D, §12.3). Nouvelle métrique primaire **taux de capture binaire** `P(≥1 allèle F_k capté)` (§5.1) et reformulation des seuils fondateurs en probabilités de capture (§7.3). Nouvelle section **§7.7 « Analyse de puissance *a priori* »** avec livrable `power_analysis_pre_simulation.tsv`.
+- v0.6 — **modèle haplotypique détaillé** (§12.4 nouvelle) avec squelette démographique informé par l'histoire connue de La Réunion : pool de populations sources (1000G + EGA, cohérent V3.5), chronologie des pulses migratoires (founding 1665 → engagisme → moderne), bottleneck fondateur (`Ne ≈ 50`) et croissance exponentielle, architecture chromosomique, protocole d'injection F1–F5, **pool de 100 familles nucléaires simulé en parallèle** pour ancrer le phasage Beagle/SHAPEIT5, sanity-checks de calibration (LD decay + ROH). Ajout du livrable `nuclear_families_pool.vcf`. Renumérotation §12.4 → §12.5, §12.5 → §12.6.
 
 ---
 
@@ -574,7 +575,7 @@ Les coefficients `αg, βg, γg, δg, ηg` varient selon la composante simulée.
 
 L'équation ci-dessus **ne décrit pas un tirage individuel d'ascendance**. Elle définit les **fréquences ancestrales attendues** par secteur, qui servent de **cibles de calibration** pour le simulateur démographique.
 
-Les individus synthétiques ne sont **pas** générés en tirant `g` selon `P(g|s,t)`. Ils sont produits par une simulation forward-time (ou coalescente) sur `G ≈ 10–12` générations, avec recombinaison, dérive, migration inter-secteurs et injection éventuelle de variants fondateurs sur lignées spécifiques. Les proportions ancestrales observées en sortie sont ensuite **comparées** aux cibles ; les flux migratoires `F(g,t)` et les pondérations `αg…ηg` sont ajustés jusqu'à convergence des sorties simulées sur les tableaux §3.
+Les individus synthétiques ne sont **pas** générés en tirant `g` selon `P(g|s,t)`. Ils sont produits par une simulation forward-time (ou coalescente) sur `G ≈ 10–12` générations, avec recombinaison, dérive, migration inter-secteurs et injection éventuelle de variants fondateurs sur lignées spécifiques. Le **squelette démographique** qui définit cette génératrice (populations sources, dates des pulses migratoires, bottleneck fondateur 1665) est détaillé en **§12.4 « Modèle haplotypique détaillé »**. Les proportions ancestrales observées en sortie sont ensuite **comparées** aux cibles ; les flux migratoires `F(g,t)` et les pondérations `αg…ηg` sont ajustés jusqu'à convergence des sorties simulées sur les tableaux §3.
 
 ### 11.2 Pourquoi ce découplage est indispensable
 
@@ -594,20 +595,26 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 
 ```text
 [1] Démographie historique        →  msprime (coalescent multi-population)
-        ↓ haplotypes phasés, LD réaliste, ROH/IBD émergents
+        ↓ pool sources 1000G + EGA, pulses datés (cf. §12.4)
 [2] Variants fondateurs simulés   →  SLiM 4 (forward-time)
         ↓ injection F1…F5 sur lignées spécifiques (profil D)
-[3] Cohorte synthétique 2500 ind. →  VCF + métadonnées (secteur, sous-profil)
-        ↓
-[4] PCA / ADMIXTURE / IBD / ROH   →  PLINK 2, ADMIXTURE, hap-ibd, GARLIC
+        ↓ apparentement intra sous-profil (φ, G_endo)
+        │
+        ├──[2a] Cohorte principale 2500 ind. → VCF + métadonnées (secteur, sous-profil)
+        │
+        └──[2b] Pool de phasage : 100 familles nucléaires (~400 ind., pedigree connu)
+                ↓ mêmes paramètres démographiques, simulé en parallèle
+[3] Phasage statistique             →  Beagle 5.4 / SHAPEIT5
+        ↓ référence = pool [2b], cible = cohorte [2a]
+[4] PCA / ADMIXTURE / IBD / ROH     →  PLINK 2, ADMIXTURE, hap-ibd, GARLIC
         ↓ scores par individu
-[5] Sélection 350 WGS             →  Python (7 stratégies, dont géo-ancestral)
+[5] Sélection 350 WGS               →  Python (7 stratégies, dont géo-ancestral)
         ↓
-[6] Métriques de validation       →  scikit-allel, pandas, R
+[6] Métriques de validation         →  scikit-allel, pandas, R
         ↓
-[7] Imputation aval (2150 SNP)    →  Beagle 5.4 ou GLIMPSE2
+[7] Imputation aval (2150 SNP)      →  Beagle 5.4 ou GLIMPSE2
         ↓
-[8] Rapport final                 →  Quarto / Jupyter Book (HTML + PDF)
+[8] Rapport final                   →  Quarto / Jupyter Book (HTML + PDF)
 ```
 
 ### 12.2 Outils recommandés par étape
@@ -644,7 +651,92 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 | Taille cohorte synthétique `N` | **2500 (contrainte budgétaire dure)** | alignée sur la cohorte SNP réelle ; non négociable (cf. §3 préambule) |
 | Statut paramètre | `observé` / `estimé` / `scénarisé` | obligatoire par §13 garde-fous (`φ` et `G_endo` sont `scénarisés`) |
 
-### 12.4 Exigences de reproductibilité
+### 12.4 Modèle haplotypique détaillé
+
+Cette sous-section formalise la **génératrice démographique** qui produit les cohortes synthétiques. L'esprit reste celui de la §3 préambule et du §13 garde-fous : **s'approcher de l'histoire connue, pas la reconstruire**. Le squelette ci-dessous combine événements historiques attestés (statut `observé`) et paramètres démographiques fins (statut `scénarisé`).
+
+#### 12.4.1 Pool de populations sources (bootstrap d'haplotypes)
+
+Cohérent avec V3.5 du projet (slide 25 « Pools témoins externes »). Les haplotypes des populations sources sont bootstrappés depuis les références publiques, plutôt que simulés *from scratch* :
+
+| Population source | Proxy 1000G / EGA | `Ne` effectif | Rôle |
+|---|---|---:|---|
+| Europe (français) | CEU (1000G) | 10 000 | colons fondateurs + mainland récent |
+| Afrique de l'Est / Madagascar | **MGUA** (EGA) | 5 000 | esclavage + composante austronésienne |
+| Afrique Bantu (Mozambique / Angola) | **MAGE** (EGA) + YRI (1000G) | 15 000 | esclavage continental |
+| Inde (Tamoul / sud) | GIH (1000G) | 12 000 | engagisme agricole |
+| Chine du Sud / Hakka | CHS (1000G) + GenomeAsia | 10 000 | engagisme commercial |
+| Comores | proxy Bantu Est (MAGE / YRI) | 5 000 | migration moderne (approximation) |
+
+**Découplage simulateur ↔ analyse :** pour éviter qu'une même référence serve à la fois de source de simulation et d'ancrage d'évaluation (ADMIXTURE supervisée K=4 de la V3.5), réserver **YRI et CEU comme outgroups d'évaluation** et utiliser **MGUA, MAGE, GIH, CHS, GenomeAsia** pour le bootstrap d'haplotypes en simulation. Si une population doit être réutilisée des deux côtés, le justifier explicitement dans le manifest de calibration.
+
+#### 12.4.2 Chronologie démographique (12 générations, ~30 ans/gén., base 2025)
+
+| Génération | Date approx. | Évènement | Pulse migratoire (proportion du flux entrant à cette période) | Statut |
+|---:|---|---|---|---|
+| **12** | 1665 | **Founding** | 70 % CEU + 25 % MGUA + 5 % GIH | évènement `observé`, proportions `scénarisé` |
+| 11 → 7 | 1695 → 1815 | Esclavage continu | 60 % MGUA + 40 % MAGE / YRI | `observé` / `scénarisé` |
+| 6 | 1845–1850 | Abolition (1848) | fin du flux esclavage | `observé` |
+| 5 → 3 | 1860 → 1930 | **Engagisme** | 80 % GIH + 15 % CHS + 5 % YRI (Comores) | `observé` / `scénarisé` |
+| 2 → 0 | 1965 → 2025 | Mobilité moderne | 70 % CEU + 20 % Comores + 10 % mixed | `observé` / `scénarisé` |
+
+#### 12.4.3 Bottleneck fondateur et croissance
+
+| Paramètre | Valeur | Statut |
+|---|---|---|
+| `Ne_founding` (1665, gén. 12) | ≈ 50 effective | `scénarisé` (≈ 30 colons attestés + variance reproductrice) |
+| Croissance | exponentielle, λ ≈ 0,63 / gén. | `scénarisé` |
+| `Ne_actuel` (2025, gén. 0) | ≈ 100 000 effective | `scénarisé` (population census ≈ 850 000) |
+
+Cette croissance rapide d'un fondateur de ~50 vers ~100 000 reproduit la signature de **dérive génétique forte** typique d'une colonisation insulaire et favorise l'émergence naturelle des fréquences fondateur cibles (cf. §3.D).
+
+#### 12.4.4 Architecture chromosomique
+
+| Élément | Choix |
+|---|---|
+| Chromosomes | 22 autosomes GRCh38 |
+| Chromosome X | **exclu** par défaut (modélisation distincte non justifiée pour la validation) |
+| Longueur totale | ≈ 2,9 Gb |
+| Carte de recombinaison | HapMap GRCh38 (sex-averaged), centromères masqués |
+| Variants retenus (analyses globales) | MAF ≥ 0,5 % sur la cohorte simulée |
+| Variants retenus (catégorie « rares ») | MAF < 1 % conservés intégralement |
+
+#### 12.4.5 Protocole d'injection des variants fondateurs F1–F5
+
+| Élément | Spécification |
+|---|---|
+| Hand-off | msprime → SLiM 4 à la génération `G_endo` (cf. §3 préambule) |
+| Origine | un **seul haplotype ancestral** par variant F_k (origine unique) |
+| Position | tirée aléatoirement hors régions à fort LD problématique (HLA, centromères, télomères) |
+| Génération d'introduction | calibrée par run de pré-validation pour atteindre la fréquence locale cible §3.D |
+| Trajectoire | dérive libre jusqu'au présent, sans forçage à chaque génération |
+| Mating dans le sous-profil porteur | restreint selon `φ` et `G_endo` (cf. §3 préambule et §12.3) |
+
+#### 12.4.6 Pool de 100 familles nucléaires pour le phasage
+
+| Élément | Spécification |
+|---|---|
+| Effectif | 100 trios ou quatuors (~400 individus) |
+| Simulation | **en parallèle** de la cohorte principale, mêmes paramètres §12.4.1–§12.4.3 |
+| Pedigree | connu et exporté (PED file standard) |
+| Rôle | référence pour le phasage statistique Beagle 5.4 / SHAPEIT5 de la cohorte principale 2500 |
+| Statut | indépendant des 2500 individus de sélection, n'entre pas dans le pool de candidats WGS |
+
+Ce pool reproduit l'organisation prévue par V3.5 (slide 33 « Phasage réunionnais — 2500 SNP + 100 familles nucléaires »). Il évite à la fois (a) le phasage parfait msprime qui surévaluerait la qualité des métriques IBD/ROH et (b) le phasage Beagle sans référence qui les sous-évaluerait.
+
+#### 12.4.7 Sanity-checks de calibration (avant les 100 seeds de validation)
+
+Avant de lancer les ≥ 100 seeds par profil, exécuter **3 à 5 runs de calibration** et vérifier qualitativement les cibles suivantes. Si écart majeur, ajuster les `Ne` et proportions de pulses (statut `scénarisé`) — pas les évènements historiques.
+
+| Cible haplotypique | Attendu | Méthode |
+|---|---|---|
+| Proportions ADMIXTURE par secteur | écart < 5 points / composante vs §3 (profil considéré) | ADMIXTURE supervisée K=4 |
+| Décroissance LD `r²(d)` | LD réunionnaise > LD sources à toute distance | PLINK 2 `--r2` |
+| Distribution ROH | pic à 1–5 Mb pour sous-profils fondateurs (φ > 0) | PLINK 2 `--homozyg` |
+
+Le manifest de calibration est versionné dans `simulation_calibration.tsv` (livrable, §15) et soumis à la clause §7.5 de pré-enregistrement.
+
+### 12.5 Exigences de reproductibilité
 
 Toute la chaîne doit être :
 
@@ -654,7 +746,7 @@ Toute la chaîne doit être :
 - **orchestrée** par Snakemake ou Nextflow (DAG reproductible, reprise sur échec) ;
 - **archivée** avec hash SHA-256 des cohortes synthétiques produites, pour permettre une ré-exécution exacte ou une audit indépendant.
 
-### 12.5 Alternatives et options
+### 12.6 Alternatives et options
 
 | Besoin | Alternative |
 |---|---|
@@ -671,7 +763,7 @@ Toute la chaîne doit être :
 La simulation doit respecter quatre garde-fous :
 
 1. **Ne pas assigner une origine individuelle.** Les composantes sont des outils de simulation génétique, pas des identités sociales.
-2. **Distinguer les paramètres observés, estimés et scénarisés.** Chaque paramètre doit recevoir un statut : `observé`, `estimé`, `scénarisé`.
+2. **Distinguer les paramètres observés, estimés et scénarisés.** Chaque paramètre doit recevoir un statut : `observé`, `estimé`, `scénarisé`. Application au modèle haplotypique §12.4 : dates et évènements historiques (founding 1665, abolition 1848, périodes d'engagisme) = `observé` ; `Ne_founding`, proportions de chaque pulse, `φ` et `G_endo` = `scénarisé` ; proxys 1000G/EGA des populations sources = `estimé` (substituts de populations historiques non directement observables).
 3. **Ne pas présenter les profils comme des mesures réelles.** Les profils A-D servent à valider la méthode, non à décrire définitivement La Réunion.
 4. **Calibrer dès que les 2500 SNP réels sont disponibles.** Les scénarios doivent être comparés aux PCA, ADMIXTURE, ROH, IBD et fréquences réelles.
 
@@ -702,6 +794,8 @@ Texte de justification recommandé :
 | `imputation_performance.tsv` | performance d'imputation |
 | `validation_thresholds.tsv` | seuils de succès pré-enregistrés (§7) |
 | `power_analysis_pre_simulation.tsv` | analyse de puissance *a priori* pré-enregistrée (§7.7) |
+| `nuclear_families_pool.vcf` | pool de 100 familles nucléaires pour ancrage du phasage (§12.4.6) |
+| `simulation_calibration.tsv` | manifest de calibration du modèle haplotypique (§12.4.7) |
 | `validation_report.html/pdf` | rapport interprétable et auditable |
 
 ---
