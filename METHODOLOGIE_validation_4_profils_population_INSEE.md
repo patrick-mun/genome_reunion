@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.6  
+**Version :** v0.7  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -12,6 +12,7 @@
 - v0.4 — ajout d'une section **§7 « Seuils de succès quantitatifs (pré-enregistrés) »** : formule du Δ relatif, règle de jugement par profil, table de seuils initiale, trois ancrages de justification (coût-bénéfice, IC 95 %, convention), clause de pré-enregistrement et de tolérance pour les métriques diagnostiques ; ajout du livrable `validation_thresholds.tsv` ; renumérotation §7→§8 … §15→§16.
 - v0.5 — prise en compte de **N=2500 comme contrainte budgétaire dure** (§3 préambule) et reformulation : la sous-puissance de `random` sur les variants fondateurs devient l'argument central de la méthode, pas un défaut à corriger. Ajout d'un **paramètre d'apparentement φ et de profondeur d'endogamie** sur les sous-profils fondateurs (§3 B/C/D, §12.3). Nouvelle métrique primaire **taux de capture binaire** `P(≥1 allèle F_k capté)` (§5.1) et reformulation des seuils fondateurs en probabilités de capture (§7.3). Nouvelle section **§7.7 « Analyse de puissance *a priori* »** avec livrable `power_analysis_pre_simulation.tsv`.
 - v0.6 — **modèle haplotypique détaillé** (§12.4 nouvelle) avec squelette démographique informé par l'histoire connue de La Réunion : pool de populations sources (1000G + EGA, cohérent V3.5), chronologie des pulses migratoires (founding 1665 → engagisme → moderne), bottleneck fondateur (`Ne ≈ 50`) et croissance exponentielle, architecture chromosomique, protocole d'injection F1–F5, **pool de 100 familles nucléaires simulé en parallèle** pour ancrer le phasage Beagle/SHAPEIT5, sanity-checks de calibration (LD decay + ROH). Ajout du livrable `nuclear_families_pool.vcf`. Renumérotation §12.4 → §12.5, §12.5 → §12.6.
+- v0.7 — **évaluation spécifique du bras découverte** (nouvelle §7.8) sans dévier de la logique d'optimisation de la méthode : le ratio noyau/pool libre est **déterminé par analyse de sensibilité** (5 ratios testés), pas fixé doctrinalement. Critère d'utilité positif (gain ≥ +3 points sur au moins une métrique primaire vs `géo-ancestrale seule`) plutôt que critères restrictifs de fidélité à la cohorte. Ajout d'une métrique primaire `IBD résiduel pool libre seul` (anti-redondance interne) en §5.1. Livrable `discovery_arm_sensitivity.tsv`.
 
 ---
 
@@ -248,7 +249,7 @@ Chaque profil doit être soumis aux mêmes stratégies de sélection.
 | PCA-only | sélection par distance dans l'espace PCA | teste l'information génétique globale |
 | ADMIXTURE-only | sélection par entropie ou distance des profils q_k | teste l'information ancestrale |
 | Géo-ancestral | secteur × profil d'ascendance | stratégie principale |
-| Géo-ancestral + bras découverte | noyau représentatif + pool libre informatif | stratégie candidate optimale |
+| Géo-ancestral + bras découverte | noyau représentatif + pool libre informatif (ratio noyau/pool libre **déterminé par sensibilité**, cf. §7.8 ; 5 ratios testés systématiquement) | stratégie candidate optimale |
 
 ---
 
@@ -266,6 +267,7 @@ Ces métriques portent sur des dimensions **absentes de `S_div`**. Elles constit
 | Capture des variants rares (MAF < 1 %) | la stratégie récupère-t-elle les variants à fréquence faible ? | totale |
 | Capture des variants fondateurs simulés (F1–F5), proportion d'allèles | les foyers locaux sont-ils représentés en moyenne ? | totale (variants injectés au stade simulation) |
 | **Taux de capture binaire** `P(≥1 allèle F_k capté)` sur ≥ 100 seeds | la stratégie est-elle **fiable** pour chaque fondateur ? (réponse à la bimodalité de `random` sous N=2500) | totale |
+| **IBD résiduel intra pool libre** (bras découverte uniquement) | le pool libre sélectionne-t-il des profils rares **non redondants** entre eux ? | totale (anti-doublons familiaux gloutons, cf. §7.8) |
 | Performance d'imputation aval | le panel WGS améliore-t-il l'imputation des 2150 SNP restants sur un jeu held-out ? | totale (calcul aval, distinct de la sélection) |
 
 ### 5.2 Métriques diagnostiques (intrinsèques) — sanity-check, pas verdict
@@ -432,6 +434,66 @@ justification
 ```
 
 Ce fichier est lui-même soumis à la clause §7.5 de pré-enregistrement.
+
+### 7.8 Évaluation spécifique du bras découverte
+
+Le bras découverte (composante « pool libre informatif » de la stratégie `géo-ancestrale + bras découverte`) est **conçu** pour maximiser la capture d'information en sélectionnant des profils potentiellement éloignés du barycentre de la cohorte. Cette divergence vis-à-vis de la cohorte n'est **pas un défaut** — c'est le mécanisme même par lequel le bras gagne. La validation ne doit pas pénaliser cette divergence par des critères de fidélité (chi² sectoriel, conservation ADMIXTURE, etc.) qui contrediraient la logique d'optimisation `S_div` et la stratification par quintiles posée dans `METHODOLOGY_selection_V3_5.md`.
+
+En revanche, deux risques **réels** subsistent : (a) une redondance interne du pool libre (sélectionner deux porteurs très apparentés d'un même fondateur, ce qui dépense du budget sans gain informationnel), et (b) un ratio noyau/pool libre arbitraire qui rendrait l'évaluation non reproductible.
+
+#### 7.8.1 Détermination du ratio noyau/pool libre par sensibilité
+
+Plutôt que de fixer un ratio doctrinal, on **teste systématiquement** cinq ratios sur le Profil C (scénario principal) :
+
+| Ratio noyau / pool libre | Effectifs (noyau / pool libre) |
+|---|---|
+| 90 / 10 | 315 / 35 |
+| 80 / 20 | 280 / 70 |
+| 70 / 30 | 245 / 105 |
+| 60 / 40 | 210 / 140 |
+| 50 / 50 | 175 / 175 |
+
+Le ratio retenu pour la version finale du panel WGS est celui qui **maximise les métriques primaires §5.1** (couverture allélique, variants rares, capture fondateurs `P(≥1)`, ΔR² imputation) sous la **seule contrainte** d'IBD résiduel intra pool libre raisonnable (cf. §7.8.3). Aucune contrainte de fidélité à la cohorte n'est imposée — le ratio optimal **émerge** de la performance informationnelle, pas d'un dogme.
+
+#### 7.8.2 Critère d'utilité du bras découverte (formulation positive)
+
+Le bras découverte est jugé **utile** sur un profil donné si, par rapport à la stratégie `géo-ancestrale seule` (sans pool libre), il :
+
+- **augmente** au moins une métrique primaire §5.1 d'au moins **+3 points** (gain absolu, calculé sur la médiane des ≥ 100 seeds), parmi :
+  - couverture allélique totale,
+  - capture des variants rares (MAF < 1 %),
+  - capture des fondateurs `P(≥1 allèle F_k capté)`,
+  - performance d'imputation aval ΔR² ;
+- ne dégrade aucune métrique primaire §5.1 au-delà de la tolérance générale `−5 %` posée pour les diagnostiques §7.6.
+
+Aucun critère sur PCA / ADMIXTURE / chi² sectoriel n'entre dans le verdict. La distorsion vs cohorte est **attendue et acceptée**.
+
+#### 7.8.3 Garde-fou anti-redondance interne
+
+Pour éviter qu'un pool libre se remplisse de doublons familiaux (deux frères porteurs du même fondateur, par exemple), on impose :
+
+```text
+IBD_résiduel(pool libre seul) ≤ 1,5 × IBD_résiduel(sélection complète)
+```
+
+Si ce ratio dépasse 1,5, le pool libre est jugé sous-optimal (trop concentré sur quelques foyers) et l'algorithme de sélection doit être ajusté avant pré-enregistrement.
+
+#### 7.8.4 Comparaison frontale `+ bras découverte` vs `géo-ancestrale seule`
+
+Toutes les stratégies sont comparées à `random` dans §7.3. Pour le bras découverte, on ajoute une **comparaison frontale supplémentaire** contre `géo-ancestrale seule` : *« qu'apporte le pool libre au-delà du noyau représentatif ? »*. Cette comparaison est reportée dans un livrable dédié `discovery_arm_sensitivity.tsv` (ratios × métriques primaires × profil), mais ne sert **pas** de critère d'échec restrictif au-delà du §7.8.2.
+
+#### Livrable
+
+`discovery_arm_sensitivity.tsv` versionné, contenant pour chaque ratio et chaque profil :
+
+```text
+ratio (90/10 … 50/50), profil, métrique primaire,
+valeur_méthode (géo-anc + bras découverte),
+valeur_référence (géo-ancestrale seule),
+gain_absolu, IC_95,
+IBD_pool_libre_seul, IBD_sélection_complète, ratio_IBD,
+utilité_déclarée (oui / non) + métrique(s) bénéficiaire(s)
+```
 
 ---
 
@@ -794,6 +856,7 @@ Texte de justification recommandé :
 | `imputation_performance.tsv` | performance d'imputation |
 | `validation_thresholds.tsv` | seuils de succès pré-enregistrés (§7) |
 | `power_analysis_pre_simulation.tsv` | analyse de puissance *a priori* pré-enregistrée (§7.7) |
+| `discovery_arm_sensitivity.tsv` | sensibilité du bras découverte au ratio noyau/pool libre (§7.8) |
 | `nuclear_families_pool.vcf` | pool de 100 familles nucléaires pour ancrage du phasage (§12.4.6) |
 | `simulation_calibration.tsv` | manifest de calibration du modèle haplotypique (§12.4.7) |
 | `validation_report.html/pdf` | rapport interprétable et auditable |
