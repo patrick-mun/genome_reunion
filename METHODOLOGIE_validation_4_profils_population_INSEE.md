@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.4  
+**Version :** v0.5  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -10,6 +10,7 @@
 - v0.2 — clarification du **découplage simulateur ↔ méthode** dans §10 (les `%` d'ascendance par secteur deviennent des cibles de calibration émergentes, non des inputs directs) ; ajout d'une section dédiée aux **outils logiciels et au pipeline de simulation** (§11) ; renumérotation des sections suivantes.
 - v0.3 — refonte du §5 : classification des métriques en trois tiroirs (primaires extrinsèques / diagnostiques intrinsèques / algorithmiques) avec hiérarchie de jugement explicite ; spécification de **formes mathématiques d'évaluation distinctes** de celles de `S_div` pour les dimensions partagées (PCA, ADMIXTURE, IBD, ROH).
 - v0.4 — ajout d'une section **§7 « Seuils de succès quantitatifs (pré-enregistrés) »** : formule du Δ relatif, règle de jugement par profil, table de seuils initiale, trois ancrages de justification (coût-bénéfice, IC 95 %, convention), clause de pré-enregistrement et de tolérance pour les métriques diagnostiques ; ajout du livrable `validation_thresholds.tsv` ; renumérotation §7→§8 … §15→§16.
+- v0.5 — prise en compte de **N=2500 comme contrainte budgétaire dure** (§3 préambule) et reformulation : la sous-puissance de `random` sur les variants fondateurs devient l'argument central de la méthode, pas un défaut à corriger. Ajout d'un **paramètre d'apparentement φ et de profondeur d'endogamie** sur les sous-profils fondateurs (§3 B/C/D, §12.3). Nouvelle métrique primaire **taux de capture binaire** `P(≥1 allèle F_k capté)` (§5.1) et reformulation des seuils fondateurs en probabilités de capture (§7.3). Nouvelle section **§7.7 « Analyse de puissance *a priori* »** avec livrable `power_analysis_pre_simulation.tsv`.
 
 ---
 
@@ -37,6 +38,25 @@ Cette logique permet de valider la méthode sans prétendre reconstituer parfait
 ---
 
 ## 3. Les quatre profils de population à tester
+
+### Préambule — Contraintes structurelles de la cohorte synthétique
+
+**N = 2500 est une contrainte budgétaire dure**, alignée sur la cohorte SNP réelle prévue par Génome Réunion. L'augmentation de N n'est pas une option. Cette section précise les conséquences méthodologiques de cette contrainte.
+
+**Conséquence 1 — Sous-puissance assumée du tirage aléatoire pour les fondateurs.** Sur des sous-profils fondateurs représentant ~10 % d'un secteur (~36 individus), un variant à fréquence locale ~6 % donne ~0,6 allèle attendu dans une sélection `random` de 350/2500. La probabilité que `random` capte *zéro* allèle fondateur d'un foyer donné est ≈ 54 %. Cette sous-puissance n'est pas un défaut de la validation, c'est **l'argument central de la méthode** : on évalue précisément la capacité d'une sélection structurée à rendre déterministe ce qui, en tirage aléatoire, est bimodal et imprévisible.
+
+**Conséquence 2 — Intégration de l'apparentement comme paramètre de simulation.** Dans une population avec endogamie locale, dérive sur petit pool reproductif et héritage de quelques lignées fondatrices (Hauts, cirques, marronnage, petits foyers agricoles), les variants fondateurs voient leur **fréquence locale gonflée naturellement** au-delà de leur fréquence introduite. Cet effet est modélisé explicitement via deux paramètres ajoutés au simulateur (cf. §12.3) :
+
+| Paramètre | Notation | Plage par sous-profil fondateur |
+|---|---|---|
+| Coefficient d'apparentement intra sous-profil | `φ` | 0,03 (B) — 0,05 (C) — 0,08 (D) |
+| Profondeur d'endogamie simulée | `G_endo` | 3–4 générations (B) — 4–5 (C) — 5–6 (D) |
+
+Ces valeurs sont **scénarisées** au sens §13.2 (à calibrer empiriquement dès que les SNP réels et les pedigrees CGB seront disponibles).
+
+**Conséquence 3 — Reporting en distribution, pas en moyenne.** Pour les métriques liées aux fondateurs, on rapporte la **distribution de capture sur les ≥ 100 seeds** (taux binaire, P(≥1 allèle capté)) et non un Δ moyen seul. Cela rend visible la bimodalité du tirage aléatoire et l'effet de stabilisation de la méthode ciblée.
+
+---
 
 ### Profil A — Homogène
 
@@ -108,15 +128,15 @@ Exemple pour le **Sud agricole** :
 | Engagisme indien agricole | 45 % | forte composante indienne |
 | Créole sud admixé | 30 % | mélange indien / européen / africain / malgache |
 | Mobilité récente | 15 % | profil diffus |
-| Petit foyer fondateur | 10 % | ROH / IBD local, variant rare simulé |
+| Petit foyer fondateur | 10 % | ROH / IBD local, variant rare simulé — `φ ≈ 0,03`, `G_endo = 3–4` |
 
 Exemple pour les **Hauts du Sud / Plaine** :
 
 | Sous-profil | Proportion dans le secteur | Signal simulé |
 |---|---:|---|
-| Yab / petits agriculteurs | 40 % | composante européenne fondatrice plus élevée |
+| Yab / petits agriculteurs | 40 % | composante européenne fondatrice plus élevée — `φ ≈ 0,03`, `G_endo = 3–4` |
 | Admixé des Hauts | 30 % | européen + malgache + indien |
-| Fondateur local | 20 % | ROH / IBD élevé |
+| Fondateur local | 20 % | ROH / IBD élevé — `φ ≈ 0,03`, `G_endo = 3–4` |
 | Mobilité récente | 10 % | profil diffus |
 
 #### Résultat attendu
@@ -195,7 +215,9 @@ Les secteurs présentent des profils très contrastés et des variants rares/fon
 
 #### Variants fondateurs simulés
 
-| Variant simulé | Zone principale | Fréquence locale | Fréquence île entière |
+Paramètres d'apparentement appliqués aux zones porteuses : `φ ≈ 0,08`, `G_endo = 5–6`. La fréquence locale **émerge** de la simulation forward-time avec mating restreint ; les valeurs ci-dessous sont les **cibles de calibration** vers lesquelles la simulation doit converger.
+
+| Variant simulé | Zone principale | Fréquence locale (cible) | Fréquence île entière (cible) |
 |---|---|---:|---:|
 | F1 | Hauts du Sud | 6 % | 0,8 % |
 | F2 | Est agricole | 4 % | 0,6 % |
@@ -241,7 +263,8 @@ Ces métriques portent sur des dimensions **absentes de `S_div`**. Elles constit
 |---|---|---|
 | Couverture allélique totale | combien de variants sont capturés ? | totale |
 | Capture des variants rares (MAF < 1 %) | la stratégie récupère-t-elle les variants à fréquence faible ? | totale |
-| Capture des variants fondateurs simulés (F1–F5) | les foyers locaux sont-ils représentés ? | totale (variants injectés au stade simulation) |
+| Capture des variants fondateurs simulés (F1–F5), proportion d'allèles | les foyers locaux sont-ils représentés en moyenne ? | totale (variants injectés au stade simulation) |
+| **Taux de capture binaire** `P(≥1 allèle F_k capté)` sur ≥ 100 seeds | la stratégie est-elle **fiable** pour chaque fondateur ? (réponse à la bimodalité de `random` sous N=2500) | totale |
 | Performance d'imputation aval | le panel WGS améliore-t-il l'imputation des 2150 SNP restants sur un jeu held-out ? | totale (calcul aval, distinct de la sélection) |
 
 ### 5.2 Métriques diagnostiques (intrinsèques) — sanity-check, pas verdict
@@ -335,8 +358,11 @@ Ces valeurs sont des **points de départ documentés**, à figer formellement av
 |---|---:|---:|---:|---:|---|
 | Couverture allélique totale | ≤ 2 % | ≥ 5 % | ≥ 8 % | ≥ 15 % | gain relatif |
 | Capture des variants rares (MAF < 1 %) | ≤ 3 % | ≥ 10 % | ≥ 15 % | ≥ 25 % | gain relatif |
-| Capture des variants fondateurs F1–F5 | ≤ 0,10 | ≥ 0,15 | ≥ 0,20 | ≥ 0,35 | différence absolue (proportion détectée) |
+| Capture des fondateurs F1–F5 — **proportion d'allèles** (moyenne) | ≤ 0,10 | ≥ 0,15 | ≥ 0,20 | ≥ 0,35 | différence absolue |
+| Capture des fondateurs F1–F5 — **probabilité `P(≥1 allèle capté)`** | `\|P_méthode − P_random\| ≤ 0,10` | `P_random ≤ 0,60` ET `P_méthode ≥ 0,80` | `P_random ≤ 0,55` ET `P_méthode ≥ 0,85` | `P_random ≤ 0,50` ET `P_méthode ≥ 0,90` | probabilité sur ≥ 100 seeds |
 | Performance d'imputation aval (ΔR² moyen) | ≤ 0,01 | ≥ 0,02 | ≥ 0,03 | ≥ 0,05 | différence absolue de R² |
+
+**Pourquoi deux lignes pour les fondateurs ?** Sous la contrainte N=2500, la métrique « proportion moyenne d'allèles » lisse une distribution fortement bimodale (capture binaire : 0 ou ≥ 1 allèle). La probabilité de capture exprime directement la **fiabilité** du panel WGS pour un fondateur donné — c'est ce qui compte cliniquement pour la suite (un panel qui capte F1 dans 50 % des runs n'est pas exploitable, même si la moyenne d'allèles paraît honorable).
 
 ### 7.4 Les trois ancrages pour justifier chaque seuil
 
@@ -366,6 +392,45 @@ Les métriques diagnostiques ne portent pas de seuil de succès au sens strict. 
 ```
 
 Une dégradation au-delà de cette tolérance signale un effet de bord de la fonction objectif (ex. la méthode optimise tellement la diversité qu'elle dégrade la conservation de la structure globale).
+
+### 7.7 Analyse de puissance *a priori*
+
+Sous la contrainte `N = 2500`, il est obligatoire de **vérifier la puissance statistique du design avant de figer les seuils** §7.3. Le but : éviter de pré-enregistrer un seuil que le design ne peut intrinsèquement pas atteindre (faux échec) ou que tout design atteindrait (faux succès).
+
+#### Procédure
+
+1. **Calcul d'effet minimum détectable (MDE) théorique.** Pour chaque couple (métrique × profil) :
+   - **Fondateurs F_k** : sous tirage `random`, la capture est binomiale `B(2 · n_sub_sel, f_k_eff)` où `n_sub_sel` est l'effectif sélectionné dans le sous-profil et `f_k_eff` la fréquence locale **après inflation par apparentement φ** (cf. §3 préambule). On en déduit `P_random(≥1 allèle)` analytiquement et `P_méthode(≥1 allèle)` par simulation ciblée.
+   - **Autres métriques** : bootstrap synthétique léger sur une cohorte stub (N=2500) pour estimer la SD du Δ sous `random` ; MDE = `2 × SD / √100 seeds`.
+2. **Comparaison aux seuils §7.3.** Si `MDE > δ_min` (resp. `MDE > δ_max` pour A), le design est sous-puissant pour ce critère.
+3. **Décision documentée :**
+   - soit ajuster `δ_min` à un niveau réaliste (avec justification §7.4) ;
+   - soit ajuster le design (φ, G_endo, fréquence cible des fondateurs, répartition des sous-profils) — toujours dans la limite `N = 2500` ;
+   - soit déclarer le couple (métrique × profil) **non-évaluable** dans cette validation et le mentionner explicitement comme limitation.
+
+#### Effet attendu de l'apparentement sur la puissance
+
+L'intégration de `φ > 0` (cf. §3 préambule) **augmente naturellement** la fréquence locale effective des variants fondateurs au-delà de leur fréquence introduite. Calcul illustratif sur un sous-profil de 36 individus, `n_sub_sel ≈ 5` en `random` :
+
+| Régime | `f_eff` | `P_random(≥1)` | `P_géo(≥1)` (≈ 8 sélectionnés ciblés) |
+|---|---:|---:|---:|
+| Sans apparentement (`φ = 0`) | 6 % | 46 % | 62 % |
+| Apparentement modéré (`φ ≈ 0,03`, Profils B/C) | 9 % | 60 % | 78 % |
+| Apparentement fort (`φ ≈ 0,08`, Profil D) | 12 % | 72 % | 88 % |
+
+L'apparentement creuse l'écart entre stratégies, ce qui **améliore mécaniquement la puissance** pour distinguer la méthode du tirage aléatoire. Cet effet n'est pas une astuce de calibration : il reproduit ce qui est biologiquement attendu dans une petite population insulaire avec fondateurs.
+
+#### Livrable
+
+Un fichier `power_analysis_pre_simulation.tsv` est versionné dans le repo **avant la première simulation de validation**, contenant pour chaque couple (métrique × profil) :
+
+```text
+metrique, profil, parametre_design (n_sub, f_intro, phi, G_endo),
+MDE_theorique, seuil_pre_enregistre, decision (OK / ajuster_seuil / ajuster_design / non_evaluable),
+justification
+```
+
+Ce fichier est lui-même soumis à la clause §7.5 de pré-enregistrement.
 
 ---
 
@@ -572,9 +637,12 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 | Taux de recombinaison | carte HapMap GRCh38 | standard humain |
 | Taux de mutation `μ` | 1,25 × 10⁻⁸ / site / génération | valeur consensus humaine |
 | Brassage inter-secteurs | 1–5 % / génération (variable selon période) | faible pour Hauts/cirques, fort pour côtes |
-| Nombre de réplicats par profil | ≥ 100 seeds indépendantes | pour intervalles de confiance des métriques |
+| **Coefficient d'apparentement intra sous-profil fondateur `φ`** | 0,03 (B) — 0,05 (C) — 0,08 (D) | gonfle naturellement la fréquence locale des fondateurs (cf. §3 préambule, §7.7) |
+| **Profondeur d'endogamie simulée `G_endo`** | 3–4 (B) — 4–5 (C) — 5–6 (D) générations | mating restreint sur petit pool reproductif (SLiM 4) |
+| Nombre de réplicats par profil | ≥ 100 seeds indépendantes | pour intervalles de confiance des métriques et taux de capture binaire `P(≥1)` |
 | Nombre de SNP simulés | ≥ 500 000 sur 22 autosomes | suffisant pour PCA, ADMIXTURE, ROH, IBD |
-| Statut paramètre | `observé` / `estimé` / `scénarisé` | obligatoire par §12 garde-fous |
+| Taille cohorte synthétique `N` | **2500 (contrainte budgétaire dure)** | alignée sur la cohorte SNP réelle ; non négociable (cf. §3 préambule) |
+| Statut paramètre | `observé` / `estimé` / `scénarisé` | obligatoire par §13 garde-fous (`φ` et `G_endo` sont `scénarisés`) |
 
 ### 12.4 Exigences de reproductibilité
 
@@ -633,6 +701,7 @@ Texte de justification recommandé :
 | `ibd_roh_summary.tsv` | parenté et autozygotie résiduelles |
 | `imputation_performance.tsv` | performance d'imputation |
 | `validation_thresholds.tsv` | seuils de succès pré-enregistrés (§7) |
+| `power_analysis_pre_simulation.tsv` | analyse de puissance *a priori* pré-enregistrée (§7.7) |
 | `validation_report.html/pdf` | rapport interprétable et auditable |
 
 ---
