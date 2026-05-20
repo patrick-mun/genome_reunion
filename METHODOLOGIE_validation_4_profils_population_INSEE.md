@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.3  
+**Version :** v0.4  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -9,6 +9,7 @@
 - v0.1 — version initiale (quatre profils, stratégies, métriques, proxys INSEE).
 - v0.2 — clarification du **découplage simulateur ↔ méthode** dans §10 (les `%` d'ascendance par secteur deviennent des cibles de calibration émergentes, non des inputs directs) ; ajout d'une section dédiée aux **outils logiciels et au pipeline de simulation** (§11) ; renumérotation des sections suivantes.
 - v0.3 — refonte du §5 : classification des métriques en trois tiroirs (primaires extrinsèques / diagnostiques intrinsèques / algorithmiques) avec hiérarchie de jugement explicite ; spécification de **formes mathématiques d'évaluation distinctes** de celles de `S_div` pour les dimensions partagées (PCA, ADMIXTURE, IBD, ROH).
+- v0.4 — ajout d'une section **§7 « Seuils de succès quantitatifs (pré-enregistrés) »** : formule du Δ relatif, règle de jugement par profil, table de seuils initiale, trois ancrages de justification (coût-bénéfice, IC 95 %, convention), clause de pré-enregistrement et de tolérance pour les métriques diagnostiques ; ajout du livrable `validation_thresholds.tsv` ; renumérotation §7→§8 … §15→§16.
 
 ---
 
@@ -303,7 +304,72 @@ La validation est considérée robuste si la méthode :
 
 ---
 
-## 7. Proxys à intégrer dans le simulateur
+## 7. Seuils de succès quantitatifs (pré-enregistrés)
+
+Le §6 fixe la **direction** attendue ; cette section fixe l'**amplitude** requise pour parler de succès. Les seuils sont **pré-enregistrés** : ils sont posés *avant* la première simulation et versionnés dans le repo. Cela empêche tout ajustement *post-hoc* permettant de faire passer la méthode.
+
+### 7.1 Forme générale du Δ
+
+Pour chaque métrique primaire `M` (cf. §5.1) et chaque profil `P`, on calcule un **gain relatif** par rapport à la stratégie `random`, agrégé sur ≥ 100 seeds indépendantes :
+
+```text
+Δ_M,P = ( M(stratégie testée) − M(random) ) / M(random)     [%]
+```
+
+Et l'on exige, pour conclure au succès, que **l'intervalle de confiance à 95 %** du Δ ne croise pas le seuil défini.
+
+### 7.2 Règle de jugement par profil
+
+| Profil | Critère de succès | Critère d'échec |
+|---|---|---|
+| **A homogène** | `|Δ| < δ_A_max` (contrôle négatif respecté) | `|Δ| ≥ δ_A_max` → métrique ou simulation suspecte |
+| **B mixte** | `Δ ≥ δ_B_min` ET IC 95 % > 0 | `Δ < δ_B_min` → méthode peu utile |
+| **C plausible** | `Δ ≥ δ_C_min` ET IC 95 % > 0 | `Δ < δ_C_min` → méthode ne se justifie pas |
+| **D extrême** | `Δ ≥ δ_D_min` ET IC 95 % > 0 | `Δ < δ_D_min` → méthode fragile en hétérogénéité forte |
+
+### 7.3 Table de seuils proposés (v0.4 — à valider)
+
+Ces valeurs sont des **points de départ documentés**, à figer formellement avant la première simulation.
+
+| Métrique primaire (§5.1) | δ_A_max | δ_B_min | δ_C_min | δ_D_min | Unité |
+|---|---:|---:|---:|---:|---|
+| Couverture allélique totale | ≤ 2 % | ≥ 5 % | ≥ 8 % | ≥ 15 % | gain relatif |
+| Capture des variants rares (MAF < 1 %) | ≤ 3 % | ≥ 10 % | ≥ 15 % | ≥ 25 % | gain relatif |
+| Capture des variants fondateurs F1–F5 | ≤ 0,10 | ≥ 0,15 | ≥ 0,20 | ≥ 0,35 | différence absolue (proportion détectée) |
+| Performance d'imputation aval (ΔR² moyen) | ≤ 0,01 | ≥ 0,02 | ≥ 0,03 | ≥ 0,05 | différence absolue de R² |
+
+### 7.4 Les trois ancrages pour justifier chaque seuil
+
+Chaque valeur du tableau §7.3 doit être justifiée par au moins deux des trois ancrages suivants :
+
+1. **Ancrage coût-bénéfice (« combien de WGS supplémentaires »).** Avant validation, faire tourner `random` à plusieurs budgets `N ∈ {200, 250, 300, 350, 400, 500}` sur le profil C. Tracer la courbe `M(random) vs N`. Si la stratégie `géo-ancestrale` à N=350 atteint la même valeur de `M` que `random` à N=400, on parle de « gain équivalent à 50 WGS économisés ». Un seuil interprétable cliniquement et budgétairement.
+
+2. **Ancrage statistique (IC 95 %).** Pour chaque seuil, exiger que l'intervalle de confiance bootstrap à 95 % du Δ sur ≥ 100 seeds **ne croise pas** le seuil dans le mauvais sens. C'est plus exigeant qu'un simple test de significativité avec un grand N.
+
+3. **Ancrage par convention / littérature.** Là où la littérature propose des effets de référence (ex. ΔR² d'imputation > 0,02 considéré comme cliniquement pertinent dans Beagle/GLIMPSE), utiliser cette convention. Pour les autres métriques, conventions de Cohen : effet petit ≈ 5 %, moyen ≈ 15 %, grand ≈ 30 %.
+
+### 7.5 Clause de pré-enregistrement
+
+- La table §7.3 est figée dans un fichier `validation_thresholds.tsv` versionné dans le repo **avant la première simulation**.
+- Un dépôt externe horodaté (OSF, Zenodo, ou simple tag Git signé) garantit la non-modification *post-hoc*.
+- Les seuils ne peuvent être amendés *après* simulation que si :
+  - un défaut technique est documenté dans la simulation, **ou**
+  - la courbe de saturation `random` (§7.4 ancrage 1) rend les seuils manifestement inadaptés.
+- Tout amendement est versionné avec sa justification (commit dédié + entrée dans l'historique du document).
+
+### 7.6 Que faire des métriques diagnostiques (§5.2) ?
+
+Les métriques diagnostiques ne portent pas de seuil de succès au sens strict. On exige seulement qu'elles **ne se dégradent pas** par rapport à `random` au-delà d'une tolérance :
+
+```text
+Δ_diagnostique,P ≥ −5 %   (la sélection ne doit pas faire pire que random)
+```
+
+Une dégradation au-delà de cette tolérance signale un effet de bord de la fonction objectif (ex. la méthode optimise tellement la diversité qu'elle dégrade la conservation de la structure globale).
+
+---
+
+## 8. Proxys à intégrer dans le simulateur
 
 ### Proxys historiques et géographiques
 
@@ -335,7 +401,7 @@ La validation est considérée robuste si la méthode :
 
 ---
 
-## 8. Liens INSEE utiles
+## 9. Liens INSEE utiles
 
 ### Dossier complet — Département de La Réunion
 
@@ -376,7 +442,7 @@ Exemple Saint-Denis :
 
 ---
 
-## 9. Table de données minimale recommandée
+## 10. Table de données minimale recommandée
 
 Pour intégrer les données INSEE dans le simulateur, créer une table de travail :
 
@@ -418,7 +484,7 @@ Ouest littoral
 
 ---
 
-## 10. Formulation algorithmique
+## 11. Formulation algorithmique
 
 Pour une composante ancestrale simulée `g`, dans un secteur `s`, à une période `t` :
 
@@ -439,13 +505,13 @@ Avec :
 
 Les coefficients `αg, βg, γg, δg, ηg` varient selon la composante simulée. Par exemple, `A` pèse fortement pour l'engagisme agricole, `C` pour les réseaux commerciaux gujaratis ou chinois, `I` pour les Hauts et cirques, et `G` pour les fondateurs anciens.
 
-### 10.1 Statut de la formulation : cible de calibration, non tirage individuel
+### 11.1 Statut de la formulation : cible de calibration, non tirage individuel
 
 L'équation ci-dessus **ne décrit pas un tirage individuel d'ascendance**. Elle définit les **fréquences ancestrales attendues** par secteur, qui servent de **cibles de calibration** pour le simulateur démographique.
 
 Les individus synthétiques ne sont **pas** générés en tirant `g` selon `P(g|s,t)`. Ils sont produits par une simulation forward-time (ou coalescente) sur `G ≈ 10–12` générations, avec recombinaison, dérive, migration inter-secteurs et injection éventuelle de variants fondateurs sur lignées spécifiques. Les proportions ancestrales observées en sortie sont ensuite **comparées** aux cibles ; les flux migratoires `F(g,t)` et les pondérations `αg…ηg` sont ajustés jusqu'à convergence des sorties simulées sur les tableaux §3.
 
-### 10.2 Pourquoi ce découplage est indispensable
+### 11.2 Pourquoi ce découplage est indispensable
 
 Le simulateur doit opérer à un **niveau plus profond** que la méthode de sélection, pour les raisons suivantes :
 
@@ -457,9 +523,9 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 
 ---
 
-## 11. Outils logiciels et pipeline de simulation
+## 12. Outils logiciels et pipeline de simulation
 
-### 11.1 Vue d'ensemble du pipeline
+### 12.1 Vue d'ensemble du pipeline
 
 ```text
 [1] Démographie historique        →  msprime (coalescent multi-population)
@@ -479,7 +545,7 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 [8] Rapport final                 →  Quarto / Jupyter Book (HTML + PDF)
 ```
 
-### 11.2 Outils recommandés par étape
+### 12.2 Outils recommandés par étape
 
 | Étape | Outil principal | Rôle | Licence |
 |---|---|---|---|
@@ -497,7 +563,7 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 | Conteneurisation | **Docker** ou **Singularity / Apptainer** | image figée, ré-exécution exacte | libre |
 | Rapport final | **Quarto** | HTML + PDF auditables, code embarqué | MIT |
 
-### 11.3 Paramètres de simulation à fixer (valeurs indicatives)
+### 12.3 Paramètres de simulation à fixer (valeurs indicatives)
 
 | Paramètre | Valeur indicative | Justification |
 |---|---|---|
@@ -510,7 +576,7 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 | Nombre de SNP simulés | ≥ 500 000 sur 22 autosomes | suffisant pour PCA, ADMIXTURE, ROH, IBD |
 | Statut paramètre | `observé` / `estimé` / `scénarisé` | obligatoire par §12 garde-fous |
 
-### 11.4 Exigences de reproductibilité
+### 12.4 Exigences de reproductibilité
 
 Toute la chaîne doit être :
 
@@ -520,7 +586,7 @@ Toute la chaîne doit être :
 - **orchestrée** par Snakemake ou Nextflow (DAG reproductible, reprise sur échec) ;
 - **archivée** avec hash SHA-256 des cohortes synthétiques produites, pour permettre une ré-exécution exacte ou une audit indépendant.
 
-### 11.5 Alternatives et options
+### 12.5 Alternatives et options
 
 | Besoin | Alternative |
 |---|---|
@@ -532,7 +598,7 @@ Toute la chaîne doit être :
 
 ---
 
-## 12. Garde-fous scientifiques et éthiques
+## 13. Garde-fous scientifiques et éthiques
 
 La simulation doit respecter quatre garde-fous :
 
@@ -543,7 +609,7 @@ La simulation doit respecter quatre garde-fous :
 
 ---
 
-## 13. Positionnement final recommandé
+## 14. Positionnement final recommandé
 
 Le scénario principal du projet doit être le **Profil C — mixte-hétérogène réunionnais plausible**.
 
@@ -553,7 +619,7 @@ Texte de justification recommandé :
 
 ---
 
-## 14. Livrables attendus
+## 15. Livrables attendus
 
 | Livrable | Description |
 |---|---|
@@ -566,11 +632,12 @@ Texte de justification recommandé :
 | `pca_admixture_distance.tsv` | distance sélection vs cohorte totale |
 | `ibd_roh_summary.tsv` | parenté et autozygotie résiduelles |
 | `imputation_performance.tsv` | performance d'imputation |
+| `validation_thresholds.tsv` | seuils de succès pré-enregistrés (§7) |
 | `validation_report.html/pdf` | rapport interprétable et auditable |
 
 ---
 
-## 15. Résumé opérationnel
+## 16. Résumé opérationnel
 
 La validation repose sur quatre profils :
 
