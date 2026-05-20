@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.7  
+**Version :** v0.8  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -13,6 +13,7 @@
 - v0.5 — prise en compte de **N=2500 comme contrainte budgétaire dure** (§3 préambule) et reformulation : la sous-puissance de `random` sur les variants fondateurs devient l'argument central de la méthode, pas un défaut à corriger. Ajout d'un **paramètre d'apparentement φ et de profondeur d'endogamie** sur les sous-profils fondateurs (§3 B/C/D, §12.3). Nouvelle métrique primaire **taux de capture binaire** `P(≥1 allèle F_k capté)` (§5.1) et reformulation des seuils fondateurs en probabilités de capture (§7.3). Nouvelle section **§7.7 « Analyse de puissance *a priori* »** avec livrable `power_analysis_pre_simulation.tsv`.
 - v0.6 — **modèle haplotypique détaillé** (§12.4 nouvelle) avec squelette démographique informé par l'histoire connue de La Réunion : pool de populations sources (1000G + EGA, cohérent V3.5), chronologie des pulses migratoires (founding 1665 → engagisme → moderne), bottleneck fondateur (`Ne ≈ 50`) et croissance exponentielle, architecture chromosomique, protocole d'injection F1–F5, **pool de 100 familles nucléaires simulé en parallèle** pour ancrer le phasage Beagle/SHAPEIT5, sanity-checks de calibration (LD decay + ROH). Ajout du livrable `nuclear_families_pool.vcf`. Renumérotation §12.4 → §12.5, §12.5 → §12.6.
 - v0.7 — **évaluation spécifique du bras découverte** (nouvelle §7.8) sans dévier de la logique d'optimisation de la méthode : le ratio noyau/pool libre est **déterminé par analyse de sensibilité** (5 ratios testés), pas fixé doctrinalement. Critère d'utilité positif (gain ≥ +3 points sur au moins une métrique primaire vs `géo-ancestrale seule`) plutôt que critères restrictifs de fidélité à la cohorte. Ajout d'une métrique primaire `IBD résiduel pool libre seul` (anti-redondance interne) en §5.1. Livrable `discovery_arm_sensitivity.tsv`.
+- v0.8 — **harmonisation complète avec METHODOLOGY_selection_V3_5.md** (3 paliers fusionnés). Palier 1 (critique) : §4 enrichi avec 4 stratégies V3.5 manquantes (`S_div naïf`, `maximin IBD`, `S_div + novelty λ`, `maximin PCA/ADMIX/IBD`) ; §5.1 enrichi (couverture géo-ancestrale, couverture haplotypique, précision recalibrage fréquences) ; §5.2 : KING kinship explicité (seuil 0,0625) ; §5.3 : LOCO ajouté ; nouvelle §7.9 « Audit puce → WGS » (V3.5 §13.6). Palier 2 (important) : §12.4.7 HWE par strate ; §5.3 sensibilité ±10 %/±20 % explicitée ; §7.3 classe MAF 1–5 % ajoutée ; §7.8 récupération des quotas V3.5 §9.4 mentionnée ; K ADMIXTURE élargi à 2–10. Palier 3 (confort) : §5.2 KS de `S_div` et stabilité labels ADMIXTURE ; nouvelle §17 « Table de correspondance V3.5 ↔ v0.8 ». Livrables ajoutés : `chip_to_wgs_audit.tsv`, `frequency_recalibration_validation.tsv`, `loco_sensitivity.tsv`.
 
 ---
 
@@ -239,17 +240,23 @@ Ce profil ne doit pas être présenté comme le modèle principal de La Réunion
 
 ## 4. Stratégies de sélection à comparer
 
-Chaque profil doit être soumis aux mêmes stratégies de sélection.
+Chaque profil doit être soumis aux mêmes stratégies de sélection. La liste ci-dessous est alignée sur les **10 stratégies de comparaison** posées par `METHODOLOGY_selection_V3_5.md` §13.4, complétée par le scénario *opportuniste urbain* comme contre-exemple à battre.
 
-| Stratégie | Description | Rôle dans la validation |
-|---|---|---|
-| Opportuniste urbain | prélèvement concentré sur quelques zones faciles d'accès | scénario biaisé à battre |
-| Random | tirage aléatoire simple parmi les 2500 | référence minimale |
-| Géographique strict | allocation proportionnelle par secteur | teste la seule représentativité territoriale |
-| PCA-only | sélection par distance dans l'espace PCA | teste l'information génétique globale |
-| ADMIXTURE-only | sélection par entropie ou distance des profils q_k | teste l'information ancestrale |
-| Géo-ancestral | secteur × profil d'ascendance | stratégie principale |
-| Géo-ancestral + bras découverte | noyau représentatif + pool libre informatif (ratio noyau/pool libre **déterminé par sensibilité**, cf. §7.8 ; 5 ratios testés systématiquement) | stratégie candidate optimale |
+| # | Stratégie | Description | Rôle dans la validation |
+|---:|---|---|---|
+| 0 | Opportuniste urbain | prélèvement concentré sur quelques zones faciles d'accès | scénario biaisé à battre (extension v0.7) |
+| 1 | Random | tirage aléatoire simple parmi les 2500 | référence minimale (V3.5 §13.4 #1) |
+| 2 | PCA-only | sélection par distance dans l'espace PCA | teste l'information génétique globale (V3.5 §13.4 #2) |
+| 3 | **Maximin IBD** | sélection maximisant la distance IBD pair-à-pair | teste l'évitement de redondance pure (V3.5 §13.4 #3) |
+| 4 | **`S_div` naïf** | score combiné sans stratification (greedy global sur `S_div`) | teste la valeur de la stratification (V3.5 §13.4 #4) |
+| 5 | Géographique strict + `S_div_sector` | allocation proportionnelle par secteur, `S_div` intra-secteur | teste la stratification géographique seule (V3.5 §13.4 #5) |
+| 6 | **Géo-ancestral distributionnel + `S_div_geoancestry`** | secteur × profil d'ascendance avec quintiles intra-cellule | stratégie principale (V3.5 §13.4 #6) |
+| 7 | Géo-ancestral + bras découverte | noyau représentatif + pool libre informatif (ratio noyau/pool libre **déterminé par sensibilité**, cf. §7.8 ; 5 ratios testés) | stratégie candidate optimale (V3.5 §13.4 #7) |
+| 8 | **`S_div` hybride + gain marginal (novelty `λ`)** | `S_div_geoancestry + λ × novelty(i, S)` avec `λ ∈ {0,10 ; 0,15 ; 0,20}` | teste l'apport du terme de nouveauté (V3.5 §9.2 et §13.4 #8) |
+| 9 | **ADMIXTURE + greedy global** | stratification par profils ADMIXTURE puis greedy insulaire | teste l'information ancestrale renforcée (V3.5 §13.4 #9) |
+| 10 | **Maximin PCA / ADMIX / IBD** | sélection globale max-min sur les 3 dimensions | teste l'optimisation multi-objectif pure (V3.5 §13.4 #10) |
+
+La stratégie historique « ADMIXTURE-only » de v0.7 est désormais incluse dans la stratégie 9 (ADMIXTURE + greedy global), plus rigoureusement définie.
 
 ---
 
@@ -265,8 +272,12 @@ Ces métriques portent sur des dimensions **absentes de `S_div`**. Elles constit
 |---|---|---|
 | Couverture allélique totale | combien de variants sont capturés ? | totale |
 | Capture des variants rares (MAF < 1 %) | la stratégie récupère-t-elle les variants à fréquence faible ? | totale |
+| Capture des variants modérément rares (MAF 1–5 %) | classe intermédiaire utile pour l'imputation et la pharmacogénétique (V3.5 §13.5) | totale |
 | Capture des variants fondateurs simulés (F1–F5), proportion d'allèles | les foyers locaux sont-ils représentés en moyenne ? | totale (variants injectés au stade simulation) |
 | **Taux de capture binaire** `P(≥1 allèle F_k capté)` sur ≥ 100 seeds | la stratégie est-elle **fiable** pour chaque fondateur ? (réponse à la bimodalité de `random` sous N=2500) | totale |
+| **Couverture géo-ancestrale** | proportion de cellules `secteur × profil d'ascendance` représentées dans la sélection (V3.5 §13.5) | totale |
+| **Couverture haplotypique** | diversité de segments haplotypiques couverts (longueur cumulée d'haplotypes uniques) (V3.5 §13.5) | totale |
+| **Précision du recalibrage de fréquences** | écart entre fréquence WGS pondérée / imputée et fréquence cohorte de référence (V3.5 §3.4, §13.5) | totale (mesure le livrable final attendu de la méthode) |
 | **IBD résiduel intra pool libre** (bras découverte uniquement) | le pool libre sélectionne-t-il des profils rares **non redondants** entre eux ? | totale (anti-doublons familiaux gloutons, cf. §7.8) |
 | Performance d'imputation aval | le panel WGS améliore-t-il l'imputation des 2150 SNP restants sur un jeu held-out ? | totale (calcul aval, distinct de la sélection) |
 
@@ -287,18 +298,24 @@ Pour réduire l'alignement trivial entre objectif et métrique, la **forme math�
 |---|---|
 | Distance PCA sélection vs cohorte totale | la sélection respecte-t-elle la structure globale ? |
 | Divergence ADMIXTURE sélection vs cohorte totale | les proportions ancestrales sont-elles conservées ? |
-| IBD résiduel (distribution) | y a-t-il trop de redondance génétique ? |
-| Distribution ROH | la sélection surreprésente-t-elle l'autozygotie ? |
+| IBD résiduel (distribution) — **KING kinship**, seuil 0,0625 | y a-t-il trop de redondance génétique ? (V3.5 §7.5 : métrique principale = KING ; `relatedness_R ≈ 2 × kinship_KING` ; seuil = cousin germain ou plus proche) |
+| Distribution ROH (seuil de travail : 100 Mb, recalibrable empiriquement) | la sélection surreprésente-t-elle l'autozygotie ? (V3.5 §7.6) |
+| **Test KS de la distribution `S_div`** | biais directionnel de la sélection vs la cohorte (V3.5 §13.5) |
+| **Stabilité des labels ADMIXTURE multi-seed** | cohérence des composantes `q_k` à travers les seeds et alignement avec pools témoins (V3.5 §13.5) |
 
 ### 5.3 Métriques algorithmiques (orthogonales) — robustesse
 
-Indépendantes du contenu génétique, elles mesurent la fiabilité du procédé.
+Indépendantes du contenu génétique, elles mesurent la fiabilité du procédé. Conformes à V3.5 §14 (« Analyses de sensibilité »).
 
-| Métrique | Question évaluée |
-|---|---|
-| Stabilité multi-seed | l'algorithme donne-t-il des résultats reproductibles ? |
-| Sensibilité aux poids `S_div` | les conclusions dépendent-elles trop des poids ? |
-| Stabilité à l'ordre de présentation | l'algorithme greedy est-il invariant à la permutation des candidats ? |
+| Métrique | Question évaluée | Référence V3.5 |
+|---|---|---|
+| Stabilité multi-seed | l'algorithme donne-t-il des résultats reproductibles ? | §14.3 |
+| Sensibilité aux poids `S_div` (analyse ±10 % et ±20 % sur `w1…w4`) | les conclusions dépendent-elles trop des poids ? Variance faible / modérée / forte | §14.1 |
+| **Analyse LOCO (Leave-One-Component-Out)** : `S_full`, `S_−PCA`, `S_−ADMIX`, `S_−IBD`, `S_−ROH` | chaque composante est-elle indispensable ou substituable ? Quelle est la valeur ajoutée de ROH et IBD ? | §14.2 |
+| Stabilité à l'ordre de présentation (≥ 100 permutations) | l'algorithme greedy est-il invariant à la permutation des candidats ? | §14.3 |
+| Stabilité des tie-breakers randomisés | les égalités sont-elles résolues de façon stable ? | §14.3 |
+
+Pour chaque analyse, sont reportés : intersection moyenne des panels, individus stables, individus frontière, variance des métriques, recommandation de sélection consensus.
 
 ### 5.4 Hiérarchie de jugement
 
@@ -360,6 +377,7 @@ Ces valeurs sont des **points de départ documentés**, à figer formellement av
 | Métrique primaire (§5.1) | δ_A_max | δ_B_min | δ_C_min | δ_D_min | Unité |
 |---|---:|---:|---:|---:|---|
 | Couverture allélique totale | ≤ 2 % | ≥ 5 % | ≥ 8 % | ≥ 15 % | gain relatif |
+| Capture des variants modérément rares (MAF 1–5 %) | ≤ 2 % | ≥ 7 % | ≥ 12 % | ≥ 20 % | gain relatif |
 | Capture des variants rares (MAF < 1 %) | ≤ 3 % | ≥ 10 % | ≥ 15 % | ≥ 25 % | gain relatif |
 | Capture des fondateurs F1–F5 — **proportion d'allèles** (moyenne) | ≤ 0,10 | ≥ 0,15 | ≥ 0,20 | ≥ 0,35 | différence absolue |
 | Capture des fondateurs F1–F5 — **probabilité `P(≥1 allèle capté)`** | `\|P_méthode − P_random\| ≤ 0,10` | `P_random ≤ 0,60` ET `P_méthode ≥ 0,80` | `P_random ≤ 0,55` ET `P_méthode ≥ 0,85` | `P_random ≤ 0,50` ET `P_méthode ≥ 0,90` | probabilité sur ≥ 100 seeds |
@@ -441,6 +459,8 @@ Le bras découverte (composante « pool libre informatif » de la stratégie `g�
 
 En revanche, deux risques **réels** subsistent : (a) une redondance interne du pool libre (sélectionner deux porteurs très apparentés d'un même fondateur, ce qui dépense du budget sans gain informationnel), et (b) un ratio noyau/pool libre arbitraire qui rendrait l'évaluation non reproductible.
 
+**Reproduction de la récupération des quotas (V3.5 §9.4).** La simulation doit reproduire fidèlement l'algorithme de récupération en 5 étapes prévu par la méthode : même strate / même secteur → strate voisine / même secteur → autre strate / même secteur → bras découverte insulaire → dérogation documentée. Sinon, la validation évaluerait une méthode différente de celle effectivement déployée.
+
 #### 7.8.1 Détermination du ratio noyau/pool libre par sensibilité
 
 Plutôt que de fixer un ratio doctrinal, on **teste systématiquement** cinq ratios sur le Profil C (scénario principal) :
@@ -493,6 +513,43 @@ valeur_référence (géo-ancestrale seule),
 gain_absolu, IC_95,
 IBD_pool_libre_seul, IBD_sélection_complète, ratio_IBD,
 utilité_déclarée (oui / non) + métrique(s) bénéficiaire(s)
+```
+
+### 7.9 Audit puce SNP → WGS (V3.5 §13.6)
+
+La sélection réelle part de la **puce SNP 1,9 M**, pas du WGS. Il faut donc vérifier que le scoring `S_div` calculé sur SNP sélectionne effectivement les individus qui maximisent l'information WGS. Sans cet audit, on valide une méthode dans un monde idéal qui n'est pas celui du déploiement.
+
+#### Procédure
+
+1. Partir des cohortes synthétiques A–D, qui contiennent l'information WGS complète (≥ 500 000 variants simulés par individu).
+2. **Restreindre** chaque cohorte aux SNP présents sur la puce 1,9 M (intersection avec une liste de marqueurs représentatifs).
+3. Appliquer QC et LD pruning selon les usages standards (PLINK 2).
+4. Calculer les scores `S_div_geoancestry` et `S_discovery_global` **sur la version puce uniquement**.
+5. Sélectionner les 350 individus selon les 7 stratégies §4 (5 à 10).
+6. **Mesurer la couverture WGS réelle** (métriques primaires §5.1) sur les individus ainsi sélectionnés.
+
+#### Question centrale
+
+> Un score calculé sur puce SNP sélectionne-t-il bien les individus qui maximisent l'information WGS ?
+
+#### Critère de succès
+
+Le scoring puce est jugé fidèle si :
+
+```text
+|métrique_primaire(sélection_puce) − métrique_primaire(sélection_WGS_complet)| ≤ 5 %
+```
+
+pour les métriques de §5.1 sur le profil C (scénario principal). Au-delà, la méthode est jugée sensible à la perte d'information liée à la puce et doit être discutée explicitement comme limitation.
+
+#### Livrable
+
+`chip_to_wgs_audit.tsv` versionné, contenant pour chaque stratégie et chaque profil :
+
+```text
+strategie, profil, metrique_primaire,
+valeur_selection_puce, valeur_selection_WGS_complet,
+ecart_absolu, ecart_relatif, fidelite_puce (OK / dégradation)
 ```
 
 ---
@@ -688,7 +745,7 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 | Carte génétique | **HapMap / deCODE** | taux de recombinaison réalistes (GRCh38) | publique |
 | QC / manipulation VCF | **bcftools**, **PLINK 2** | filtrage MAF, HWE, missingness, conversion formats | GPL/MIT |
 | PCA | **PLINK 2 (`--pca`)** ou **smartpca** | structure globale | GPL |
-| ADMIXTURE supervisée | **ADMIXTURE 1.3** | proportions `q_k`, K=4 à K=6 | libre académique |
+| ADMIXTURE supervisée + non supervisée | **ADMIXTURE 1.3** | proportions `q_k`, K exploré de **2 à 10** (V3.5 §7.3), choix final par CV-error + stabilité multi-seed + cohérence pools témoins | libre académique |
 | IBD | **hap-ibd** ou **iLASH** | segments partagés ≥ 2–3 cM | libre académique |
 | ROH | **PLINK 2 (`--homozyg`)** ou **GARLIC** | distribution d'autozygotie | GPL |
 | Sélection géo-ancestrale | **Python** (numpy, pandas, scikit-allel) | implémentation `S_div` + 7 stratégies | MIT |
@@ -792,9 +849,10 @@ Avant de lancer les ≥ 100 seeds par profil, exécuter **3 à 5 runs de calibra
 
 | Cible haplotypique | Attendu | Méthode |
 |---|---|---|
-| Proportions ADMIXTURE par secteur | écart < 5 points / composante vs §3 (profil considéré) | ADMIXTURE supervisée K=4 |
+| Proportions ADMIXTURE par secteur | écart < 5 points / composante vs §3 (profil considéré) | ADMIXTURE supervisée K=4 (et exploration K=2–10) |
 | Décroissance LD `r²(d)` | LD réunionnaise > LD sources à toute distance | PLINK 2 `--r2` |
-| Distribution ROH | pic à 1–5 Mb pour sous-profils fondateurs (φ > 0) | PLINK 2 `--homozyg` |
+| Distribution ROH | pic à 1–5 Mb pour sous-profils fondateurs (φ > 0) ; seuil de travail 100 Mb, recalibrable | PLINK 2 `--homozyg` |
+| **HWE par strate (effet Wahlund)** | HWE global trompeur en population admixée ; tester HWE secteur par secteur, pas sur la cohorte agrégée (V3.5 §11.4) | PLINK 2 `--hardy` stratifié par secteur |
 
 Le manifest de calibration est versionné dans `simulation_calibration.tsv` (livrable, §15) et soumis à la clause §7.5 de pré-enregistrement.
 
@@ -857,6 +915,9 @@ Texte de justification recommandé :
 | `validation_thresholds.tsv` | seuils de succès pré-enregistrés (§7) |
 | `power_analysis_pre_simulation.tsv` | analyse de puissance *a priori* pré-enregistrée (§7.7) |
 | `discovery_arm_sensitivity.tsv` | sensibilité du bras découverte au ratio noyau/pool libre (§7.8) |
+| `chip_to_wgs_audit.tsv` | audit puce SNP → WGS, fidélité du scoring sur puce (§7.9, V3.5 §13.6) |
+| `frequency_recalibration_validation.tsv` | validation du recalibrage de fréquences (§5.1, V3.5 §3.4) |
+| `loco_sensitivity.tsv` | analyse leave-one-component-out sur `S_div` (§5.3, V3.5 §14.2) |
 | `nuclear_families_pool.vcf` | pool de 100 familles nucléaires pour ancrage du phasage (§12.4.6) |
 | `simulation_calibration.tsv` | manifest de calibration du modèle haplotypique (§12.4.7) |
 | `validation_report.html/pdf` | rapport interprétable et auditable |
@@ -882,3 +943,50 @@ résister au stress-test hétérogène.
 ```
 
 Cette approche rend la validation de la stratégie WGS plus défendable, car elle ne dépend pas d'une reconstruction historique parfaite de La Réunion. Elle teste la méthode dans plusieurs mondes possibles, puis permettra une calibration empirique sur les 2500 SNP réels.
+
+---
+
+## 17. Table de correspondance V3.5 ↔ v0.8
+
+Ce tableau facilite la lecture croisée des deux documents et atteste que chaque exigence de `METHODOLOGY_selection_V3_5.md` est couverte par une section de validation.
+
+| Élément V3.5 | Section V3.5 | Couverture v0.8 |
+|---|---|---|
+| Architecture 2500 + 350 + 100 familles | §2.1, §5 | §3 préambule, §12.4.6 |
+| Module familial 100 trios/quatuors | §5 | §12.4.6 |
+| Pools témoins 1000G + EGA (catalogue) | §6.3, §13.2 | §12.4.1 |
+| Stratification géo-ancestrale (secteur × ascendance) | §6.7 | §3, §4 stratégie 6 |
+| Quotas WGS par cellule | §6.8 | §7.8.1 (sensibilité ratio) |
+| Formule `S_div = 0,30 PCA + 0,30 ADMIX + 0,25 IBD + 0,15 ROH` | §7.1 | §5 intro |
+| PCA ancrée sur pools témoins | §7.2, §6.4 | §12.4.1 (pools), §5.2 (PCA enveloppe convexe) |
+| ADMIXTURE K = 2 à 10 | §7.3 | §12.2 (élargi v0.8) |
+| ADMIX_rarity (bras découverte) | §7.4 | §5.2 (divergence KL) + §7.8.2 |
+| **KING kinship, seuil 0,0625** | §7.5 | §5.2 (préciisé v0.8) |
+| ROH seuil 100 Mb (recalibrable) | §7.6 | §5.2, §12.4.7 (mentionné v0.8) |
+| Score `S_discovery_global` (bras découverte) | §8.2 | §4 stratégie 7, §7.8 |
+| Sous-bras du bras découverte | §8.3 | §7.8 (sensibilité ratio) |
+| **Stratification quintiles + récupération quotas** | §9.1, §9.4 | §7.8 (récupération précisée v0.8) |
+| **Gain marginal / novelty `λ`** | §9.2 | §4 stratégie 8 (ajouté v0.8) |
+| QC SNP (variant, individu) | §11 | §12.4.4 |
+| **HWE par strate (effet Wahlund)** | §11.4 | §12.4.7 (ajouté v0.8) |
+| Phasage 2500 + familles (SHAPEIT4/5) | §12 | §12.4.6 |
+| Imputation Beagle/GLIMPSE | §12.5 | §12.2 |
+| LAI (Local Ancestry Inference) | §12.6 | §12.4 (haplotypes émergents) |
+| **Validation A : 1000G public** | §13.2 | §12.4.1 (catalogue) |
+| **Validation B : 1000G + EGA** | §13.2 | §12.4.1 (catalogue) |
+| **Validation D : Simulation réunionnaise** | §13.2 | §3 profils A–D (étendu v0.8) |
+| Scénarios de compression | §13.3 | §7.4 ancrage coût-bénéfice |
+| **10 stratégies de comparaison** | §13.4 | §4 (aligné v0.8 : 10 stratégies + opportuniste) |
+| Métriques de validation | §13.5 | §5.1, §5.2, §5.3 (alignées v0.8) |
+| **Validation puce → WGS** | §13.6 | §7.9 (ajoutée v0.8) |
+| **Audit ex-post 350 WGS** | §13.7 | §13.4 garde-fou + §7.9 (esprit) |
+| Sensibilité poids ±10 % / ±20 % | §14.1 | §5.3 (précisé v0.8) |
+| **Analyse LOCO** | §14.2 | §5.3 (ajoutée v0.8) |
+| Robustesse greedy (multi-ordre, multi-seed) | §14.3 | §5.3 |
+| Sorties attendues (livrables) | §15 | §15 |
+| Risques et mitigations | §16 | §13 garde-fous + §3 préambule |
+| **Recalibrage de fréquences** | §3.4 | §5.1 (ajouté v0.8) |
+| Effet fondateur ROH | §8.4 | §3.D F1–F5, §7.7 |
+| Profils d'ascendance — interprétation prudente | §6.6, §13 | §13 garde-fous éthiques |
+
+Toute exigence V3.5 non couverte par cette table doit être considérée comme une lacune à corriger.
