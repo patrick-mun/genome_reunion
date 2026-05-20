@@ -1,13 +1,14 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.2  
+**Version :** v0.3  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
 **Historique :**
 - v0.1 — version initiale (quatre profils, stratégies, métriques, proxys INSEE).
 - v0.2 — clarification du **découplage simulateur ↔ méthode** dans §10 (les `%` d'ascendance par secteur deviennent des cibles de calibration émergentes, non des inputs directs) ; ajout d'une section dédiée aux **outils logiciels et au pipeline de simulation** (§11) ; renumérotation des sections suivantes.
+- v0.3 — refonte du §5 : classification des métriques en trois tiroirs (primaires extrinsèques / diagnostiques intrinsèques / algorithmiques) avec hiérarchie de jugement explicite ; spécification de **formes mathématiques d'évaluation distinctes** de celles de `S_div` pour les dimensions partagées (PCA, ADMIXTURE, IBD, ROH).
 
 ---
 
@@ -229,20 +230,58 @@ Chaque profil doit être soumis aux mêmes stratégies de sélection.
 
 ## 5. Métriques de validation
 
-Les mêmes métriques doivent être calculées pour chaque profil et chaque stratégie.
+Les mêmes métriques doivent être calculées pour chaque profil et chaque stratégie. Elles sont **classées en trois tiroirs** selon leur indépendance vis-à-vis de la fonction objectif `S_div = 0.30·PCA + 0.30·ADMIX + 0.25·IBD + 0.15·ROH` (cf. §10.2 sur le découplage simulateur ↔ méthode).
+
+### 5.1 Métriques primaires (extrinsèques) — critère décisif de succès
+
+Ces métriques portent sur des dimensions **absentes de `S_div`**. Elles constituent le verdict réel de la performance de la méthode.
+
+| Métrique | Question évaluée | Indépendance vs `S_div` |
+|---|---|---|
+| Couverture allélique totale | combien de variants sont capturés ? | totale |
+| Capture des variants rares (MAF < 1 %) | la stratégie récupère-t-elle les variants à fréquence faible ? | totale |
+| Capture des variants fondateurs simulés (F1–F5) | les foyers locaux sont-ils représentés ? | totale (variants injectés au stade simulation) |
+| Performance d'imputation aval | le panel WGS améliore-t-il l'imputation des 2150 SNP restants sur un jeu held-out ? | totale (calcul aval, distinct de la sélection) |
+
+### 5.2 Métriques diagnostiques (intrinsèques) — sanity-check, pas verdict
+
+Ces métriques portent sur des dimensions **présentes dans `S_div`**. Elles servent à vérifier que l'optimisation a effectivement opéré sur ce qu'elle prétend faire, mais ne constituent pas un jugement de performance — la méthode `géo-ancestrale` et les stratégies `PCA-only` / `ADMIXTURE-only` les amélioreront mécaniquement par construction.
+
+Pour réduire l'alignement trivial entre objectif et métrique, la **forme mathématique** utilisée à l'évaluation doit différer de celle utilisée dans `S_div` :
+
+| Dimension | Forme dans `S_div` (objectif) | Forme recommandée à l'évaluation (métrique) |
+|---|---|---|
+| PCA | distance euclidienne au centroïde de la cohorte | **volume de l'enveloppe convexe** couverte par la sélection dans l'espace PCA (PC1–PC4) |
+| ADMIXTURE | entropie de Shannon du vecteur `q_k` | **divergence KL** entre `q_k(sélection)` et `q_k(cohorte)` |
+| IBD | pénalité de redondance pair-à-pair | **distribution complète** des longueurs de segments IBD ≥ 5 cM (test KS vs cohorte) |
+| ROH | comptage de ROH au-delà d'un seuil | **distribution complète** des longueurs de ROH (test KS) + indice de Gini |
+
+| Métrique diagnostique | Question évaluée |
+|---|---|
+| Distance PCA sélection vs cohorte totale | la sélection respecte-t-elle la structure globale ? |
+| Divergence ADMIXTURE sélection vs cohorte totale | les proportions ancestrales sont-elles conservées ? |
+| IBD résiduel (distribution) | y a-t-il trop de redondance génétique ? |
+| Distribution ROH | la sélection surreprésente-t-elle l'autozygotie ? |
+
+### 5.3 Métriques algorithmiques (orthogonales) — robustesse
+
+Indépendantes du contenu génétique, elles mesurent la fiabilité du procédé.
 
 | Métrique | Question évaluée |
 |---|---|
-| Couverture allélique totale | combien de variants sont capturés ? |
-| Capture des variants rares | la stratégie récupère-t-elle les variants à fréquence faible ? |
-| Capture des variants fondateurs simulés | les foyers locaux sont-ils représentés ? |
-| Distance PCA sélection vs cohorte totale | la sélection respecte-t-elle la structure globale ? |
-| Divergence ADMIXTURE sélection vs cohorte totale | les proportions ancestrales sont-elles conservées ? |
-| IBD résiduel | y a-t-il trop de redondance génétique ? |
-| ROH moyen / distribution ROH | la sélection surreprésente-t-elle l'autozygotie ? |
-| Performance d'imputation | le panel WGS améliore-t-il l'imputation des 2150 SNP restants ? |
 | Stabilité multi-seed | l'algorithme donne-t-il des résultats reproductibles ? |
-| Sensibilité aux poids S_div | les conclusions dépendent-elles trop des poids ? |
+| Sensibilité aux poids `S_div` | les conclusions dépendent-elles trop des poids ? |
+| Stabilité à l'ordre de présentation | l'algorithme greedy est-il invariant à la permutation des candidats ? |
+
+### 5.4 Hiérarchie de jugement
+
+Une méthode est déclarée **validée** sur un profil si elle :
+
+1. **gagne sur les métriques primaires (§5.1)** — critère décisif ;
+2. **conserve un comportement raisonnable sur les diagnostiques (§5.2)** — sans dégrader sensiblement PCA / ADMIXTURE / IBD / ROH par rapport à la cohorte totale ;
+3. **reste stable sur les métriques algorithmiques (§5.3)**.
+
+Inverser cette hiérarchie — juger d'abord sur les diagnostiques — risquerait de valider une méthode qui optimise bien son propre score sans valeur ajoutée externe. Les §5.1 sont les juges, les §5.2 sont les témoins, les §5.3 sont les contrôles.
 
 ---
 
@@ -412,7 +451,7 @@ Le simulateur doit opérer à un **niveau plus profond** que la méthode de sél
 
 1. **Éviter une validation tautologique.** Si les `%` d'ascendance par secteur étaient des inputs directs du simulateur, et que la sélection `géo-ancestrale` optimise sur ces mêmes `%`, le gain mesuré serait garanti par construction et ne validerait rien.
 2. **Faire émerger une structure haplotypique réaliste.** Les métriques `IBD résiduel`, `ROH`, `capture des variants fondateurs` et `performance d'imputation` n'ont de sens que si les individus synthétiques portent des **blocs haplotypiques cohérents** issus de recombinaison sur plusieurs générations, pas des étiquettes ancestrales posées à la main.
-3. **Disjoindre fonction objectif et métrique d'évaluation.** La fonction objectif `S_div` de la méthode et les métriques §5 doivent reposer sur des grandeurs construites différemment, sinon on mesure la cohérence interne de la méthode, pas sa performance réelle.
+3. **Disjoindre fonction objectif et métrique d'évaluation.** La fonction objectif `S_div` de la méthode et les métriques §5 doivent reposer sur des grandeurs construites différemment, sinon on mesure la cohérence interne de la méthode, pas sa performance réelle. Voir §5 pour la classification opérationnelle en métriques **primaires** (extrinsèques, juges du succès), **diagnostiques** (intrinsèques, témoins) et **algorithmiques** (contrôles).
 
 Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émergentes** d'une démographie sous-jacente plus riche, non comme des paramètres de tirage. Cette discipline méthodologique est l'un des piliers de la validité de l'étude.
 
