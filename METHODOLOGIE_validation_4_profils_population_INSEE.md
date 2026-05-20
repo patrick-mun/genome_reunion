@@ -1,9 +1,13 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.1  
+**Version :** v0.2  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
+
+**Historique :**
+- v0.1 — version initiale (quatre profils, stratégies, métriques, proxys INSEE).
+- v0.2 — clarification du **découplage simulateur ↔ méthode** dans §10 (les `%` d'ascendance par secteur deviennent des cibles de calibration émergentes, non des inputs directs) ; ajout d'une section dédiée aux **outils logiciels et au pipeline de simulation** (§11) ; renumérotation des sections suivantes.
 
 ---
 
@@ -396,9 +400,100 @@ Avec :
 
 Les coefficients `αg, βg, γg, δg, ηg` varient selon la composante simulée. Par exemple, `A` pèse fortement pour l'engagisme agricole, `C` pour les réseaux commerciaux gujaratis ou chinois, `I` pour les Hauts et cirques, et `G` pour les fondateurs anciens.
 
+### 10.1 Statut de la formulation : cible de calibration, non tirage individuel
+
+L'équation ci-dessus **ne décrit pas un tirage individuel d'ascendance**. Elle définit les **fréquences ancestrales attendues** par secteur, qui servent de **cibles de calibration** pour le simulateur démographique.
+
+Les individus synthétiques ne sont **pas** générés en tirant `g` selon `P(g|s,t)`. Ils sont produits par une simulation forward-time (ou coalescente) sur `G ≈ 10–12` générations, avec recombinaison, dérive, migration inter-secteurs et injection éventuelle de variants fondateurs sur lignées spécifiques. Les proportions ancestrales observées en sortie sont ensuite **comparées** aux cibles ; les flux migratoires `F(g,t)` et les pondérations `αg…ηg` sont ajustés jusqu'à convergence des sorties simulées sur les tableaux §3.
+
+### 10.2 Pourquoi ce découplage est indispensable
+
+Le simulateur doit opérer à un **niveau plus profond** que la méthode de sélection, pour les raisons suivantes :
+
+1. **Éviter une validation tautologique.** Si les `%` d'ascendance par secteur étaient des inputs directs du simulateur, et que la sélection `géo-ancestrale` optimise sur ces mêmes `%`, le gain mesuré serait garanti par construction et ne validerait rien.
+2. **Faire émerger une structure haplotypique réaliste.** Les métriques `IBD résiduel`, `ROH`, `capture des variants fondateurs` et `performance d'imputation` n'ont de sens que si les individus synthétiques portent des **blocs haplotypiques cohérents** issus de recombinaison sur plusieurs générations, pas des étiquettes ancestrales posées à la main.
+3. **Disjoindre fonction objectif et métrique d'évaluation.** La fonction objectif `S_div` de la méthode et les métriques §5 doivent reposer sur des grandeurs construites différemment, sinon on mesure la cohérence interne de la méthode, pas sa performance réelle.
+
+Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émergentes** d'une démographie sous-jacente plus riche, non comme des paramètres de tirage. Cette discipline méthodologique est l'un des piliers de la validité de l'étude.
+
 ---
 
-## 11. Garde-fous scientifiques et éthiques
+## 11. Outils logiciels et pipeline de simulation
+
+### 11.1 Vue d'ensemble du pipeline
+
+```text
+[1] Démographie historique        →  msprime (coalescent multi-population)
+        ↓ haplotypes phasés, LD réaliste, ROH/IBD émergents
+[2] Variants fondateurs simulés   →  SLiM 4 (forward-time)
+        ↓ injection F1…F5 sur lignées spécifiques (profil D)
+[3] Cohorte synthétique 2500 ind. →  VCF + métadonnées (secteur, sous-profil)
+        ↓
+[4] PCA / ADMIXTURE / IBD / ROH   →  PLINK 2, ADMIXTURE, hap-ibd, GARLIC
+        ↓ scores par individu
+[5] Sélection 350 WGS             →  Python (7 stratégies, dont géo-ancestral)
+        ↓
+[6] Métriques de validation       →  scikit-allel, pandas, R
+        ↓
+[7] Imputation aval (2150 SNP)    →  Beagle 5.4 ou GLIMPSE2
+        ↓
+[8] Rapport final                 →  Quarto / Jupyter Book (HTML + PDF)
+```
+
+### 11.2 Outils recommandés par étape
+
+| Étape | Outil principal | Rôle | Licence |
+|---|---|---|---|
+| Simulation démographique | **msprime** (Python) | coalescent multi-population, admixture pulsée, recombinaison | MIT |
+| Variants fondateurs / dérive | **SLiM 4** | forward-time, injection variants rares, petites populations | GPL-3 |
+| Carte génétique | **HapMap / deCODE** | taux de recombinaison réalistes (GRCh38) | publique |
+| QC / manipulation VCF | **bcftools**, **PLINK 2** | filtrage MAF, HWE, missingness, conversion formats | GPL/MIT |
+| PCA | **PLINK 2 (`--pca`)** ou **smartpca** | structure globale | GPL |
+| ADMIXTURE supervisée | **ADMIXTURE 1.3** | proportions `q_k`, K=4 à K=6 | libre académique |
+| IBD | **hap-ibd** ou **iLASH** | segments partagés ≥ 2–3 cM | libre académique |
+| ROH | **PLINK 2 (`--homozyg`)** ou **GARLIC** | distribution d'autozygotie | GPL |
+| Sélection géo-ancestrale | **Python** (numpy, pandas, scikit-allel) | implémentation `S_div` + 7 stratégies | MIT |
+| Imputation aval | **Beagle 5.4** ou **GLIMPSE2** | imputation des 2150 SNP non-WGS | libre académique |
+| Orchestration | **Snakemake** ou **Nextflow** | DAG reproductible, multi-seed, traçabilité | MIT/Apache |
+| Conteneurisation | **Docker** ou **Singularity / Apptainer** | image figée, ré-exécution exacte | libre |
+| Rapport final | **Quarto** | HTML + PDF auditables, code embarqué | MIT |
+
+### 11.3 Paramètres de simulation à fixer (valeurs indicatives)
+
+| Paramètre | Valeur indicative | Justification |
+|---|---|---|
+| Profondeur générationnelle `G` | 10–12 générations | depuis 1665, ≈ 25–30 ans/génération |
+| Taille effective initiale `Ne` par secteur | 200–500 | calibrée sur démographie historique INSEE |
+| Taux de recombinaison | carte HapMap GRCh38 | standard humain |
+| Taux de mutation `μ` | 1,25 × 10⁻⁸ / site / génération | valeur consensus humaine |
+| Brassage inter-secteurs | 1–5 % / génération (variable selon période) | faible pour Hauts/cirques, fort pour côtes |
+| Nombre de réplicats par profil | ≥ 100 seeds indépendantes | pour intervalles de confiance des métriques |
+| Nombre de SNP simulés | ≥ 500 000 sur 22 autosomes | suffisant pour PCA, ADMIXTURE, ROH, IBD |
+| Statut paramètre | `observé` / `estimé` / `scénarisé` | obligatoire par §12 garde-fous |
+
+### 11.4 Exigences de reproductibilité
+
+Toute la chaîne doit être :
+
+- **versionnée** (Git, un tag par run de validation) ;
+- **conteneurisée** (image Docker/Singularity figée, avec versions exactes des outils) ;
+- **paramétrée par seed** (un seed par réplicat, journalisé dans un manifest) ;
+- **orchestrée** par Snakemake ou Nextflow (DAG reproductible, reprise sur échec) ;
+- **archivée** avec hash SHA-256 des cohortes synthétiques produites, pour permettre une ré-exécution exacte ou une audit indépendant.
+
+### 11.5 Alternatives et options
+
+| Besoin | Alternative |
+|---|---|
+| Simulation très grande échelle | **stdpopsim** (catalogue de modèles démographiques humains pré-validés, basé sur msprime) |
+| ADMIXTURE non supervisée comparative | **fastSTRUCTURE** ou **sNMF** (R) |
+| Phasage si besoin | **SHAPEIT5** ou **Beagle 5.4** (déjà cité) |
+| Visualisation PCA / ADMIXTURE | **R** (ggplot2, pophelper) ou **Python** (matplotlib, seaborn) |
+| Comparaison cohortes (Fst, etc.) | **scikit-allel** (Python) ou **EIGENSOFT** |
+
+---
+
+## 12. Garde-fous scientifiques et éthiques
 
 La simulation doit respecter quatre garde-fous :
 
@@ -409,7 +504,7 @@ La simulation doit respecter quatre garde-fous :
 
 ---
 
-## 12. Positionnement final recommandé
+## 13. Positionnement final recommandé
 
 Le scénario principal du projet doit être le **Profil C — mixte-hétérogène réunionnais plausible**.
 
@@ -419,7 +514,7 @@ Texte de justification recommandé :
 
 ---
 
-## 13. Livrables attendus
+## 14. Livrables attendus
 
 | Livrable | Description |
 |---|---|
@@ -436,7 +531,7 @@ Texte de justification recommandé :
 
 ---
 
-## 14. Résumé opérationnel
+## 15. Résumé opérationnel
 
 La validation repose sur quatre profils :
 
