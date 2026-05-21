@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.11  
+**Version :** v0.12  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -17,6 +17,7 @@
 - v0.9 — **validation pré-déploiement par triangulation sur populations réelles externes** (nouvelle §8) : opérationnalise V3.5 §13.2 Validations A/B/C qui étaient absentes de v0.8. La conviction pré-déploiement se construit désormais sur trois sources convergentes — simulation profils A–D, populations réelles externes (1000G + EGA + EPIGEN-Brasil), squelette historique. Critère de succès triangulé §8.5. Chronologie pré-déploiement vs audit ex-post explicitée §8.7. Reformulation du §14 garde-fou n°4 : l'audit ex-post post-WGS n'est **pas** la validation (déjà faite avant déploiement), c'est un sanity-check. Renumérotation §8 → §9, … §17 → §18 ; cross-références mises à jour. Livrables ajoutés : `external_validation_1000G.tsv`, `external_validation_EGA_prioritaires.tsv`, `external_validation_EGA_complementaires.tsv`, `triangulation_summary.tsv`.
 - v0.10 — **harmonisation à 8 secteurs** sur tous les profils A/B/C/D (alignés sur §11 : Nord urbain, Nord-Est/Est agricole, Saint-Leu/Hauts Ouest, Sud agricole, Hauts du Sud/Plaine, Sud-Est périphérique, Cirques/Hauts isolés, Ouest littoral) — la maille géographique est désormais constante, condition de comparabilité entre profils. **Corrections de cohérence** : §1 (liste des métriques actualisée), §6 et §17 (référence à la triangulation §8), §7.3 titre, §7.9 (« 11 stratégies »), §8.2/§8.3 (clarification de l'analogue de secteur pour 1000G/EGA), §8.5 (structure de `triangulation_summary.tsv`), §14.4 (renvoi §8.5). **Bugs corrigés** dans §18 : header v0.9, `§13.44`→`§13.4`, « préciisé »→« précisé », doublon « Audit ex-post » supprimé.
 - v0.11 — **spécification complète de l'imputation aval** (nouvelle §7.10) : correction de l'erreur « 2150 SNP » (il s'agit des **2500 individus génotypés sur puce SNP**, le panel de 350 WGS servant de référence locale pour imputer les variants génome-entier absents de la puce). Architecture du test, conception du held-out (~2150 non-sélectionnés), **trois panels de référence comparés** (local / externe / combiné — cœur de la démonstration : le local bat l'externe seul sur rares/fondateurs), métrique `R²` par classe de MAF, logiciel et paramètres figés. Reformulation des occurrences erronées en §5.1, §13.1, §13.2. Livrable `imputation_performance.tsv` précisé (stratégie × panel × classe MAF).
+- v0.12 — **correction du trou C1 (génératrice sectorielle)** : le §12 explicite désormais comment une chronologie démographique **commune** (§13.4.2, flux insulaire `F(g,t)`) engendre **8 secteurs aux admixtures contrastées** via une **affinité sectorielle** `F(g,s,t) = F(g,t) × affinité(g,s,t)` (le crochet de la formule §12). Nouveaux §12.0 (flux insulaire → flux sectoriel), §12.0.1 (exemple concret Profil D engagisme), §12.0.2 (les profils A/B/C/D = niveaux de contraste de l'affinité, pas chronologies différentes). §13.4.2 clarifié : les pulses sont des flux **insulaires moyens**, pas les admixtures sectorielles ; ajout de la **matrice d'affinité `secteur × composante × période`** comme paramètre calibré par profil, versionné dans `simulation_calibration.tsv`.
 
 ---
 
@@ -872,30 +873,65 @@ Ouest littoral
 
 ## 12. Formulation algorithmique
 
-Pour une composante ancestrale simulée `g`, dans un secteur `s`, à une période `t` :
+Cette section décrit **comment la simulation produit des secteurs aux admixtures contrastées** (les cibles §3) à partir d'une chronologie démographique commune (§13.4.2). C'est le maillon qui relie la chronologie insulaire, la formule ci-dessous et les tableaux §3.
+
+### 12.0 Du flux insulaire au flux sectoriel
+
+La chronologie §13.4.2 fournit, pour chaque composante `g` et chaque période `t`, un **flux migratoire à l'échelle de l'île** noté `F(g,t)` (ex. « engagisme indien massif vers 1860 »). Mais un flux insulaire unique produirait une population **homogène** : tout le monde recevrait le même mélange. Pour obtenir des secteurs contrastés (« Sud agricole 66 % indien » vs « Hauts du Sud 60 % européen »), le flux insulaire doit être **distribué inégalement entre secteurs**.
+
+On introduit donc un **flux sectoriel** :
+
+```text
+F(g, s, t) = F(g,t) × affinité(g, s, t)
+```
+
+où `affinité(g, s, t)` mesure à quel point le secteur `s` capte la composante `g` à la période `t` (ex. l'engagisme indien a une forte affinité pour « Sud agricole », faible pour « Hauts du Sud »). La probabilité qu'un individu du secteur `s` porte la composante `g` à la période `t` s'écrit alors :
 
 ```text
 P(g | s,t) ∝ F(g,t) × [αg·A(s,t) + βg·C(s,t) + γg·I(s,t) + δg·M(s,t) + ηg·G(s,t)]
+                       └──────────────── affinité(g, s, t) ────────────────┘
 ```
 
-Avec :
+Le **crochet est l'affinité sectorielle** : il module le flux insulaire `F(g,t)` selon les pressions propres au secteur.
 
-| Terme | Définition |
-|---|---|
-| `F(g,t)` | flux historique global de la composante `g` à la période `t` |
-| `A(s,t)` | pression agricole historique |
-| `C(s,t)` | pression commerciale / urbaine |
-| `I(s,t)` | isolement géographique |
-| `M(s,t)` | mobilité moderne |
-| `G(s,t)` | signal fondateur / généalogique |
+| Terme | Définition | Échelle |
+|---|---|---|
+| `F(g,t)` | flux insulaire de la composante `g` à la période `t` (issu de §13.4.2) | île entière |
+| `A(s,t)` | pression agricole historique du secteur | secteur × temps |
+| `C(s,t)` | pression commerciale / urbaine du secteur | secteur × temps |
+| `I(s,t)` | isolement géographique du secteur | secteur × temps |
+| `M(s,t)` | mobilité moderne du secteur | secteur × temps |
+| `G(s,t)` | signal fondateur / généalogique du secteur | secteur × temps |
 
-Les coefficients `αg, βg, γg, δg, ηg` varient selon la composante simulée. Par exemple, `A` pèse fortement pour l'engagisme agricole, `C` pour les réseaux commerciaux gujaratis ou chinois, `I` pour les Hauts et cirques, et `G` pour les fondateurs anciens.
+Les coefficients `αg, βg, γg, δg, ηg` varient selon la composante : `A` pèse fortement pour l'engagisme agricole indien, `C` pour les réseaux commerciaux gujaratis ou chinois, `I` pour les Hauts et cirques, `G` pour les fondateurs anciens.
+
+### 12.0.1 Exemple concret (Profil D, période engagisme ~1860)
+
+| Secteur | `A(s,t)` agricole | Affinité indien (`αindien` élevé) | Résultat |
+|---|---|---|---|
+| Sud agricole | forte | forte | capte massivement le flux indien → ~66 % indien |
+| Hauts du Sud / Plaine | faible (isolement, `I` fort) | faible | ne capte presque pas l'indien → reste ~60 % européen fondateur |
+
+Le même flux insulaire `F(indien, 1860)` produit deux résultats opposés selon l'affinité sectorielle. C'est ce mécanisme qui engendre l'hétérogénéité du §3.
+
+### 12.0.2 Les profils A/B/C/D = niveaux de contraste de l'affinité
+
+Les quatre profils ne diffèrent **pas** par la chronologie §13.4.2 (commune) mais par l'**amplitude du contraste** des champs d'affinité `A, C, I, M, G` entre secteurs :
+
+| Profil | Contraste inter-secteurs des champs d'affinité | Conséquence |
+|---|---|---|
+| A homogène | quasi nul (tous les secteurs ≈ mêmes affinités) | admixtures sectorielles proches |
+| B mixte | faible en moyenne, fort sur quelques sous-profils | sous-structure cachée |
+| C plausible | modéré à fort | hétérogénéité réunionnaise réaliste |
+| D extrême | très fort | secteurs très contrastés |
+
+**Calibration :** les champs d'affinité et les coefficients `αg…ηg` sont **ajustés (par profil) jusqu'à ce que les admixtures sectorielles simulées convergent vers les tableaux cibles §3** (cf. sanity-checks §13.4.7). Les tableaux §3 ne sont donc pas des inputs directs : ils sont les **cibles** que la calibration des affinités doit reproduire. C'est exactement le découplage posé en §12.1.
 
 ### 12.1 Statut de la formulation : cible de calibration, non tirage individuel
 
 L'équation ci-dessus **ne décrit pas un tirage individuel d'ascendance**. Elle définit les **fréquences ancestrales attendues** par secteur, qui servent de **cibles de calibration** pour le simulateur démographique.
 
-Les individus synthétiques ne sont **pas** générés en tirant `g` selon `P(g|s,t)`. Ils sont produits par une simulation forward-time (ou coalescente) sur `G ≈ 10–12` générations, avec recombinaison, dérive, migration inter-secteurs et injection éventuelle de variants fondateurs sur lignées spécifiques. Le **squelette démographique** qui définit cette génératrice (populations sources, dates des pulses migratoires, bottleneck fondateur 1665) est détaillé en **§13.4 « Modèle haplotypique détaillé »**. Les proportions ancestrales observées en sortie sont ensuite **comparées** aux cibles ; les flux migratoires `F(g,t)` et les pondérations `αg…ηg` sont ajustés jusqu'à convergence des sorties simulées sur les tableaux §3.
+Les individus synthétiques ne sont **pas** générés en tirant `g` selon `P(g|s,t)`. Ils sont produits par une simulation forward-time (ou coalescente) sur `G ≈ 10–12` générations, avec recombinaison, dérive, migration inter-secteurs et injection éventuelle de variants fondateurs sur lignées spécifiques. Le **squelette démographique** qui définit cette génératrice (populations sources, dates des pulses migratoires `F(g,t)`, bottleneck fondateur 1665) est détaillé en **§13.4 « Modèle haplotypique détaillé »** ; la distribution sectorielle de ces flux suit l'affinité §12.0. Les proportions ancestrales observées en sortie sont ensuite **comparées** aux cibles §3 ; les flux `F(g,t)`, les affinités sectorielles et les pondérations `αg…ηg` sont ajustés jusqu'à convergence.
 
 ### 12.2 Pourquoi ce découplage est indispensable
 
@@ -993,13 +1029,17 @@ Cohérent avec V3.5 du projet (slide 25 « Pools témoins externes »). Les hapl
 
 #### 13.4.2 Chronologie démographique (12 générations, ~30 ans/gén., base 2025)
 
-| Génération | Date approx. | Évènement | Pulse migratoire (proportion du flux entrant à cette période) | Statut |
+Cette chronologie définit le **flux insulaire `F(g,t)`** (à l'échelle de l'île, identique pour les 4 profils). Sa distribution **inégale entre les 8 secteurs** est gouvernée par les champs d'affinité `A, C, I, M, G` (§12.0) ; le **contraste** de ces affinités entre secteurs distingue les profils A/B/C/D (§12.0.2). Les proportions ci-dessous sont donc les **pulses moyens de l'île**, pas les admixtures sectorielles (celles-ci émergent après modulation par l'affinité et calibration sur les cibles §3).
+
+| Génération | Date approx. | Évènement | Pulse insulaire `F(g,t)` (proportion du flux entrant à cette période) | Statut |
 |---:|---|---|---|---|
 | **12** | 1665 | **Founding** | 70 % CEU + 25 % MGUA + 5 % GIH | évènement `observé`, proportions `scénarisé` |
 | 11 → 7 | 1695 → 1815 | Esclavage continu | 60 % MGUA + 40 % MAGE / YRI | `observé` / `scénarisé` |
 | 6 | 1845–1850 | Abolition (1848) | fin du flux esclavage | `observé` |
 | 5 → 3 | 1860 → 1930 | **Engagisme** | 80 % GIH + 15 % CHS + 5 % YRI (Comores) | `observé` / `scénarisé` |
 | 2 → 0 | 1965 → 2025 | Mobilité moderne | 70 % CEU + 20 % Comores + 10 % mixed | `observé` / `scénarisé` |
+
+La matrice complète des affinités `secteur × composante × période` (8 secteurs × 6 composantes × 5 périodes), calibrée par profil pour reproduire les cibles §3, est un paramètre de la simulation versionné dans `simulation_calibration.tsv` (§13.4.7).
 
 #### 13.4.3 Bottleneck fondateur et croissance
 
@@ -1047,11 +1087,11 @@ Ce pool reproduit l'organisation prévue par V3.5 (slide 33 « Phasage réunionn
 
 #### 13.4.7 Sanity-checks de calibration (avant les 100 seeds de validation)
 
-Avant de lancer les ≥ 100 seeds par profil, exécuter **3 à 5 runs de calibration** et vérifier qualitativement les cibles suivantes. Si écart majeur, ajuster les `Ne` et proportions de pulses (statut `scénarisé`) — pas les évènements historiques.
+Avant de lancer les ≥ 100 seeds par profil, exécuter **3 à 5 runs de calibration** et ajuster la **matrice d'affinité sectorielle** (§12.0), les `Ne` et les proportions de pulses (statut `scénarisé`) — **pas** les évènements historiques — jusqu'à ce que les cibles suivantes soient atteintes.
 
 | Cible haplotypique | Attendu | Méthode |
 |---|---|---|
-| Proportions ADMIXTURE par secteur | écart < 5 points / composante vs §3 (profil considéré) | ADMIXTURE supervisée K=4 (et exploration K=2–10) |
+| Proportions ADMIXTURE **par secteur** (= convergence des affinités §12.0 sur les cibles §3) | écart < 5 points / composante vs §3 (profil considéré) | ADMIXTURE supervisée K=4 (et exploration K=2–10) |
 | Décroissance LD `r²(d)` | LD réunionnaise > LD sources à toute distance | PLINK 2 `--r2` |
 | Distribution ROH | pic à 1–5 Mb pour sous-profils fondateurs (φ > 0) ; seuil de travail 100 Mb, recalibrable | PLINK 2 `--homozyg` |
 | **HWE par strate (effet Wahlund)** | HWE global trompeur en population admixée ; tester HWE secteur par secteur, pas sur la cohorte agrégée (V3.5 §11.4) | PLINK 2 `--hardy` stratifié par secteur |
