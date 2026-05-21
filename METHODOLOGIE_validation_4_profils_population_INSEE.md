@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.10  
+**Version :** v0.11  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -16,6 +16,7 @@
 - v0.8 — **harmonisation complète avec METHODOLOGY_selection_V3_5.md** (3 paliers fusionnés). Palier 1 (critique) : §4 enrichi avec 4 stratégies V3.5 manquantes (`S_div naïf`, `maximin IBD`, `S_div + novelty λ`, `maximin PCA/ADMIX/IBD`) ; §5.1 enrichi (couverture géo-ancestrale, couverture haplotypique, précision recalibrage fréquences) ; §5.2 : KING kinship explicité (seuil 0,0625) ; §5.3 : LOCO ajouté ; nouvelle §7.9 « Audit puce → WGS » (V3.5 §13.6). Palier 2 (important) : §12.4.7 HWE par strate ; §5.3 sensibilité ±10 %/±20 % explicitée ; §7.3 classe MAF 1–5 % ajoutée ; §7.8 récupération des quotas V3.5 §9.4 mentionnée ; K ADMIXTURE élargi à 2–10. Palier 3 (confort) : §5.2 KS de `S_div` et stabilité labels ADMIXTURE ; nouvelle §17 « Table de correspondance V3.5 ↔ v0.8 ». Livrables ajoutés : `chip_to_wgs_audit.tsv`, `frequency_recalibration_validation.tsv`, `loco_sensitivity.tsv`.
 - v0.9 — **validation pré-déploiement par triangulation sur populations réelles externes** (nouvelle §8) : opérationnalise V3.5 §13.2 Validations A/B/C qui étaient absentes de v0.8. La conviction pré-déploiement se construit désormais sur trois sources convergentes — simulation profils A–D, populations réelles externes (1000G + EGA + EPIGEN-Brasil), squelette historique. Critère de succès triangulé §8.5. Chronologie pré-déploiement vs audit ex-post explicitée §8.7. Reformulation du §14 garde-fou n°4 : l'audit ex-post post-WGS n'est **pas** la validation (déjà faite avant déploiement), c'est un sanity-check. Renumérotation §8 → §9, … §17 → §18 ; cross-références mises à jour. Livrables ajoutés : `external_validation_1000G.tsv`, `external_validation_EGA_prioritaires.tsv`, `external_validation_EGA_complementaires.tsv`, `triangulation_summary.tsv`.
 - v0.10 — **harmonisation à 8 secteurs** sur tous les profils A/B/C/D (alignés sur §11 : Nord urbain, Nord-Est/Est agricole, Saint-Leu/Hauts Ouest, Sud agricole, Hauts du Sud/Plaine, Sud-Est périphérique, Cirques/Hauts isolés, Ouest littoral) — la maille géographique est désormais constante, condition de comparabilité entre profils. **Corrections de cohérence** : §1 (liste des métriques actualisée), §6 et §17 (référence à la triangulation §8), §7.3 titre, §7.9 (« 11 stratégies »), §8.2/§8.3 (clarification de l'analogue de secteur pour 1000G/EGA), §8.5 (structure de `triangulation_summary.tsv`), §14.4 (renvoi §8.5). **Bugs corrigés** dans §18 : header v0.9, `§13.44`→`§13.4`, « préciisé »→« précisé », doublon « Audit ex-post » supprimé.
+- v0.11 — **spécification complète de l'imputation aval** (nouvelle §7.10) : correction de l'erreur « 2150 SNP » (il s'agit des **2500 individus génotypés sur puce SNP**, le panel de 350 WGS servant de référence locale pour imputer les variants génome-entier absents de la puce). Architecture du test, conception du held-out (~2150 non-sélectionnés), **trois panels de référence comparés** (local / externe / combiné — cœur de la démonstration : le local bat l'externe seul sur rares/fondateurs), métrique `R²` par classe de MAF, logiciel et paramètres figés. Reformulation des occurrences erronées en §5.1, §13.1, §13.2. Livrable `imputation_performance.tsv` précisé (stratégie × panel × classe MAF).
 
 ---
 
@@ -287,7 +288,7 @@ Ces métriques portent sur des dimensions **absentes de `S_div`**. Elles constit
 | **Couverture haplotypique** | diversité de segments haplotypiques couverts (longueur cumulée d'haplotypes uniques) (V3.5 §13.5) | totale |
 | **Précision du recalibrage de fréquences** | écart entre fréquence WGS pondérée / imputée et fréquence cohorte de référence (V3.5 §3.4, §13.5) | totale (mesure le livrable final attendu de la méthode) |
 | **IBD résiduel intra pool libre** (bras découverte uniquement) | le pool libre sélectionne-t-il des profils rares **non redondants** entre eux ? | totale (anti-doublons familiaux gloutons, cf. §7.8) |
-| Performance d'imputation aval | le panel WGS améliore-t-il l'imputation des 2150 SNP restants sur un jeu held-out ? | totale (calcul aval, distinct de la sélection) |
+| Performance d'imputation aval | le panel des 350 WGS sert-il de **référence locale** pour mieux imputer les variants génome-entier (absents de la puce) dans les **2500 individus génotypés sur puce SNP** ? mesuré sur held-out, cf. §7.10 | totale (calcul aval, distinct de la sélection) |
 
 ### 5.2 Métriques diagnostiques (intrinsèques) — sanity-check, pas verdict
 
@@ -560,6 +561,70 @@ pour les métriques de §5.1 sur le profil C (scénario principal). Au-delà, la
 strategie, profil, metrique_primaire,
 valeur_selection_puce, valeur_selection_WGS_complet,
 ecart_absolu, ecart_relatif, fidelite_puce (OK / dégradation)
+```
+
+### 7.10 Protocole de validation de l'imputation aval
+
+La performance d'imputation est une métrique primaire (§5.1) et l'un des **livrables finaux** attendus du projet (un référentiel réunionnais qui améliore l'imputation clinique). Son protocole doit donc être entièrement spécifié, car la performance dépend autant du **panel de référence** et du **logiciel** que de la sélection elle-même.
+
+#### 7.10.1 Architecture du test
+
+| Élément | Définition |
+|---|---|
+| Cohorte cible | **2500 individus génotypés sur puce SNP** (~1,9 M marqueurs) |
+| Panel de référence local | les **350 WGS** sélectionnés (génome complet, ≥ 500 000 variants en simulation) |
+| Objectif | imputer les **variants génome-entier absents de la puce** dans la cohorte cible, à partir du panel local |
+| En simulation | tous les individus synthétiques ont le génome complet ; on **masque** la cohorte cible aux seuls SNP « puce », on impute avec le panel des 350, on compare aux génotypes vrais masqués |
+
+#### 7.10.2 Conception du held-out
+
+Pour ne pas évaluer le panel sur lui-même :
+
+- **Held-out** = individus de la cohorte **non sélectionnés** dans les 350 (les ~2150 restants), dont le génome complet est connu en simulation.
+- Procédure : masquer leur génome → puce-only → imputer via le panel des 350 → comparer aux génotypes vrais.
+- Le held-out est figé par seed (mêmes ≥ 100 seeds que le reste de la validation).
+
+#### 7.10.3 Panels de référence comparés (cœur de la démonstration)
+
+| Panel de référence | Composition | Rôle |
+|---|---|---|
+| **Local seul** | 350 WGS réunionnais (selon la stratégie testée) | hypothèse du projet |
+| **Externe seul** | panel d'individus issus des pools sources 1000G / EGA (analogue HRC/TOPMed/1000G) | baseline « sans référentiel local » |
+| **Combiné** | local 350 + externe | scénario réaliste de déploiement |
+
+La démonstration centrale : le panel **local** (ou combiné) bat le panel **externe seul** sur les variants **rares et fondateurs**, qui sont précisément ceux qu'un référentiel local doit récupérer.
+
+#### 7.10.4 Métrique d'imputation
+
+| Grandeur | Définition |
+|---|---|
+| `R²` par variant | corrélation² entre dosage imputé et génotype vrai (held-out) |
+| `R²` agrégé | moyenne par **classe de MAF** : commun (> 5 %), peu fréquent (1–5 %), rare (< 1 %), fondateur (F1–F5) |
+| INFO / DR² | score de qualité d'imputation rapporté par le logiciel |
+| Concordance génotypique | proportion de génotypes durs correctement imputés |
+
+Le **R² rapporté** dans les seuils §7.3 est le `R²` moyen **par classe de MAF** sur le held-out, avec IC 95 % bootstrap sur les ≥ 100 seeds. La classe **rare + fondateur** est le juge décisif.
+
+#### 7.10.5 Logiciel et paramètres
+
+- **Beagle 5.4** ou **GLIMPSE2** (cf. §13.2), paramètres figés et versionnés.
+- Panel de référence **phasé** à l'aide du pool de 100 familles nucléaires (§13.4.6).
+- Carte génétique HapMap GRCh38.
+- Mêmes versions conteneurisées que le reste du pipeline (§13.5).
+
+#### 7.10.6 Comparaison qui compte
+
+Pour **chaque stratégie §4** : construire le panel de 350, imputer le held-out, mesurer le `R²` par classe de MAF. La stratégie `géo-ancestrale + bras découverte` doit fournir le **meilleur `R²` sur les classes rare et fondateur** — c'est là que le choix des individus du panel pèse le plus, les variants communs étant bien imputés quel que soit le panel.
+
+#### 7.10.7 Livrable
+
+`imputation_performance.tsv` versionné, contenant :
+
+```text
+strategie, profil, panel_reference (local / externe / combiné),
+classe_MAF (commun / peu_fréquent / rare / fondateur),
+R2_moyen, IC_95, INFO_moyen, concordance,
+gain_vs_random, gain_vs_externe_seul
 ```
 
 ---
@@ -867,7 +932,8 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
         ↓
 [6] Métriques de validation         →  scikit-allel, pandas, R
         ↓
-[7] Imputation aval (2150 SNP)      →  Beagle 5.4 ou GLIMPSE2
+[7] Imputation aval : panel 350 WGS →  Beagle 5.4 / GLIMPSE2
+        ↓ réf. locale → variants génome-entier dans la cohorte puce 2500
         ↓
 [8] Rapport final                   →  Quarto / Jupyter Book (HTML + PDF)
 ```
@@ -885,7 +951,7 @@ Les `%` ancestraux des tableaux §3 sont donc traités comme des **sorties émer
 | IBD | **hap-ibd** ou **iLASH** | segments partagés ≥ 2–3 cM | libre académique |
 | ROH | **PLINK 2 (`--homozyg`)** ou **GARLIC** | distribution d'autozygotie | GPL |
 | Sélection géo-ancestrale | **Python** (numpy, pandas, scikit-allel) | implémentation `S_div` + 7 stratégies | MIT |
-| Imputation aval | **Beagle 5.4** ou **GLIMPSE2** | imputation des 2150 SNP non-WGS | libre académique |
+| Imputation aval | **Beagle 5.4** ou **GLIMPSE2** | imputation des variants génome-entier dans la cohorte puce 2500, panel de référence = 350 WGS locaux (cf. §7.10) | libre académique |
 | Orchestration | **Snakemake** ou **Nextflow** | DAG reproductible, multi-seed, traçabilité | MIT/Apache |
 | Conteneurisation | **Docker** ou **Singularity / Apptainer** | image figée, ré-exécution exacte | libre |
 | Rapport final | **Quarto** | HTML + PDF auditables, code embarqué | MIT |
@@ -1047,7 +1113,7 @@ Texte de justification recommandé :
 | `founder_variant_capture.tsv` | capture des variants fondateurs simulés |
 | `pca_admixture_distance.tsv` | distance sélection vs cohorte totale |
 | `ibd_roh_summary.tsv` | parenté et autozygotie résiduelles |
-| `imputation_performance.tsv` | performance d'imputation |
+| `imputation_performance.tsv` | performance d'imputation par stratégie × panel × classe MAF (§7.10) |
 | `validation_thresholds.tsv` | seuils de succès pré-enregistrés (§7) |
 | `power_analysis_pre_simulation.tsv` | analyse de puissance *a priori* pré-enregistrée (§7.7) |
 | `discovery_arm_sensitivity.tsv` | sensibilité du bras découverte au ratio noyau/pool libre (§7.8) |
