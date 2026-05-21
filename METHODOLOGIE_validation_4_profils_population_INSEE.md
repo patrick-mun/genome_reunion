@@ -1,7 +1,7 @@
 # Méthodologie de validation in silico — Génome Réunion
 ## Quatre profils de population synthétique et liens INSEE utiles
 
-**Version :** v0.9  
+**Version :** v0.10  
 **Statut :** document de travail à intégrer au projet  
 **Objectif :** formaliser une stratégie de validation méthodologique indépendante d'une reconstruction historique exhaustive de La Réunion.
 
@@ -15,6 +15,7 @@
 - v0.7 — **évaluation spécifique du bras découverte** (nouvelle §7.8) sans dévier de la logique d'optimisation de la méthode : le ratio noyau/pool libre est **déterminé par analyse de sensibilité** (5 ratios testés), pas fixé doctrinalement. Critère d'utilité positif (gain ≥ +3 points sur au moins une métrique primaire vs `géo-ancestrale seule`) plutôt que critères restrictifs de fidélité à la cohorte. Ajout d'une métrique primaire `IBD résiduel pool libre seul` (anti-redondance interne) en §5.1. Livrable `discovery_arm_sensitivity.tsv`.
 - v0.8 — **harmonisation complète avec METHODOLOGY_selection_V3_5.md** (3 paliers fusionnés). Palier 1 (critique) : §4 enrichi avec 4 stratégies V3.5 manquantes (`S_div naïf`, `maximin IBD`, `S_div + novelty λ`, `maximin PCA/ADMIX/IBD`) ; §5.1 enrichi (couverture géo-ancestrale, couverture haplotypique, précision recalibrage fréquences) ; §5.2 : KING kinship explicité (seuil 0,0625) ; §5.3 : LOCO ajouté ; nouvelle §7.9 « Audit puce → WGS » (V3.5 §13.6). Palier 2 (important) : §12.4.7 HWE par strate ; §5.3 sensibilité ±10 %/±20 % explicitée ; §7.3 classe MAF 1–5 % ajoutée ; §7.8 récupération des quotas V3.5 §9.4 mentionnée ; K ADMIXTURE élargi à 2–10. Palier 3 (confort) : §5.2 KS de `S_div` et stabilité labels ADMIXTURE ; nouvelle §17 « Table de correspondance V3.5 ↔ v0.8 ». Livrables ajoutés : `chip_to_wgs_audit.tsv`, `frequency_recalibration_validation.tsv`, `loco_sensitivity.tsv`.
 - v0.9 — **validation pré-déploiement par triangulation sur populations réelles externes** (nouvelle §8) : opérationnalise V3.5 §13.2 Validations A/B/C qui étaient absentes de v0.8. La conviction pré-déploiement se construit désormais sur trois sources convergentes — simulation profils A–D, populations réelles externes (1000G + EGA + EPIGEN-Brasil), squelette historique. Critère de succès triangulé §8.5. Chronologie pré-déploiement vs audit ex-post explicitée §8.7. Reformulation du §14 garde-fou n°4 : l'audit ex-post post-WGS n'est **pas** la validation (déjà faite avant déploiement), c'est un sanity-check. Renumérotation §8 → §9, … §17 → §18 ; cross-références mises à jour. Livrables ajoutés : `external_validation_1000G.tsv`, `external_validation_EGA_prioritaires.tsv`, `external_validation_EGA_complementaires.tsv`, `triangulation_summary.tsv`.
+- v0.10 — **harmonisation à 8 secteurs** sur tous les profils A/B/C/D (alignés sur §11 : Nord urbain, Nord-Est/Est agricole, Saint-Leu/Hauts Ouest, Sud agricole, Hauts du Sud/Plaine, Sud-Est périphérique, Cirques/Hauts isolés, Ouest littoral) — la maille géographique est désormais constante, condition de comparabilité entre profils. **Corrections de cohérence** : §1 (liste des métriques actualisée), §6 et §17 (référence à la triangulation §8), §7.3 titre, §7.9 (« 11 stratégies »), §8.2/§8.3 (clarification de l'analogue de secteur pour 1000G/EGA), §8.5 (structure de `triangulation_summary.tsv`), §14.4 (renvoi §8.5). **Bugs corrigés** dans §18 : header v0.9, `§13.44`→`§13.4`, « préciisé »→« précisé », doublon « Audit ex-post » supprimé.
 
 ---
 
@@ -22,7 +23,7 @@
 
 La validation ne doit pas chercher à prouver que l'on connaît parfaitement la structure réelle de la population réunionnaise. Elle doit tester si la méthodologie de sélection WGS reste robuste dans plusieurs régimes possibles de structure populationnelle.
 
-L'idée retenue est de construire plusieurs populations synthétiques de **2500 individus**, puis de sélectionner **350 WGS** selon différentes stratégies. La méthode est ensuite évaluée selon des métriques communes : diversité capturée, représentativité, parenté résiduelle, capture des variants rares ou fondateurs, performance d'imputation et stabilité algorithmique.
+L'idée retenue est de construire plusieurs populations synthétiques de **2500 individus**, puis de sélectionner **350 WGS** selon différentes stratégies. La méthode est ensuite évaluée selon des métriques communes (cf. §5) : couverture allélique et haplotypique, capture des variants rares et fondateurs, couverture géo-ancestrale, précision du recalibrage de fréquences, parenté résiduelle, performance d'imputation et stabilité algorithmique.
 
 Le scénario central pour La Réunion n'est pas considéré comme strictement homogène ni comme totalement fragmenté. Il est défini comme un scénario **mixte-hétérogène** : une population globalement admixée, mais structurée par des gradients géographiques, des sous-profils locaux, des effets fondateurs et des différences haplotypiques.
 
@@ -60,6 +61,8 @@ Ces valeurs sont **scénarisées** au sens §13.2 (à calibrer empiriquement dè
 
 **Conséquence 3 — Reporting en distribution, pas en moyenne.** Pour les métriques liées aux fondateurs, on rapporte la **distribution de capture sur les ≥ 100 seeds** (taux binaire, P(≥1 allèle capté)) et non un Δ moyen seul. Cela rend visible la bimodalité du tirage aléatoire et l'effet de stabilisation de la méthode ciblée.
 
+**Conséquence 4 — Maille géographique constante à 8 secteurs.** Tous les profils A/B/C/D utilisent les **8 mêmes secteurs** (alignés sur §11 : Nord urbain, Nord-Est/Est agricole, Saint-Leu/Hauts Ouest, Sud agricole, Hauts du Sud/Plaine, Sud-Est périphérique, Cirques/Hauts isolés, Ouest littoral). Cette constance est une **condition de comparabilité** : la méthode `géo-ancestrale` allouant les quotas par secteur, comparer les profils exigerait une maille identique, sinon les différences de performance se confondraient avec des différences de granularité géographique.
+
 ---
 
 ### Profil A — Homogène
@@ -74,12 +77,14 @@ Tous les secteurs présentent une admixture proche. Les différences géographiq
 
 | Secteur | Européen | Africain | Malgache | Indien | Chinois / Est-asiatique | Comores / Océan Indien |
 |---|---:|---:|---:|---:|---:|---:|
-| Nord | 20 | 15 | 18 | 30 | 8 | 9 |
-| Est | 18 | 16 | 20 | 30 | 7 | 9 |
-| Sud | 19 | 14 | 18 | 31 | 8 | 10 |
-| Ouest | 21 | 15 | 17 | 29 | 9 | 9 |
-| Hauts / Cirques | 22 | 14 | 18 | 28 | 7 | 11 |
-| Sud-Est | 18 | 17 | 20 | 29 | 6 | 10 |
+| Nord urbain | 20 | 15 | 18 | 30 | 8 | 9 |
+| Nord-Est / Est agricole | 18 | 16 | 20 | 30 | 7 | 9 |
+| Saint-Leu / Hauts Ouest | 19 | 15 | 18 | 30 | 8 | 10 |
+| Sud agricole | 19 | 14 | 18 | 31 | 8 | 10 |
+| Hauts du Sud / Plaine | 22 | 14 | 18 | 28 | 7 | 11 |
+| Sud-Est périphérique | 18 | 17 | 20 | 29 | 6 | 10 |
+| Cirques / Hauts isolés | 20 | 15 | 19 | 30 | 7 | 9 |
+| Ouest littoral | 21 | 15 | 17 | 29 | 9 | 9 |
 
 #### Paramètres attendus
 
@@ -116,12 +121,13 @@ Les secteurs sont globalement admixés, mais chaque secteur contient plusieurs s
 | Secteur | Européen | Africain | Malgache | Indien | Chinois / Est-asiatique | Comores / Océan Indien |
 |---|---:|---:|---:|---:|---:|---:|
 | Nord urbain | 25 | 10 | 10 | 22 | 20 | 13 |
-| Est agricole | 12 | 20 | 28 | 30 | 4 | 6 |
+| Nord-Est / Est agricole | 12 | 20 | 28 | 30 | 4 | 6 |
 | Saint-Leu / Hauts Ouest | 28 | 8 | 12 | 42 | 3 | 7 |
 | Sud agricole | 18 | 10 | 10 | 50 | 4 | 8 |
 | Hauts du Sud / Plaine | 45 | 8 | 10 | 25 | 2 | 10 |
-| Sud-Est | 12 | 18 | 25 | 35 | 3 | 7 |
+| Sud-Est périphérique | 12 | 18 | 25 | 35 | 3 | 7 |
 | Cirques / Hauts isolés | 35 | 14 | 25 | 16 | 1 | 9 |
+| Ouest littoral | 22 | 13 | 15 | 32 | 8 | 10 |
 
 #### Sous-profils à simuler
 
@@ -172,6 +178,7 @@ La population est très métissée à l'échelle de l'île, mais certains secteu
 | Hauts du Sud / Plaine | petits agriculteurs, isolement relatif | composante européenne fondatrice, ROH / IBD local |
 | Sud-Est périphérique | agriculture, isolement relatif | mélange indien / malgache / africain avec sous-structure |
 | Cirques / Hauts isolés | isolement, marronnage, dérive | haplotypes localisés, ROH / IBD, variants fondateurs simulés |
+| Ouest littoral | mobilité moderne, mix urbain-périurbain, tourisme | profils diffus, mélange indien / européen / admixé récent |
 
 #### Caractéristiques attendues
 
@@ -208,12 +215,12 @@ Les secteurs présentent des profils très contrastés et des variants rares/fon
 
 | Secteur | Européen | Africain | Malgache | Indien | Chinois / Est-asiatique | Comores / Océan Indien |
 |---|---:|---:|---:|---:|---:|---:|
-| Nord urbain / commercial | 30 | 8 | 8 | 20 | 25 | 9 |
-| Est agricole ancien | 6 | 25 | 38 | 24 | 2 | 5 |
-| Nord-Est agricole indien | 8 | 14 | 20 | 52 | 2 | 4 |
+| Nord urbain | 30 | 8 | 8 | 20 | 25 | 9 |
+| Nord-Est / Est agricole | 7 | 20 | 29 | 38 | 2 | 4 |
 | Saint-Leu / Hauts Ouest | 32 | 6 | 10 | 45 | 1 | 6 |
 | Sud agricole | 12 | 6 | 8 | 66 | 2 | 6 |
 | Hauts du Sud / Plaine | 60 | 5 | 8 | 18 | 1 | 8 |
+| Sud-Est périphérique | 10 | 15 | 22 | 42 | 2 | 9 |
 | Cirques / Hauts isolés | 45 | 18 | 25 | 6 | 0 | 6 |
 | Ouest littoral | 28 | 12 | 12 | 28 | 12 | 8 |
 
@@ -346,6 +353,8 @@ La validation est considérée robuste si la méthode :
 3. résiste au stress-test hétérogène ;
 4. reste stable quand on change les seeds, les poids et l'ordre de sélection.
 
+Ce tableau ne concerne que la **Validation D** (simulation, profils A–D). La conviction pré-déploiement complète repose sur la **triangulation** de cette Validation D avec les Validations A/B/C sur populations réelles externes (cf. §8) ; le critère de succès global est défini en §8.5.
+
 ---
 
 ## 7. Seuils de succès quantitatifs (pré-enregistrés)
@@ -371,7 +380,7 @@ Et l'on exige, pour conclure au succès, que **l'intervalle de confiance à 95 %
 | **C plausible** | `Δ ≥ δ_C_min` ET IC 95 % > 0 | `Δ < δ_C_min` → méthode ne se justifie pas |
 | **D extrême** | `Δ ≥ δ_D_min` ET IC 95 % > 0 | `Δ < δ_D_min` → méthode fragile en hétérogénéité forte |
 
-### 7.3 Table de seuils proposés (v0.4 — à valider)
+### 7.3 Table de seuils proposés (valeurs de travail — à figer avant simulation)
 
 Ces valeurs sont des **points de départ documentés**, à figer formellement avant la première simulation.
 
@@ -526,7 +535,7 @@ La sélection réelle part de la **puce SNP 1,9 M**, pas du WGS. Il faut donc v�
 2. **Restreindre** chaque cohorte aux SNP présents sur la puce 1,9 M (intersection avec une liste de marqueurs représentatifs).
 3. Appliquer QC et LD pruning selon les usages standards (PLINK 2).
 4. Calculer les scores `S_div_geoancestry` et `S_discovery_global` **sur la version puce uniquement**.
-5. Sélectionner les 350 individus selon les 7 stratégies §4 (5 à 10).
+5. Sélectionner les 350 individus selon les stratégies §4 (notamment 5 à 10, cœur du test comparatif).
 6. **Mesurer la couverture WGS réelle** (métriques primaires §5.1) sur les individus ainsi sélectionnés.
 
 #### Question centrale
@@ -584,11 +593,12 @@ Si la méthode V3.5 gagne sur les trois fronts, la pertinence pré-déploiement 
 
 **Procédure** :
 
-1. Charger les VCF 1000G high-coverage pour les populations ci-dessus.
-2. Définir une **cible artificielle de sélection** : par ex. sélectionner 14 % d'individus (équivalent au ratio 350/2500) de chaque population.
-3. Appliquer les **11 stratégies §4** sur ces cohortes.
-4. Calculer les **métriques primaires §5.1** sur chaque sélection.
-5. Vérifier que la stratégie `géo-ancestrale + bras découverte` (ou son équivalent sans dimension géographique pour 1000G) **gagne** sur les métriques primaires.
+1. Charger les VCF 1000G high-coverage pour les populations ci-dessus, fusionnées en une cohorte multi-populations.
+2. Définir une **cible artificielle de sélection** : par ex. sélectionner 14 % d'individus (équivalent au ratio 350/2500) de la cohorte fusionnée.
+3. **Analogue de secteur** : comme 1000G n'a pas de secteurs réunionnais, la **population 1000G d'origine** (ACB, GIH, CEU…) tient lieu de « secteur » pour la stratification géographique, et le profil ADMIXTURE individuel tient lieu de « profil d'ascendance ». La cellule `secteur × ascendance` devient donc `population 1000G × cluster ADMIXTURE`.
+4. Appliquer les **11 stratégies §4** sur cette cohorte (la stratégie 6 utilise les cellules définies en 3).
+5. Calculer les **métriques primaires §5.1** sur chaque sélection.
+6. Vérifier que la stratégie `géo-ancestrale + bras découverte` **gagne** sur les métriques primaires.
 
 **Critère de succès** : la méthode `géo-ancestrale + bras découverte` atteint le plus haut score primaire (ou est à égalité avec une stratégie indistinguable statistiquement) sur **≥ 75 %** des couples (population × métrique primaire) testés.
 
@@ -603,7 +613,7 @@ Si la méthode V3.5 gagne sur les trois fronts, la pertinence pré-déploiement 
 | **GenomeAsia** | composantes indienne et chinoise (Asie du Sud-Est) |
 | **Angola / Mozambique WGS** | composante africaine bantu d'esclavage |
 
-**Procédure** : identique à §8.2, mais sur des cohortes plus proches structurellement de La Réunion. C'est la couche la plus directe pour anticiper la performance sur la Réunion réelle.
+**Procédure** : identique à §8.2 (même définition d'analogue de secteur `pool d'origine × cluster ADMIXTURE`), mais sur des cohortes plus proches structurellement de La Réunion. C'est la couche la plus directe pour anticiper la performance sur la Réunion réelle.
 
 **Critère de succès** : la méthode `géo-ancestrale + bras découverte` gagne sur **≥ 80 %** des couples (pool × métrique primaire) — seuil plus exigeant que Validation A car les populations sont plus représentatives.
 
@@ -635,6 +645,15 @@ ET
 ```
 
 Si **2 des 4 conditions** échouent, le déploiement WGS est reporté pour révision méthodologique. Si une seule condition échoue, la limitation est documentée explicitement dans le rapport final (§16 livrable `validation_report`) et le déploiement peut être autorisé sous réserve d'engagement de re-validation post-WGS.
+
+Le bilan est consigné dans `triangulation_summary.tsv` :
+
+```text
+condition (Validation_A / B / C / D / sanity_checks),
+metrique_ou_critere, seuil_attendu, valeur_observée,
+statut (réussi / non-inférieur / échec),
+décision_globale (déployer / déployer_avec_limitations / reporter)
+```
 
 ### 8.6 Livrables
 
@@ -1002,7 +1021,7 @@ La simulation doit respecter quatre garde-fous :
 1. **Ne pas assigner une origine individuelle.** Les composantes sont des outils de simulation génétique, pas des identités sociales.
 2. **Distinguer les paramètres observés, estimés et scénarisés.** Chaque paramètre doit recevoir un statut : `observé`, `estimé`, `scénarisé`. Application au modèle haplotypique §13.4 : dates et évènements historiques (founding 1665, abolition 1848, périodes d'engagisme) = `observé` ; `Ne_founding`, proportions de chaque pulse, `φ` et `G_endo` = `scénarisé` ; proxys 1000G/EGA des populations sources = `estimé` (substituts de populations historiques non directement observables).
 3. **Ne pas présenter les profils comme des mesures réelles.** Les profils A-D servent à valider la méthode, non à décrire définitivement La Réunion.
-4. **Audit ex-post à l'arrivée des 2500 SNP réels (sanity-check, pas validation).** La validation de la méthode V3.5 est faite *avant* le déploiement, par triangulation §8 (simulation + populations réelles externes + squelette historique). À l'arrivée des SNP réunionnais réels, un audit ex-post compare les sorties effectives (PCA, ADMIXTURE, ROH, IBD, fréquences) **au profil synthétique le plus proche** parmi A/B/C/D, vérifie la cohérence avec les prédictions de validation, et documente les écarts comme limitations. Cet audit **ne valide pas** la méthode — il ferme la boucle. Voir aussi V3.5 §13.7 « Audit ex-post 350 WGS ».
+4. **Audit ex-post à l'arrivée des 2500 SNP réels (sanity-check, pas validation).** La validation de la méthode V3.5 est faite *avant* le déploiement, par triangulation §8.5 (simulation + populations réelles externes + squelette historique). À l'arrivée des SNP réunionnais réels, un audit ex-post compare les sorties effectives (PCA, ADMIXTURE, ROH, IBD, fréquences) **au profil synthétique le plus proche** parmi A/B/C/D, vérifie la cohérence avec les prédictions de validation, et documente les écarts comme limitations. Cet audit **ne valide pas** la méthode — il ferme la boucle. Voir aussi V3.5 §13.7 « Audit ex-post 350 WGS ».
 
 ---
 
@@ -1063,15 +1082,17 @@ identifier les sous-structures dans le profil mixte ;
 résister au stress-test hétérogène.
 ```
 
-Cette approche rend la validation de la stratégie WGS plus défendable, car elle ne dépend pas d'une reconstruction historique parfaite de La Réunion. Elle teste la méthode dans plusieurs mondes possibles, puis permettra une calibration empirique sur les 2500 SNP réels.
+Ces quatre profils constituent la **Validation D**. La conviction pré-déploiement complète est obtenue par **triangulation** (§8) de cette Validation D avec les Validations A/B/C sur populations réelles externes (1000G + EGA + EPIGEN-Brasil) et le squelette historique. Le critère de succès global est défini en §8.5.
+
+Cette approche rend la validation de la stratégie WGS défendable **avant déploiement**, car elle ne dépend pas d'une reconstruction historique parfaite de La Réunion : elle teste la méthode dans plusieurs mondes possibles et sur des populations réelles analogues. À l'arrivée des 2500 SNP réunionnais, un **audit ex-post** (§8.7, §14 garde-fou n°4) documente la cohérence — il ne s'agit pas d'une calibration *a posteriori* de la validation, déjà acquise.
 
 ---
 
-## 18. Table de correspondance V3.5 ↔ v0.9
+## 18. Table de correspondance V3.5 ↔ v0.10
 
 Ce tableau facilite la lecture croisée des deux documents et atteste que chaque exigence de `METHODOLOGY_selection_V3_5.md` est couverte par une section de validation.
 
-| Élément V3.5 | Section V3.5 | Couverture v0.8 |
+| Élément V3.5 | Section V3.5 | Couverture v0.10 |
 |---|---|---|
 | Architecture 2500 + 350 + 100 familles | §2.1, §5 | §3 préambule, §13.4.6 |
 | Module familial 100 trios/quatuors | §5 | §13.4.6 |
@@ -1082,13 +1103,13 @@ Ce tableau facilite la lecture croisée des deux documents et atteste que chaque
 | PCA ancrée sur pools témoins | §7.2, §6.4 | §13.4.1 (pools), §5.2 (PCA enveloppe convexe) |
 | ADMIXTURE K = 2 à 10 | §7.3 | §13.2 (élargi v0.8) |
 | ADMIX_rarity (bras découverte) | §7.4 | §5.2 (divergence KL) + §7.8.2 |
-| **KING kinship, seuil 0,0625** | §7.5 | §5.2 (préciisé v0.8) |
+| **KING kinship, seuil 0,0625** | §7.5 | §5.2 (précisé v0.8) |
 | ROH seuil 100 Mb (recalibrable) | §7.6 | §5.2, §13.4.7 (mentionné v0.8) |
 | Score `S_discovery_global` (bras découverte) | §8.2 | §4 stratégie 7, §7.8 |
 | Sous-bras du bras découverte | §8.3 | §7.8 (sensibilité ratio) |
 | **Stratification quintiles + récupération quotas** | §9.1, §9.4 | §7.8 (récupération précisée v0.8) |
 | **Gain marginal / novelty `λ`** | §9.2 | §4 stratégie 8 (ajouté v0.8) |
-| QC SNP (variant, individu) | §11 | §13.44 |
+| QC SNP (variant, individu) | §11 | §13.4.4 |
 | **HWE par strate (effet Wahlund)** | §11.4 | §13.4.7 (ajouté v0.8) |
 | Phasage 2500 + familles (SHAPEIT4/5) | §12 | §13.4.6 |
 | Imputation Beagle/GLIMPSE | §12.5 | §13.2 |
@@ -1104,7 +1125,6 @@ Ce tableau facilite la lecture croisée des deux documents et atteste que chaque
 | **10 stratégies de comparaison** | §13.4 | §4 (aligné v0.8 : 10 stratégies + opportuniste) |
 | Métriques de validation | §13.5 | §5.1, §5.2, §5.3 (alignées v0.8) |
 | **Validation puce → WGS** | §13.6 | §7.9 (ajoutée v0.8) |
-| **Audit ex-post 350 WGS** | §13.7 | §13.4 garde-fou + §7.9 (esprit) |
 | Sensibilité poids ±10 % / ±20 % | §14.1 | §5.3 (précisé v0.8) |
 | **Analyse LOCO** | §14.2 | §5.3 (ajoutée v0.8) |
 | Robustesse greedy (multi-ordre, multi-seed) | §14.3 | §5.3 |
