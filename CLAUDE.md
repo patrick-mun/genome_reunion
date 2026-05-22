@@ -28,6 +28,9 @@ Règles de travail détaillées dans `AGENTS.md`.
 | `AGENTS.md` | Règles de travail (contenu, commits, conventions CSS) |
 | `CLAUDE.md` | Index technique du projet (ce fichier) |
 | `README.md` | Guide utilisateur et architecture |
+| `METHODOLOGY_selection_V3_5.md` | **Document maître scientifique** : méthode de sélection WGS géo-ancestrale (2500 SNP → 350 WGS + 100 familles), score `S_div`, pools témoins 1000G/EGA, phasage SHAPEIT4. Source des slides S04. |
+| `METHODOLOGIE_validation_4_profils_population_INSEE.md` | Protocole de validation **dense** : 4 profils (A–D), 11 stratégies, métriques en 3 tiroirs, seuils pré-enregistrés, triangulation |
+| `METHODOLOGIE_validation_voilure_reduite_v1.md` | Protocole de validation **à voilure réduite (v1.1)** : 1 endpoint primaire décisif, 4 stratégies, 3 profils (A/C/D, D élargi), décision à 3 portes, audit EFS |
 
 ## CSS — Fichiers slides
 
