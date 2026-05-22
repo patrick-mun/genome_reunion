@@ -33,6 +33,9 @@ genome_reunion/
 │       └── chart.umd.js          # Chart.js 4.4.1 vendorisé localement
 ├── data/
 │   └── admixture.js              # Animation admixture (slide 0)
+├── METHODOLOGY_selection_V3_5.md # Méthode de sélection WGS géo-ancestrale (document maître)
+├── METHODOLOGIE_validation_4_profils_population_INSEE.md  # Protocole de validation dense (profils A–D)
+├── METHODOLOGIE_validation_voilure_reduite_v1.md         # Protocole de validation à voilure réduite (v1.1)
 ├── AGENTS.md                     # Règles de contribution
 ├── CLAUDE.md                     # Index technique (slides, CSS, IDs, conventions)
 ├── README.md                     # Ce fichier
@@ -151,3 +154,13 @@ Le deck s'adapte automatiquement :
 - `AGENTS.md` — règles d'édition et de maintenabilité
 - `CLAUDE.md` — carte technique complète du deck (slides, CSS, IDs DOM, conventions de nommage)
 - `SECURITY.md` — politique de sécurité du dépôt
+
+### Documents méthodologiques scientifiques
+
+Le fond scientifique du deck s'appuie sur trois documents de travail :
+
+- `METHODOLOGY_selection_V3_5.md` — **document maître** : méthode de sélection WGS géo-ancestrale (cohorte 2500 SNP → 350 WGS + 100 familles), score `S_div`, pools témoins 1000G/EGA, phasage SHAPEIT4. C'est la référence dont dérivent les slides S04.
+- `METHODOLOGIE_validation_4_profils_population_INSEE.md` — protocole de validation **dense** : 4 profils de population synthétique (A homogène → D isolat cryptique), 11 stratégies, métriques en trois tiroirs, seuils pré-enregistrés, triangulation simulation + données réelles externes.
+- `METHODOLOGIE_validation_voilure_reduite_v1.md` — protocole de validation **à voilure réduite (v1.1)** : version resserrée pour le gel méthodologique — un endpoint primaire décisif (imputation rare+fondateur), 4 stratégies, 3 profils (A/C/D, D élargi), règle de décision à 3 portes, audit EFS comme condition de déploiement.
+
+> Ces documents définissent le fond scientifique et ne doivent pas être modifiés sans validation (cf. « Ne pas modifier le fond scientifique sans validation »).
