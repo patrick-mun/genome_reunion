@@ -1,7 +1,9 @@
 # Méthodologie de validation à voilure réduite — Génome Réunion
 
-**Version :** v1.0
-**Statut :** protocole de validation resserré, destiné au gel de la sélection WGS
+## Version v1.1 corrigée pour gel méthodologique
+
+**Version :** v1.1
+**Statut :** protocole de validation resserré, corrigé pour gel méthodologique de la sélection WGS
 **Document de référence amont :** `METHODOLOGY_selection_V3_5.md` (méthode de sélection)
 **Document dont il dérive :** `METHODOLOGIE_validation_4_profils_population_INSEE.md` (protocole dense, profils A–D)
 **Objet :** valider la pertinence de la sélection WGS géo-ancestrale **avant déploiement**, avec une surface d'analyse minimale, un risque statistique maîtrisé et la rigueur concentrée là où elle décide.
@@ -24,11 +26,15 @@ Tout ce qui n'appartient pas au noyau décisif ne participe **pas** au verdict :
 
 ### Distinction de périmètre assumée
 
-Cette validation **ne cherche pas** à reconstituer la structure démographique réelle de La Réunion. Elle teste la robustesse de la méthode à travers plusieurs régimes possibles de structure populationnelle. Les profils ne sont pas des portraits de l'île : ce sont des mondes possibles. La représentativité de la cohorte réelle des 2500 (biais de recrutement EFS, cf. V3.5 §6.9) est **hors périmètre** de la présente validation et fait l'objet d'un audit séparé.
+Cette validation **ne cherche pas** à reconstituer la structure démographique réelle de La Réunion. Elle teste la robustesse de la méthode à travers plusieurs régimes possibles de structure populationnelle. Les profils ne sont pas des portraits de l'île : ce sont des mondes possibles.
+
+La représentativité de la cohorte réelle des 2500 donneurs EFS n'est **pas un endpoint de validation in silico**, car elle ne peut pas être résolue par simulation. En revanche, elle constitue une **condition de déploiement séparée mais obligatoire** : avant application finale de la sélection WGS, un audit EFS devra documenter la distribution par commune/secteur, âge, sexe, accessibilité territoriale et écarts majeurs aux proxys INSEE disponibles. La sélection WGS ne devra donc pas être présentée comme directement représentative de la population réunionnaise générale, mais comme une sélection optimisée dans une cohorte EFS auditée et, si nécessaire, recalibrée.
 
 ### Limite résiduelle reconnue d'emblée
 
 Les mondes simulés A, C (et B) sont engendrés dans le langage `secteur × composante × période` — exactement les coordonnées que la méthode géo-ancestrale exploite. Une méthode géo-ancestrale est donc quasi assurée de bien faire dans ces mondes. **Le profil D est le seul qui injecte un signal hors des coordonnées fournies au score `S_div`** (isolat cryptique non annoté). C'est pourquoi cette version *renforce* D plutôt que de le réduire : il porte l'essentiel de la valeur probante interne.
+
+**Conséquence assumée du poids probant.** Le seul test sur **données réelles** (EPIGEN-Brasil, §10) est délibérément non décisif : le Brésil n'est pas La Réunion, il ne peut donc servir que de test de transférabilité, pas de juge. Le verdict décisif repose par conséquent sur la **simulation** (Porte 1 sur A/C/D), la donnée réelle ne venant qu'en appui (Porte 3). C'est une limite structurelle revendiquée : la preuve décisive est in silico, la donnée réelle est confirmatoire. Le profil D élargi est précisément ce qui empêche cette preuve simulée de se réduire à une tautologie géo-ancestrale.
 
 ---
 
@@ -155,9 +161,11 @@ Le profil B (« mixte avec sous-structure cachée », moyennes sectorielles proc
 | 1 | **Random** | plancher de référence |
 | 5 | **Géographique strict + `S_div_sector`** | l'alternative bien moins coûteuse à battre (justifie ou non la complexité) |
 | 7 | **Géo-ancestral + bras découverte** | stratégie candidate (ratio noyau/pool libre par sensibilité, cf. §7) |
-| 10 | **Maximin PCA / ADMIX / IBD** | plafond « génétique pur » sans quotas géographiques |
+| 10 | **Maximin PCA / ADMIX / IBD** | benchmark informationnel supérieur, non nécessairement déployable |
 
 Ces quatre stratégies suffisent à trancher les trois questions du §1. Le contraste 5 vs 7 répond directement à « la complexité géo-ancestrale paie-t-elle ? ».
+
+La stratégie 10 sert uniquement de **plafond informationnel génétique pur** : elle indique ce qu'un algorithme pourrait capter en relâchant les contraintes de représentativité géographique. Elle ne constitue pas automatiquement une stratégie déployable. Si elle gagne mais viole fortement la représentativité territoriale ou augmente la redondance IBD/ROH, elle reste un benchmark et non une recommandation opérationnelle.
 
 ### 4.2 Anneau exploratoire (hors décision)
 
@@ -241,21 +249,35 @@ Si `MDE > δ`, décision documentée : ajuster le seuil (justifié), ajuster le 
 
 ## 7. Bras découverte — ratio par sensibilité (couple unique)
 
-Le ratio noyau/pool libre n'est **pas** fixé doctrinalement. Il est déterminé par sensibilité **sur le profil C uniquement** (scénario principal) :
-
-| Ratio noyau / pool libre | Effectifs |
-|---|---|
-| 90 / 10 | 315 / 35 |
-| 80 / 20 | 280 / 70 |
-| 70 / 30 | 245 / 105 |
-
-Le ratio retenu **maximise l'endpoint primaire §5.1** sous la seule contrainte d'anti-redondance interne :
+Le protocole principal pré-spécifie un ratio conservateur :
 
 ```text
-IBD_résiduel(pool libre seul) ≤ 1,5 × IBD_résiduel(sélection complète)
+ratio principal = 90 / 10
+noyau géo-ancestral = 315 WGS
+bras découverte = 35 WGS
 ```
 
-Aucune contrainte de fidélité à la cohorte : la divergence du bras découverte est attendue et acceptée. **Critère d'utilité :** le bras découverte est jugé utile s'il augmente l'endpoint primaire d'au moins **+3 points** (médiane des seeds) vs `géo-ancestrale seule`, sans dégrader aucune métrique au-delà de `−5 %`. Livrable `discovery_arm_sensitivity.tsv`.
+> **Écart assumé vs `METHODOLOGY_selection_V3_5.md` §3.2.** Le document maître pose `N_discovery = 28` (ratio 92/8) comme valeur de travail par défaut. La présente validation retient 90/10 (35) pour donner au bras découverte une marge suffisante à *tester* sa propre utilité sans le sous-dimensionner d'emblée. Si la sensibilité ci-dessous ne montre aucun gain au-delà de 28, le ratio sera réaligné sur V3.5 lors du gel.
+
+Deux ratios alternatifs sont évalués uniquement en **sensibilité sur le profil C** :
+
+| Ratio noyau / pool libre | Statut | Effectifs |
+|---|---|---|
+| 90 / 10 | ratio principal pré-spécifié | 315 / 35 |
+| 80 / 20 | sensibilité | 280 / 70 |
+| 70 / 30 | sensibilité | 245 / 105 |
+
+Le ratio principal reste retenu par défaut. Un ratio alternatif ne peut le remplacer que si :
+
+```text
+gain endpoint primaire alternatif ≥ gain ratio 90/10 + seuil pré-enregistré
+ET
+IBD_résiduel(pool libre seul) ≤ 1,5 × IBD_résiduel(sélection complète)
+ET
+absence de dégradation diagnostique > −5 %
+```
+
+Aucune contrainte de fidélité à la cohorte n'est imposée au bras découverte : sa divergence est attendue et acceptée. En revanche, sa redondance IBD interne, sa concentration excessive sur un foyer unique ou l'absence de gain primaire restent éliminatoires. Livrable `discovery_arm_sensitivity.tsv`.
 
 ---
 
@@ -289,17 +311,17 @@ La sélection réelle part de la **puce SNP 1,9 M**, pas du WGS. Test conservé 
 
 ---
 
-## 10. Validation externe — un juge, deux témoins
+## 10. Validation externe — un test principal de transférabilité, deux témoins
 
 Triangulation conservée mais ré-équilibrée : la donnée réelle la plus pertinente devient le juge.
 
 | Source | Données | Rôle | Critère |
 |---|---|---|---|
-| **EPIGEN-Brasil** (publié, 6487 ind.) | cohorte admixée continue, multi-vagues, insulaire-like | **test externe décisif** | géo-ancestral + découverte **gagne** sur l'endpoint primaire (≥ 75 % des couples) |
+| **EPIGEN-Brasil** (publié, 6487 ind.) | cohorte admixée continue, multi-vagues, insulaire-like | **test externe principal de transférabilité** | géo-ancestral + découverte **gagne** sur l'endpoint primaire (≥ 75 % des couples) |
 | 1000G public | ACB/ASW, GIH/BEB, CEU/IBS/TSI, CHB/CHS/JPT/KHV | sanity-check | non-régression vs `random` |
 | EGA prioritaires | MGUA Malagasy, MAGE, GenomeAsia, Angola/Mozambique | sanity-check (selon accès) | non-régression vs `random` |
 
-**Justification du ré-équilibrage :** dans 1000G, les populations sont discrètes et bien séparées — la cellule `population × cluster ADMIXTURE` y est quasi triviale, ce qui avantage artificiellement la méthode. EPIGEN-Brasil teste le cas dur (admixture continue intra-secteur), proche de la difficulté réunionnaise. Pour 1000G/EGA, l'analogue de secteur reste `population/pool d'origine × cluster ADMIXTURE`.
+**Justification du ré-équilibrage :** dans 1000G, les populations sont discrètes et bien séparées — la cellule `population × cluster ADMIXTURE` y est quasi triviale, ce qui avantage artificiellement la méthode. EPIGEN-Brasil teste un cas dur d'admixture continue intra-population. Il ne valide pas directement La Réunion, mais sert de test externe principal de transférabilité du score dans une population admixée réelle. Pour 1000G/EGA, l'analogue de secteur reste `population/pool d'origine × cluster ADMIXTURE`.
 
 ---
 
@@ -309,9 +331,16 @@ Le verdict suit un **gatekeeping** strict : on n'examine une porte que si la pr�
 
 ```text
 PORTE 1 — Pertinence intrinsèque
-   Imputation R²(rare+fondateur) : géo-anc+découverte vs random,
-   IC95 ≥ seuil §6.2 sur A (contrôle négatif respecté) + C + D ?
-   NON → STOP. Méthode non validée. (les portes suivantes ne sont pas examinées)
+   A : contrôle négatif respecté
+       → pas de faux gain majeur ; |ΔR² rare+fondateur| ≤ δ_A_max.
+   C : succès principal
+       → géo-anc+découverte bat random sur l'endpoint primaire,
+         IC95 au-dessus du seuil §6.2.
+   D : stress-test cryptique
+       → gain primaire attendu ou, au minimum, non-effondrement documenté
+         sur la distribution des secteurs d'injection.
+   NON sur A ou C → STOP. Méthode non validée.
+   D faible seul → REVIEW, sauf si C est également fragile.
    OUI ↓
 
 PORTE 2 — La complexité paie-t-elle ?
@@ -319,14 +348,17 @@ PORTE 2 — La complexité paie-t-elle ?
    NON → la couche géo-ancestrale ne se justifie pas → retenir géographique strict
    OUI ↓
 
-PORTE 3 — Robustesse et réalité externe
-   EPIGEN-Brasil confirme (§10)
+PORTE 3 — Robustesse et transférabilité externe
+   EPIGEN-Brasil soutient la transférabilité (§10)
    ET sensibilité (C × 7) stable (§8)
    ET profil D élargi tenu sur la distribution des secteurs d'injection (§3.1)
-   ET audit puce→WGS ≤ 5 % (§9) ?
+   ET audit puce→WGS ≤ 5 % (§9)
+   ET audit EFS disponible ET sans biais majeur non corrigé avant déploiement final ?
    OUI → GEL de la sélection des 350 WGS
    NON → REVIEW documenté ; report ou déploiement sous engagement de re-validation
 ```
+
+> **Précision sur l'audit EFS en Porte 3.** La condition n'est pas la seule *existence* de l'audit : un audit révélant un biais EFS majeur (sur/sous-représentation sectorielle, démographique ou d'accessibilité) non corrigé met la Porte 3 en `REVIEW`. L'audit documente *et* peut bloquer ; il ne se contente pas d'exister.
 
 ### Statuts par stratégie (en appui des portes)
 
@@ -347,22 +379,23 @@ PORTE 3 — Robustesse et réalité externe
 | `founder_capture.tsv` | co-primaire : stratégie × profil × `P(≥1 allèle F_k)` sur seeds |
 | `discovery_arm_sensitivity.tsv` | ratio noyau/pool libre × endpoint primaire (profil C) |
 | `sensitivity_and_gates.tsv` | sensibilité (C×7) + audit puce→WGS + statut des 3 portes + décision globale |
+| `efs_representativity_audit.tsv` | condition de déploiement : distribution EFS vs proxys INSEE, écarts et limites |
 
-Cinq fichiers au lieu de 15+. Les sorties de l'anneau exploratoire (profil B, stratégies hors §4.1) sont produites séparément, marquées `exploratory`, et n'entrent dans aucune porte.
+Six fichiers au lieu de 15+. Les sorties de l'anneau exploratoire (profil B, stratégies hors §4.1) sont produites séparément, marquées `exploratory`, et n'entrent dans aucune porte.
 
 ---
 
 ## 13. Effet sur la voilure
 
-| | Protocole dense | v1.0 réduit (noyau) |
+| | Protocole dense | v1.1 réduit (noyau) |
 |---|---:|---:|
 | Stratégies décisives | 11 | 4 |
 | Profils décisifs | 4 | 3 (+ D élargi) |
 | Métriques juges | ~12 | 1 (+ 1 co-primaire) |
 | Seeds | 100 partout | 25 criblage → 100 ciblé |
 | Sensibilité | croisée | 1 couple (C × 7) |
-| Validations externes décisives | 3 (A,B,C pondérées) | 1 juge (EPIGEN) + 2 témoins |
-| Livrables `.tsv` | 15+ | 5 |
+| Validations externes décisives | 3 (A,B,C pondérées) | 1 test principal de transférabilité (EPIGEN) + 2 témoins |
+| Livrables `.tsv` | 15+ | 6 |
 | Risque comparaisons multiples | non corrigé | un endpoint, chemin à portes |
 
 Seeds en deux étages : criblage à ~25 seeds sur le noyau pour repérer le signal, puis 100 seeds **uniquement** sur les cellules décisives (primaire × {A,C,D} × {5,7}). Économie typique de 60–70 % des runs.
@@ -377,7 +410,7 @@ Malgré la réduction, restent intacts car ils portent la rigueur réelle :
 - **Séparation des trois tiroirs** de métriques avec formes mathématiques distinctes à l'évaluation (anti-alignement objectif↔métrique).
 - **Audit puce→WGS** (monde du déploiement).
 - **LOCO** et sensibilité aux poids (sur le couple décisif).
-- **Triangulation** simulation + donnée réelle externe + squelette historique — mais avec EPIGEN-Brasil promu juge.
+- **Triangulation** simulation + donnée réelle externe + squelette historique — mais avec EPIGEN-Brasil en test de transférabilité.
 - **Profil D renforcé** : distribution de structures cryptiques, seul rempart contre le couplage simulateur↔méthode.
 
 L'audit ex-post après obtention des 350 WGS reste un sanity-check qui **ne valide pas** la méthode (déjà faite en pré-déploiement), il ferme la boucle.
@@ -387,3 +420,4 @@ L'audit ex-post après obtention des 350 WGS reste un sanity-check qui **ne vali
 ## 15. Versioning
 
 - **v1.0** — version initiale à voilure réduite. Dérive du protocole dense `METHODOLOGIE_validation_4_profils_population_INSEE.md` (profils A–D) et de `METHODOLOGY_selection_V3_5.md` (méthode). Applique : endpoint primaire unique (imputation rare+fondateur) + co-primaire (capture binaire fondateurs) ; 4 stratégies décisives ; 3 profils (A/C/D, D élargi en distribution cryptique) ; seeds à deux étages ; sensibilité non croisée (C×7) ; EPIGEN-Brasil promu test externe décisif ; règle de décision à 3 portes ; 5 livrables. Profil B et stratégies secondaires rétrogradés en anneau exploratoire hors décision.
+- **v1.1** — corrections de gel méthodologique : biais EFS reclassé comme condition de déploiement obligatoire et non comme simple hors-périmètre ; EPIGEN-Brasil renommé test externe principal de transférabilité plutôt que juge décisif direct, avec conséquence sur le poids probant explicitée en §0 ; Porte 1 clarifiée entre contrôle négatif A, succès principal C et stress-test D ; stratégie maximin PCA/ADMIX/IBD clarifiée comme benchmark informationnel non nécessairement déployable ; ratio principal du bras découverte pré-spécifié à 90/10, avec écart vs V3.5 §3.2 documenté et 80/20 + 70/30 maintenus en sensibilité seulement ; audit EFS en Porte 3 précisé comme bloquant en cas de biais majeur ; livrable `efs_representativity_audit.tsv` ajouté.
