@@ -1,9 +1,7 @@
 # Méthodologie de validation à voilure réduite — Génome Réunion
 
-## Version v1.1 corrigée pour gel méthodologique
-
 **Version :** v1.1
-**Statut :** protocole de validation resserré, corrigé pour gel méthodologique de la sélection WGS
+**Statut :** protocole de validation resserré pour gel méthodologique de la sélection WGS
 **Document de référence amont :** `METHODOLOGY_selection_V3_5.md` (méthode de sélection)
 **Document dont il dérive :** `METHODOLOGIE_validation_4_profils_population_INSEE.md` (protocole dense, profils A–D)
 **Objet :** valider la pertinence de la sélection WGS géo-ancestrale **avant déploiement**, avec une surface d'analyse minimale, un risque statistique maîtrisé et la rigueur concentrée là où elle décide.
@@ -122,7 +120,7 @@ Secteurs très contrastés **et** isolat local généré par le simulateur, **no
 | Cirques / Hauts isolés | 45 | 18 | 25 | 6 | 0 | 6 |
 | Ouest littoral | 28 | 12 | 12 | 28 | 12 | 8 |
 
-**Élargissement clé (réponse à la critique de circularité simulateur ↔ méthode).** Au lieu d'un isolat unique peint à la main, le profil D devient une **distribution de structures cryptiques randomisées sur les seeds**. À chaque seed, le simulateur tire :
+**Structure cryptique randomisée.** Au lieu d'un isolat unique fixé d'avance, le profil D est une **distribution de structures cryptiques randomisées sur les seeds**. À chaque seed, le simulateur tire :
 
 ```text
 secteur_injection      ~ Uniforme(8 secteurs)            # pas fixé d'avance
@@ -387,7 +385,7 @@ Six fichiers au lieu de 15+. Les sorties de l'anneau exploratoire (profil B, str
 
 ## 13. Effet sur la voilure
 
-| | Protocole dense | v1.1 réduit (noyau) |
+| | Protocole dense | Présent protocole (réduit) |
 |---|---:|---:|
 | Stratégies décisives | 11 | 4 |
 | Profils décisifs | 4 | 3 (+ D élargi) |
@@ -417,7 +415,42 @@ L'audit ex-post après obtention des 350 WGS reste un sanity-check qui **ne vali
 
 ---
 
-## 15. Versioning
+## 15. Bibliographie
 
-- **v1.0** — version initiale à voilure réduite. Dérive du protocole dense `METHODOLOGIE_validation_4_profils_population_INSEE.md` (profils A–D) et de `METHODOLOGY_selection_V3_5.md` (méthode). Applique : endpoint primaire unique (imputation rare+fondateur) + co-primaire (capture binaire fondateurs) ; 4 stratégies décisives ; 3 profils (A/C/D, D élargi en distribution cryptique) ; seeds à deux étages ; sensibilité non croisée (C×7) ; EPIGEN-Brasil promu test externe décisif ; règle de décision à 3 portes ; 5 livrables. Profil B et stratégies secondaires rétrogradés en anneau exploratoire hors décision.
-- **v1.1** — corrections de gel méthodologique : biais EFS reclassé comme condition de déploiement obligatoire et non comme simple hors-périmètre ; EPIGEN-Brasil renommé test externe principal de transférabilité plutôt que juge décisif direct, avec conséquence sur le poids probant explicitée en §0 ; Porte 1 clarifiée entre contrôle négatif A, succès principal C et stress-test D ; stratégie maximin PCA/ADMIX/IBD clarifiée comme benchmark informationnel non nécessairement déployable ; ratio principal du bras découverte pré-spécifié à 90/10, avec écart vs V3.5 §3.2 documenté et 80/20 + 70/30 maintenus en sensibilité seulement ; audit EFS en Porte 3 précisé comme bloquant en cas de biais majeur ; livrable `efs_representativity_audit.tsv` ajouté.
+Références des outils, méthodes et jeux de données mobilisés par le protocole. Elles complètent, sans les remplacer, les références du document maître `METHODOLOGY_selection_V3_5.md` et du protocole dense `METHODOLOGIE_validation_4_profils_population_INSEE.md`.
+
+### Phasage et imputation
+
+1. Delaneau O, Zagury J-F, Robinson MR, Marchini JL, Dermitzakis ET. *Accurate, scalable and integrative haplotype estimation.* Nature Communications. 2019;10:5436. — **SHAPEIT4**.
+2. Browning BL, Tian X, Zhou Y, Browning SR. *Fast two-stage phasing of large-scale sequence data.* American Journal of Human Genetics. 2021;108(10):1880–1890. — **Beagle 5.4**.
+3. Rubinacci S, Ribeiro DM, Hofmeister RJ, Delaneau O. *Efficient phasing and imputation of low-coverage sequencing data using large reference panels.* Nature Genetics. 2021;53:120–126. — **GLIMPSE**.
+4. Rubinacci S, Hofmeister RJ, Sousa da Mota B, Delaneau O. *Imputation of low-coverage sequencing data from 150,119 UK Biobank genomes.* Nature Genetics. 2023;55. — **GLIMPSE2**.
+5. McCarthy S, et al. *A reference panel of 64,976 haplotypes for genotype imputation.* Nature Genetics. 2016;48:1279–1283. — panel **HRC** (baseline « référentiel externe »).
+6. Taliun D, et al. *Sequencing of 53,831 diverse genomes from the NHLBI TOPMed Program.* Nature. 2021;590:290–299. — panel **TOPMed**.
+
+### Structure de population et ascendance
+
+7. Price AL, Patterson NJ, Plenge RM, Weinblatt ME, Shadick NA, Reich D. *Principal components analysis corrects for stratification in genome-wide association studies.* Nature Genetics. 2006;38:904–909. — **PCA**.
+8. Alexander DH, Novembre J, Lange K. *Fast model-based estimation of ancestry in unrelated individuals.* Genome Research. 2009;19:1655–1664. — **ADMIXTURE**.
+9. Maples BK, Gravel S, Kenny EE, Bustamante CD. *RFMix: a discriminative modeling approach for rapid and robust local-ancestry inference.* American Journal of Human Genetics. 2013;93(2):278–288. — **LAI**.
+
+### Apparentement, IBD et ROH
+
+10. Manichaikul A, Mychaleckyj JC, Rich SS, Daly K, Sale M, Chen W-M. *Robust relationship inference in genome-wide association studies.* Bioinformatics. 2010;26(22):2867–2873. — **KING** (seuil kinship 0,0625).
+11. Browning BL, Browning SR. *Improving the accuracy and efficiency of identity-by-descent detection in population data.* Genetics. 2013;194(2):459–471. — **IBD**.
+12. Ceballos FC, Joshi PK, Clark DW, Ramsay M, Wilson JF. *Runs of homozygosity: windows into population history and trait architecture.* Nature Reviews Genetics. 2018;19:220–234. — **ROH**.
+13. Chang CC, Chow CC, Tellier LCAM, Vattikuti S, Purcell SM, Lee JJ. *Second-generation PLINK: rising to the challenge of larger and richer datasets.* GigaScience. 2015;4:7. — **PLINK 2**.
+
+### Panels de référence et cohortes admixées
+
+14. 1000 Genomes Project Consortium. *A global reference for human genetic variation.* Nature. 2015;526:68–74. — **1000G**.
+15. Byrska-Bishop M, et al. *High-coverage whole-genome sequencing of the expanded 1000 Genomes Project cohort including 602 trios.* Cell. 2022;185(18):3426–3440. — **1000G haute couverture**.
+16. GenomeAsia100K Consortium. *The GenomeAsia 100K Project enables genetic discoveries across Asia.* Nature. 2019;576:106–111. — **GenomeAsia**.
+17. Gurdasani D, et al. *The African Genome Variation Project shapes medical genetics in Africa.* Nature. 2015;517:327–332. — **AGVP**.
+18. Pierron D, et al. *Genomic landscape of human diversity across Madagascar.* PNAS. 2017;114(32):E6498–E6506. — ancrage **malgache**.
+19. Kehdy FSG, et al. *Origin and dynamics of admixture in Brazilians and its effect on the pattern of deleterious mutations.* PNAS. 2015;112(28):8696–8701. — **EPIGEN-Brasil** (test externe de transférabilité, §10).
+
+### Simulation et cadre méthodologique
+
+20. Haller BC, Messer PW. *SLiM 3: Forward genetic simulations beyond the Wright–Fisher model.* Molecular Biology and Evolution. 2019;36(3):632–637. — simulation **forward-time** (cohortes synthétiques A/C/D).
+21. Nosek BA, Ebersole CR, DeHaven AC, Mellor DT. *The preregistration revolution.* PNAS. 2018;115(11):2600–2606. — **pré-enregistrement** des seuils (§6).
