@@ -128,7 +128,7 @@ body {
 }
 /* Logo SVG officiel (Génome Réunion) — affiché directement sur la nav blanche */
 .nav-logo-img {
-  height: 30px;
+  height: 40px;
   width: auto;
   display: block;
 }
@@ -1231,7 +1231,7 @@ tr:last-child td {
     padding: 0 8px 0 10px;
   }
   .nav-logo-img {
-    height: 24px;
+    height: 30px;
   }
   .nbtn {
     padding: 4px 9px;
