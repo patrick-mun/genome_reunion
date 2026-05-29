@@ -118,3 +118,41 @@
 .conclusion-band-label {
   color: var(--tealL);
 }
+
+.conclusion-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  align-self: flex-start;
+  margin-top: clamp(14px, 2.4vh, 28px);
+  padding: 12px 26px;
+  font-size: clamp(15px, 1.7vw, 22px);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  color: var(--navy);
+  background: var(--tealL);
+  border: 1px solid var(--tealL);
+  border-radius: 999px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.conclusion-cta:hover,
+.conclusion-cta:focus-visible {
+  background: transparent;
+  color: var(--tealL);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(20, 184, 166, 0.3);
+}
+
+.conclusion-cta-arrow {
+  font-size: 1.15em;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.conclusion-cta:hover .conclusion-cta-arrow,
+.conclusion-cta:focus-visible .conclusion-cta-arrow {
+  transform: translateX(4px);
+}
