@@ -118,25 +118,27 @@ body {
 }
 
 #nav-logo {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--white);
-  background: var(--navy);
-  white-space: nowrap;
   cursor: pointer;
   user-select: none;
   /* Pleine hauteur de la nav, collé au bord gauche */
   height: 46px;
   display: flex;
   align-items: center;
-  padding: 0 18px;
-  /* Arrondi : haut-gauche, haut-droit, bas-droit — droit en bas-gauche */
-  border-radius: 8px 20px 20px 0;
+  padding: 0 14px 0 16px;
+}
+/* Logo SVG officiel (Génome Réunion) — affiché directement sur la nav blanche */
+.nav-logo-img {
+  height: 30px;
+  width: auto;
+  display: block;
 }
 #nav-logo:hover {
   opacity: 0.8;
+}
+#nav-logo:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Zone centrale : pills de navigation par section.
@@ -1226,8 +1228,10 @@ tr:last-child td {
 
 @media (max-width: 600px) {
   #nav-logo {
-    font-size: 9px;
-    letter-spacing: 1px;
+    padding: 0 8px 0 10px;
+  }
+  .nav-logo-img {
+    height: 24px;
   }
   .nbtn {
     padding: 4px 9px;
