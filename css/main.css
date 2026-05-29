@@ -66,6 +66,10 @@
   --s03: #7c3aed; /* Section 03 — Design */
   --s04: #0369a1; /* Section 04 — Algorithme */
   --s05: #059669; /* Section 05 — WGS */
+
+  /* Hauteur de la barre de navigation (logo agrandi → barre plus haute).
+     Utilisée par #nav, #prog (top), .inner (calc hauteur). */
+  --nav-h: 86px;
 }
 
 /* ============================================================
@@ -99,7 +103,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 46px;
+  height: var(--nav-h);
   background: var(--white);
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -121,14 +125,14 @@ body {
   cursor: pointer;
   user-select: none;
   /* Pleine hauteur de la nav, collé au bord gauche */
-  height: 46px;
+  height: var(--nav-h);
   display: flex;
   align-items: center;
   padding: 0 14px 0 16px;
 }
 /* Logo SVG officiel (Génome Réunion) — affiché directement sur la nav blanche */
 .nav-logo-img {
-  height: 40px;
+  height: 80px;
   width: auto;
   display: block;
 }
@@ -261,7 +265,7 @@ body {
    ============================================================ */
 #prog {
   position: fixed;
-  top: 46px;
+  top: var(--nav-h);
   left: 0;
   right: 0; /* Collée sous la nav */
   height: 3px;
@@ -280,11 +284,11 @@ body {
    5. DECK DE SLIDES
    Le deck est un flex horizontal contenant toutes les slides
    côte à côte. La navigation déplace le deck via translateX.
-   inset: 49px 0 0 0  = commence juste sous nav (46px) + barre (3px).
+   top = nav (var --nav-h) + barre 3px.
    ============================================================ */
 #deck {
   position: fixed;
-  inset: 49px 0 0 0;
+  inset: calc(var(--nav-h) + 3px) 0 0 0;
   display: flex;
   transition: transform 0.46s cubic-bezier(0.4, 0, 0.2, 1); /* Easing naturel */
 }
@@ -306,7 +310,7 @@ body {
    sans media queries supplémentaires. */
 .inner {
   width: min(1280px, 92vw);
-  height: calc(100vh - 68px); /* 68px = nav 46px + barre 3px + marge 19px */
+  height: calc(100vh - var(--nav-h) - 22px); /* nav + barre 3px + marge 19px */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1144,7 +1148,7 @@ tr:last-child td {
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: 46px;
+    top: var(--nav-h);
     left: 0;
     width: 260px; /* Largeur limitée, aligné à gauche */
     background: var(--cream);
@@ -1220,18 +1224,21 @@ tr:last-child td {
   }
   .slide--mobile-scroll .inner {
     height: auto;
-    min-height: calc(100vh - 68px);
+    min-height: calc(100vh - var(--nav-h) - 22px);
     overflow: visible;
     justify-content: flex-start;
   }
 }
 
 @media (max-width: 600px) {
+  :root {
+    --nav-h: 56px; /* barre plus compacte sur petit écran */
+  }
   #nav-logo {
     padding: 0 8px 0 10px;
   }
   .nav-logo-img {
-    height: 30px;
+    height: 50px;
   }
   .nbtn {
     padding: 4px 9px;
@@ -1266,7 +1273,7 @@ tr:last-child td {
   }
   .inner {
     padding: 22px 14px 28px;
-    max-height: calc(100vh - 70px);
+    max-height: calc(100vh - var(--nav-h) - 14px);
     justify-content: flex-start;
   }
   table {
@@ -1457,7 +1464,7 @@ ul.validation-list li {
      On rend .inner scrollable verticalement avec le contenu aligné en haut,
      ce qui garantit que le titre est toujours visible en premier. */
   .inner {
-    height: calc(100vh - 49px);
+    height: calc(100vh - var(--nav-h) - 3px);
     justify-content: flex-start;
     padding: clamp(12px, 2vh, 24px) clamp(16px, 2.5vw, 32px);
     overflow-y: auto;
