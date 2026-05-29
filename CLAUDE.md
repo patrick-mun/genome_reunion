@@ -230,7 +230,8 @@ Conservés volontairement pour des raisons de responsivité (SVG), géométrie l
 |---|---|
 | **Mode Présentation** | Deux-écrans : `presenter.html` affiche slide gauche + notes/preview droite, synchro via postMessage |
 | **Navigation Mobile** | Burger menu (< 900px) : nav pills à gauche, cream bg, dark text, séparateurs, 260px width |
-| **Logo interactif** | Logo "Génome Réunion" cliquable → retour slide 0, style navy bg / white text, tab shape border-radius |
+| **Logo interactif** | Logo SVG officiel "Génome Réunion" (`images/genome-reunion-logo-horizontal-court.svg`) cliquable → retour slide 0, affiché directement sur la nav blanche (hauteur 30px / 24px mobile), focalisable clavier (Enter/Espace) |
+| **Favicon** | `images/favicon.svg` (motif vague navy/teal/coral sur fond navy arrondi), référencé dans `index.html` et `presenter.html` |
 | **Corrections contenu** | Slide 5: "variant de signification inconnue" • Slide 10: "Colonisation / Esclavage" • Slide 14: "WGS (Whole Genome Sequencing)" |
 | **Distribution labels** | Slide 22: labels "scores élevés" (gauche) et "scores bas" (droite) alignés avec méthodologie |
 | **Notes presenter** | Notes font-size 36px, colonne 50/50 split (texte | next-slide preview) |

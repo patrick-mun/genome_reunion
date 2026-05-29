@@ -568,6 +568,12 @@ if (navLogo) {
   navLogo.addEventListener("click", function () {
     goToSlide(0);
   });
+  navLogo.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      goToSlide(0);
+    }
+  });
 }
 
 // Écouter les messages depuis presenter.html (pour l'iframe slave et requêtes presenter)
