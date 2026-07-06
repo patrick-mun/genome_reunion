@@ -313,7 +313,8 @@ body {
   height: calc(100vh - var(--nav-h) - 22px); /* nav + barre 3px + marge 19px */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: safe center; /* "safe" bascule en flex-start si le centrage
+                                    ferait déborder le titre hors du viewport */
   padding: clamp(16px, 3vh, 48px) clamp(24px, 3.5vw, 56px);
   overflow-y: auto;
 }
